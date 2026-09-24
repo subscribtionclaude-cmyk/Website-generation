@@ -28,13 +28,27 @@ PostgreSQL via Supabase. All schema lives in ordered, idempotent migrations in `
 | `20260924100400_demo_data.sql`       | `app.demo_tables`, `app.register_demo_table`, `demo_data_summary()`, `delete_all_demo_data()`                                                                                                                                                                                                                                      |
 | `20260924100500_storage_buckets.sql` | buckets (products, banners, site-media public; repairs, trade-in, after-sales, reviews, avatars, invoices private) + policies                                                                                                                                                                                                      |
 
+### Phase 02 migrations
+
+| File                                 | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `20260925100000_catalog.sql`         | `pg_trgm`, `app.normalize_search` (Arabic alef/yeh/teh-marbuta/diacritics/digit folding — mirrored in `domain/catalog/search.ts`); `brands`, `categories` (tree + nav/home/shop/grid flags), `brand_categories`, `products` (availability state, draft/published/archived, keywords, trigram-indexed `search_text`), `product_categories`, `product_options`, `product_option_values`, `product_variants` (price, compare-at, SKU, stock qty + low-stock threshold, warranty, one default), `variant_option_values` (deferred trigger: one exact combination per variant, unique per product), `product_media` (per colour, video poster + WebVTT captions), `product_spec_groups` / `product_specs` (approved vs suggested), `product_relations`, `product_rankings` (`demo` vs `analytics` source) |
+| `20260925100100_content.sql`         | `offers` (+ `offer_products` roles target/bundle_item/gift, `offer_categories`), `content_entries` (campaign, new_release, coming_soon, offer_update, news — localized title/subtitle/body, media, CTAs, publish/expiry, featured, SEO), `content_entry_products`, `page_sections` (page layouts: type + props, visibility, order), `stock_notifications`, `waitlist_entries`; `trust` + `catalog` setting definitions                                                                                                                                                                                                                                                                                                                                                                               |
+| `20260925100200_storefront_rpcs.sql` | read-only storefront RPCs (below) + request intake RPCs; stock is exposed only as a state (`in_stock` / `low_stock` / `out_of_stock`), never a quantity                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+
+Every Phase 02 table has RLS enabled with **no direct anon access**: the storefront reads only through
+`SECURITY DEFINER` RPCs that return published, in-window rows. Staff can `select` through
+`catalog.view` / `content.view` (plus `marketing.manage` for offers and `design.edit` for page sections) / `waitlists.manage`. All catalog/content tables carry `is_demo` and
+are registered for `delete_all_demo_data()`; demo rows are served in live mode **only** when the
+`features.showDemoCatalog` staging flag is on (and are then labelled "Demo" in the UI).
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,
 uploaded files, receipt templates, legal pages, analytics events, abandoned carts, stock notifications).
 Existing migrations are never edited once applied to a real project — changes go in new files.
 
-## RPCs available to the app (Phase 01)
+## RPCs available to the app
 
 | RPC                                                                          | Who                      | Purpose                                               |
 | ---------------------------------------------------------------------------- | ------------------------ | ----------------------------------------------------- |
@@ -45,6 +59,18 @@ Existing migrations are never edited once applied to a real project — changes 
 | `publish_setting(key, note, force)` / `rollback_setting(key, version, note)` | key's publish permission | versioned, conflict-checked, audited                  |
 | `demo_data_summary()` / `delete_all_demo_data()`                             | `demo.manage`            | demo cleanup                                          |
 
+Phase 02 storefront RPCs (granted to `anon` + `authenticated`, all zod-validated by the Supabase adapter):
+
+| RPC                                                                          | Purpose                                                                                                                                                                                   |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `catalog_search(query jsonb)`                                                | search + filters (brand, category incl. children, price, storage, colour, stock, offers, new, availability) + sort + page + facets; variant-level filters must match the **same** variant |
+| `catalog_product(slug)`                                                      | product detail: options, variants (price/stock state/warranty), media, approved specs, relations, SEO                                                                                     |
+| `catalog_brands()` / `catalog_categories()`                                  | dynamic brands and categories with product counts                                                                                                                                         |
+| `storefront_offers()` / `storefront_offer(slug)`                             | active offers (start/end window) with linked products and product roles                                                                                                                   |
+| `storefront_entries(types, featured_only, limit)` / `storefront_entry(slug)` | published, unexpired content entries                                                                                                                                                      |
+| `storefront_page_sections(page_key)`                                         | visible page layout rows (home, apple, offers)                                                                                                                                            |
+| `request_stock_alert(…)` / `join_waitlist(…)`                                | Notify-me and waitlist intake: validated Egyptian mobile, duplicate-safe (returns `created` / `duplicate`)                                                                                |
+
 Sensitive RPCs call `app.assert_sensitive_action_allowed()`, which requires an MFA (`aal2`) session
 when `security.adminMfaRequired` is enabled.
 
@@ -53,6 +79,8 @@ when `security.adminMfaRequired` is enabled.
 - `src/domain/access/access-catalog.json` — permissions, system roles, grants
 - `src/domain/settings/setting-definitions.json` — setting keys, visibility, permissions
 - `supabase/seed/data/base/site-settings.json` — base settings (generates `supabase/seed/base.sql`)
+- `supabase/seed/data/base/page-sections.json` — base page layouts (home, apple, offers)
+- `supabase/seed/data/demo/catalog.json` — generated demo catalog (generates `supabase/seed/demo.sql`)
 
 `npm run test:db` fails if the migrated database drifts from these files.
 
@@ -65,7 +93,8 @@ when `security.adminMfaRequired` is enabled.
    `auth.uid()`, `storage.*`, and Supabase's default grants — so RLS must be the real guard),
 3. applies all migrations, the base and demo seeds, then **re-applies all migrations** (idempotency),
 4. checks the contracts above, and
-5. runs `supabase/tests/sql/*.test.sql` (111 assertions in Phase 01: RLS on every table, anonymous vs
+5. runs `supabase/tests/sql/*.test.sql` (204 assertions after Phase 02 — catalog/search parity with the
+   in-memory engine, demo gating, windows, request intake — plus Phase 01's RLS on every table, anonymous vs
    customer vs staff visibility, anti-escalation, bootstrap rules, draft isolation, publish/rollback
    versions, MFA gate, storage folder isolation, audit immutability, demo deletion).
 

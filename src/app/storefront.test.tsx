@@ -6,8 +6,9 @@ import { renderApp } from '@/test/renderApp';
 describe('storefront shell', () => {
   it('renders Arabic RTL by default with settings-driven content and no login', async () => {
     renderApp('/');
+    // Phase 02: the home is CMS-driven; its first section is the launch hero campaign (h1).
     expect(
-      await screen.findByRole('heading', { level: 1, name: /موبايلات وأجهزة/ }),
+      await screen.findByRole('heading', { level: 1, name: /iPhone 18 Pro/ }, { timeout: 4000 }),
     ).toBeInTheDocument();
     await waitFor(() => expect(document.documentElement.dir).toBe('rtl'));
     expect(document.documentElement.lang).toBe('ar-EG');
@@ -30,7 +31,7 @@ describe('storefront shell', () => {
       'تواصل معنا',
     ]);
 
-    // Store details come from settings (footer + visit band), with tel: links.
+    // Store details come from settings (footer + branch section), with tel: links.
     const callLinks = screen.getAllByRole('link', { name: /01212004229/ });
     expect(callLinks[0]).toHaveAttribute('href', 'tel:+201212004229');
     expect(screen.getAllByText('أمام مترو عبده باشا').length).toBeGreaterThan(0);
@@ -41,10 +42,13 @@ describe('storefront shell', () => {
     const user = userEvent.setup();
     const { router } = renderApp('/en');
     expect(
-      await screen.findByRole('heading', { level: 1, name: /Phones and devices/ }),
+      await screen.findByRole('heading', { level: 1, name: /iPhone 18 Pro/ }, { timeout: 4000 }),
     ).toBeInTheDocument();
     await waitFor(() => expect(document.documentElement.dir).toBe('ltr'));
-    expect(screen.getByRole('link', { name: 'Shop now' })).toHaveAttribute('href', '/en/store');
+    expect(screen.getByRole('link', { name: 'Shop now' })).toHaveAttribute(
+      'href',
+      '/en/product/iphone-18-pro',
+    );
 
     await user.click(
       screen.getAllByRole('link', { name: 'التبديل إلى العربية' })[0] as HTMLElement,
@@ -113,7 +117,9 @@ describe('storefront shell', () => {
     expect(
       await screen.findByText(/تعذر تحميل بعض بيانات المتجر/, undefined, { timeout: 5000 }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: /موبايلات وأجهزة/ })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { level: 1, name: /iPhone 18 Pro/ }, { timeout: 4000 }),
+    ).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /01212004229/ }).length).toBeGreaterThan(0);
   });
 });

@@ -1,5 +1,54 @@
 {
-  "$comment": "DEMO dataset manifest. Every dataset listed here is sample data: rows are inserted with is_demo = true in the database and served only in demo mode by the frontend. Admin 'Delete All Demo Data' removes them via public.delete_all_demo_data(). Datasets are added from Phase 02 (catalog, offers, campaigns).",
-  "version": 1,
-  "datasets": []
+  "$comment": "DEMO dataset manifest. Every dataset listed here is sample data: rows are inserted with is_demo = true in the database and served only in demo mode by the frontend (or, in live staging, only when features.showDemoCatalog is on — always labelled 'Demo'). Admin 'Delete All Demo Data' removes them via public.delete_all_demo_data(). Prices, stock and specifications are illustrative, not MALEK STORE commercial data.",
+  "version": 2,
+  "datasets": [
+    {
+      "key": "catalog",
+      "file": "catalog.json",
+      "tables": [
+        "brands",
+        "categories",
+        "brand_categories",
+        "products",
+        "product_categories",
+        "product_options",
+        "product_option_values",
+        "product_variants",
+        "variant_option_values",
+        "product_media",
+        "product_spec_groups",
+        "product_specs",
+        "product_relations",
+        "product_rankings"
+      ],
+      "counts": {
+        "brands": 7,
+        "categories": 10,
+        "products": 28,
+        "variants": 116
+      }
+    },
+    {
+      "key": "offers",
+      "file": "catalog.json",
+      "tables": ["offers", "offer_products", "offer_categories"],
+      "counts": {
+        "offers": 7
+      }
+    },
+    {
+      "key": "content",
+      "file": "catalog.json",
+      "tables": ["content_entries", "content_entry_products"],
+      "counts": {
+        "entries": 7
+      }
+    },
+    {
+      "key": "media",
+      "file": "public/demo/media/*.svg",
+      "tables": [],
+      "counts": {}
+    }
+  ]
 }

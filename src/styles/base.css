@@ -167,3 +167,7 @@ bdi,
   font-weight: var(--font-weight-semibold);
   color: var(--color-brand-text);
 }
+
+.skeleton-square {
+  aspect-ratio: 1;
+}

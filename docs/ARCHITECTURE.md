@@ -133,11 +133,20 @@ honest placeholders for later-phase sections (no fake buttons).
 
 ## 9. SEO (honest limits)
 
-The site is a client-rendered SPA. Phase 01 provides route-aware `<title>`, description, robots,
-Open Graph, canonical and hreflang alternates, `robots.txt`, and `noindex` for account/admin pages.
+The site is a client-rendered SPA. `usePageMeta` sets per-route `<title>`, description, robots,
+Open Graph (title, description, type, url, image), canonical and hreflang alternates (`ar-EG`, `en`,
+`x-default` → Arabic), plus page JSON-LD:
+
+- **Product** schema (per-variant `Offer` in EGP with stock availability) — emitted **only for
+  non-demo products in live mode**; upcoming products carry no offer (no price commitments).
+- **BreadcrumbList** on product/entry pages, **Article** on news entries.
+- **Index rules:** filtered/sorted listings, `/search`, `/budget`, news type tabs, not-found states,
+  account and admin pages are `noindex`; filtered URLs canonicalise to the unfiltered path (the
+  canonical never carries a query string). A demo-mode deployment is always `noindex`.
+
 Crawlers that do not execute JavaScript only see `index.html` defaults. Phase 08 adds build-time
-prerendering of public marketing pages, sitemap generation and JSON-LD — still with no paid
-infrastructure. Perfect SSR-level SEO is not claimed.
+prerendering of public pages and sitemap generation — still with no paid infrastructure. Perfect
+SSR-level SEO is not claimed.
 
 ## 10. Phase mapping of deferred items
 
@@ -150,7 +159,54 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 | Audit log viewer                                    | table + triggers + RPC events                                                       | 06                                |
 | Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | 08 (wizard), 10 (cleanup)         |
 | Storage uploads UI & image compression              | buckets + policies                                                                  | 05 / 06                           |
-| Contact page, Apple landing, catalog, offers, news  | routed placeholders                                                                 | 02                                |
+| Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                |
 | Cart / checkout / orders / receipts                 | routed placeholders                                                                 | 03                                |
 | PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                |
 | Integrations center                                 | none (everything optional)                                                          | 09                                |
+
+## 11. Storefront (Phase 02)
+
+**Catalog model.** Product → options (e.g. `storage`, `color`) → option values; a **variant** is one
+exact combination with its own price, compare-at price, SKU, stock state, warranty and (through the
+colour value) media. The storefront never receives stock quantities — only `in_stock` / `low_stock` /
+`out_of_stock`. Product availability (`available`, `coming_soon`, `waitlist_only`, `pre_order`) is
+separate from stock and drives the CTA (`domain/catalog/variants.ts → purchaseState`).
+
+**One semantics, two adapters.** `domain/catalog/engine.ts` is the reference implementation of search,
+filters, sorting, facets, offers and content windows. The demo adapter runs it in memory; the
+Supabase adapter calls the `catalog_*` / `storefront_*` RPCs, which the SQL tests prove return the
+same results (`05_catalog.test.sql` mirrors `engine.test.ts`). Search normalisation (Arabic letter
+variants, diacritics, Arabic-Indic digits, transliteration keywords) exists in both TS and SQL.
+Best-selling order uses `product_rankings` with an explicit `source` (`demo` vs `analytics`), so demo
+rankings are never confused with real analytics.
+
+**Modular pages.** Home, Apple and Offers are ordered `page_sections` rows. Each section `type` has a
+zod props schema (`domain/content/sections.ts`) and a component in the registry
+(`storefront/sections/SectionRenderer.tsx`); unknown or invalid rows are skipped, never crash a page.
+Phase 07's Site Editor edits the same rows and schemas. Section types: `hero_campaign`,
+`product_rail`, `offer_rail`, `offer_group`, `category_grid`, `brand_lines`, `budget_search`,
+`promo_banner`, `coming_soon`, `content_rail`, `trust_strip`, `trust_feature`, `branch_contact`.
+
+**Routes.** `/apple`, `/store`, `/category/:slug`, `/brand/:slug`, `/search?q=`, `/budget?min=&max=`,
+`/product/:slug?storage=&color=`, `/offers`, `/offers/:slug`, `/new`, `/coming-soon`, `/news?type=`,
+`/news/:slug`, `/contact` (all mirrored under `/en`). Filter state lives in the URL
+(`domain/catalog/queryParams.ts`); listings paginate with "load more".
+
+**Data rules.** Demo mode serves the generated demo catalog; live mode serves only the database and
+shows an error state on failure (no silent demo fallback). Demo rows appear in live mode only when
+the `features.showDemoCatalog` staging flag is on, and are then badged "Demo". Countdowns derive from
+offer timestamps; the trust strip, Apple Authorized Reseller statement, budget presets and page size
+come from settings.
+
+**Customer requests.** Notify-me (sold-out variant) and waitlist (upcoming product) are real,
+validated intake contracts (`request_stock_alert`, `join_waitlist`) — Phase 04 adds account linking
+and notifications, Phase 06 the staff queue. Add to cart / Buy now are visibly disabled with an
+honest "ordering online soon" note until Phase 03; call and context-aware WhatsApp (product, storage,
+colour, SKU, price) are the working paths.
+
+**Motion.** Hybrid model: restrained CSS motion (hero rise + slow float) on capable devices; off for
+`prefers-reduced-motion`, and `data-motion="reduced"` is set automatically on constrained devices
+(data saver, ≤2 cores or ≤2 GB memory — `features/theme/adaptiveMotion.ts`).
+
+**Bundles.** Every storefront page is a lazy chunk; the admin bundle is never requested by
+storefront pages (asserted in e2e). The demo catalog ships inside the lazily loaded demo runtime only.

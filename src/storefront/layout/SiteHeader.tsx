@@ -1,9 +1,10 @@
-import { Menu, ShoppingCart, UserRound } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, Search, ShoppingCart, UserRound } from 'lucide-react';
+import { useId, useState, type FormEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { BrandLogo } from '@/components/brand/BrandLogo';
 import { LanguageSwitch } from '@/components/navigation/LanguageSwitch';
 import { LocaleLink, LocaleNavLink } from '@/components/navigation/LocaleLink';
-import { isExternalHref } from '@/i18n/paths';
+import { isExternalHref, localizePath, parseLocalePath } from '@/i18n/paths';
 import { resolveLocalized } from '@/domain/localized';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
@@ -23,7 +24,16 @@ export function SiteHeader() {
           <BrandLogo size="md" withWordmark />
         </LocaleLink>
 
+        <HeaderSearch />
+
         <div className={styles.actions}>
+          <LocaleLink
+            to="/search"
+            className={`${styles.iconAction} ${styles.searchLink}`}
+            aria-label={t('search.open')}
+          >
+            <Search aria-hidden="true" />
+          </LocaleLink>
           <LanguageSwitch className={styles.action} />
           <LocaleLink
             to="/account"
@@ -78,5 +88,41 @@ export function SiteHeader() {
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </header>
+  );
+}
+
+/** Desktop search (≥1024px). Smaller screens use the search icon → /search page. */
+function HeaderSearch() {
+  const { t, locale } = useI18n();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const id = useId();
+  const [value, setValue] = useState('');
+  const onSearchPage = parseLocalePath(location.pathname).path === '/search';
+  if (onSearchPage) return <div className={styles.searchSpacer} />;
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    const q = value.trim();
+    if (!q) return;
+    void navigate(localizePath(`/search?q=${encodeURIComponent(q)}`, locale));
+    setValue('');
+  };
+  return (
+    <form role="search" className={styles.search} onSubmit={submit}>
+      <label htmlFor={id} className="visually-hidden">
+        {t('search.label')}
+      </label>
+      <Search className={styles.searchIcon} aria-hidden="true" />
+      <input
+        id={id}
+        type="search"
+        className={styles.searchInput}
+        placeholder={t('search.placeholder')}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        enterKeyHint="search"
+        maxLength={80}
+      />
+    </form>
   );
 }

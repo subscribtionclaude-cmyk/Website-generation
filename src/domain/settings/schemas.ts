@@ -145,6 +145,43 @@ export const featuresSettingsSchema = z.strictObject({
   promoCodes: z.boolean(),
   loyalty: z.boolean(),
   payAtStore: z.boolean(),
+  /**
+   * Staging only: let the LIVE storefront show rows flagged is_demo (always labelled "Demo").
+   * Off by default, so demo products never appear as live inventory.
+   */
+  showDemoCatalog: z.boolean().default(false),
+});
+
+// ── trust items (homepage strip, Apple page badge…) ──────
+export const TRUST_ICON_KEYS = [
+  'apple',
+  'shield',
+  'truck',
+  'store',
+  'refresh',
+  'wrench',
+  'badge',
+] as const;
+
+export const trustItemSchema = z.strictObject({
+  id: z.string().regex(/^[a-z0-9-]{1,60}$/),
+  icon: z.enum(TRUST_ICON_KEYS),
+  title: localizedTextSchema,
+  body: localizedTextSchema.nullable(),
+  visible: z.boolean(),
+});
+
+export const trustSettingsSchema = z.strictObject({
+  items: z.array(trustItemSchema).max(12),
+});
+
+// ── catalog presentation ─────────────────────────────────
+export const catalogSettingsSchema = z.strictObject({
+  pageSize: z.number().int().min(4).max(48),
+  budgetPresets: z
+    .array(z.strictObject({ min: z.number().min(0), max: z.number().positive().nullable() }))
+    .max(8),
+  budgetStep: z.number().int().min(50).max(10_000),
 });
 
 // ── SEO defaults ─────────────────────────────────────────
@@ -176,3 +213,6 @@ export type LocalizationSettings = z.infer<typeof localizationSettingsSchema>;
 export type FeaturesSettings = z.infer<typeof featuresSettingsSchema>;
 export type SeoSettings = z.infer<typeof seoSettingsSchema>;
 export type SecuritySettings = z.infer<typeof securitySettingsSchema>;
+export type TrustItem = z.infer<typeof trustItemSchema>;
+export type TrustSettings = z.infer<typeof trustSettingsSchema>;
+export type CatalogSettings = z.infer<typeof catalogSettingsSchema>;

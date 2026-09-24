@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
+<defs>
+<radialGradient id="floor-cable-f2f1ec" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="gloss-cable-f2f1ec" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+<linearGradient id="screen-cable-f2f1ec" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1c22"/><stop offset=".55" stop-color="#0c0d10"/><stop offset="1" stop-color="#20120b"/></linearGradient>
+<linearGradient id="wash-cable-f2f1ec" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f65311" stop-opacity=".55"/><stop offset=".45" stop-color="#f65311" stop-opacity=".08"/><stop offset="1" stop-color="#3a4f7a" stop-opacity=".25"/></linearGradient>
+</defs>
+<ellipse cx="400" cy="722" rx="250" ry="26" fill="url(#floor-cable-f2f1ec)"/>
+
+<path d="M250 250 c160 -80 320 20 260 130 c-60 110 -300 40 -300 150 c0 110 240 140 320 60" stroke="#f2f1ec" stroke-width="22" fill="none" stroke-linecap="round"/>
+<rect x="230" y="220" width="60" height="110" rx="14" fill="#e5e4df" transform="rotate(-30 260 275)"/>
+<rect x="520" y="560" width="60" height="110" rx="14" fill="#e5e4df" transform="rotate(40 550 615)"/>
+<rect x="230" y="220" width="60" height="110" rx="14" fill="url(#gloss-cable-f2f1ec)" transform="rotate(-30 260 275)"/>
+</svg>

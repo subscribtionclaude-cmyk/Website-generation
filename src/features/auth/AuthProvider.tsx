@@ -31,11 +31,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const userId = state.status === 'signed_in' ? state.session.userId : null;
 
   // Private data must never survive a user switch or sign-out. Convention: every private query key is
-  // scoped as [name, userId, ...]; only public published settings are shared across users.
+  // scoped as [name, userId, ...]; public published data ('settings', 'public') is shared across users.
   useEffect(() => {
     if (state.status === 'loading') return;
     queryClient.removeQueries({
-      predicate: (query) => query.queryKey[0] !== 'settings' && query.queryKey[1] !== userId,
+      predicate: (query) =>
+        query.queryKey[0] !== 'settings' &&
+        query.queryKey[0] !== 'public' &&
+        query.queryKey[1] !== userId,
     });
   }, [queryClient, state.status, userId]);
 

@@ -5,13 +5,14 @@ import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 import { useIsDemoMode } from '@/runtime/context';
+import { useCurrentWhatsAppMessage } from './context';
 import styles from './WhatsAppFab.module.css';
 
 /**
  * Floating WhatsApp entry point. Never renders a broken link:
  *  - configured + valid number → click-to-chat link;
  *  - not configured → hidden from customers; staff (and demo previews) see setup guidance instead.
- * Context-aware messages (product, order, repair/trade-in reference) are passed by later phases.
+ * Context-aware messages: pages register one with useWhatsAppMessage() (e.g. product + variant).
  */
 export function WhatsAppFab({ message }: { message?: string }) {
   const { store } = useSettings();
@@ -20,8 +21,12 @@ export function WhatsAppFab({ message }: { message?: string }) {
   const { isStaff } = useAccess();
   const [showGuidance, setShowGuidance] = useState(false);
   const panelId = useId();
+  const pageMessage = useCurrentWhatsAppMessage();
 
-  const link = buildWhatsAppLink(store.whatsappNumber, message ?? t('whatsapp.generalMessage'));
+  const link = buildWhatsAppLink(
+    store.whatsappNumber,
+    message ?? pageMessage ?? t('whatsapp.generalMessage'),
+  );
 
   if (link.status === 'ok') {
     return (

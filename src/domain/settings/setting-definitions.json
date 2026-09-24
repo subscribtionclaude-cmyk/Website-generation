@@ -58,6 +58,20 @@
       "publishPermission": "content.publish"
     },
     {
+      "key": "trust",
+      "scope": "content",
+      "isPublic": true,
+      "editPermission": "content.manage",
+      "publishPermission": "content.publish"
+    },
+    {
+      "key": "catalog",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
       "key": "security",
       "scope": "security",
       "isPublic": false,

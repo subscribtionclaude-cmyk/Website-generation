@@ -3,6 +3,7 @@ import type { PermissionKey } from '@/domain/access/permissions';
 import definitionsJson from './setting-definitions.json';
 import {
   brandSettingsSchema,
+  catalogSettingsSchema,
   featuresSettingsSchema,
   localizationSettingsSchema,
   navigationSettingsSchema,
@@ -11,6 +12,7 @@ import {
   socialSettingsSchema,
   storeSettingsSchema,
   themeSettingsSchema,
+  trustSettingsSchema,
 } from './schemas';
 
 export type SettingScope = 'design' | 'settings' | 'content' | 'security';
@@ -33,6 +35,8 @@ export const SETTING_SCHEMAS = {
   localization: localizationSettingsSchema,
   features: featuresSettingsSchema,
   seo: seoSettingsSchema,
+  trust: trustSettingsSchema,
+  catalog: catalogSettingsSchema,
   security: securitySettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 

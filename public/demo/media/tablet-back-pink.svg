@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
+<defs>
+<radialGradient id="floor-tablet-back-efc5c8" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="gloss-tablet-back-efc5c8" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+<linearGradient id="screen-tablet-back-efc5c8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1c22"/><stop offset=".55" stop-color="#0c0d10"/><stop offset="1" stop-color="#20120b"/></linearGradient>
+<linearGradient id="wash-tablet-back-efc5c8" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f65311" stop-opacity=".55"/><stop offset=".45" stop-color="#f65311" stop-opacity=".08"/><stop offset="1" stop-color="#3a4f7a" stop-opacity=".25"/></linearGradient>
+</defs>
+<ellipse cx="400" cy="722" rx="250" ry="26" fill="url(#floor-tablet-back-efc5c8)"/>
+
+<rect x="150" y="110" width="500" height="600" rx="42" fill="#efc5c8"/>
+<rect x="150" y="110" width="500" height="600" rx="42" fill="url(#gloss-tablet-back-efc5c8)"/>
+<rect x="184" y="146" width="70" height="70" rx="22" fill="#ddb3b6"/><circle cx="219" cy="181" r="27" fill="#d0a6a9"/><circle cx="219" cy="181" r="20" fill="#0d0e12"/><circle cx="219" cy="181" r="11" fill="#1f2a3c"/><circle cx="213" cy="175" r="3.5999999999999996" fill="#fff" opacity=".55"/>
+</svg>

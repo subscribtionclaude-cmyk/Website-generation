@@ -1,25 +1,5 @@
-import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
-
-/** Mobile-first guard: pages must never scroll sideways. */
-async function expectNoHorizontalOverflow(page: Page) {
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
-}
-
-async function expectNoSeriousA11yViolations(page: Page) {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-    .analyze();
-  const serious = results.violations.filter(
-    (v) => v.impact === 'serious' || v.impact === 'critical',
-  );
-  expect(
-    serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`),
-  ).toEqual([]);
-}
+import { expect, test } from '@playwright/test';
+import { expectNoHorizontalOverflow, expectNoSeriousA11yViolations } from './helpers';
 
 test.describe('storefront', () => {
   test('Arabic home is RTL, has no console errors and passes axe (WCAG A/AA)', async ({ page }) => {
@@ -28,7 +8,8 @@ test.describe('storefront', () => {
     page.on('console', (message) => message.type() === 'error' && errors.push(message.text()));
 
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('موبايلات وأجهزة');
+    // Phase 02: CMS home opens with the launch hero campaign.
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('iPhone 18 Pro');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.locator('html')).toHaveAttribute('lang', 'ar-EG');
     await expect(page).toHaveTitle(/MALEK STORE/);

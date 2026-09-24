@@ -1,0 +1,726 @@
+{
+  "$comment": "BASE page layouts (not demo data). Seeds public.page_sections; the Phase 07 Site Editor edits these rows. Sections that reference missing content (e.g. a campaign that is not published) render nothing.",
+  "sections": [
+    {
+      "key": "home-hero",
+      "pageKey": "home",
+      "type": "hero_campaign",
+      "sortOrder": 10,
+      "isVisible": true,
+      "props": {
+        "campaignSlug": "iphone-18-pro-launch",
+        "teaserSlug": "iphone-duo-teaser",
+        "tone": "dark"
+      }
+    },
+    {
+      "key": "home-new-releases",
+      "pageKey": "home",
+      "type": "product_rail",
+      "sortOrder": 20,
+      "isVisible": true,
+      "props": {
+        "eyebrow": {
+          "ar": "الجديد",
+          "en": "New"
+        },
+        "title": {
+          "ar": "وصل حديثًا",
+          "en": "New releases"
+        },
+        "subtitle": {
+          "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+          "en": "The latest devices to land in store."
+        },
+        "source": {
+          "kind": "new",
+          "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+        },
+        "limit": 4,
+        "layout": "premium",
+        "cta": {
+          "label": {
+            "ar": "كل الجديد",
+            "en": "All new arrivals"
+          },
+          "href": "/new"
+        }
+      }
+    },
+    {
+      "key": "home-offers",
+      "pageKey": "home",
+      "type": "offer_rail",
+      "sortOrder": 30,
+      "isVisible": true,
+      "props": {
+        "eyebrow": {
+          "ar": "عروض",
+          "en": "Offers"
+        },
+        "title": {
+          "ar": "عروض لفترة محدودة",
+          "en": "Limited-time offers"
+        },
+        "subtitle": {
+          "ar": "الحق قبل ما العرض يخلص.",
+          "en": "Catch them before they end."
+        },
+        "featuredOnly": true,
+        "filter": null,
+        "limit": 4,
+        "cta": {
+          "label": {
+            "ar": "كل العروض",
+            "en": "All offers"
+          },
+          "href": "/offers"
+        }
+      }
+    },
+    {
+      "key": "home-categories",
+      "pageKey": "home",
+      "type": "category_grid",
+      "sortOrder": 40,
+      "isVisible": true,
+      "props": {
+        "title": {
+          "ar": "تسوّق حسب القسم",
+          "en": "Shop by category"
+        },
+        "subtitle": null,
+        "limit": 8
+      }
+    },
+    {
+      "key": "home-apple",
+      "pageKey": "home",
+      "type": "brand_lines",
+      "sortOrder": 50,
+      "isVisible": true,
+      "props": {
+        "brandSlug": "apple",
+        "eyebrow": {
+          "ar": "Apple في MALEK STORE",
+          "en": "Apple at MALEK STORE"
+        },
+        "title": {
+          "ar": "عالم Apple كامل عندنا",
+          "en": "The full Apple line-up"
+        },
+        "subtitle": {
+          "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+          "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+        },
+        "lines": [
+          {
+            "label": {
+              "ar": "آيفون",
+              "en": "iPhone"
+            },
+            "categorySlug": "phones",
+            "icon": "phone"
+          },
+          {
+            "label": {
+              "ar": "ماك",
+              "en": "Mac"
+            },
+            "categorySlug": "laptops",
+            "icon": "laptop"
+          },
+          {
+            "label": {
+              "ar": "آيباد",
+              "en": "iPad"
+            },
+            "categorySlug": "tablets",
+            "icon": "tablet"
+          },
+          {
+            "label": {
+              "ar": "Apple Watch",
+              "en": "Apple Watch"
+            },
+            "categorySlug": "watches",
+            "icon": "watch"
+          },
+          {
+            "label": {
+              "ar": "AirPods",
+              "en": "AirPods"
+            },
+            "categorySlug": "audio",
+            "icon": "headphones"
+          },
+          {
+            "label": {
+              "ar": "إكسسوارات",
+              "en": "Accessories"
+            },
+            "categorySlug": "accessories",
+            "icon": "plug"
+          }
+        ],
+        "cta": {
+          "label": {
+            "ar": "اكتشف Apple",
+            "en": "Explore Apple"
+          },
+          "href": "/apple"
+        }
+      }
+    },
+    {
+      "key": "home-best-sellers",
+      "pageKey": "home",
+      "type": "product_rail",
+      "sortOrder": 60,
+      "isVisible": true,
+      "props": {
+        "eyebrow": null,
+        "title": {
+          "ar": "الأكثر مبيعًا",
+          "en": "Best sellers"
+        },
+        "subtitle": {
+          "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+          "en": "What our customers pick most."
+        },
+        "source": {
+          "kind": "best_sellers"
+        },
+        "limit": 8,
+        "layout": "grid",
+        "cta": {
+          "label": {
+            "ar": "تسوّق الكل",
+            "en": "Shop all"
+          },
+          "href": "/store?sort=best_selling"
+        }
+      }
+    },
+    {
+      "key": "home-budget",
+      "pageKey": "home",
+      "type": "budget_search",
+      "sortOrder": 70,
+      "isVisible": true,
+      "props": {
+        "title": {
+          "ar": "ميزانيتك كام؟",
+          "en": "What’s your budget?"
+        },
+        "subtitle": {
+          "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+          "en": "Pick a budget and we’ll show you what fits."
+        }
+      }
+    },
+    {
+      "key": "home-trade-in",
+      "pageKey": "home",
+      "type": "promo_banner",
+      "sortOrder": 80,
+      "isVisible": true,
+      "props": {
+        "tone": "dark",
+        "illustration": "trade_in",
+        "eyebrow": {
+          "ar": "Trade-In",
+          "en": "Trade-In"
+        },
+        "title": {
+          "ar": "بدّل القديم بالجديد",
+          "en": "Trade old for new"
+        },
+        "body": {
+          "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+          "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+        },
+        "points": [
+          {
+            "ar": "تقييم من فريق متخصص",
+            "en": "Valued by our specialists"
+          },
+          {
+            "ar": "السعر النهائي بعد الفحص",
+            "en": "Final price after inspection"
+          }
+        ],
+        "cta": {
+          "label": {
+            "ar": "ابدأ الاستبدال",
+            "en": "Start a trade-in"
+          },
+          "href": "/trade-in"
+        },
+        "secondaryCta": null
+      }
+    },
+    {
+      "key": "home-repairs",
+      "pageKey": "home",
+      "type": "promo_banner",
+      "sortOrder": 90,
+      "isVisible": true,
+      "props": {
+        "tone": "light",
+        "illustration": "repairs",
+        "eyebrow": {
+          "ar": "الصيانة",
+          "en": "Repairs"
+        },
+        "title": {
+          "ar": "جهازك محتاج صيانة؟",
+          "en": "Device needs a repair?"
+        },
+        "body": {
+          "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+          "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+        },
+        "points": [
+          {
+            "ar": "تشخيص قبل أي تكلفة",
+            "en": "Diagnosis before any cost"
+          },
+          {
+            "ar": "متابعة على واتساب",
+            "en": "Follow-up on WhatsApp"
+          }
+        ],
+        "cta": {
+          "label": {
+            "ar": "اطلب صيانة",
+            "en": "Request a repair"
+          },
+          "href": "/repairs"
+        },
+        "secondaryCta": {
+          "label": {
+            "ar": "كلّمنا",
+            "en": "Contact us"
+          },
+          "href": "/contact"
+        }
+      }
+    },
+    {
+      "key": "home-coming-soon",
+      "pageKey": "home",
+      "type": "coming_soon",
+      "sortOrder": 100,
+      "isVisible": true,
+      "props": {
+        "title": {
+          "ar": "قريبًا",
+          "en": "Coming soon"
+        },
+        "subtitle": {
+          "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+          "en": "Register your interest and we’ll tell you first."
+        },
+        "limit": 3
+      }
+    },
+    {
+      "key": "home-news",
+      "pageKey": "home",
+      "type": "content_rail",
+      "sortOrder": 110,
+      "isVisible": true,
+      "props": {
+        "title": {
+          "ar": "أخبار MALEK",
+          "en": "Malek updates"
+        },
+        "subtitle": null,
+        "types": ["news", "offer_update", "new_release"],
+        "limit": 3,
+        "cta": {
+          "label": {
+            "ar": "كل الأخبار",
+            "en": "All updates"
+          },
+          "href": "/news"
+        }
+      }
+    },
+    {
+      "key": "home-trust",
+      "pageKey": "home",
+      "type": "trust_strip",
+      "sortOrder": 120,
+      "isVisible": true,
+      "props": {
+        "title": null,
+        "itemIds": null
+      }
+    },
+    {
+      "key": "home-branch",
+      "pageKey": "home",
+      "type": "branch_contact",
+      "sortOrder": 130,
+      "isVisible": true,
+      "props": {
+        "title": {
+          "ar": "زورنا في الفرع",
+          "en": "Visit our branch"
+        },
+        "subtitle": {
+          "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+          "en": "Our team helps you choose and stays with you after you buy."
+        }
+      }
+    },
+    {
+      "key": "apple-hero",
+      "pageKey": "apple",
+      "type": "hero_campaign",
+      "sortOrder": 10,
+      "isVisible": true,
+      "props": {
+        "campaignSlug": "iphone-18-pro-launch",
+        "teaserSlug": "iphone-duo-teaser",
+        "tone": "light"
+      }
+    },
+    {
+      "key": "apple-lines",
+      "pageKey": "apple",
+      "type": "brand_lines",
+      "sortOrder": 20,
+      "isVisible": true,
+      "props": {
+        "brandSlug": "apple",
+        "eyebrow": null,
+        "title": {
+          "ar": "اختار من Apple",
+          "en": "Shop Apple"
+        },
+        "subtitle": null,
+        "lines": [
+          {
+            "label": {
+              "ar": "آيفون",
+              "en": "iPhone"
+            },
+            "categorySlug": "phones",
+            "icon": "phone"
+          },
+          {
+            "label": {
+              "ar": "ماك",
+              "en": "Mac"
+            },
+            "categorySlug": "laptops",
+            "icon": "laptop"
+          },
+          {
+            "label": {
+              "ar": "آيباد",
+              "en": "iPad"
+            },
+            "categorySlug": "tablets",
+            "icon": "tablet"
+          },
+          {
+            "label": {
+              "ar": "Apple Watch",
+              "en": "Apple Watch"
+            },
+            "categorySlug": "watches",
+            "icon": "watch"
+          },
+          {
+            "label": {
+              "ar": "AirPods",
+              "en": "AirPods"
+            },
+            "categorySlug": "audio",
+            "icon": "headphones"
+          },
+          {
+            "label": {
+              "ar": "إكسسوارات",
+              "en": "Accessories"
+            },
+            "categorySlug": "accessories",
+            "icon": "plug"
+          }
+        ],
+        "cta": null
+      }
+    },
+    {
+      "key": "apple-authorized",
+      "pageKey": "apple",
+      "type": "trust_feature",
+      "sortOrder": 30,
+      "isVisible": true,
+      "props": {
+        "itemId": "apple-authorized-reseller",
+        "eyebrow": null
+      }
+    },
+    {
+      "key": "apple-latest",
+      "pageKey": "apple",
+      "type": "product_rail",
+      "sortOrder": 40,
+      "isVisible": true,
+      "props": {
+        "eyebrow": {
+          "ar": "أحدث الإصدارات",
+          "en": "Latest releases"
+        },
+        "title": {
+          "ar": "الجديد من Apple",
+          "en": "New from Apple"
+        },
+        "subtitle": null,
+        "source": {
+          "kind": "new",
+          "brands": ["apple"]
+        },
+        "limit": 4,
+        "layout": "premium",
+        "cta": null
+      }
+    },
+    {
+      "key": "apple-offers",
+      "pageKey": "apple",
+      "type": "offer_rail",
+      "sortOrder": 50,
+      "isVisible": true,
+      "props": {
+        "eyebrow": null,
+        "title": {
+          "ar": "عروض Apple",
+          "en": "Apple offers"
+        },
+        "subtitle": null,
+        "featuredOnly": false,
+        "filter": {
+          "brands": ["apple"]
+        },
+        "limit": 4,
+        "cta": {
+          "label": {
+            "ar": "كل العروض",
+            "en": "All offers"
+          },
+          "href": "/offers#apple"
+        }
+      }
+    },
+    {
+      "key": "apple-trade-in",
+      "pageKey": "apple",
+      "type": "promo_banner",
+      "sortOrder": 60,
+      "isVisible": true,
+      "props": {
+        "tone": "brand",
+        "illustration": "trade_in",
+        "eyebrow": {
+          "ar": "Apple Trade-In",
+          "en": "Apple Trade-In"
+        },
+        "title": {
+          "ar": "بدّل آيفونك القديم بالجديد",
+          "en": "Trade your old iPhone for a new one"
+        },
+        "body": {
+          "ar": "قيّم جهازك الحالي واعرف الفرق على iPhone 18 Pro أو أي جهاز Apple.",
+          "en": "Get your current device valued and see the difference on iPhone 18 Pro or any Apple device."
+        },
+        "points": [],
+        "cta": {
+          "label": {
+            "ar": "ابدأ الاستبدال",
+            "en": "Start a trade-in"
+          },
+          "href": "/trade-in"
+        },
+        "secondaryCta": null
+      }
+    },
+    {
+      "key": "apple-all",
+      "pageKey": "apple",
+      "type": "product_rail",
+      "sortOrder": 70,
+      "isVisible": true,
+      "props": {
+        "eyebrow": null,
+        "title": {
+          "ar": "كل منتجات Apple",
+          "en": "All Apple products"
+        },
+        "subtitle": null,
+        "source": {
+          "kind": "best_sellers",
+          "brands": ["apple"]
+        },
+        "limit": 8,
+        "layout": "grid",
+        "cta": {
+          "label": {
+            "ar": "تصفح كل منتجات Apple",
+            "en": "Browse all Apple"
+          },
+          "href": "/brand/apple"
+        }
+      }
+    },
+    {
+      "key": "offers-flash",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 10,
+      "isVisible": true,
+      "props": {
+        "anchor": "flash",
+        "title": {
+          "ar": "عروض سريعة",
+          "en": "Flash offers"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["flash"]
+        }
+      }
+    },
+    {
+      "key": "offers-price-drops",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 20,
+      "isVisible": true,
+      "props": {
+        "anchor": "price-drops",
+        "title": {
+          "ar": "أسعار نزلت",
+          "en": "Price drops"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["price_drop"]
+        }
+      }
+    },
+    {
+      "key": "offers-bundles",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 30,
+      "isVisible": true,
+      "props": {
+        "anchor": "bundles",
+        "title": {
+          "ar": "باقات",
+          "en": "Bundle deals"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["bundle", "buy_x_get_y"]
+        }
+      }
+    },
+    {
+      "key": "offers-gifts",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 40,
+      "isVisible": true,
+      "props": {
+        "anchor": "gifts",
+        "title": {
+          "ar": "عروض بهدية",
+          "en": "Free gift offers"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["free_gift"]
+        }
+      }
+    },
+    {
+      "key": "offers-promo-codes",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 50,
+      "isVisible": true,
+      "props": {
+        "anchor": "promo-codes",
+        "title": {
+          "ar": "أكواد خصم",
+          "en": "Promo codes"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["promo_code"]
+        }
+      }
+    },
+    {
+      "key": "offers-limited",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 60,
+      "isVisible": true,
+      "props": {
+        "anchor": "limited",
+        "title": {
+          "ar": "لفترة محدودة",
+          "en": "Limited-time offers"
+        },
+        "subtitle": null,
+        "filter": {
+          "kinds": ["limited_time", "percentage", "fixed"]
+        }
+      }
+    },
+    {
+      "key": "offers-apple",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 70,
+      "isVisible": true,
+      "props": {
+        "anchor": "apple",
+        "title": {
+          "ar": "عروض Apple",
+          "en": "Apple offers"
+        },
+        "subtitle": null,
+        "filter": {
+          "brands": ["apple"]
+        }
+      }
+    },
+    {
+      "key": "offers-accessories",
+      "pageKey": "offers",
+      "type": "offer_group",
+      "sortOrder": 80,
+      "isVisible": true,
+      "props": {
+        "anchor": "accessories",
+        "title": {
+          "ar": "عروض الإكسسوارات",
+          "en": "Accessories offers"
+        },
+        "subtitle": null,
+        "filter": {
+          "categories": ["accessories"]
+        }
+      }
+    }
+  ]
+}

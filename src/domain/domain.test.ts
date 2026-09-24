@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import baseSeed from '@seed/base/site-settings.json';
+import demoCatalog from '@seed/demo/catalog.json';
 import demoManifest from '@seed/demo/manifest.json';
 import {
   hasPermission,
@@ -101,11 +102,26 @@ describe('site settings', () => {
       promoCodes: false,
       loyalty: false,
       payAtStore: false,
+      showDemoCatalog: false,
     });
   });
 
-  it('the demo manifest is explicit and empty until Phase 02', () => {
-    expect(demoManifest.datasets).toEqual([]);
+  it('the demo manifest lists every demo dataset with counts matching the generated catalog', () => {
+    expect(demoManifest.datasets.map((d) => d.key)).toEqual([
+      'catalog',
+      'offers',
+      'content',
+      'media',
+    ]);
+    const catalog = demoManifest.datasets[0];
+    expect(catalog?.counts).toEqual({
+      brands: demoCatalog.brands.length,
+      categories: demoCatalog.categories.length,
+      products: demoCatalog.products.length,
+      variants: demoCatalog.products.reduce((n, p) => n + p.variants.length, 0),
+    });
+    expect(demoManifest.datasets[1]?.counts).toEqual({ offers: demoCatalog.offers.length });
+    expect(demoManifest.datasets[2]?.counts).toEqual({ entries: demoCatalog.entries.length });
   });
 
   it('merges backend rows over defaults and never lets invalid rows through', () => {

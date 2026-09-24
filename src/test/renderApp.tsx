@@ -21,6 +21,8 @@ interface RenderAppOptions {
   /** Make the settings repository fail (backend unavailable). */
   settingsFail?: boolean;
   mode?: 'demo' | 'live';
+  /** Replace individual repositories (e.g. a failing live catalog). */
+  repositories?: Partial<AppRuntime['repositories']>;
 }
 
 export function createTestRuntime(options: RenderAppOptions = {}): AppRuntime {
@@ -35,6 +37,7 @@ export function createTestRuntime(options: RenderAppOptions = {}): AppRuntime {
     mode: options.mode ?? 'demo',
     repositories: {
       ...runtime.repositories,
+      ...options.repositories,
       settings: {
         listPublishedSettings: async () => {
           if (options.settingsFail) throw new Error('backend down');

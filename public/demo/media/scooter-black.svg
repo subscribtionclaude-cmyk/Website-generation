@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
+<defs>
+<radialGradient id="floor-scooter-1d1d1f" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="gloss-scooter-1d1d1f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+<linearGradient id="screen-scooter-1d1d1f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1c22"/><stop offset=".55" stop-color="#0c0d10"/><stop offset="1" stop-color="#20120b"/></linearGradient>
+<linearGradient id="wash-scooter-1d1d1f" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f65311" stop-opacity=".55"/><stop offset=".45" stop-color="#f65311" stop-opacity=".08"/><stop offset="1" stop-color="#3a4f7a" stop-opacity=".25"/></linearGradient>
+</defs>
+<ellipse cx="400" cy="722" rx="250" ry="26" fill="url(#floor-scooter-1d1d1f)"/>
+
+<circle cx="210" cy="600" r="80" fill="#16171b"/><circle cx="210" cy="600" r="36" fill="#5d5d5f"/>
+<circle cx="600" cy="600" r="80" fill="#16171b"/><circle cx="600" cy="600" r="36" fill="#5d5d5f"/>
+<path d="M210 600 L270 560 H560 L600 600" stroke="#1d1d1f" stroke-width="34" fill="none" stroke-linejoin="round"/>
+<rect x="270" y="540" width="300" height="34" rx="14" fill="#1d1d1f"/>
+<path d="M560 560 L500 150" stroke="#1d1d1f" stroke-width="30" stroke-linecap="round"/>
+<path d="M430 150 H580" stroke="#16171b" stroke-width="26" stroke-linecap="round"/>
+<rect x="270" y="540" width="300" height="34" rx="14" fill="url(#gloss-scooter-1d1d1f)"/>
+<circle cx="508" cy="208" r="12" fill="#f65311"/>
+</svg>

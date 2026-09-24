@@ -5,6 +5,11 @@ import { SYSTEM_ROLES, type RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
 import { readStored, writeStored } from '@/lib/storage/localStore';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
+import {
+  DemoCatalogRepository,
+  DemoContentRepository,
+  DemoCustomerRequestsRepository,
+} from './demoStorefront';
 import type {
   AccessRepository,
   Profile,
@@ -107,5 +112,8 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
     settings: new DemoSettingsRepository(),
     access: new DemoAccessRepository(auth),
     profiles: new DemoProfileRepository(auth),
+    catalog: new DemoCatalogRepository(),
+    content: new DemoContentRepository(),
+    requests: new DemoCustomerRequestsRepository(),
   };
 }

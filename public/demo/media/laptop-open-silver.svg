@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
+<defs>
+<radialGradient id="floor-laptop-open-d6d7d9" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="gloss-laptop-open-d6d7d9" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+<linearGradient id="screen-laptop-open-d6d7d9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1c22"/><stop offset=".55" stop-color="#0c0d10"/><stop offset="1" stop-color="#20120b"/></linearGradient>
+<linearGradient id="wash-laptop-open-d6d7d9" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f65311" stop-opacity=".55"/><stop offset=".45" stop-color="#f65311" stop-opacity=".08"/><stop offset="1" stop-color="#3a4f7a" stop-opacity=".25"/></linearGradient>
+</defs>
+<ellipse cx="400" cy="722" rx="250" ry="26" fill="url(#floor-laptop-open-d6d7d9)"/>
+
+<path d="M190 150 h420 a24 24 0 0 1 24 24 v330 h-468 v-330 a24 24 0 0 1 24 -24z" fill="#bdbec0"/>
+<rect x="182" y="166" width="436" height="326" rx="12" fill="#050506"/>
+<rect x="194" y="178" width="412" height="302" rx="6" fill="url(#screen-laptop-open-d6d7d9)"/>
+<rect x="194" y="178" width="412" height="302" rx="6" fill="url(#wash-laptop-open-d6d7d9)"/>
+<path d="M100 520 h600 l-40 70 a20 20 0 0 1 -18 10 h-484 a20 20 0 0 1 -18 -10z" fill="#d6d7d9"/>
+<path d="M100 520 h600 l-40 70 a20 20 0 0 1 -18 10 h-484 a20 20 0 0 1 -18 -10z" fill="url(#gloss-laptop-open-d6d7d9)"/>
+<rect x="160" y="506" width="480" height="16" rx="6" fill="#a8a9ab"/>
+<rect x="330" y="560" width="140" height="22" rx="8" fill="#c2c3c5"/>
+</svg>

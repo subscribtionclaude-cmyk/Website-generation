@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img">
+<defs>
+<radialGradient id="floor-phone-front-8a8c90" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="gloss-phone-front-8a8c90" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+<linearGradient id="screen-phone-front-8a8c90" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1c22"/><stop offset=".55" stop-color="#0c0d10"/><stop offset="1" stop-color="#20120b"/></linearGradient>
+<linearGradient id="wash-phone-front-8a8c90" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f65311" stop-opacity=".55"/><stop offset=".45" stop-color="#f65311" stop-opacity=".08"/><stop offset="1" stop-color="#3a4f7a" stop-opacity=".25"/></linearGradient>
+</defs>
+<ellipse cx="400" cy="722" rx="250" ry="26" fill="url(#floor-phone-front-8a8c90)"/>
+
+<rect x="250" y="70" width="300" height="640" rx="58" fill="#8a8c90"/>
+<rect x="262" y="82" width="276" height="616" rx="48" fill="#050506"/>
+<rect x="272" y="92" width="256" height="596" rx="40" fill="url(#screen-phone-front-8a8c90)"/>
+<rect x="352" y="108" width="96" height="26" rx="13" fill="#000"/>
+<rect x="272" y="92" width="256" height="596" rx="40" fill="url(#wash-phone-front-8a8c90)"/>
+<rect x="250" y="70" width="300" height="640" rx="58" fill="url(#gloss-phone-front-8a8c90)" opacity=".35"/>
+</svg>

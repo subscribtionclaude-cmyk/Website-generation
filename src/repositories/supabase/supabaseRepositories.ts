@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { RepositoryError } from './errors';
 import { z } from 'zod';
 import type { AccessProfile } from '@/domain/access/access';
 import { isPermissionKey, type RoleDefinition } from '@/domain/access/permissions';
@@ -12,14 +13,11 @@ import type {
   Repositories,
   SettingsRepository,
 } from '../types';
-
-/** Normalised repository error so the UI can show "backend unavailable" states consistently. */
-export class RepositoryError extends Error {
-  constructor(message: string, cause?: unknown) {
-    super(message, { cause });
-    this.name = 'RepositoryError';
-  }
-}
+import {
+  SupabaseCatalogRepository,
+  SupabaseContentRepository,
+  SupabaseCustomerRequestsRepository,
+} from './supabaseStorefront';
 
 function fail(operation: string, error: unknown): never {
   throw new RepositoryError(`Supabase ${operation} failed`, error);
@@ -173,5 +171,10 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     settings: new SupabaseSettingsRepository(client),
     access: new SupabaseAccessRepository(client),
     profiles: new SupabaseProfileRepository(client),
+    catalog: new SupabaseCatalogRepository(client),
+    content: new SupabaseContentRepository(client),
+    requests: new SupabaseCustomerRequestsRepository(client),
   };
 }
+
+export { RepositoryError };

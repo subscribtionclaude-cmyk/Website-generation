@@ -3,8 +3,8 @@
 | Phase | Name                         | Status                   |
 | ----- | ---------------------------- | ------------------------ |
 | 01    | Foundation                   | ✅ COMPLETE (2026-09-24) |
-| 02    | Storefront                   | ⚪ NOT STARTED — next    |
-| 03    | Commerce                     | ⚪ NOT STARTED           |
+| 02    | Storefront                   | ✅ COMPLETE (2026-09-24) |
+| 03    | Commerce                     | ⚪ NOT STARTED — next    |
 | 04    | Customer Features            | ⚪ NOT STARTED           |
 | 05    | Service Experiences          | ⚪ NOT STARTED           |
 | 06    | Admin Control Center         | ⚪ NOT STARTED           |
@@ -64,15 +64,74 @@
 
 ---
 
-## Phase 02 — Storefront (next)
+## Phase 02 — Storefront ✅
 
-Home (CMS-driven modular sections incl. iPhone 18 Pro / Pro Max hero + iPhone Duo teaser as editable demo
-campaign content), Apple landing (+ editable Apple Authorized Reseller trust signal), Store, dynamic categories
-& brands, Postgres full-text search, filters, search by budget, product cards, product page with variants
-(per-variant price/stock/SKU/media/warranty), demo catalog (flagged `is_demo`), New Releases, Coming Soon,
-Offers, News, Contact page.
+### Delivered
 
-## Phase 03 — Commerce
+- [x] **CMS-driven modular home** — ordered `page_sections` rendered through a typed section registry
+      (13 section types, zod-validated props, invalid rows skipped): Hero campaign → New releases →
+      Limited offers → Shop by category → Apple spotlight → Best sellers → Search by budget → Trade-In
+      promo → Repairs promo → Coming soon → News → Trust strip → Branch/contact. Phase 07 edits the same rows.
+- [x] **Hero campaign** iPhone 18 Pro / Pro Max + iPhone Duo teaser from content entries (demo, editable);
+      restrained motion, off for reduced motion and constrained devices (adaptive `data-motion`); brand fallback.
+- [x] **Apple landing** (`/apple`): hero, iPhone/Mac/iPad/Watch/AirPods/Accessories lines, latest releases,
+      Apple offers, Apple trade-in, settings-driven hideable "Apple Authorized Reseller" statement.
+- [x] **Listings**: `/store`, `/category/:slug`, `/brand/:slug`, `/search`, `/budget` — hybrid premium cards + practical grid, dynamic categories & brands, URL-synced filters (brand, category, price, storage,
+      colour, availability, offers, new), sorting (featured, newest, price ↑/↓, best selling — demo ranking
+      kept separate from analytics), removable chips, facets, load-more, skeleton/empty/error states,
+      desktop sticky sidebar + mobile filter drawer.
+- [x] **Search**: free Postgres search (trigram + Arabic normalisation + transliteration keywords) with an
+      identical in-memory engine for demo mode (parity proven by mirrored TS/SQL tests).
+- [x] **Search by budget** ("ميزانيتي من X إلى Y"): presets from settings + validated min/max (Arabic-Indic digits).
+- [x] **Product page**: variant-aware gallery (images + video with captions contract), accessible storage/colour
+      radios synced to the URL, per-variant price / compare-at / SKU / stock state / media / warranty,
+      spec groups (approved only), demo price/spec notes, related rails, breadcrumbs.
+- [x] **Out of stock / upcoming**: "Out of stock" + Notify Me; coming soon / waitlist only / pre-order →
+      waitlist; price "to be announced". Validated, duplicate-safe intake RPCs (follow-up in Phases 04/06).
+- [x] Add to cart / Buy now shown **disabled with an honest note** (Phase 03); call + context-aware WhatsApp
+      (product, storage, colour, SKU, price) as working paths; wishlist/compare card-action interface.
+- [x] **Offers** (`/offers`, `/offers/:slug`): flash, price drops, bundles, free gift, promo codes, limited-time,
+      Apple, accessories groups with jump links; countdowns derived from timestamps; promo code copy.
+- [x] **New** (`/new`), **Coming soon** (`/coming-soon`), **News** (`/news?type=`, `/news/:slug`) with related
+      products, publish/expiry windows, featured flag, localized text and SEO fields.
+- [x] **Contact** page from settings only (no invented social/map URLs; staff/demo setup panel).
+- [x] Trust items, budget presets and page size are settings (`trust`, `catalog` keys).
+- [x] Header search (desktop field, mobile search icon → `/search`).
+- [x] SEO: titles, descriptions, canonical (never with query), hreflang, OG type/url/image, Product JSON-LD
+      (live, non-demo only), BreadcrumbList, Article; noindex for filtered/search/budget/not-found and any
+      demo deployment. SPA limits documented (`docs/ARCHITECTURE.md` §9).
+- [x] Migrations: catalog, content, storefront RPCs — RLS on every table, no direct anon access, indexes,
+      demo registry, localized content without duplicated records, stock quantities never exposed.
+- [x] Demo data (all `is_demo`): 7 brands, 10 categories, 28 products, 116 variants, 7 offers (incl. AirPods
+      limited offer, AirPods + Apple Watch bundle, DEMO10 10% code), 7 content entries, 76 generated SVG
+      device illustrations. iPhone 18 Pro / Pro Max / Duo specs are "to be confirmed" only.
+
+### Validation
+
+| Check                                                                                    | Result                                                                                         |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm run typecheck`                                                                      | ✅ 0 errors                                                                                    |
+| `npm run lint`                                                                           | ✅ 0 errors, 0 warnings                                                                        |
+| `npm run format:check`                                                                   | ✅                                                                                             |
+| `npm run seed:check`                                                                     | ✅ demo catalog, media and seed SQL up to date                                                 |
+| `npm test` (Vitest)                                                                      | ✅ 137 / 137 tests, 14 files                                                                   |
+| `npm run test:db` (PostgreSQL 16)                                                        | ✅ migrations + idempotent re-run, contracts, 204 / 204 SQL assertions                         |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 126 passed, 6 skipped (viewport-specific tests)                                             |
+| `npm run build`                                                                          | ✅ storefront entry ≈ 105 KB gz; pages lazy; no admin chunk on storefront                      |
+| Visual review (Arabic + English, 390 / 1440 px screenshots)                              | ✅ issues found and fixed (bidi of mixed titles, RTL countdown, product meta layout, contrast) |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project (needs the owner's project); RPCs and adapters are
+  validated locally with PostgreSQL 16 + the Supabase shim, and the Supabase adapter parses every RPC with zod.
+- Product imagery is generated demo illustrations, not photos; real media arrives with admin uploads (Phase 06).
+- Notify-me / waitlist requests are stored but nobody is notified yet (Phase 04 notifications, Phase 06 queue).
+- Promo codes are displayed only; they apply at checkout (Phase 03).
+- Structured data and meta are client-rendered (SPA); prerendering + sitemap are Phase 08.
+- The Phase 02 migrations were edited during Phase 02 (not yet applied to any real project); from now on
+  changes go into new migration files.
+
+## Phase 03 — Commerce (next)
 
 Cart (guest, local) + account merge, verified checkout (phone required), orders, receipt + printable invoice,
 COD, InstaPay (manual funds verification), split payment, optional pay-at-store, 30-minute soft reservation

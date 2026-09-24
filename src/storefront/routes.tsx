@@ -10,16 +10,45 @@ import type { SectionHandle } from './routeHandles';
  * SEO structure are stable; each renders an honest placeholder until its phase ships.
  */
 const PLANNED_SECTIONS: ({ path: string } & SectionHandle)[] = [
-  { path: 'apple', section: 'apple', phase: 2 },
-  { path: 'store', section: 'store', phase: 2 },
-  { path: 'offers', section: 'offers', phase: 2 },
-  { path: 'new', section: 'new', phase: 2 },
-  { path: 'news', section: 'news', phase: 2 },
-  { path: 'contact', section: 'contact', phase: 2 },
   { path: 'cart', section: 'cart', phase: 3 },
   { path: 'trade-in', section: 'trade-in', phase: 5 },
   { path: 'repairs', section: 'repairs', phase: 5 },
   { path: 'used', section: 'used', phase: 5 },
+];
+
+const storePages = () => import('./pages/StorePage');
+const offersPages = () => import('./pages/OffersPages');
+const newsPages = () => import('./pages/NewsPages');
+const newPages = () => import('./pages/NewPages');
+
+/** Phase 02 storefront pages (each a lazy chunk; the admin bundle is never pulled in). */
+const STOREFRONT_PAGES: RouteObject[] = [
+  {
+    path: 'apple',
+    lazy: () => import('./pages/ApplePage').then((m) => ({ Component: m.ApplePage })),
+  },
+  { path: 'store', lazy: () => storePages().then((m) => ({ Component: m.StorePage })) },
+  { path: 'search', lazy: () => storePages().then((m) => ({ Component: m.SearchPage })) },
+  { path: 'budget', lazy: () => storePages().then((m) => ({ Component: m.BudgetPage })) },
+  { path: 'category/:slug', lazy: () => storePages().then((m) => ({ Component: m.CategoryPage })) },
+  { path: 'brand/:slug', lazy: () => storePages().then((m) => ({ Component: m.BrandPage })) },
+  {
+    path: 'product/:slug',
+    lazy: () => import('./pages/ProductPage').then((m) => ({ Component: m.ProductPage })),
+  },
+  { path: 'offers', lazy: () => offersPages().then((m) => ({ Component: m.OffersPage })) },
+  {
+    path: 'offers/:slug',
+    lazy: () => offersPages().then((m) => ({ Component: m.OfferDetailPage })),
+  },
+  { path: 'new', lazy: () => newPages().then((m) => ({ Component: m.NewPage })) },
+  { path: 'coming-soon', lazy: () => newPages().then((m) => ({ Component: m.ComingSoonPage })) },
+  { path: 'news', lazy: () => newsPages().then((m) => ({ Component: m.NewsPage })) },
+  { path: 'news/:slug', lazy: () => newsPages().then((m) => ({ Component: m.EntryPage })) },
+  {
+    path: 'contact',
+    lazy: () => import('./pages/ContactPage').then((m) => ({ Component: m.ContactPage })),
+  },
 ];
 
 const placeholder = () =>
@@ -38,6 +67,7 @@ export function storefrontRoutes(locale: Locale): RouteObject {
             index: true,
             lazy: () => import('./pages/HomePage').then((m) => ({ Component: m.HomePage })),
           },
+          ...STOREFRONT_PAGES,
           ...PLANNED_SECTIONS.map(({ path, section, phase }) => ({
             path,
             handle: { section, phase } satisfies SectionHandle,

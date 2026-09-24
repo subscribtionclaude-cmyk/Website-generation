@@ -4,9 +4,9 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Build status:** Phase 01 (Foundation) — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
-> The storefront sections and admin modules for later phases are routed and clearly marked as
-> scheduled; they are not faked.
+> **Build status:** Phase 02 (Storefront) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
+> Cart/checkout (03), service flows (05) and admin modules for later phases are routed and clearly
+> marked as scheduled; they are not faked.
 
 **Stack:** React 19 · TypeScript (strict) · Vite 8 · React Router 8 · TanStack Query · Zod ·
 Supabase (Postgres, Auth, Storage) · self-hosted IBM Plex Sans Arabic + Manrope · Vitest ·
@@ -34,20 +34,20 @@ A striped **"Demo mode"** banner is always visible in demo mode. Demo data is ne
 
 ## 2. Scripts
 
-| Command                                | What it does                                                                                                                                                                                           |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `npm run dev`                          | Vite dev server                                                                                                                                                                                        |
-| `npm run build`                        | Type-check + production build to `dist/` (also writes `dist/404.html` SPA fallback)                                                                                                                    |
-| `npm run preview`                      | Serve the production build locally (port 4173)                                                                                                                                                         |
-| `npm run typecheck`                    | TypeScript project build (strict)                                                                                                                                                                      |
-| `npm run lint`                         | ESLint (typescript-eslint strict, react-hooks, jsx-a11y) — zero warnings allowed                                                                                                                       |
-| `npm run format` / `format:check`      | Prettier                                                                                                                                                                                               |
-| `npm test`                             | Vitest unit + integration tests (jsdom)                                                                                                                                                                |
-| `npm run test:db`                      | Applies all migrations + seeds to a throwaway local PostgreSQL and runs the SQL test suites (RLS, RBAC, settings, storage, audit). Needs PostgreSQL 15+ server binaries; no Supabase account or Docker |
-| `npm run test:e2e`                     | Playwright smoke tests on mobile + desktop with axe-core WCAG 2.1 A/AA scans (builds + previews the app)                                                                                               |
-| `npm run seed:generate` / `seed:check` | Regenerate / verify `supabase/seed/*.sql` from the JSON seed data                                                                                                                                      |
-| `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                 |
-| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build                                                                                                                                            |
+| Command                                | What it does                                                                                                                                                                                                                                  |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                          | Vite dev server                                                                                                                                                                                                                               |
+| `npm run build`                        | Type-check + production build to `dist/` (also writes `dist/404.html` SPA fallback)                                                                                                                                                           |
+| `npm run preview`                      | Serve the production build locally (port 4173)                                                                                                                                                                                                |
+| `npm run typecheck`                    | TypeScript project build (strict)                                                                                                                                                                                                             |
+| `npm run lint`                         | ESLint (typescript-eslint strict, react-hooks, jsx-a11y) — zero warnings allowed                                                                                                                                                              |
+| `npm run format` / `format:check`      | Prettier                                                                                                                                                                                                                                      |
+| `npm test`                             | Vitest unit + integration tests (jsdom)                                                                                                                                                                                                       |
+| `npm run test:db`                      | Applies all migrations + seeds to a throwaway local PostgreSQL and runs the SQL test suites (RLS, RBAC, settings, storage, audit, catalog/search parity, request intake). Needs PostgreSQL 15+ server binaries; no Supabase account or Docker |
+| `npm run test:e2e`                     | Playwright tests on mobile, tablet, desktop and large desktop: every storefront page, key interactions, overflow checks and axe-core WCAG 2.1 A/AA scans (builds + previews the app)                                                          |
+| `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                     |
+| `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                        |
+| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build                                                                                                                                                                                   |
 
 ## 3. Environment variables
 
@@ -70,7 +70,9 @@ Never put a service-role key, database password or any secret in the frontend or
    - Paste each file into _SQL Editor_ in order.
 3. **Seed the base configuration** (real store details, navigation, SEO defaults — not demo data):
    run `supabase/seed/base.sql` in the SQL editor. It never overwrites values already published.
-   (`supabase/seed/demo.sql` is for demo previews only; it is empty until Phase 02.)
+   It also seeds the base page layouts (home, Apple, offers). `supabase/seed/demo.sql` is for demo
+   previews only (demo catalog, offers, news — all `is_demo`); don't run it on a real store, or
+   remove it later with `select public.delete_all_demo_data();`.
 4. **Auth settings** (_Authentication → Providers / URL Configuration_):
    - Enable the **Email** provider (email OTP / magic link — free).
    - _Site URL_ = your public URL; add `https://<your-domain>/**` (and `http://localhost:5173/**`
@@ -108,21 +110,22 @@ src/
   runtime/        Adapter wiring per data mode (demoRuntime / liveRuntime, lazy-loaded)
   services/       Supabase client + auth services (Supabase email OTP, demo)
   repositories/   Repository ports (types.ts) + demo and Supabase adapters (zod-validated)
-  domain/         Pure business models: localized text, settings schemas/registry, access catalog
+  domain/         Pure business models: localized text, settings, access, catalog engine, content/sections
   features/       Cross-cutting features: auth, settings, theme, SEO meta, store info, WhatsApp, demo banner
   i18n/           Locales, typed dictionaries (ar/en), translator, locale-aware paths
   lib/            Money (EGP), Cairo time & opening hours, phone, WhatsApp links, storage, colour
   components/     Shared UI (buttons, feedback states, drawer, fields, brand logo, navigation)
-  storefront/     Public layout, pages and routes (/, /en/…)
+  storefront/     Public layout, pages, section registry, catalog/product UI and routes (/, /en/…)
   admin/          Admin area (lazy chunk): layout, module registry, pages, dictionaries
   styles/         Design tokens (CSS variables), base styles, fonts
 supabase/
-  migrations/     Ordered SQL migrations (RLS, RBAC, audit, settings, demo registry, storage)
+  migrations/     Ordered SQL migrations (RLS, RBAC, audit, settings, demo registry, storage, catalog, content, storefront RPCs)
   seed/           base.sql (real config) + demo.sql (demo only), generated from seed/data/*.json
   tests/          Local-only Supabase shim + SQL test suites (npm run test:db)
 public/brand/     Source-of-truth logo + optimized derivatives; public/icons: favicons & PWA icons
+public/demo/      Generated demo device illustrations (demo mode only)
 docs/             Architecture, database, bootstrap, deployment, QA checklist
-e2e/              Playwright + axe smoke tests
+e2e/              Playwright + axe tests (smoke + storefront pages/interactions)
 ```
 
 ## 7. Deployment

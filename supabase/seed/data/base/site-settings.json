@@ -9,7 +9,10 @@
       },
       "logo": {
         "src": "/brand/malek-store-logo.png",
-        "alt": { "ar": "شعار MALEK STORE", "en": "MALEK STORE logo" }
+        "alt": {
+          "ar": "شعار MALEK STORE",
+          "en": "MALEK STORE logo"
+        }
       }
     },
     "theme": {
@@ -19,7 +22,10 @@
       "primary": [
         {
           "id": "home",
-          "label": { "ar": "الرئيسية", "en": "Home" },
+          "label": {
+            "ar": "الرئيسية",
+            "en": "Home"
+          },
           "href": "/",
           "icon": "home",
           "visible": true,
@@ -27,7 +33,10 @@
         },
         {
           "id": "apple",
-          "label": { "ar": "Apple", "en": "Apple" },
+          "label": {
+            "ar": "Apple",
+            "en": "Apple"
+          },
           "href": "/apple",
           "icon": "apple",
           "visible": true,
@@ -35,7 +44,10 @@
         },
         {
           "id": "store",
-          "label": { "ar": "المتجر", "en": "Store" },
+          "label": {
+            "ar": "المتجر",
+            "en": "Store"
+          },
           "href": "/store",
           "icon": "store",
           "visible": true,
@@ -43,7 +55,10 @@
         },
         {
           "id": "offers",
-          "label": { "ar": "العروض", "en": "Offers" },
+          "label": {
+            "ar": "العروض",
+            "en": "Offers"
+          },
           "href": "/offers",
           "icon": "offers",
           "visible": true,
@@ -51,7 +66,10 @@
         },
         {
           "id": "new",
-          "label": { "ar": "الجديد", "en": "New" },
+          "label": {
+            "ar": "الجديد",
+            "en": "New"
+          },
           "href": "/new",
           "icon": "new",
           "visible": true,
@@ -59,7 +77,10 @@
         },
         {
           "id": "trade-in",
-          "label": { "ar": "Trade-In", "en": "Trade-In" },
+          "label": {
+            "ar": "Trade-In",
+            "en": "Trade-In"
+          },
           "href": "/trade-in",
           "icon": "trade-in",
           "visible": true,
@@ -67,7 +88,10 @@
         },
         {
           "id": "repairs",
-          "label": { "ar": "الصيانة", "en": "Repairs" },
+          "label": {
+            "ar": "الصيانة",
+            "en": "Repairs"
+          },
           "href": "/repairs",
           "icon": "repairs",
           "visible": true,
@@ -75,7 +99,10 @@
         },
         {
           "id": "used",
-          "label": { "ar": "المستعمل", "en": "Used" },
+          "label": {
+            "ar": "المستعمل",
+            "en": "Used"
+          },
           "href": "/used",
           "icon": "used",
           "visible": true,
@@ -83,7 +110,10 @@
         },
         {
           "id": "news",
-          "label": { "ar": "الأخبار", "en": "News" },
+          "label": {
+            "ar": "الأخبار",
+            "en": "News"
+          },
           "href": "/news",
           "icon": "news",
           "visible": true,
@@ -91,7 +121,10 @@
         },
         {
           "id": "contact",
-          "label": { "ar": "تواصل معنا", "en": "Contact" },
+          "label": {
+            "ar": "تواصل معنا",
+            "en": "Contact"
+          },
           "href": "/contact",
           "icon": "contact",
           "visible": true,
@@ -101,7 +134,10 @@
       "mobileTabBar": [
         {
           "id": "tab-home",
-          "label": { "ar": "الرئيسية", "en": "Home" },
+          "label": {
+            "ar": "الرئيسية",
+            "en": "Home"
+          },
           "href": "/",
           "icon": "home",
           "visible": true,
@@ -109,7 +145,10 @@
         },
         {
           "id": "tab-shop",
-          "label": { "ar": "المتجر", "en": "Shop" },
+          "label": {
+            "ar": "المتجر",
+            "en": "Shop"
+          },
           "href": "/store",
           "icon": "store",
           "visible": true,
@@ -117,7 +156,10 @@
         },
         {
           "id": "tab-offers",
-          "label": { "ar": "العروض", "en": "Offers" },
+          "label": {
+            "ar": "العروض",
+            "en": "Offers"
+          },
           "href": "/offers",
           "icon": "offers",
           "visible": true,
@@ -125,7 +167,10 @@
         },
         {
           "id": "tab-cart",
-          "label": { "ar": "السلة", "en": "Cart" },
+          "label": {
+            "ar": "السلة",
+            "en": "Cart"
+          },
           "href": "/cart",
           "icon": "cart",
           "visible": true,
@@ -133,7 +178,10 @@
         },
         {
           "id": "tab-account",
-          "label": { "ar": "حسابي", "en": "Account" },
+          "label": {
+            "ar": "حسابي",
+            "en": "Account"
+          },
           "href": "/account",
           "icon": "account",
           "visible": true,
@@ -145,14 +193,34 @@
       "branches": [
         {
           "id": "abbasseya",
-          "name": { "ar": "فرع العباسية", "en": "Abbasseya Branch" },
-          "address": { "ar": "72 شارع العباسية", "en": "72 Abbasseya Street" },
-          "landmark": { "ar": "أمام مترو عبده باشا", "en": "In front of Abdou Pasha Metro" },
-          "city": { "ar": "القاهرة، مصر", "en": "Cairo, Egypt" },
+          "name": {
+            "ar": "فرع العباسية",
+            "en": "Abbasseya Branch"
+          },
+          "address": {
+            "ar": "72 شارع العباسية",
+            "en": "72 Abbasseya Street"
+          },
+          "landmark": {
+            "ar": "أمام مترو عبده باشا",
+            "en": "In front of Abdou Pasha Metro"
+          },
+          "city": {
+            "ar": "القاهرة، مصر",
+            "en": "Cairo, Egypt"
+          },
           "phones": ["01212004229", "01212003775"],
           "openingHours": [
-            { "days": [6, 0, 1, 2, 3, 4], "open": "12:00", "close": "00:00" },
-            { "days": [5], "open": "13:00", "close": "01:00" }
+            {
+              "days": [6, 0, 1, 2, 3, 4],
+              "open": "12:00",
+              "close": "00:00"
+            },
+            {
+              "days": [5],
+              "open": "13:00",
+              "close": "01:00"
+            }
           ],
           "mapsUrl": null,
           "pickupEnabled": true
@@ -176,10 +244,14 @@
     "features": {
       "promoCodes": false,
       "loyalty": false,
-      "payAtStore": false
+      "payAtStore": false,
+      "showDemoCatalog": false
     },
     "seo": {
-      "titleTemplate": { "ar": "%s | MALEK STORE", "en": "%s | MALEK STORE" },
+      "titleTemplate": {
+        "ar": "%s | MALEK STORE",
+        "en": "%s | MALEK STORE"
+      },
       "defaultTitle": {
         "ar": "MALEK STORE | موبايلات وأجهزة وصيانة واستبدال",
         "en": "MALEK STORE | Phones, devices, repairs & trade-in"
@@ -189,6 +261,114 @@
         "en": "MALEK STORE in Abbasseya, Cairo: new phones and devices, offers, repairs and device trade-in."
       },
       "allowIndexing": true
+    },
+    "trust": {
+      "items": [
+        {
+          "id": "apple-authorized-reseller",
+          "icon": "apple",
+          "title": {
+            "ar": "Apple Authorized Reseller — موزع معتمد من Apple",
+            "en": "Apple Authorized Reseller"
+          },
+          "body": {
+            "ar": "منتجات Apple مع خدمة ومتابعة من فريق MALEK STORE قبل وبعد الشراء.",
+            "en": "Apple products with service and follow-up from the MALEK STORE team before and after you buy."
+          },
+          "visible": true
+        },
+        {
+          "id": "warranty",
+          "icon": "shield",
+          "title": {
+            "ar": "أجهزة بضمان",
+            "en": "Devices with warranty"
+          },
+          "body": {
+            "ar": "نوع الضمان موضح على كل منتج.",
+            "en": "The warranty type is shown on every product."
+          },
+          "visible": true
+        },
+        {
+          "id": "delivery",
+          "icon": "truck",
+          "title": {
+            "ar": "التوصيل متاح",
+            "en": "Delivery available"
+          },
+          "body": {
+            "ar": "بنوصل لكل المحافظات، ورسوم الشحن بتتأكد مع فريقنا.",
+            "en": "We deliver across Egypt; the shipping fee is confirmed by our team."
+          },
+          "visible": true
+        },
+        {
+          "id": "pickup",
+          "icon": "store",
+          "title": {
+            "ar": "استلم من الفرع",
+            "en": "Store pickup"
+          },
+          "body": {
+            "ar": "72 شارع العباسية — أمام مترو عبده باشا.",
+            "en": "72 Abbasseya Street — in front of Abdou Pasha Metro."
+          },
+          "visible": true
+        },
+        {
+          "id": "trade-in",
+          "icon": "refresh",
+          "title": {
+            "ar": "بدّل جهازك",
+            "en": "Trade-In"
+          },
+          "body": {
+            "ar": "قيّم جهازك القديم وادفع الفرق على الجديد.",
+            "en": "Value your old device and pay the difference on a new one."
+          },
+          "visible": true
+        },
+        {
+          "id": "repairs",
+          "icon": "wrench",
+          "title": {
+            "ar": "صيانة واستشارة",
+            "en": "Repairs & consultation"
+          },
+          "body": {
+            "ar": "تشخيص واستشارة قبل أي إصلاح.",
+            "en": "Diagnosis and advice before any repair."
+          },
+          "visible": true
+        }
+      ]
+    },
+    "catalog": {
+      "pageSize": 12,
+      "budgetPresets": [
+        {
+          "min": 0,
+          "max": 10000
+        },
+        {
+          "min": 10000,
+          "max": 20000
+        },
+        {
+          "min": 20000,
+          "max": 30000
+        },
+        {
+          "min": 30000,
+          "max": 50000
+        },
+        {
+          "min": 50000,
+          "max": null
+        }
+      ],
+      "budgetStep": 500
     },
     "security": {
       "adminMfaRequired": false
