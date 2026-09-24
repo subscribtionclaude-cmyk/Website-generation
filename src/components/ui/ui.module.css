@@ -1,0 +1,177 @@
+/* ── Badge ───────────────────────────────────── */
+.badge {
+  --badge-fg: var(--color-text-secondary);
+  --badge-bg: var(--color-surface-sunken);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.badge svg {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.badge-brand {
+  --badge-fg: var(--color-brand-text);
+  --badge-bg: var(--color-brand-primary-subtle);
+}
+.badge-success {
+  --badge-fg: var(--color-success);
+  --badge-bg: var(--color-success-subtle);
+}
+.badge-warning {
+  --badge-fg: var(--color-warning);
+  --badge-bg: var(--color-warning-subtle);
+}
+.badge-danger {
+  --badge-fg: var(--color-danger);
+  --badge-bg: var(--color-danger-subtle);
+}
+.badge-info {
+  --badge-fg: var(--color-info);
+  --badge-bg: var(--color-info-subtle);
+}
+.badge-inverse {
+  --badge-fg: var(--color-text-inverse);
+  --badge-bg: rgb(255 255 255 / 0.12);
+}
+
+/* ── Drawer (native <dialog>) ────────────────── */
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+  margin: 0;
+  width: min(92vw, 400px);
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-lg);
+  overscroll-behavior: contain;
+}
+
+.drawerStart {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+.drawer::backdrop {
+  background: var(--color-overlay);
+}
+
+.drawer[open] {
+  animation: drawer-in var(--duration-slow) var(--ease-emphasized);
+}
+
+.drawer[open]::backdrop {
+  animation: fade-in var(--duration-slow) var(--ease-standard);
+}
+
+@keyframes drawer-in {
+  from {
+    translate: var(--drawer-offset, 100%) 0;
+  }
+}
+
+:global([dir='rtl']) .drawer {
+  --drawer-offset: -100%;
+}
+
+:global([dir='rtl']) .drawerStart {
+  --drawer-offset: 100%;
+}
+
+.drawerStart {
+  --drawer-offset: -100%;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.drawerPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ── Text field ──────────────────────────────── */
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.label {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
+}
+
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  font-size: var(--font-size-body);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.input:hover {
+  border-color: var(--neutral-400);
+}
+
+.input:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 1px;
+  border-color: var(--color-text-primary);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.hint {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-danger);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+}
+
+.error svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* ── Card ────────────────────────────────────── */
+.card {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}

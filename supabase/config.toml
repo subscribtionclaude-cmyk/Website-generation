@@ -1,0 +1,21 @@
+# Supabase CLI configuration for LOCAL development (`supabase start`, `supabase db reset`).
+# Hosted projects are configured in the Supabase dashboard (see README §4).
+project_id = "malek-store"
+
+[api]
+schemas = ["public", "graphql_public"]
+
+[db]
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed/base.sql", "./seed/demo.sql"]
+
+[auth]
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/**", "http://localhost:4173/**"]
+
+[auth.email]
+enable_signup = true
+otp_length = 6

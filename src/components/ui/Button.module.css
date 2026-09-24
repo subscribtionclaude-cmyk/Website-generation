@@ -1,0 +1,117 @@
+.button {
+  --button-bg: var(--color-brand-ink);
+  --button-fg: var(--color-on-brand-ink);
+  --button-bg-hover: var(--color-brand-ink-hover);
+  --button-border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding-inline: var(--space-5);
+  border: 1.5px solid var(--button-border);
+  border-radius: var(--radius-pill);
+  background: var(--button-bg);
+  color: var(--button-fg);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-body);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:hover:not(:disabled, [aria-disabled='true']) {
+  background: var(--button-bg-hover);
+}
+
+.button:active:not(:disabled, [aria-disabled='true']) {
+  transform: scale(0.98);
+}
+
+.button:disabled,
+.button[aria-disabled='true'] {
+  opacity: 0.55;
+}
+
+.sm {
+  min-height: 36px;
+  padding-inline: var(--space-3);
+  font-size: var(--font-size-small);
+}
+
+.lg {
+  min-height: 52px;
+  padding-inline: var(--space-8);
+  font-size: var(--font-size-body-lg);
+}
+
+.block {
+  width: 100%;
+}
+
+.primary {
+  /* default tokens above */
+}
+
+.accent {
+  --button-bg: var(--color-brand-primary);
+  --button-fg: var(--color-on-brand-primary);
+  --button-bg-hover: var(--color-brand-primary-hover);
+}
+
+.secondary {
+  --button-bg: var(--color-surface-elevated);
+  --button-fg: var(--color-text-primary);
+  --button-bg-hover: var(--color-surface);
+  --button-border: var(--color-border-strong);
+}
+
+.ghost {
+  --button-bg: transparent;
+  --button-fg: var(--color-text-primary);
+  --button-bg-hover: var(--color-surface-sunken);
+}
+
+.inverse {
+  --button-bg: transparent;
+  --button-fg: var(--color-text-inverse);
+  --button-bg-hover: rgb(255 255 255 / 0.1);
+  --button-border: rgb(255 255 255 / 0.4);
+}
+
+.danger {
+  --button-bg: var(--color-danger);
+  --button-fg: #ffffff;
+  --button-bg-hover: var(--red-700);
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.spinner {
+  width: 1.1em;
+  height: 1.1em;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}

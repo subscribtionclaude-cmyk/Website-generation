@@ -1,0 +1,5 @@
+# Phase 01 baseline. Phase 08 makes indexing controls admin-editable and adds the sitemap.
+User-agent: *
+Disallow: /admin
+Disallow: /account
+Disallow: /en/account

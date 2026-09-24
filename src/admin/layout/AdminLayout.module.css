@@ -1,0 +1,273 @@
+.shell {
+  --sidebar-width: 272px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-surface);
+  font-size: var(--font-size-admin);
+}
+
+.frame {
+  display: grid;
+  /* minmax(0, …) stops wide content (tables) from widening the page on phones. */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@media (min-width: 1024px) {
+  .frame {
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+}
+
+.sidebar {
+  display: none;
+  position: sticky;
+  inset-block-start: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  background: var(--color-surface-elevated);
+  border-inline-end: 1px solid var(--color-border);
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    display: block;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Sidebar content ─────────────────────────── */
+.sideHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-block-end: 1px solid var(--color-border);
+  min-height: 64px;
+}
+
+.sideTitle {
+  display: grid;
+  line-height: 1.2;
+}
+
+.sideTitle strong {
+  font-family: var(--font-latin);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  direction: ltr;
+  unicode-bidi: isolate;
+  justify-self: start;
+}
+
+.sideTitle span {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
+}
+
+.nav {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-4) var(--space-3) var(--space-10);
+}
+
+.groupTitle {
+  padding-inline: var(--space-3);
+  margin-block-end: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+}
+
+.list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 40px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+
+.link:hover {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.link[aria-current='page'] {
+  background: var(--color-brand-primary-subtle);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.link[aria-current='page']::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -12px;
+  inset-block: 8px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--color-brand-primary);
+}
+
+:global([dir='rtl']) .link[aria-current='page']::before {
+  border-radius: 4px 0 0 4px;
+}
+
+.link svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.linkLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phase {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* ── Top bar ─────────────────────────────────── */
+.topbar {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding-inline: var(--space-4);
+  background: rgb(255 255 255 / 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-block-end: 1px solid var(--color-border);
+}
+
+@media (min-width: 1024px) {
+  .topbar {
+    padding-inline: var(--space-8);
+  }
+}
+
+.menuButton {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+}
+
+.menuButton svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.mobileBrand {
+  display: inline-flex;
+}
+
+/* Desktop shows the sidebar, so the drawer button and duplicate logo are hidden. */
+@media (min-width: 1024px) {
+  .menuButton,
+  .mobileBrand {
+    display: none;
+  }
+}
+
+.topActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-inline-start: auto;
+}
+
+.topButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.topButton:hover {
+  background: var(--color-surface);
+}
+
+.topButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Label hidden visually on small screens but kept for screen readers (icon-only buttons need a name). */
+@media (max-width: 639px) {
+  .hideSmall {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-6) var(--space-4) var(--space-16);
+  outline: none;
+}
+
+@media (min-width: 1024px) {
+  .main {
+    padding: var(--space-8);
+  }
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.drawerTitle {
+  font-size: var(--font-size-h4);
+}

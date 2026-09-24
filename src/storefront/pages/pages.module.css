@@ -1,0 +1,96 @@
+.page {
+  padding-block: var(--space-12);
+}
+
+.narrow {
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+.authLayout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+  padding-block: var(--space-10) var(--space-12);
+}
+
+@media (min-width: 900px) {
+  .authLayout {
+    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+    gap: var(--space-16);
+  }
+}
+
+.authCard {
+  padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.aside {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+.asideTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-h4);
+}
+
+.asideTitle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-brand-text);
+}
+
+.asideBody {
+  color: var(--color-text-secondary);
+}
+
+.accountHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-8);
+}
+
+.accountTitle {
+  font-size: var(--font-size-h1);
+}
+
+.muted {
+  color: var(--color-text-secondary);
+}
+
+.panel {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  padding: var(--space-6);
+}
+
+.panelTitle {
+  font-size: var(--font-size-h3);
+  margin-block-end: var(--space-2);
+}
+
+.bigCode {
+  font-family: var(--font-latin);
+  font-size: clamp(4rem, 3rem + 6vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-brand-primary);
+}
+
+.demoNote {
+  margin-block-start: var(--space-2);
+}

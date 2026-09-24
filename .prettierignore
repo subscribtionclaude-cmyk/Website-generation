@@ -1,0 +1,10 @@
+dist
+coverage
+node_modules
+playwright-report
+test-results
+public
+supabase/seed/*.sql
+supabase/migrations
+supabase/tests
+package-lock.json

@@ -1,0 +1,151 @@
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-header);
+  background: rgb(255 255 255 / 0.94);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+}
+
+.brandLink {
+  display: inline-flex;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.action,
+.iconAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.iconAction {
+  padding-inline: 0;
+}
+
+.action:hover,
+.iconAction:hover {
+  background: var(--color-surface-sunken);
+}
+
+.action svg,
+.iconAction svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.desktopOnly {
+  display: none;
+}
+
+.menuButton {
+  composes: iconAction;
+}
+
+@media (min-width: 768px) {
+  .desktopOnly {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .menuButton {
+    display: none;
+  }
+}
+
+/* ── Primary navigation row (desktop) ─────────── */
+.nav {
+  display: none;
+  border-block-start: 1px solid var(--color-border);
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: block;
+  }
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 52px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0;
+  list-style: none;
+}
+
+.navList::-webkit-scrollbar {
+  display: none;
+}
+
+.navLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+
+.navLink[aria-current='page'] {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.navLink[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--space-3);
+  inset-block-end: -6px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--color-brand-primary);
+}
+
+.highlight {
+  color: var(--color-brand-text);
+}

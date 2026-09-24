@@ -1,0 +1,197 @@
+{
+  "$comment": "BASE (non-demo) configuration supplied by the project owner. Seeds public.site_settings via supabase/seed/base.sql (generated: npm run seed:generate) and is the bundled fallback when a published row is missing. Everything here is editable from Admin. Do not put demo data or secrets in this file.",
+  "settings": {
+    "brand": {
+      "name": "MALEK STORE",
+      "tagline": {
+        "ar": "موبايلات وأجهزة، صيانة واستبدال — كله في مكان واحد.",
+        "en": "Phones and devices, repairs and trade-in — all in one place."
+      },
+      "logo": {
+        "src": "/brand/malek-store-logo.png",
+        "alt": { "ar": "شعار MALEK STORE", "en": "MALEK STORE logo" }
+      }
+    },
+    "theme": {
+      "tokens": {}
+    },
+    "navigation": {
+      "primary": [
+        {
+          "id": "home",
+          "label": { "ar": "الرئيسية", "en": "Home" },
+          "href": "/",
+          "icon": "home",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "apple",
+          "label": { "ar": "Apple", "en": "Apple" },
+          "href": "/apple",
+          "icon": "apple",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "store",
+          "label": { "ar": "المتجر", "en": "Store" },
+          "href": "/store",
+          "icon": "store",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "offers",
+          "label": { "ar": "العروض", "en": "Offers" },
+          "href": "/offers",
+          "icon": "offers",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "new",
+          "label": { "ar": "الجديد", "en": "New" },
+          "href": "/new",
+          "icon": "new",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "trade-in",
+          "label": { "ar": "Trade-In", "en": "Trade-In" },
+          "href": "/trade-in",
+          "icon": "trade-in",
+          "visible": true,
+          "highlight": true
+        },
+        {
+          "id": "repairs",
+          "label": { "ar": "الصيانة", "en": "Repairs" },
+          "href": "/repairs",
+          "icon": "repairs",
+          "visible": true,
+          "highlight": true
+        },
+        {
+          "id": "used",
+          "label": { "ar": "المستعمل", "en": "Used" },
+          "href": "/used",
+          "icon": "used",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "news",
+          "label": { "ar": "الأخبار", "en": "News" },
+          "href": "/news",
+          "icon": "news",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "contact",
+          "label": { "ar": "تواصل معنا", "en": "Contact" },
+          "href": "/contact",
+          "icon": "contact",
+          "visible": true,
+          "highlight": false
+        }
+      ],
+      "mobileTabBar": [
+        {
+          "id": "tab-home",
+          "label": { "ar": "الرئيسية", "en": "Home" },
+          "href": "/",
+          "icon": "home",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "tab-shop",
+          "label": { "ar": "المتجر", "en": "Shop" },
+          "href": "/store",
+          "icon": "store",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "tab-offers",
+          "label": { "ar": "العروض", "en": "Offers" },
+          "href": "/offers",
+          "icon": "offers",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "tab-cart",
+          "label": { "ar": "السلة", "en": "Cart" },
+          "href": "/cart",
+          "icon": "cart",
+          "visible": true,
+          "highlight": false
+        },
+        {
+          "id": "tab-account",
+          "label": { "ar": "حسابي", "en": "Account" },
+          "href": "/account",
+          "icon": "account",
+          "visible": true,
+          "highlight": false
+        }
+      ]
+    },
+    "store": {
+      "branches": [
+        {
+          "id": "abbasseya",
+          "name": { "ar": "فرع العباسية", "en": "Abbasseya Branch" },
+          "address": { "ar": "72 شارع العباسية", "en": "72 Abbasseya Street" },
+          "landmark": { "ar": "أمام مترو عبده باشا", "en": "In front of Abdou Pasha Metro" },
+          "city": { "ar": "القاهرة، مصر", "en": "Cairo, Egypt" },
+          "phones": ["01212004229", "01212003775"],
+          "openingHours": [
+            { "days": [6, 0, 1, 2, 3, 4], "open": "12:00", "close": "00:00" },
+            { "days": [5], "open": "13:00", "close": "01:00" }
+          ],
+          "mapsUrl": null,
+          "pickupEnabled": true
+        }
+      ],
+      "whatsappNumber": null,
+      "email": null
+    },
+    "social": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "telegram": null
+    },
+    "localization": {
+      "numerals": "latn",
+      "currency": "EGP",
+      "timeZone": "Africa/Cairo",
+      "weekStartsOn": 6
+    },
+    "features": {
+      "promoCodes": false,
+      "loyalty": false,
+      "payAtStore": false
+    },
+    "seo": {
+      "titleTemplate": { "ar": "%s | MALEK STORE", "en": "%s | MALEK STORE" },
+      "defaultTitle": {
+        "ar": "MALEK STORE | موبايلات وأجهزة وصيانة واستبدال",
+        "en": "MALEK STORE | Phones, devices, repairs & trade-in"
+      },
+      "defaultDescription": {
+        "ar": "MALEK STORE في العباسية، القاهرة: موبايلات وأجهزة جديدة، عروض، صيانة واستبدال الأجهزة.",
+        "en": "MALEK STORE in Abbasseya, Cairo: new phones and devices, offers, repairs and device trade-in."
+      },
+      "allowIndexing": true
+    },
+    "security": {
+      "adminMfaRequired": false
+    }
+  }
+}

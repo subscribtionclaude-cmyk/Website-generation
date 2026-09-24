@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>MALEK STORE</title>
+    <meta
+      name="description"
+      content="MALEK STORE — موبايلات وأجهزة، صيانة واستبدال في مكان واحد. Phones, devices, repairs and trade-in in one place."
+    />
+    <meta name="theme-color" content="#0B0B0C" />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:site_name" content="MALEK STORE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/brand/og-default.png" />
+    <style>
+      /* Boot splash shown until the app mounts (kept tiny and inline). */
+      .boot {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #ffffff;
+      }
+      .boot img {
+        width: 72px;
+        height: auto;
+        animation: boot-pulse 1.4s ease-in-out infinite;
+      }
+      @keyframes boot-pulse {
+        50% {
+          opacity: 0.45;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .boot img {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot" aria-hidden="true">
+        <img src="/brand/malek-store-mark-192.webp" alt="" width="72" height="71" />
+      </div>
+    </div>
+    <noscript>
+      <p style="padding: 24px; font-family: system-ui, sans-serif; text-align: center">
+        يلزم تفعيل JavaScript لتصفح MALEK STORE. — JavaScript is required to browse MALEK STORE.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

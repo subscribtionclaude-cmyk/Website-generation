@@ -1,0 +1,3 @@
+# SPA fallback for hosts that support Netlify-style rules (Netlify, Cloudflare Pages, many others).
+# Hosts without rewrite support fall back to dist/404.html (a copy of index.html).
+/*    /index.html   200

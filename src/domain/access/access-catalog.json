@@ -1,0 +1,183 @@
+{
+  "$comment": "Role/permission contract shared by the app and the database. Roles and grants are seeded by supabase/migrations/*_identity_access.sql; scripts/db/test-migrations.sh verifies the migrated database matches this file. Change both together (new permissions go in a NEW migration).",
+  "permissions": [
+    { "key": "dashboard.view", "module": "dashboard", "sensitive": false },
+
+    { "key": "catalog.view", "module": "catalog", "sensitive": false },
+    { "key": "catalog.manage", "module": "catalog", "sensitive": false },
+    { "key": "pricing.manage", "module": "catalog", "sensitive": true },
+    { "key": "inventory.manage", "module": "catalog", "sensitive": true },
+
+    { "key": "orders.view", "module": "orders", "sensitive": false },
+    { "key": "orders.manage", "module": "orders", "sensitive": false },
+    { "key": "payments.verify", "module": "orders", "sensitive": true },
+    { "key": "shipping.manage", "module": "orders", "sensitive": false },
+
+    { "key": "customers.view", "module": "customers", "sensitive": false },
+    { "key": "customers.manage", "module": "customers", "sensitive": false },
+
+    { "key": "repairs.view", "module": "services", "sensitive": false },
+    { "key": "repairs.manage", "module": "services", "sensitive": false },
+    { "key": "tradein.view", "module": "services", "sensitive": false },
+    { "key": "tradein.manage", "module": "services", "sensitive": false },
+    { "key": "used_requests.view", "module": "services", "sensitive": false },
+    { "key": "used_requests.manage", "module": "services", "sensitive": false },
+    { "key": "after_sales.view", "module": "services", "sensitive": false },
+    { "key": "after_sales.manage", "module": "services", "sensitive": false },
+
+    { "key": "reviews.moderate", "module": "engagement", "sensitive": false },
+    { "key": "waitlists.manage", "module": "engagement", "sensitive": false },
+    { "key": "notifications.manage", "module": "engagement", "sensitive": false },
+    { "key": "marketing.manage", "module": "engagement", "sensitive": false },
+
+    { "key": "content.view", "module": "content", "sensitive": false },
+    { "key": "content.manage", "module": "content", "sensitive": false },
+    { "key": "content.publish", "module": "content", "sensitive": false },
+    { "key": "legal.manage", "module": "content", "sensitive": false },
+
+    { "key": "design.edit", "module": "design", "sensitive": false },
+    { "key": "design.publish", "module": "design", "sensitive": false },
+
+    { "key": "analytics.view", "module": "analytics", "sensitive": false },
+    { "key": "reports.export", "module": "analytics", "sensitive": true },
+
+    { "key": "data.import", "module": "data", "sensitive": true },
+    { "key": "data.backup", "module": "data", "sensitive": true },
+    { "key": "demo.manage", "module": "data", "sensitive": true },
+
+    { "key": "settings.view", "module": "settings", "sensitive": false },
+    { "key": "settings.manage", "module": "settings", "sensitive": false },
+    { "key": "settings.publish", "module": "settings", "sensitive": true },
+    { "key": "integrations.manage", "module": "settings", "sensitive": true },
+    { "key": "security.manage", "module": "settings", "sensitive": true },
+
+    { "key": "users.view", "module": "access", "sensitive": false },
+    { "key": "users.manage", "module": "access", "sensitive": true },
+    { "key": "roles.manage", "module": "access", "sensitive": true },
+    { "key": "audit.view", "module": "access", "sensitive": false }
+  ],
+  "roles": [
+    {
+      "key": "owner",
+      "rank": 100,
+      "grantsAll": true,
+      "name": { "ar": "المالك", "en": "Owner" },
+      "permissions": []
+    },
+    {
+      "key": "super_admin",
+      "rank": 90,
+      "grantsAll": false,
+      "name": { "ar": "مدير عام النظام", "en": "Super Admin" },
+      "permissions": "*"
+    },
+    {
+      "key": "store_manager",
+      "rank": 70,
+      "grantsAll": false,
+      "name": { "ar": "مدير الفرع", "en": "Store Manager" },
+      "permissions": [
+        "dashboard.view",
+        "catalog.view",
+        "catalog.manage",
+        "pricing.manage",
+        "inventory.manage",
+        "orders.view",
+        "orders.manage",
+        "payments.verify",
+        "shipping.manage",
+        "customers.view",
+        "customers.manage",
+        "repairs.view",
+        "repairs.manage",
+        "tradein.view",
+        "tradein.manage",
+        "used_requests.view",
+        "used_requests.manage",
+        "after_sales.view",
+        "after_sales.manage",
+        "reviews.moderate",
+        "waitlists.manage",
+        "notifications.manage",
+        "marketing.manage",
+        "content.view",
+        "content.manage",
+        "content.publish",
+        "legal.manage",
+        "analytics.view",
+        "reports.export",
+        "data.import",
+        "settings.view",
+        "users.view",
+        "audit.view"
+      ]
+    },
+    {
+      "key": "sales",
+      "rank": 40,
+      "grantsAll": false,
+      "name": { "ar": "المبيعات", "en": "Sales" },
+      "permissions": [
+        "dashboard.view",
+        "catalog.view",
+        "orders.view",
+        "orders.manage",
+        "shipping.manage",
+        "customers.view",
+        "tradein.view",
+        "tradein.manage",
+        "used_requests.view",
+        "used_requests.manage",
+        "waitlists.manage"
+      ]
+    },
+    {
+      "key": "customer_service",
+      "rank": 40,
+      "grantsAll": false,
+      "name": { "ar": "خدمة العملاء", "en": "Customer Service" },
+      "permissions": [
+        "dashboard.view",
+        "catalog.view",
+        "orders.view",
+        "customers.view",
+        "repairs.view",
+        "tradein.view",
+        "used_requests.view",
+        "used_requests.manage",
+        "after_sales.view",
+        "after_sales.manage",
+        "reviews.moderate",
+        "waitlists.manage",
+        "notifications.manage"
+      ]
+    },
+    {
+      "key": "repairs_team",
+      "rank": 30,
+      "grantsAll": false,
+      "name": { "ar": "فريق الصيانة", "en": "Repairs Team" },
+      "permissions": [
+        "dashboard.view",
+        "repairs.view",
+        "repairs.manage",
+        "customers.view",
+        "after_sales.view"
+      ]
+    },
+    {
+      "key": "content_editor",
+      "rank": 30,
+      "grantsAll": false,
+      "name": { "ar": "محرر المحتوى", "en": "Content Editor" },
+      "permissions": ["dashboard.view", "catalog.view", "content.view", "content.manage"]
+    },
+    {
+      "key": "design_editor",
+      "rank": 30,
+      "grantsAll": false,
+      "name": { "ar": "محرر التصميم", "en": "Design Editor" },
+      "permissions": ["dashboard.view", "content.view", "design.edit", "design.publish"]
+    }
+  ]
+}

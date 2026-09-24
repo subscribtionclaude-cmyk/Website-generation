@@ -1,0 +1,5 @@
+{
+  "$comment": "DEMO dataset manifest. Every dataset listed here is sample data: rows are inserted with is_demo = true in the database and served only in demo mode by the frontend. Admin 'Delete All Demo Data' removes them via public.delete_all_demo_data(). Datasets are added from Phase 02 (catalog, offers, campaigns).",
+  "version": 1,
+  "datasets": []
+}

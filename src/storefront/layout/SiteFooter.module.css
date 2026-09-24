@@ -1,0 +1,118 @@
+.footer {
+  margin-block-start: var(--section-spacing);
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  padding-block: var(--space-12) var(--space-6);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-10);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: 1.3fr 1fr 1.2fr 1fr;
+  }
+}
+
+.brandCol {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.brandName {
+  font-family: var(--font-latin);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.tagline {
+  color: var(--color-text-inverse-secondary);
+  max-width: 36ch;
+}
+
+.colTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  color: var(--brand-orange-400);
+  margin-block-end: var(--space-4);
+}
+
+:root[lang='en'] .colTitle {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  color: var(--color-text-inverse-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.link:hover {
+  color: var(--color-text-inverse);
+  text-decoration: underline;
+}
+
+.link svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.address {
+  font-style: normal;
+  display: grid;
+  gap: var(--space-1);
+  color: var(--color-text-inverse-secondary);
+  margin-block-end: var(--space-4);
+}
+
+.address strong {
+  color: var(--color-text-inverse);
+}
+
+.hours {
+  display: grid;
+  gap: var(--space-3);
+  font-size: var(--font-size-small);
+  color: var(--color-text-inverse-secondary);
+}
+
+.tzNote {
+  font-size: var(--font-size-caption);
+  color: var(--neutral-400);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-block-start: var(--space-10);
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid rgb(255 255 255 / 0.12);
+  color: var(--neutral-400);
+  font-size: var(--font-size-caption);
+}

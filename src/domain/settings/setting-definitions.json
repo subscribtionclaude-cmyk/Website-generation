@@ -1,0 +1,68 @@
+{
+  "$comment": "Contract shared by the app and the database (public.setting_definitions). scripts/db/test-migrations.sh verifies the migrated database matches this file.",
+  "definitions": [
+    {
+      "key": "brand",
+      "scope": "design",
+      "isPublic": true,
+      "editPermission": "design.edit",
+      "publishPermission": "design.publish"
+    },
+    {
+      "key": "theme",
+      "scope": "design",
+      "isPublic": true,
+      "editPermission": "design.edit",
+      "publishPermission": "design.publish"
+    },
+    {
+      "key": "navigation",
+      "scope": "design",
+      "isPublic": true,
+      "editPermission": "design.edit",
+      "publishPermission": "design.publish"
+    },
+    {
+      "key": "store",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "social",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "localization",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "features",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "seo",
+      "scope": "content",
+      "isPublic": true,
+      "editPermission": "content.manage",
+      "publishPermission": "content.publish"
+    },
+    {
+      "key": "security",
+      "scope": "security",
+      "isPublic": false,
+      "editPermission": "security.manage",
+      "publishPermission": "security.manage"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  padding: var(--space-1) var(--space-4);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--amber-50),
+    var(--amber-50) 12px,
+    #fff1cc 12px,
+    #fff1cc 24px
+  );
+  color: var(--amber-700);
+  border-block-end: 1px solid #f3d38a;
+  font-size: var(--font-size-caption);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.detail {
+  color: var(--neutral-700);
+}

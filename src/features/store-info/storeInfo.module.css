@@ -1,0 +1,75 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-text-muted);
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
+  flex-shrink: 0;
+}
+
+.open {
+  color: var(--color-success);
+}
+
+.open .dot {
+  background: var(--color-success);
+}
+
+.closed {
+  color: var(--color-danger);
+}
+
+.closed .dot {
+  background: var(--color-danger);
+}
+
+.detail {
+  font-weight: var(--font-weight-regular);
+  color: inherit;
+  opacity: 0.9;
+}
+
+.onDark.open {
+  color: #6ee7a0;
+}
+
+.onDark.open .dot {
+  background: #6ee7a0;
+}
+
+.onDark.closed {
+  color: #ffb4a8;
+}
+
+.onDark.closed .dot {
+  background: #ffb4a8;
+}
+
+.hours {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+}
+
+.hoursRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+}
+
+.hoursRow dt {
+  font-weight: var(--font-weight-medium);
+}
+
+.hoursRow dd {
+  margin: 0;
+}
