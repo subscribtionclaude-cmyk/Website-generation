@@ -182,6 +182,28 @@ export const rawCatalogSchema = z.object({
       }),
     )
     .default([]),
+  /** Demo service requests (Phase 05): staff-visible only, never tied to a customer. */
+  serviceRequests: z
+    .array(
+      z.object({
+        id: z.string(),
+        slug: z.string(),
+        kind: z.enum(['repair', 'trade_in', 'used', 'after_sales']),
+        number: z.string(),
+        status: z.string(),
+        deviceCategory: z.string().nullable(),
+        brand: z.string().nullable(),
+        model: z.string().nullable(),
+        consultation: z.boolean(),
+        handoff: z.enum(['store_visit', 'pickup_delivery']).nullable(),
+        afterSalesType: z.enum(['exchange', 'return', 'warranty']).nullable(),
+        targetSku: z.string().nullable(),
+        policyVersion: z.string().nullable(),
+        details: z.record(z.string(), z.unknown()),
+        createdAt: z.string(),
+      }),
+    )
+    .default([]),
 });
 
 export type RawCatalog = z.infer<typeof rawCatalogSchema>;

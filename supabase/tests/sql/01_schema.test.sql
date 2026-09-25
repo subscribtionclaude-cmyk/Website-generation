@@ -16,9 +16,9 @@ select tests.assert_equal(
   (select count(*)::int from public.role_permissions rp join public.roles r on r.id = rp.role_id where r.key = 'owner'), 0,
   'owner permissions are implicit (no explicit grants)');
 
-select tests.assert_equal((select count(*)::int from public.setting_definitions), 16, '16 setting definitions');
-select tests.assert_equal((select count(*)::int from public.site_settings), 16, 'base seed published 16 settings');
-select tests.assert_equal((select count(*)::int from public.site_settings_versions), 16, 'initial versions recorded');
+select tests.assert_equal((select count(*)::int from public.setting_definitions), 18, '18 setting definitions');
+select tests.assert_equal((select count(*)::int from public.site_settings), 18, 'base seed published 18 settings');
+select tests.assert_equal((select count(*)::int from public.site_settings_versions), 18, 'initial versions recorded');
 select tests.assert_equal(
   (select value -> 'branches' -> 0 -> 'phones' ->> 0 from public.site_settings where key = 'store'), '01212004229',
   'store phone seeded from base settings');
@@ -34,7 +34,7 @@ select tests.assert_equal(('{"ar": "مرحبا", "en": "Hello"}'::public.localiz
 select tests.assert_equal(app.localized('{"ar": "مرحبا"}'::jsonb, 'en'), 'مرحبا', 'localized() falls back to Arabic');
 
 -- Storage
-select tests.assert_equal((select count(*)::int from storage.buckets), 9, '9 storage buckets');
+select tests.assert_equal((select count(*)::int from storage.buckets), 10, '10 storage buckets (used-requests added in Phase 05, private)');
 select tests.assert_equal(
   (select string_agg(id, ',' order by id) from storage.buckets where public), 'banners,products,site-media',
   'only catalog/marketing buckets are public');

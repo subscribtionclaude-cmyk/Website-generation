@@ -15,6 +15,7 @@ import {
   PRODUCTS,
   REVIEWS,
   SEARCH_ALIASES,
+  SERVICE_REQUESTS,
 } from './demo-catalog.source.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -103,6 +104,7 @@ function buildProduct(p) {
 function buildCatalog() {
   const products = PRODUCTS.map(buildProduct);
   const slugs = new Set(products.map((p) => p.slug));
+  const skus = new Set(products.flatMap((p) => p.variants.map((v) => v.sku)));
   for (const p of products) {
     for (const r of p.relations)
       if (!slugs.has(r.slug)) throw new Error(`${p.slug} relates to unknown ${r.slug}`);
@@ -177,6 +179,21 @@ function buildCatalog() {
       if (!slugs.has(r.product))
         throw new Error(`Review ${r.slug} references unknown ${r.product}`);
       return { id: `demo-review-${r.slug}`, ...r };
+    }),
+    serviceRequests: SERVICE_REQUESTS.map((r) => {
+      if (r.targetSku && !skus.has(r.targetSku))
+        throw new Error(`Service request ${r.slug} references unknown ${r.targetSku}`);
+      return {
+        id: `demo-service-${r.slug}`,
+        brand: null,
+        model: null,
+        deviceCategory: null,
+        handoff: null,
+        afterSalesType: null,
+        targetSku: null,
+        policyVersion: null,
+        ...r,
+      };
     }),
   };
 }

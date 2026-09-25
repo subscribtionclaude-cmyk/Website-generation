@@ -12,8 +12,10 @@ import {
   navigationSettingsSchema,
   notificationSettingsSchema,
   orderReviewSettingsSchema,
+  repairCatalogSettingsSchema,
   securitySettingsSchema,
   seoSettingsSchema,
+  servicesSettingsSchema,
   socialSettingsSchema,
   storeSettingsSchema,
   themeSettingsSchema,
@@ -48,6 +50,8 @@ export const SETTING_SCHEMAS = {
   abandoned_cart: abandonedCartSettingsSchema,
   notifications: notificationSettingsSchema,
   security: securitySettingsSchema,
+  services: servicesSettingsSchema,
+  repair_catalog: repairCatalogSettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
 export type SettingKey = keyof typeof SETTING_SCHEMAS;

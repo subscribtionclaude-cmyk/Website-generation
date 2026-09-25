@@ -263,6 +263,78 @@ export const notificationSettingsSchema = z.strictObject({
   channels: z.strictObject({ email: channelToggle, whatsapp: channelToggle, sms: channelToggle }),
 });
 
+// ── services (public): repairs, trade-in, used requests, after-sales ─────────────
+const keySchema = z.string().regex(/^[a-z][a-z0-9_]{1,39}$/);
+export const REPAIR_MODEL_KINDS = [
+  'smartphone',
+  'tablet',
+  'laptop',
+  'watch',
+  'earbuds',
+  'console',
+  'none',
+] as const;
+export const servicesSettingsSchema = z.strictObject({
+  enabled: z.strictObject({
+    repairs: z.boolean(),
+    tradeIn: z.boolean(),
+    used: z.boolean(),
+    afterSales: z.boolean(),
+  }),
+  media: z.strictObject({
+    maxFiles: z.number().int().min(1).max(20),
+    maxVideos: z.number().int().min(0).max(5),
+    allowVideo: z.boolean(),
+    /** Per-file limits after client-side compression (bytes). Buckets enforce hard caps too. */
+    maxImageBytes: z.number().int().min(262144).max(26214400),
+    maxVideoBytes: z.number().int().min(1048576).max(26214400),
+    imageMaxDimension: z.number().int().min(1024).max(4096),
+    imageQuality: z.number().min(0.6).max(0.95),
+  }),
+  tradeIn: z.strictObject({ offerValidityDays: z.number().int().min(1).max(60) }),
+  afterSales: z.strictObject({
+    /** Recorded with every request; changing it requires customers to re-acknowledge. */
+    policyVersion: z.string().min(1).max(40),
+    /** Optional internal page with the full policy (e.g. a Phase 06 legal page). */
+    policyPath: z
+      .string()
+      .regex(/^\/[a-z0-9/-]{0,120}$/)
+      .nullable(),
+    policies: z.strictObject({
+      exchange: localizedTextSchema,
+      return: localizedTextSchema,
+      warranty: localizedTextSchema,
+    }),
+  }),
+  requests: z.strictObject({ maxOpenPerCustomer: z.number().int().min(1).max(100) }),
+});
+
+// ── repair catalog (public): device category → component → symptoms (data-driven) ─
+export const repairCatalogSettingsSchema = z.strictObject({
+  categories: z
+    .array(
+      z.strictObject({
+        key: keySchema,
+        label: localizedTextSchema,
+        /** Generic 3D / 2D diagnostic model used for this category. */
+        model: z.enum(REPAIR_MODEL_KINDS),
+        brands: z.array(z.string().min(1).max(60)).max(40),
+        components: z
+          .array(
+            z.strictObject({
+              key: keySchema,
+              label: localizedTextSchema,
+              symptoms: z
+                .array(z.strictObject({ key: keySchema, label: localizedTextSchema }))
+                .max(20),
+            }),
+          )
+          .max(20),
+      }),
+    )
+    .max(30),
+});
+
 // ── SEO defaults ─────────────────────────────────────────
 export const seoSettingsSchema = z.strictObject({
   titleTemplate: localizedTextSchema.refine(
@@ -301,3 +373,7 @@ export type OrderReviewSettings = z.infer<typeof orderReviewSettingsSchema>;
 export type EngagementSettings = z.infer<typeof engagementSettingsSchema>;
 export type AbandonedCartSettings = z.infer<typeof abandonedCartSettingsSchema>;
 export type NotificationSettings = z.infer<typeof notificationSettingsSchema>;
+export type ServicesSettings = z.infer<typeof servicesSettingsSchema>;
+export type RepairCatalogSettings = z.infer<typeof repairCatalogSettingsSchema>;
+export type RepairCategory = RepairCatalogSettings['categories'][number];
+export type RepairComponent = RepairCategory['components'][number];

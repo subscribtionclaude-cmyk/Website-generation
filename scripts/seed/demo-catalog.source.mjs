@@ -1381,6 +1381,103 @@ export const REVIEWS = [
   },
 ];
 
+/**
+ * Demo service requests (Phase 05). Not tied to any customer account — they only appear in the
+ * staff views, labelled "Demo", so the workflow can be previewed. Never presented as real customers.
+ */
+export const SERVICE_REQUESTS = [
+  {
+    slug: 'repair-1',
+    kind: 'repair',
+    number: 'RP-2026-900001',
+    status: 'under_review',
+    deviceCategory: 'smartphone',
+    brand: 'Samsung',
+    model: 'Galaxy S23',
+    consultation: false,
+    details: {
+      diagnosis: {
+        component: 'screen',
+        componentLabel: L('الشاشة', 'Screen'),
+        symptom: 'lines_black_screen',
+        symptomLabel: L('خطوط أو شاشة سوداء', 'Lines or black screen'),
+        unsure: false,
+        usedViewer: '3d',
+      },
+      description: 'طلب تجريبي: ظهرت خطوط خضراء على الشاشة بعد وقوع بسيط. (Demo request)',
+    },
+    handoff: 'store_visit',
+    createdAt: '-2d',
+  },
+  {
+    slug: 'trade-in-1',
+    kind: 'trade_in',
+    number: 'TI-2026-900001',
+    status: 'new',
+    deviceCategory: 'smartphone',
+    brand: 'Apple',
+    model: 'iPhone 13',
+    consultation: true,
+    targetSku: 'IP18P-256GB-ORANGE',
+    details: {
+      current: {
+        category: 'smartphone',
+        brand: 'Apple',
+        model: 'iPhone 13',
+        storage: '128GB',
+        color: 'Midnight',
+        batteryHealth: 84,
+        taxPaid: 'yes',
+        openedBefore: 'no',
+        repairedBefore: 'no',
+        accessories: ['box', 'cable'],
+        conditions: ['scratches'],
+        notes: 'طلب تجريبي — Demo request',
+      },
+    },
+    createdAt: '-1d',
+  },
+  {
+    slug: 'used-1',
+    kind: 'used',
+    number: 'UD-2026-900001',
+    status: 'searching',
+    deviceCategory: 'smartphone',
+    brand: 'Apple',
+    model: 'iPhone 15 Pro',
+    consultation: false,
+    details: {
+      device: {
+        category: 'smartphone',
+        brand: 'Apple',
+        model: 'iPhone 15 Pro',
+        storage: '256GB',
+        color: null,
+        batteryPreference: '90_plus',
+        taxPreference: 'tax_paid',
+        budget: 38000,
+        notes: 'طلب تجريبي — Demo request',
+      },
+    },
+    createdAt: '-3d',
+  },
+  {
+    slug: 'after-sales-1',
+    kind: 'after_sales',
+    number: 'AS-2026-900001',
+    status: 'under_review',
+    afterSalesType: 'warranty',
+    consultation: false,
+    details: {
+      reason: 'defective',
+      description: 'طلب تجريبي: السماعة الشمال مفيهاش صوت. (Demo request)',
+      product: { name: L('AirPods 4', 'AirPods 4'), sku: 'AP4-STANDARD-WHITE' },
+    },
+    policyVersion: '2026-09-v1',
+    createdAt: '-4h',
+  },
+];
+
 export const SEARCH_ALIASES = {
   iphone: 'ايفون آيفون',
   ipad: 'ايباد آيباد تابلت',

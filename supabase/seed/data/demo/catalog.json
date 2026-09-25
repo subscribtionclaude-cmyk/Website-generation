@@ -8716,5 +8716,133 @@
       "author": "Demo",
       "createdAt": "-3d"
     }
+  ],
+  "serviceRequests": [
+    {
+      "id": "demo-service-repair-1",
+      "brand": "Samsung",
+      "model": "Galaxy S23",
+      "deviceCategory": "smartphone",
+      "handoff": "store_visit",
+      "afterSalesType": null,
+      "targetSku": null,
+      "policyVersion": null,
+      "slug": "repair-1",
+      "kind": "repair",
+      "number": "RP-2026-900001",
+      "status": "under_review",
+      "consultation": false,
+      "details": {
+        "diagnosis": {
+          "component": "screen",
+          "componentLabel": {
+            "ar": "الشاشة",
+            "en": "Screen"
+          },
+          "symptom": "lines_black_screen",
+          "symptomLabel": {
+            "ar": "خطوط أو شاشة سوداء",
+            "en": "Lines or black screen"
+          },
+          "unsure": false,
+          "usedViewer": "3d"
+        },
+        "description": "طلب تجريبي: ظهرت خطوط خضراء على الشاشة بعد وقوع بسيط. (Demo request)"
+      },
+      "createdAt": "-2d"
+    },
+    {
+      "id": "demo-service-trade-in-1",
+      "brand": "Apple",
+      "model": "iPhone 13",
+      "deviceCategory": "smartphone",
+      "handoff": null,
+      "afterSalesType": null,
+      "targetSku": "IP18P-256GB-ORANGE",
+      "policyVersion": null,
+      "slug": "trade-in-1",
+      "kind": "trade_in",
+      "number": "TI-2026-900001",
+      "status": "new",
+      "consultation": true,
+      "details": {
+        "current": {
+          "category": "smartphone",
+          "brand": "Apple",
+          "model": "iPhone 13",
+          "storage": "128GB",
+          "color": "Midnight",
+          "batteryHealth": 84,
+          "taxPaid": "yes",
+          "openedBefore": "no",
+          "repairedBefore": "no",
+          "accessories": [
+            "box",
+            "cable"
+          ],
+          "conditions": [
+            "scratches"
+          ],
+          "notes": "طلب تجريبي — Demo request"
+        }
+      },
+      "createdAt": "-1d"
+    },
+    {
+      "id": "demo-service-used-1",
+      "brand": "Apple",
+      "model": "iPhone 15 Pro",
+      "deviceCategory": "smartphone",
+      "handoff": null,
+      "afterSalesType": null,
+      "targetSku": null,
+      "policyVersion": null,
+      "slug": "used-1",
+      "kind": "used",
+      "number": "UD-2026-900001",
+      "status": "searching",
+      "consultation": false,
+      "details": {
+        "device": {
+          "category": "smartphone",
+          "brand": "Apple",
+          "model": "iPhone 15 Pro",
+          "storage": "256GB",
+          "color": null,
+          "batteryPreference": "90_plus",
+          "taxPreference": "tax_paid",
+          "budget": 38000,
+          "notes": "طلب تجريبي — Demo request"
+        }
+      },
+      "createdAt": "-3d"
+    },
+    {
+      "id": "demo-service-after-sales-1",
+      "brand": null,
+      "model": null,
+      "deviceCategory": null,
+      "handoff": null,
+      "afterSalesType": "warranty",
+      "targetSku": null,
+      "policyVersion": "2026-09-v1",
+      "slug": "after-sales-1",
+      "kind": "after_sales",
+      "number": "AS-2026-900001",
+      "status": "under_review",
+      "consultation": false,
+      "details": {
+        "reason": "defective",
+        "description": "طلب تجريبي: السماعة الشمال مفيهاش صوت. (Demo request)",
+        "product": {
+          "name": {
+            "ar": "AirPods 4",
+            "en": "AirPods 4"
+          },
+          "sku": "AP4-STANDARD-WHITE"
+        }
+      },
+      "createdAt": "-4h"
+    }
   ]
 }

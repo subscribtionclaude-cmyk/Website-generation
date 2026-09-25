@@ -112,6 +112,20 @@
       "isPublic": false,
       "editPermission": "security.manage",
       "publishPermission": "security.manage"
+    },
+    {
+      "key": "services",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "repair_catalog",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
     }
   ]
 }
