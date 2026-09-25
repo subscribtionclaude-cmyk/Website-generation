@@ -156,7 +156,15 @@ export const notificationPageSchema: z.ZodType<NotificationPage> = z.object({
 const channelStateSchema = z.object({ available: z.boolean(), enabled: z.boolean() });
 export const notificationPreferencesSchema: z.ZodType<NotificationPreference[]> = z.array(
   z.object({
-    category: z.enum(['order', 'back_in_stock', 'waitlist', 'price_drop', 'review', 'cart']),
+    category: z.enum([
+      'order',
+      'service',
+      'back_in_stock',
+      'waitlist',
+      'price_drop',
+      'review',
+      'cart',
+    ]),
     mandatory: z.boolean(),
     channels: z.object({
       in_app: channelStateSchema,

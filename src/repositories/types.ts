@@ -1,3 +1,22 @@
+import type { ServiceMime } from '@/domain/services/media';
+import type {
+  AfterSalesItem,
+  CreateServiceResult,
+  MediaRef,
+  ProposedDevice,
+  ServiceActionResult,
+  ServiceBucket,
+  ServiceInputs,
+  ServiceKind,
+  ServiceListFilter,
+  ServiceRequestDetail,
+  ServiceSummary,
+  StaffRef,
+  StaffServiceFilter,
+  StaffServiceRequest,
+  StaffServiceSummary,
+  TradeInOfferInput,
+} from '@/domain/services/types';
 import type { AccessProfile } from '@/domain/access/access';
 import type {
   Brand,
@@ -282,6 +301,83 @@ export interface OrderOperationsRepository {
   releaseExpiredReservations(): Promise<number>;
 }
 
+/** Uploaded private service media (caller's own folder of the kind's bucket). */
+export interface ServiceUpload {
+  bucket: ServiceBucket;
+  path: string;
+  mime: ServiceMime;
+  size: number;
+}
+
+/**
+ * Phase 05 customer service requests (repairs, trade-in, used devices, after-sales). Validation,
+ * ownership, numbering and money are enforced by the database; media is uploaded first and
+ * attached by path.
+ */
+export interface ServiceRequestsRepository {
+  create<K extends ServiceKind>(kind: K, input: ServiceInputs[K]): Promise<CreateServiceResult>;
+  listMine(filter?: ServiceListFilter): Promise<{ total: number; items: ServiceSummary[] }>;
+  getMine(number: string): Promise<ServiceRequestDetail | null>;
+  cancel(number: string, reason?: string | null): Promise<ServiceActionResult>;
+  respond(number: string, message: string | null, media?: MediaRef[]): Promise<ServiceActionResult>;
+  respondOffer(
+    offerId: string,
+    decision: 'accept' | 'decline',
+    note?: string | null,
+  ): Promise<ServiceActionResult>;
+  afterSalesItems(): Promise<AfterSalesItem[]>;
+  upload(kind: ServiceKind, file: Blob, mime: ServiceMime): Promise<ServiceUpload>;
+  /** Remove a file that was uploaded but not submitted (removed / replaced before submit). */
+  discardUpload(upload: { bucket: ServiceBucket; path: string }): Promise<void>;
+  /** Short-lived URLs keyed by "bucket/path" for media the caller may read. */
+  mediaUrls(items: { bucket: ServiceBucket; path: string }[]): Promise<Record<string, string>>;
+}
+
+/** Minimal staff service workflow (Phase 05; full admin polish in Phase 06). */
+export interface ServiceOperationsRepository {
+  list(
+    kind: ServiceKind,
+    filter?: StaffServiceFilter,
+  ): Promise<{ total: number; items: StaffServiceSummary[] }>;
+  get(id: string): Promise<StaffServiceRequest | null>;
+  assignees(kind: ServiceKind): Promise<StaffRef[]>;
+  assign(id: string, staffId: string | null): Promise<ServiceActionResult<StaffServiceRequest>>;
+  setStatus(
+    id: string,
+    status: string,
+    note?: string | null,
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  addNote(
+    id: string,
+    message: string,
+    visible: boolean,
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  requestInfo(id: string, message: string): Promise<ServiceActionResult<StaffServiceRequest>>;
+  sendRepairQuote(
+    id: string,
+    kind: 'estimate' | 'final',
+    amount: number,
+    note?: string | null,
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  sendTradeInOffer(
+    id: string,
+    input: TradeInOfferInput,
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  sendUsedProposal(
+    id: string,
+    device: ProposedDevice,
+    price: number,
+    note?: string | null,
+    media?: MediaRef[],
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  decideAfterSales(
+    id: string,
+    decision: 'approved' | 'rejected',
+    note?: string | null,
+  ): Promise<ServiceActionResult<StaffServiceRequest>>;
+  uploadProposalPhoto(file: Blob, mime: ServiceMime): Promise<ServiceUpload>;
+}
+
 export interface Repositories {
   settings: SettingsRepository;
   access: AccessRepository;
@@ -297,4 +393,6 @@ export interface Repositories {
   notifications: NotificationsRepository;
   reviews: ReviewsRepository;
   customerOps: CustomerOperationsRepository;
+  services: ServiceRequestsRepository;
+  serviceOps: ServiceOperationsRepository;
 }

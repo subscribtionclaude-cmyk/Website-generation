@@ -906,6 +906,7 @@ export function AccountRequests() {
 // ═════════════════════════════ Notifications ═════════════════════════════
 const CATEGORY_ICON: Record<NotificationCategory, LucideIcon> = {
   order: Package,
+  service: Wrench,
   back_in_stock: PackageCheck,
   waitlist: BellRing,
   price_drop: Tag,
@@ -916,6 +917,7 @@ const CATEGORY_ICON: Record<NotificationCategory, LucideIcon> = {
 
 const CATEGORY_LABEL: Record<NotificationCategory, CoreMessageKey> = {
   order: 'notifications.catOrder',
+  service: 'notifications.catService',
   back_in_stock: 'notifications.catBackInStock',
   waitlist: 'notifications.catWaitlist',
   price_drop: 'notifications.catPriceDrop',

@@ -1,3 +1,4 @@
+import { createSupabaseServiceRepositories } from './supabaseServices';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RepositoryError } from './errors';
 import { z } from 'zod';
@@ -193,6 +194,7 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     commerce: new SupabaseCommerceRepository(client),
     orders: new SupabaseOrderOperationsRepository(client),
     ...createSupabaseCustomerRepositories(client),
+    ...createSupabaseServiceRepositories(client),
   };
 }
 

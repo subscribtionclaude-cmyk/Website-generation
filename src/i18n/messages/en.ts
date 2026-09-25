@@ -824,6 +824,7 @@ export const en: Widen<typeof ar> = {
     on: 'On',
     off: 'Off',
     notAvailable: 'Not available yet',
+    catService: 'Services & requests',
   },
   errors: {
     notFoundTitle: "This page doesn't exist",

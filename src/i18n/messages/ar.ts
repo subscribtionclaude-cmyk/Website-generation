@@ -810,6 +810,7 @@ export const ar = {
     on: 'مفعّل',
     off: 'متوقف',
     notAvailable: 'غير متاح حاليًا',
+    catService: 'الخدمات والطلبات',
   },
   errors: {
     notFoundTitle: 'الصفحة دي مش موجودة',

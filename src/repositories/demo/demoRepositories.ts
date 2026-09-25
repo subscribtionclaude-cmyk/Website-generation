@@ -1,3 +1,4 @@
+import { DemoServiceOperationsRepository, DemoServiceRequestsRepository } from './demoServices';
 import { z } from 'zod';
 import baseSeed from '@seed/base/site-settings.json';
 import { NO_ACCESS, type AccessProfile } from '@/domain/access/access';
@@ -146,5 +147,7 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
     notifications: new DemoNotificationsRepository(store, auth),
     reviews: new DemoReviewsRepository(store, auth),
     customerOps: new DemoCustomerOperationsRepository(store, auth),
+    services: new DemoServiceRequestsRepository(store, auth),
+    serviceOps: new DemoServiceOperationsRepository(store, auth),
   };
 }

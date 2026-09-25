@@ -125,6 +125,127 @@ export const NOTIFICATION_TEMPLATES: Record<string, NotificationTemplate> = {
       en: 'You still have items in your cart. Continue whenever it suits you.',
     },
   },
+  // Phase 05 service requests (20260928100000_services.sql)
+  'service.updated': {
+    category: 'service',
+    title: { ar: 'تحديث على طلبك', en: 'Update on your request' },
+    body: {
+      ar: 'في تحديث جديد على الطلب {{code}}. افتح الطلب لتشوف التفاصيل.',
+      en: 'There is a new update on request {{code}}. Open it to see the details.',
+    },
+  },
+  'service.info_needed': {
+    category: 'service',
+    title: { ar: 'محتاجين معلومات إضافية', en: 'We need a bit more information' },
+    body: {
+      ar: 'فريقنا محتاج تفاصيل أو صور إضافية للطلب {{code}}.',
+      en: 'Our team needs more details or photos for request {{code}}.',
+    },
+  },
+  'service.cancelled': {
+    category: 'service',
+    title: { ar: 'تم إلغاء الطلب', en: 'Request cancelled' },
+    body: {
+      ar: 'تم إلغاء الطلب {{code}}. لو محتاج مساعدة تواصل معانا.',
+      en: 'Request {{code}} was cancelled. Contact us if you need help.',
+    },
+  },
+  'service.repair.quote_ready': {
+    category: 'service',
+    title: { ar: 'عرض سعر الصيانة جاهز', en: 'Your repair quote is ready' },
+    body: {
+      ar: 'أرسلنا عرض سعر للطلب {{code}} بقيمة {{amount}}. راجعه من حسابك.',
+      en: 'We sent a quote of {{amount}} for request {{code}}. Review it in your account.',
+    },
+  },
+  'service.repair.ready': {
+    category: 'service',
+    title: { ar: 'جهازك جاهز', en: 'Your device is ready' },
+    body: {
+      ar: 'الطلب {{code}}: جهازك جاهز للاستلام أو التوصيل.',
+      en: 'Request {{code}}: your device is ready for pickup or delivery.',
+    },
+  },
+  'service.trade_in.inspection': {
+    category: 'service',
+    title: { ar: 'مطلوب فحص الجهاز', en: 'Device inspection required' },
+    body: {
+      ar: 'الطلب {{code}}: محتاجين نفحص الجهاز في الفرع قبل التقييم النهائي.',
+      en: 'Request {{code}}: we need to inspect the device in store before the final valuation.',
+    },
+  },
+  'service.trade_in.offer_ready': {
+    category: 'service',
+    title: { ar: 'عرض الاستبدال جاهز', en: 'Your trade-in offer is ready' },
+    body: {
+      ar: 'الطلب {{code}}: قيمة جهازك الحالي {{amount}}. راجع العرض من حسابك.',
+      en: 'Request {{code}}: your current device is valued at {{amount}}. Review the offer in your account.',
+    },
+  },
+  'service.trade_in.rejected': {
+    category: 'service',
+    title: { ar: 'تعذر إتمام الاستبدال', en: 'Trade-in not possible' },
+    body: {
+      ar: 'للأسف مش هنقدر نكمل طلب الاستبدال {{code}}. تفاصيل أكتر في حسابك.',
+      en: 'Unfortunately we cannot continue trade-in request {{code}}. More details are in your account.',
+    },
+  },
+  'service.used.option_found': {
+    category: 'service',
+    title: { ar: 'لقينا جهاز مناسب', en: 'We found a device for you' },
+    body: {
+      ar: 'الطلب {{code}}: لقينا جهاز مستعمل مناسب بسعر {{amount}}. شوف التفاصيل والصور.',
+      en: 'Request {{code}}: we found a matching used device for {{amount}}. See the details and photos.',
+    },
+  },
+  'service.used.offer_sent': {
+    category: 'service',
+    title: { ar: 'العرض جاهز', en: 'Your offer is ready' },
+    body: {
+      ar: 'الطلب {{code}}: العرض النهائي جاهز في حسابك.',
+      en: 'Request {{code}}: the final offer is ready in your account.',
+    },
+  },
+  'service.used.not_available': {
+    category: 'service',
+    title: { ar: 'الجهاز غير متاح حاليًا', en: 'Device not available right now' },
+    body: {
+      ar: 'للأسف ملقيناش جهاز مناسب للطلب {{code}} حاليًا.',
+      en: 'Unfortunately we could not find a matching device for request {{code}} right now.',
+    },
+  },
+  'service.after_sales.approved': {
+    category: 'service',
+    title: { ar: 'تمت الموافقة على طلبك', en: 'Your request was approved' },
+    body: {
+      ar: 'الطلب {{code}} اتقبل. هنتواصل معاك بالخطوات الجاية.',
+      en: 'Request {{code}} was approved. We will contact you with the next steps.',
+    },
+  },
+  'service.after_sales.rejected': {
+    category: 'service',
+    title: { ar: 'لم تتم الموافقة على طلبك', en: 'Your request was not approved' },
+    body: {
+      ar: 'الطلب {{code}} اترفض. السبب موجود في تفاصيل الطلب.',
+      en: 'Request {{code}} was not approved. The reason is in the request details.',
+    },
+  },
+  'service.after_sales.inspection': {
+    category: 'service',
+    title: { ar: 'جاري فحص المنتج', en: 'Your item is being inspected' },
+    body: {
+      ar: 'الطلب {{code}}: استلمنا المنتج وبدأنا الفحص.',
+      en: 'Request {{code}}: we received the item and started the inspection.',
+    },
+  },
+  'service.after_sales.completed': {
+    category: 'service',
+    title: { ar: 'تم إنهاء طلبك', en: 'Your request is complete' },
+    body: {
+      ar: 'الطلب {{code}} خلص. شكرًا لثقتك في ملك ستور.',
+      en: 'Request {{code}} is complete. Thank you for choosing Malek Store.',
+    },
+  },
 };
 
 export const TEMPLATE_PLACEHOLDERS = [

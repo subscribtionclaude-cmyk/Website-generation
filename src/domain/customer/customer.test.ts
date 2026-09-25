@@ -32,6 +32,7 @@ import {
 } from './lists';
 import { NOTIFICATION_TEMPLATES, renderTemplate } from './templates';
 import notificationsSql from '../../../supabase/migrations/20260927100100_notifications.sql?raw';
+import servicesSql from '../../../supabase/migrations/20260928100000_services.sql?raw';
 
 const raw = rawCatalogSchema.parse(demoCatalogJson);
 const product = (slug: string) => {
@@ -271,7 +272,7 @@ describe('browser lists (guest)', () => {
 
 describe('notification templates', () => {
   it('match the SQL seed exactly (demo mode renders the same text)', () => {
-    const sql = notificationsSql;
+    const sql = notificationsSql + servicesSql;
     for (const [key, t] of Object.entries(NOTIFICATION_TEMPLATES)) {
       expect(sql).toContain(`('${key}', '${t.category}'`);
       for (const text of [t.title.ar, t.title.en, t.body.ar, t.body.en])

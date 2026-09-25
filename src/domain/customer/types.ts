@@ -160,6 +160,7 @@ export interface RequestClaim {
 // ── Notifications ───────────────────────────────────────────────────────────
 export const NOTIFICATION_CATEGORIES = [
   'order',
+  'service',
   'back_in_stock',
   'waitlist',
   'price_drop',

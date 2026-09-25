@@ -18,16 +18,24 @@ import {
   type DemoCustomerState,
 } from '@/domain/customer/demoCustomer';
 import {
+  DemoServices,
+  type DemoServicesSettings,
+  type DemoServicesState,
+} from '@/domain/services/demoServices';
+import {
   abandonedCartSettingsSchema,
   commerceSettingsSchema,
   engagementSettingsSchema,
   featuresSettingsSchema,
   orderReviewSettingsSchema,
+  repairCatalogSettingsSchema,
+  servicesSettingsSchema,
   storeSettingsSchema,
 } from '@/domain/settings/schemas';
 import { readStored, writeStored } from '@/lib/storage/localStore';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
 import { RepositoryError } from '../supabase/errors';
+import { DemoServiceMediaStore } from './demoServiceMedia';
 import type { CommerceRepository, OrderOperationsRepository } from '../types';
 
 /**
@@ -50,6 +58,7 @@ export function demoCommerceSettings(): DemoCommerceSettings {
 
 const STORAGE_KEY = 'demo-commerce';
 const CUSTOMER_STORAGE_KEY = 'demo-customer';
+const SERVICES_STORAGE_KEY = 'demo-services';
 const storedCustomerSchema = z.object({
   version: z.literal(1),
   seq: z.number().int().min(0),
@@ -69,6 +78,26 @@ export function demoCustomerSettings(): DemoCustomerSettings {
     abandonedCart: abandonedCartSettingsSchema.parse(baseSeed.settings.abandoned_cart),
   };
 }
+export function demoServicesSettings(): DemoServicesSettings {
+  return {
+    services: servicesSettingsSchema.parse(baseSeed.settings.services),
+    repairCatalog: repairCatalogSettingsSchema.parse(baseSeed.settings.repair_catalog).categories,
+  };
+}
+
+const storedServicesSchema = z.object({
+  version: z.literal(1),
+  seq: z.object({
+    repair: z.number(),
+    trade_in: z.number(),
+    used: z.number(),
+    after_sales: z.number(),
+  }),
+  eventSeq: z.number(),
+  requests: z.array(z.any()),
+  staff: z.record(z.string(), z.string()),
+}) as unknown as z.ZodType<DemoServicesState>;
+
 const storedStateSchema = z.object({
   version: z.literal(1),
   seq: z.number().int().min(0),
@@ -88,6 +117,9 @@ export class DemoCommerceStore {
   readonly commerce: DemoCommerce;
   /** Phase 04 customer features (wishlist, requests, notifications, reviews…) on the same store. */
   readonly customer: DemoCustomer;
+  /** Phase 05 service requests (repairs, trade-in, used, after-sales) + their demo media. */
+  readonly services: DemoServices;
+  readonly media: DemoServiceMediaStore;
   private version = 0;
   private cached: { engine: CatalogEngine; version: number; builtAt: number } | null = null;
 
@@ -112,6 +144,19 @@ export class DemoCommerceStore {
         load: () => readStored(CUSTOMER_STORAGE_KEY, storedCustomerSchema),
         save: (state) => writeStored(CUSTOMER_STORAGE_KEY, state),
       },
+      engine: () => this.engine(),
+    });
+    this.media = new DemoServiceMediaStore();
+    this.services = new DemoServices({
+      raw,
+      commerce: this.commerce,
+      customer: this.customer,
+      settings: demoServicesSettings,
+      storage: {
+        load: () => readStored(SERVICES_STORAGE_KEY, storedServicesSchema),
+        save: (state) => writeStored(SERVICES_STORAGE_KEY, state),
+      },
+      mediaInfo: (bucket, path) => this.media.info(bucket, path),
       engine: () => this.engine(),
     });
   }

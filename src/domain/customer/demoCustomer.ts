@@ -149,9 +149,10 @@ const NOTIFIABLE_STATUSES = [
   'completed',
   'cancelled',
 ];
-const MANDATORY: NotificationCategory[] = ['order', 'account'];
+const MANDATORY: NotificationCategory[] = ['order', 'service', 'account'];
 const PREF_CATEGORIES = [
   'order',
+  'service',
   'back_in_stock',
   'waitlist',
   'price_drop',
@@ -387,6 +388,20 @@ export class DemoCustomer {
     if (channel !== 'in_app') return false;
     if (MANDATORY.includes(category)) return true;
     return this.state.preferences[userId]?.[`${category}:${channel}`] ?? true;
+  }
+
+  /** Other demo engines (service requests) notify through the same idempotent path. */
+  notifyUser(
+    userId: string | null,
+    templateKey: string,
+    vars: TemplateVars,
+    dedupeKey: string,
+    actionPath: string | null,
+    data: Record<string, unknown> = {},
+  ): boolean {
+    const created = this.notify(userId, templateKey, vars, dedupeKey, actionPath, data);
+    if (created) this.persist();
+    return created;
   }
 
   /** Idempotent on (user, dedupeKey). Returns true when a new notification was created. */
