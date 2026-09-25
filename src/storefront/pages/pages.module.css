@@ -54,19 +54,6 @@
   color: var(--color-text-secondary);
 }
 
-.accountHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-block-end: var(--space-8);
-}
-
-.accountTitle {
-  font-size: var(--font-size-h1);
-}
-
 .muted {
   color: var(--color-text-secondary);
 }

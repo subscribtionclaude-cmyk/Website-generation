@@ -4,6 +4,7 @@ import { Alert } from '@/components/feedback/Alert';
 import { Button } from '@/components/ui/Button';
 import { DemoModeBanner } from '@/features/data-mode/DemoModeBanner';
 import { CartProvider } from '@/features/cart/CartProvider';
+import { CustomerListsProvider } from '@/features/customer/CustomerListsProvider';
 import { useSettingsContext } from '@/features/settings/context';
 import { WhatsAppMessageContext } from '@/features/whatsapp/context';
 import { WhatsAppFab } from '@/features/whatsapp/WhatsAppFab';
@@ -11,6 +12,7 @@ import type { Locale } from '@/i18n/config';
 import { useI18n } from '@/i18n/context';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { useDocumentLocale } from '@/i18n/useDocumentLocale';
+import { CompareTray } from '../customer/CompareTray';
 import { MobileTabBar } from './MobileTabBar';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
@@ -35,34 +37,37 @@ function StorefrontShell() {
 
   return (
     <CartProvider>
-      <WhatsAppMessageContext value={whatsapp}>
-        <div className={styles.shell}>
-          <SkipLink />
-          <DemoModeBanner />
-          <SiteHeader />
-          {loadFailed && (
-            <div className={`container ${styles.notice}`}>
-              <Alert
-                tone="warning"
-                live
-                action={
-                  <Button size="sm" variant="secondary" onClick={refetch}>
-                    {t('common.retry')}
-                  </Button>
-                }
-              >
-                {t('errors.backendUnavailable')}
-              </Alert>
-            </div>
-          )}
-          <main id="main-content" tabIndex={-1} className={styles.main}>
-            <Outlet />
-          </main>
-          <SiteFooter />
-          <MobileTabBar />
-          <WhatsAppFab />
-        </div>
-      </WhatsAppMessageContext>
+      <CustomerListsProvider>
+        <WhatsAppMessageContext value={whatsapp}>
+          <div className={styles.shell}>
+            <SkipLink />
+            <DemoModeBanner />
+            <SiteHeader />
+            {loadFailed && (
+              <div className={`container ${styles.notice}`}>
+                <Alert
+                  tone="warning"
+                  live
+                  action={
+                    <Button size="sm" variant="secondary" onClick={refetch}>
+                      {t('common.retry')}
+                    </Button>
+                  }
+                >
+                  {t('errors.backendUnavailable')}
+                </Alert>
+              </div>
+            )}
+            <main id="main-content" tabIndex={-1} className={styles.main}>
+              <Outlet />
+            </main>
+            <SiteFooter />
+            <MobileTabBar />
+            <CompareTray />
+            <WhatsAppFab />
+          </div>
+        </WhatsAppMessageContext>
+      </CustomerListsProvider>
     </CartProvider>
   );
 }

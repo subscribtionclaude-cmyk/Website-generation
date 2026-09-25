@@ -1,5 +1,5 @@
 import { PackageX, ShieldCheck, Tag } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { StateMessage } from '@/components/feedback/StateMessage';
 import { ButtonLink } from '@/components/navigation/ButtonLink';
@@ -22,8 +22,6 @@ import { useI18n } from '@/i18n/context';
 import { useIsDemoMode, useRuntime } from '@/runtime/context';
 import { Breadcrumbs, type Crumb } from '../components/Breadcrumbs';
 import { Price } from '../components/Price';
-import { ProductGrid } from '../components/ProductGrid';
-import { SectionHeading } from '../components/SectionHeading';
 import { ProductBadges, StockStatus } from '../components/StatusBadges';
 import { ProductGallery } from '../product/ProductGallery';
 import { PurchasePanel } from '../product/PurchasePanel';
@@ -32,6 +30,11 @@ import { VariantSelector } from '../product/VariantSelector';
 import { useProduct } from '../data/hooks';
 import styles from '../product/product.module.css';
 import { BidiText } from '@/components/text/BidiText';
+import { useCustomerLists } from '@/features/customer/context';
+import { CompareButton } from '../customer/CompareButton';
+import { ProductRecommendations, RecentlyViewedRail } from '../customer/ProductRails';
+import { ProductReviews } from '../customer/ProductReviews';
+import { WishlistButton } from '../customer/WishlistButton';
 
 export function ProductPage() {
   const { slug = '' } = useParams();
@@ -117,6 +120,15 @@ function ProductView({ product }: { product: ProductDetail }) {
       .map((v) => resolveLocalized(v.label, locale))
       .join(' · ') || null;
   const warranty = variant?.warranty ?? product.warranty;
+
+  // Recently viewed: once per product page view (+ the variant the customer is looking at).
+  const { recent } = useCustomerLists();
+  const track = recent.track;
+  const variantId = variant?.id ?? null;
+  const chosenVariant = product.options.some((o) => params.has(o.key)) ? variantId : null;
+  useEffect(() => {
+    track({ productId: product.id, productSlug: product.slug, variantId: chosenVariant });
+  }, [track, product.id, product.slug, chosenVariant]);
 
   const whatsappMessage = [
     t('product.whatsappMessage', { product: name }),
@@ -230,6 +242,14 @@ function ProductView({ product }: { product: ProductDetail }) {
             whatsappMessage={whatsappMessage}
             onRequest={setRequest}
           />
+          <div className={styles.saveRow}>
+            <WishlistButton
+              variant="full"
+              product={{ id: product.id, slug: product.slug, name }}
+              variantId={chosenVariant}
+            />
+            <CompareButton variant="full" product={product} name={name} />
+          </div>
         </div>
       </div>
 
@@ -277,21 +297,9 @@ function ProductView({ product }: { product: ProductDetail }) {
         </div>
       )}
 
-      <RelatedRail
-        id="product-accessories"
-        title={t('product.accessories')}
-        products={product.relations.accessories}
-      />
-      <RelatedRail
-        id="product-similar"
-        title={t('product.similar')}
-        products={product.relations.similar}
-      />
-      <RelatedRail
-        id="product-recommended"
-        title={t('product.recommended')}
-        products={product.relations.recommended}
-      />
+      <ProductRecommendations product={product} />
+      <ProductReviews product={product} />
+      <RecentlyViewedRail excludeProductId={product.id} />
 
       {request && (
         <RequestDrawer
@@ -304,24 +312,6 @@ function ProductView({ product }: { product: ProductDetail }) {
         />
       )}
     </div>
-  );
-}
-
-function RelatedRail({
-  id,
-  title,
-  products,
-}: {
-  id: string;
-  title: string;
-  products: ProductDetail['relations']['similar'];
-}) {
-  if (products.length === 0) return null;
-  return (
-    <section className={styles.related} aria-labelledby={id}>
-      <SectionHeading id={id} title={title} />
-      <ProductGrid products={products.slice(0, 4)} />
-    </section>
   );
 }
 

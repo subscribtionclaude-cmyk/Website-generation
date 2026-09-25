@@ -19,6 +19,7 @@ import {
   Recycle,
   RotateCcw,
   ShieldCheck,
+  ShoppingCart,
   Star,
   Store,
   Tags,
@@ -184,7 +185,15 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'customers',
     icon: Star,
     permission: 'reviews.moderate',
-    plannedPhase: 6,
+    plannedPhase: null,
+  },
+  {
+    id: 'abandoned-carts',
+    path: 'abandoned-carts',
+    group: 'customers',
+    icon: ShoppingCart,
+    permission: 'customers.view',
+    plannedPhase: null,
   },
   {
     id: 'waitlists',
@@ -200,7 +209,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'customers',
     icon: Bell,
     permission: 'notifications.manage',
-    plannedPhase: 4,
+    plannedPhase: 6,
   },
 
   {

@@ -1,4 +1,5 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCustomerLists } from '@/features/customer/context';
 import { CircleCheck, X } from 'lucide-react';
 import { useId, useState, type FormEvent } from 'react';
 import { Alert } from '@/components/feedback/Alert';
@@ -38,6 +39,8 @@ export function RequestDrawer({
 }) {
   const { t, locale } = useI18n();
   const { repositories } = useRuntime();
+  const { rememberClaim } = useCustomerLists();
+  const queryClient = useQueryClient();
   const isDemo = useIsDemoMode();
   const titleId = useId();
   const productName = resolveLocalized(product.name, locale);
@@ -69,6 +72,16 @@ export function RequestDrawer({
             desiredColor: color || null,
             locale,
           });
+    },
+    onSuccess: (result) => {
+      // Guest requests: keep the one-time claim token so the request joins the account at sign-in.
+      if (result.id && result.claimToken)
+        rememberClaim({
+          kind: kind === 'notify' ? 'notify' : 'waitlist',
+          id: result.id,
+          token: result.claimToken,
+        });
+      void queryClient.invalidateQueries({ queryKey: ['requests'] });
     },
   });
 

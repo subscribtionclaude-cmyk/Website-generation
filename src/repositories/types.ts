@@ -24,7 +24,7 @@ import type {
 } from '@/domain/commerce/types';
 import type { ContentEntry, ContentType, Offer, PageSection } from '@/domain/content/types';
 import type {
-  AbandonedCartRow,
+  AbandonedCartList,
   ActionResult,
   Address,
   AddressInput,
@@ -218,7 +218,7 @@ export interface CustomerOperationsRepository {
     decision: 'approved' | 'rejected',
     note: string | null,
   ): Promise<ActionResult>;
-  listAbandonedCarts(): Promise<{ total: number; items: AbandonedCartRow[] }>;
+  listAbandonedCarts(): Promise<AbandonedCartList>;
 }
 
 /**

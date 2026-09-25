@@ -6,6 +6,7 @@ import {
   Clock3,
   Info,
   Landmark,
+  MapPin,
   PackageCheck,
   ShieldCheck,
   SplitSquareHorizontal,
@@ -23,6 +24,8 @@ import { TextField } from '@/components/ui/TextField';
 import { parseAmount } from '@/domain/catalog/amount';
 import { deliveryPlace, GOVERNORATES } from '@/domain/commerce/governorates';
 import type { CreateOrderPayload, FulfillmentMethod, PaymentMethod } from '@/domain/commerce/types';
+import { addressProblem } from '@/domain/customer/address';
+import type { Address } from '@/domain/customer/types';
 import { resolveLocalized } from '@/domain/localized';
 import { useSession } from '@/features/auth/context';
 import { RequireAuth } from '@/features/auth/RequireAuth';
@@ -48,6 +51,12 @@ const STEP_LABEL: Record<Step, CoreMessageKey> = {
   fulfillment: 'checkout.stepFulfillment',
   payment: 'checkout.stepPayment',
   review: 'checkout.stepReview',
+};
+
+const ADDRESS_LABEL: Record<Address['label'], CoreMessageKey> = {
+  home: 'account.addressHome',
+  work: 'account.addressWork',
+  other: 'account.addressOther',
 };
 
 const ERROR_MESSAGE: Record<string, CoreMessageKey> = {
@@ -138,6 +147,33 @@ function Checkout() {
     }));
   }
 
+  // Saved addresses (same typed model as the account area); the default one is preselected.
+  const addresses = useQuery({
+    queryKey: ['addresses', session?.userId ?? null],
+    queryFn: () => repositories.account.listAddresses(),
+    enabled: Boolean(session),
+  });
+  const savedAddresses = addresses.data ?? [];
+  const [savedAddressId, setSavedAddressId] = useState<string | null>(null);
+  const [addressPrefilled, setAddressPrefilled] = useState(false);
+  const [saveNewAddress, setSaveNewAddress] = useState(false);
+  const applyAddress = (a: Address) => {
+    setSavedAddressId(a.id);
+    setForm((f) => ({
+      ...f,
+      governorate: a.governorate,
+      area: a.area,
+      address: a.address,
+      notes: a.notes ?? '',
+    }));
+    setErrors((e) => ({ ...e, area: undefined, address: undefined }));
+  };
+  if (!addressPrefilled && addresses.data) {
+    setAddressPrefilled(true);
+    const preferred = addresses.data.find((a) => a.isDefault) ?? addresses.data[0];
+    if (preferred && !form.area && !form.address) applyAddress(preferred);
+  }
+
   const quote = useQuote(cart.lines, { promoCode: appliedPromo, fulfillment: form.fulfillment });
   const data = quote.data;
 
@@ -203,6 +239,20 @@ function Checkout() {
     mutationFn: (body: CreateOrderPayload) => repositories.commerce.createOrder(body),
     onSuccess: async (result) => {
       if (result.ok) {
+        if (saveNewAddress && savedAddressId === null && form.fulfillment === 'delivery') {
+          // Best effort: the order is already placed; a failed save must not block the receipt.
+          await repositories.account
+            .saveAddress({
+              label: 'home',
+              governorate: form.governorate,
+              area: form.area.trim(),
+              address: form.address.trim(),
+              notes: form.notes.trim() || null,
+              phone: null,
+              isDefault: savedAddresses.length === 0,
+            })
+            .catch(() => undefined);
+        }
         await cart.afterOrder(orderItems.map((i) => i.variantId));
         void navigate(`${localizePath(`/order/${result.order.orderNumber}`, locale)}?placed=1`, {
           replace: true,
@@ -237,6 +287,11 @@ function Checkout() {
     setErrors((e) => ({ ...e, [key]: undefined }));
   };
 
+  const setDelivery = (key: 'governorate' | 'area' | 'address' | 'notes', value: string) => {
+    set(key, value);
+    setSavedAddressId(null);
+  };
+
   const validate = (target: Step): boolean => {
     const next: typeof errors = {};
     if (target === 'contact') {
@@ -246,8 +301,11 @@ function Checkout() {
     if (target === 'fulfillment') {
       if (!form.fulfillment) next.fulfillment = t('checkout.chooseFulfillment');
       if (form.fulfillment === 'delivery') {
-        if (form.area.trim().length < 2) next.area = t('checkout.errorArea');
-        if (form.address.trim().length < 5) next.address = t('checkout.errorAddressLine');
+        const problem = addressProblem(form);
+        if (problem === 'area') next.area = t('checkout.errorArea');
+        if (problem === 'address') next.address = t('checkout.errorAddressLine');
+        if (problem === 'governorate') next.governorate = t('checkout.errorAddress');
+        if (problem === 'notes') next.notes = t('checkout.errorAddressLine');
       }
     }
     if (target === 'payment') {
@@ -470,6 +528,49 @@ function Checkout() {
                 )}
               </fieldset>
 
+              {form.fulfillment === 'delivery' && savedAddresses.length > 0 && (
+                <fieldset className={styles.choices}>
+                  <legend>{t('checkout.savedAddresses')}</legend>
+                  {savedAddresses.map((a) => (
+                    <label key={a.id} className={styles.choice}>
+                      <input
+                        type="radio"
+                        name="saved-address"
+                        checked={savedAddressId === a.id}
+                        onChange={() => applyAddress(a)}
+                      />
+                      <span className={styles.choiceBody}>
+                        <span className={styles.choiceTitle}>
+                          <MapPin aria-hidden="true" />
+                          {t(ADDRESS_LABEL[a.label])}
+                          {a.isDefault && ` · ${t('account.defaultAddress')}`}
+                        </span>
+                        <span className={styles.choiceText}>
+                          {deliveryPlace(
+                            { governorate: a.governorate, area: a.area, address: a.address },
+                            locale,
+                          )}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                  <label className={styles.choice}>
+                    <input
+                      type="radio"
+                      name="saved-address"
+                      checked={savedAddressId === null}
+                      onChange={() => {
+                        setSavedAddressId(null);
+                        setForm((f) => ({ ...f, area: '', address: '', notes: '' }));
+                      }}
+                    />
+                    <span className={styles.choiceBody}>
+                      <span className={styles.choiceTitle}>{t('checkout.newAddress')}</span>
+                    </span>
+                  </label>
+                </fieldset>
+              )}
+
               {form.fulfillment === 'delivery' && (
                 <div className={styles.fields}>
                   <div>
@@ -480,7 +581,7 @@ function Checkout() {
                       id="governorate"
                       className={styles.select}
                       value={form.governorate}
-                      onChange={(e) => set('governorate', e.target.value)}
+                      onChange={(e) => setDelivery('governorate', e.target.value)}
                     >
                       {GOVERNORATES.map((g) => (
                         <option key={g.key} value={g.key}>
@@ -493,7 +594,7 @@ function Checkout() {
                     label={t('checkout.area')}
                     autoComplete="address-level2"
                     value={form.area}
-                    onChange={(e) => set('area', e.target.value)}
+                    onChange={(e) => setDelivery('area', e.target.value)}
                     error={errors.area}
                     required
                     maxLength={120}
@@ -503,7 +604,7 @@ function Checkout() {
                     hint={t('checkout.addressHint')}
                     autoComplete="street-address"
                     value={form.address}
-                    onChange={(e) => set('address', e.target.value)}
+                    onChange={(e) => setDelivery('address', e.target.value)}
                     error={errors.address}
                     required
                     maxLength={400}
@@ -511,9 +612,20 @@ function Checkout() {
                   <TextField
                     label={t('checkout.addressNotes')}
                     value={form.notes}
-                    onChange={(e) => set('notes', e.target.value)}
+                    onChange={(e) => setDelivery('notes', e.target.value)}
+                    error={errors.notes}
                     maxLength={400}
                   />
+                  {savedAddressId === null && savedAddresses.length < 10 && (
+                    <label className={styles.checkRow}>
+                      <input
+                        type="checkbox"
+                        checked={saveNewAddress}
+                        onChange={(e) => setSaveNewAddress(e.target.checked)}
+                      />
+                      {t('checkout.saveAddress')}
+                    </label>
+                  )}
                   <p className={styles.notice} role="note">
                     <Info aria-hidden="true" />
                     <span>{t('checkout.shippingPendingNote')}</span>

@@ -9,6 +9,7 @@ import { isEgyptianMobile, normalizeEgyptianPhone } from '@/lib/phone';
 import { addressProblem } from './address';
 import { renderNotification, type TemplateVars } from './templates';
 import type {
+  AbandonedCartList,
   AbandonedCartRow,
   ActionResult,
   Address,
@@ -988,7 +989,7 @@ export class DemoCustomer {
   }
 
   // ── Abandoned carts (staff) ─────────────────────────────────────────────
-  abandonedCarts(actor: DemoActor): { total: number; items: AbandonedCartRow[] } {
+  abandonedCarts(actor: DemoActor): AbandonedCartList {
     this.require(actor, 'customers.view');
     const customers = new Set(this.commerce.orderRecords().map((o) => o.customerId));
     for (const id of Object.keys(this.state.profiles)) customers.add(id);
@@ -1023,7 +1024,7 @@ export class DemoCustomer {
       });
     }
     rows.sort((a, b) => a.lastActivity.localeCompare(b.lastActivity));
-    return { total: rows.length, items: rows };
+    return { settings: this.settings().abandonedCart, total: rows.length, items: rows };
   }
 
   // ── Reviews ─────────────────────────────────────────────────────────────

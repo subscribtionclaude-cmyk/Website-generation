@@ -68,6 +68,48 @@ const COMMERCE_PAGES: RouteObject[] = [
   },
 ];
 
+const accountPages = () => import('./pages/account/AccountPages');
+
+/** Phase 04 customer pages. Wishlist and compare also work signed out (kept in this browser). */
+const CUSTOMER_PAGES: RouteObject[] = [
+  {
+    path: 'account',
+    lazy: () => accountPages().then((m) => ({ Component: m.AccountLayout })),
+    children: [
+      { index: true, lazy: () => accountPages().then((m) => ({ Component: m.AccountOverview })) },
+      { path: 'orders', lazy: () => accountPages().then((m) => ({ Component: m.AccountOrders })) },
+      {
+        path: 'requests',
+        lazy: () => accountPages().then((m) => ({ Component: m.AccountRequests })),
+      },
+      {
+        path: 'notifications',
+        lazy: () => accountPages().then((m) => ({ Component: m.AccountNotifications })),
+      },
+      {
+        path: 'reviews',
+        lazy: () => accountPages().then((m) => ({ Component: m.AccountReviews })),
+      },
+      {
+        path: 'addresses',
+        lazy: () => accountPages().then((m) => ({ Component: m.AccountAddresses })),
+      },
+      {
+        path: 'profile',
+        lazy: () => accountPages().then((m) => ({ Component: m.AccountProfile })),
+      },
+    ],
+  },
+  {
+    path: 'wishlist',
+    lazy: () => import('./pages/WishlistPage').then((m) => ({ Component: m.WishlistPage })),
+  },
+  {
+    path: 'compare',
+    lazy: () => import('./pages/ComparePage').then((m) => ({ Component: m.ComparePage })),
+  },
+];
+
 const placeholder = () =>
   import('./pages/SectionPlaceholderPage').then((m) => ({ Component: m.SectionPlaceholderPage }));
 
@@ -91,10 +133,7 @@ export function storefrontRoutes(locale: Locale): RouteObject {
             handle: { section, phase } satisfies SectionHandle,
             lazy: placeholder,
           })),
-          {
-            path: 'account',
-            lazy: () => import('./pages/AccountPage').then((m) => ({ Component: m.AccountPage })),
-          },
+          ...CUSTOMER_PAGES,
           {
             path: 'account/sign-in',
             lazy: () => import('./pages/SignInPage').then((m) => ({ Component: m.SignInPage })),

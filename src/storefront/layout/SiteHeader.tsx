@@ -1,4 +1,5 @@
-import { Menu, Search, ShoppingCart, UserRound } from 'lucide-react';
+import { Bell, Heart, Menu, Search, ShoppingCart, UserRound } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { useId, useState, type FormEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -6,7 +7,10 @@ import { LanguageSwitch } from '@/components/navigation/LanguageSwitch';
 import { LocaleLink, LocaleNavLink } from '@/components/navigation/LocaleLink';
 import { isExternalHref, localizePath, parseLocalePath } from '@/i18n/paths';
 import { resolveLocalized } from '@/domain/localized';
+import { useSession } from '@/features/auth/context';
 import { useCart } from '@/features/cart/context';
+import { useCustomerLists } from '@/features/customer/context';
+import { useRuntime } from '@/runtime/context';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { MobileMenu } from './MobileMenu';
@@ -17,6 +21,16 @@ export function SiteHeader() {
   const { t, locale } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const { count } = useCart();
+  const { wishlist } = useCustomerLists();
+  const session = useSession();
+  const { repositories } = useRuntime();
+  const unread = useQuery({
+    queryKey: ['notifications-unread', session?.userId ?? null],
+    queryFn: () => repositories.notifications.unreadCount(),
+    enabled: Boolean(session),
+    staleTime: 30_000,
+  });
+  const unreadCount = unread.data ?? 0;
   const items = navigation.primary.filter((item) => item.visible);
 
   return (
@@ -37,6 +51,40 @@ export function SiteHeader() {
             <Search aria-hidden="true" />
           </LocaleLink>
           <LanguageSwitch className={styles.action} />
+          <LocaleLink
+            to="/wishlist"
+            className={`${styles.iconAction} ${styles.cartLink}`}
+            aria-label={
+              wishlist.count > 0
+                ? t('wishlist.headerCount', { count: wishlist.count })
+                : t('wishlist.title')
+            }
+          >
+            <Heart aria-hidden="true" />
+            {wishlist.count > 0 && (
+              <span className={styles.cartCount} aria-hidden="true">
+                {wishlist.count > 99 ? '99+' : wishlist.count}
+              </span>
+            )}
+          </LocaleLink>
+          {session && (
+            <LocaleLink
+              to="/account/notifications"
+              className={`${styles.iconAction} ${styles.cartLink}`}
+              aria-label={
+                unreadCount > 0
+                  ? t('notifications.headerUnread', { count: unreadCount })
+                  : t('notifications.title')
+              }
+            >
+              <Bell aria-hidden="true" />
+              {unreadCount > 0 && (
+                <span className={styles.cartCount} aria-hidden="true">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
+            </LocaleLink>
+          )}
           <LocaleLink
             to="/account"
             className={`${styles.iconAction} ${styles.desktopOnly}`}

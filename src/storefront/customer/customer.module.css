@@ -1,0 +1,110 @@
+/* ── Toggles (wishlist / compare) ─────────────── */
+.iconToggle,
+.textToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+.iconToggle {
+  width: var(--touch-target);
+  padding: 0;
+}
+
+.textToggle {
+  padding-inline: var(--space-4);
+}
+
+.iconToggle svg,
+.textToggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.iconToggle:hover,
+.textToggle:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.toggleOn {
+  border-color: var(--color-brand-primary);
+  color: var(--color-brand-text);
+  background: var(--color-brand-subtle, #fff4ee);
+}
+
+.inlineStatus {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  flex-basis: 100%;
+}
+
+/* ── Compare tray ─────────────────────────────── */
+.tray {
+  position: fixed;
+  inset-inline-start: var(--space-4);
+  inset-block-end: calc(var(--space-4) + env(safe-area-inset-bottom));
+  z-index: var(--z-fab);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: min(420px, calc(100vw - 2 * var(--space-4) - 72px));
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3);
+  padding-inline: var(--space-3) var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-ink);
+  color: var(--color-on-brand-ink);
+  box-shadow: var(--shadow-lg, 0 8px 24px rgb(0 0 0 / 0.18));
+}
+
+@media (max-width: 767px) {
+  .tray {
+    inset-block-end: calc(var(--tabbar-height) + var(--space-3) + env(safe-area-inset-bottom));
+  }
+}
+
+.tray > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+.trayLink {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trayClear {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.12);
+  color: inherit;
+  cursor: pointer;
+  flex: none;
+}
+
+.trayClear svg {
+  width: 1rem;
+  height: 1rem;
+}

@@ -10,10 +10,12 @@ import { Price } from './Price';
 import { ProductBadges, StockStatus } from './StatusBadges';
 import styles from './catalog.module.css';
 import { BidiText } from '@/components/text/BidiText';
+import { CompareButton } from '../customer/CompareButton';
+import { WishlistButton } from '../customer/WishlistButton';
 
 /**
- * Optional card actions (wishlist / compare). Phase 04 supplies real handlers; until then nothing is
- * rendered, so there are no non-functional buttons.
+ * Card actions. By default every card offers Save (wishlist) and Compare (Phase 04); a caller can
+ * replace them (e.g. the wishlist page renders a Remove action).
  */
 export interface ProductCardActions {
   renderActions?: (product: ProductSummary) => ReactNode;
@@ -73,7 +75,16 @@ export function ProductCard({
           />
           <StockStatus state={product.stockState} availability={product.availabilityState} />
         </div>
-        {renderActions && <div className={styles.cardActions}>{renderActions(product)}</div>}
+        <div className={styles.cardActions}>
+          {renderActions ? (
+            renderActions(product)
+          ) : (
+            <>
+              <WishlistButton product={{ id: product.id, slug: product.slug, name }} />
+              <CompareButton product={product} name={name} />
+            </>
+          )}
+        </div>
       </div>
     </article>
   );

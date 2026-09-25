@@ -134,6 +134,12 @@
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
 .input:hover {
   border-color: var(--neutral-400);
 }

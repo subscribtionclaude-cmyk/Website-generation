@@ -52,6 +52,18 @@ export const adminRoutes: RouteObject = {
                 })),
             },
             {
+              path: 'reviews',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({ Component: m.ReviewsRoute })),
+            },
+            {
+              path: 'abandoned-carts',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.AbandonedCartsRoute,
+                })),
+            },
+            {
               path: ':moduleId',
               lazy: () =>
                 import('./pages/AdminPlannedModulePage').then((m) => ({

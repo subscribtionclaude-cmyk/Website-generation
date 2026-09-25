@@ -202,6 +202,12 @@ export interface CartStatus {
   abandoned: boolean;
 }
 
+export interface AbandonedCartList {
+  settings: { enabled: boolean; thresholdHours: number; followUp: 'in_app' | 'off' };
+  total: number;
+  items: AbandonedCartRow[];
+}
+
 export interface AbandonedCartRow {
   customerId: string;
   customerName: string | null;

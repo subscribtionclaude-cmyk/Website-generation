@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { CircleAlert, PackageOpen, ShoppingBag } from 'lucide-react';
 import { StateMessage } from '@/components/feedback/StateMessage';
 import { Skeleton } from '@/components/feedback/Skeleton';
@@ -12,8 +14,21 @@ import { useRuntime } from '@/runtime/context';
 import { Money, OrderStatusBadge, PaymentStatusBadge, Thumb } from './CommerceParts';
 import styles from './commerce.module.css';
 
-/** The signed-in customer's own orders (RLS/ownership enforced by the backend). */
-export function MyOrders() {
+export type OrderFilter = 'all' | 'current' | 'completed' | 'cancelled';
+const DONE = ['delivered', 'completed'];
+
+/**
+ * The signed-in customer's own orders (RLS/ownership enforced by the backend), optionally
+ * filtered, shown `pageSize` at a time with "show more".
+ */
+export function MyOrders({
+  filter = 'all',
+  pageSize = 10,
+}: {
+  filter?: OrderFilter;
+  pageSize?: number;
+}) {
+  const [visible, setVisible] = useState(pageSize);
   const { t, format, locale } = useI18n();
   const { repositories } = useRuntime();
   const session = useSession();
@@ -38,12 +53,21 @@ export function MyOrders() {
       </p>
     );
   }
-  if (orders.data.length === 0) {
+  const filtered = orders.data.filter((o) =>
+    filter === 'all'
+      ? true
+      : filter === 'cancelled'
+        ? o.status === 'cancelled'
+        : filter === 'completed'
+          ? DONE.includes(o.status)
+          : o.status !== 'cancelled' && !DONE.includes(o.status),
+  );
+  if (filtered.length === 0) {
     return (
       <StateMessage
         headingLevel={3}
         icon={<PackageOpen />}
-        title={t('account.ordersEmpty')}
+        title={filter === 'all' ? t('account.ordersEmpty') : t('account.ordersEmptyFilter')}
         actions={
           <ButtonLink to="/store" variant="primary" icon={<ShoppingBag aria-hidden="true" />}>
             {t('account.browseStore')}
@@ -53,44 +77,51 @@ export function MyOrders() {
     );
   }
   return (
-    <ul className={styles.orderList}>
-      {orders.data.map((order) => (
-        <li key={order.orderNumber}>
-          <LocaleLink to={`/order/${order.orderNumber}`} className={styles.orderCard}>
-            <Thumb src={order.firstItem?.imageUrl ?? null} />
-            <div className={styles.lineBody}>
-              <span className={styles.lineName}>
-                <bdi dir="ltr">{order.orderNumber}</bdi>
-                {order.isDemo && (
-                  <>
-                    {' '}
-                    <span className={styles.demoTag}>{t('order.demoOrder')}</span>
-                  </>
-                )}
-              </span>
-              {order.firstItem && (
-                <span className={styles.lineMeta}>
-                  <BidiText text={resolveLocalized(order.firstItem.name, locale)} />
-                  {order.itemCount > 1 && (
-                    <span>{t('account.orderMoreItems', { count: order.itemCount - 1 })}</span>
+    <>
+      <ul className={styles.orderList}>
+        {filtered.slice(0, visible).map((order) => (
+          <li key={order.orderNumber}>
+            <LocaleLink to={`/order/${order.orderNumber}`} className={styles.orderCard}>
+              <Thumb src={order.firstItem?.imageUrl ?? null} />
+              <div className={styles.lineBody}>
+                <span className={styles.lineName}>
+                  <bdi dir="ltr">{order.orderNumber}</bdi>
+                  {order.isDemo && (
+                    <>
+                      {' '}
+                      <span className={styles.demoTag}>{t('order.demoOrder')}</span>
+                    </>
                   )}
                 </span>
-              )}
-              <span className={styles.lineMeta}>
-                <time dateTime={order.createdAt}>{format.date(order.createdAt)}</time>
-                <OrderStatusBadge status={order.status} />
-                <PaymentStatusBadge status={order.paymentStatus} />
-              </span>
-            </div>
-            <div className={styles.linePrice}>
-              <Money amount={order.total} />
-              {order.shippingFeeStatus === 'pending' && (
-                <span className={styles.amountOld}>{t('checkout.totalBeforeShipping')}</span>
-              )}
-            </div>
-          </LocaleLink>
-        </li>
-      ))}
-    </ul>
+                {order.firstItem && (
+                  <span className={styles.lineMeta}>
+                    <BidiText text={resolveLocalized(order.firstItem.name, locale)} />
+                    {order.itemCount > 1 && (
+                      <span>{t('account.orderMoreItems', { count: order.itemCount - 1 })}</span>
+                    )}
+                  </span>
+                )}
+                <span className={styles.lineMeta}>
+                  <time dateTime={order.createdAt}>{format.date(order.createdAt)}</time>
+                  <OrderStatusBadge status={order.status} />
+                  <PaymentStatusBadge status={order.paymentStatus} />
+                </span>
+              </div>
+              <div className={styles.linePrice}>
+                <Money amount={order.total} />
+                {order.shippingFeeStatus === 'pending' && (
+                  <span className={styles.amountOld}>{t('checkout.totalBeforeShipping')}</span>
+                )}
+              </div>
+            </LocaleLink>
+          </li>
+        ))}
+      </ul>
+      {filtered.length > visible && (
+        <Button variant="secondary" onClick={() => setVisible((v) => v + pageSize)}>
+          {t('account.showMoreOrders')}
+        </Button>
+      )}
+    </>
   );
 }

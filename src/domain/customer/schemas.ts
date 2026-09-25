@@ -10,7 +10,7 @@ import {
   ADDRESS_LABELS,
   NOTIFICATION_CATEGORIES,
   REQUEST_STATUSES,
-  type AbandonedCartRow,
+  type AbandonedCartList,
   type ActionResult,
   type Address,
   type AppNotification,
@@ -173,21 +173,25 @@ export const cartStatusSchema: z.ZodType<CartStatus> = z.object({
   abandoned: z.boolean(),
 });
 
-export const abandonedCartsSchema: z.ZodType<{ total: number; items: AbandonedCartRow[] }> =
-  z.object({
-    total: z.number().int().min(0),
-    items: z.array(
-      z.object({
-        customerId: z.string(),
-        customerName: z.string().nullable(),
-        email: z.string().nullable(),
-        itemCount: z.number().int(),
-        lastActivity: ts,
-        reminded: z.boolean(),
-        items: z.array(z.object({ sku: z.string(), name: lt, quantity: z.number().int() })),
-      }),
-    ),
-  });
+export const abandonedCartsSchema: z.ZodType<AbandonedCartList> = z.object({
+  settings: z.object({
+    enabled: z.boolean(),
+    thresholdHours: z.number(),
+    followUp: z.enum(['in_app', 'off']),
+  }),
+  total: z.number().int().min(0),
+  items: z.array(
+    z.object({
+      customerId: z.string(),
+      customerName: z.string().nullable(),
+      email: z.string().nullable(),
+      itemCount: z.number().int(),
+      lastActivity: ts,
+      reminded: z.boolean(),
+      items: z.array(z.object({ sku: z.string(), name: lt, quantity: z.number().int() })),
+    }),
+  ),
+});
 
 export const reviewSchema: z.ZodType<Review> = z.object({
   id: z.string(),
