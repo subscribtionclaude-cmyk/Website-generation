@@ -519,3 +519,27 @@
 .related {
   margin-block-start: var(--section-spacing);
 }
+
+.addedNote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.5rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+}
+
+.addedNote:empty {
+  min-height: 0;
+}
+
+.addedNote svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.addedNote a {
+  color: var(--color-text-primary);
+}

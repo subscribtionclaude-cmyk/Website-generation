@@ -1140,8 +1140,8 @@ export const OFFERS = [
     showCountdown: false,
     title: L('كود خصم على الإكسسوارات', 'Promo code on accessories'),
     subtitle: L(
-      'استخدم الكود DEMO10 (كود تجريبي) — التفعيل عند الدفع في المرحلة القادمة',
-      'Use code DEMO10 (demo code) — applied at checkout in a later phase',
+      'استخدم الكود DEMO10 (كود تجريبي) عند إتمام الطلب — خصم 10% على الإكسسوارات',
+      'Use code DEMO10 (demo code) at checkout — 10% off accessories',
     ),
     badge: L('كود خصم', 'Promo code'),
     discountPercent: 10,

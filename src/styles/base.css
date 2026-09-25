@@ -171,3 +171,20 @@ bdi,
 .skeleton-square {
   aspect-ratio: 1;
 }
+
+/* Print (invoices, receipts): hide site chrome, keep content black on white. */
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}

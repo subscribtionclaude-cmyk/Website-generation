@@ -40,6 +40,18 @@ export const adminRoutes: RouteObject = {
                 import('./pages/AdminModuleRoutes').then((m) => ({ Component: m.RolesRoute })),
             },
             {
+              path: 'orders',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({ Component: m.OrdersRoute })),
+            },
+            {
+              path: 'orders/:orderId',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.OrderDetailRoute,
+                })),
+            },
+            {
               path: ':moduleId',
               lazy: () =>
                 import('./pages/AdminPlannedModulePage').then((m) => ({

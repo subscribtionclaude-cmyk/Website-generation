@@ -1,7 +1,5 @@
-import { LayoutDashboard, LogOut, PackageOpen, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, LogOut } from 'lucide-react';
 import { Link } from 'react-router';
-import { StateMessage } from '@/components/feedback/StateMessage';
-import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { Button } from '@/components/ui/Button';
 import { buttonClassName } from '@/components/ui/buttonStyles';
 import { useAccess, useAuth } from '@/features/auth/context';
@@ -9,6 +7,7 @@ import { RequireAuth } from '@/features/auth/RequireAuth';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n } from '@/i18n/context';
 import { isolate } from '@/i18n/translator';
+import { MyOrders } from '../commerce/MyOrders';
 import styles from './pages.module.css';
 
 export function AccountPage() {
@@ -56,16 +55,7 @@ function AccountContent() {
         <h2 id="account-orders" className={styles.panelTitle}>
           {t('account.ordersTitle')}
         </h2>
-        <StateMessage
-          headingLevel={3}
-          icon={<PackageOpen />}
-          title={t('account.ordersEmpty')}
-          actions={
-            <ButtonLink to="/store" variant="primary" icon={<ShoppingBag aria-hidden="true" />}>
-              {t('account.browseStore')}
-            </ButtonLink>
-          }
-        />
+        <MyOrders />
       </section>
     </div>
   );

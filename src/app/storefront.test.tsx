@@ -155,7 +155,7 @@ describe('customer authentication (demo adapter)', () => {
     expect(await screen.findByRole('heading', { level: 1, name: 'حسابي' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/account');
     expect(screen.getByText(/customer@example.com/)).toBeInTheDocument();
-    expect(screen.getByText('لا توجد طلبات حتى الآن.')).toBeInTheDocument();
+    expect(await screen.findByText('لا توجد طلبات حتى الآن.')).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'لوحة التحكم' })).not.toBeInTheDocument();
   });
 

@@ -27,7 +27,15 @@ import {
 } from './demoCommerce';
 import { addMoney, multiplyMoney, percentOf, subtractMoney, toMinor } from './money';
 import { normalizeQuoteItems } from './pricing';
-import { derivedPaymentStatus, orderTransitionAllowed } from './status';
+import { buildWhatsAppLink } from '@/lib/whatsapp';
+import { manualReviewReasons } from './review';
+import {
+  derivedPaymentStatus,
+  orderTransitionAllowed,
+  progressIndex,
+  progressSteps,
+} from './status';
+import { orderWhatsAppMessage } from './whatsapp';
 import type { CreateOrderPayload, Quote } from './types';
 
 const raw = rawCatalogSchema.parse(demoCatalogJson);
@@ -526,5 +534,113 @@ describe('status rules', () => {
         shippingFeeStatus: 'pending',
       }),
     ).toBe('partially_paid');
+  });
+});
+
+describe('progress, review rules, WhatsApp hand-off and staff-only actions', () => {
+  it('places pre-confirmation statuses on the first progress step', () => {
+    const steps = progressSteps('delivery');
+    expect(progressIndex(steps, 'awaiting_payment')).toBe(0);
+    expect(progressIndex(steps, 'out_for_delivery')).toBe(3);
+    expect(progressIndex(steps, 'completed')).toBe(steps.length - 1);
+  });
+
+  it('flags orders with the conservative default review rules', () => {
+    const rules = orderReviewSettingsSchema.parse(baseSeed.settings.order_review);
+    const now = new Date('2026-09-25T12:00:00Z');
+    const line = (unitPrice: number, quantity = 1) => ({ unitPrice, quantity, isGift: false });
+    expect(
+      manualReviewReasons(rules, {
+        itemsTotal: 1200,
+        lines: [line(1200)],
+        paymentMethod: 'cod',
+        history: [{ createdAt: '2026-09-01T10:00:00Z', status: 'completed' }],
+        now,
+      }),
+    ).toEqual([]);
+    const flagged = manualReviewReasons(rules, {
+      itemsTotal: 160000,
+      lines: [line(80000, 2)],
+      paymentMethod: 'split',
+      history: [],
+      now,
+    });
+    expect(flagged).toEqual(
+      expect.arrayContaining(['high_value', 'multiple_expensive', 'new_customer', 'split_payment']),
+    );
+    // Recently abandoned (cancelled) orders and bursts of orders are flagged too.
+    const recent = (status: string) =>
+      Array.from({ length: 3 }, (_, i) => ({
+        createdAt: new Date(now.getTime() - (i + 1) * 60_000).toISOString(),
+        status,
+      }));
+    const small = { itemsTotal: 900, lines: [line(900)], paymentMethod: 'cod' as const, now };
+    expect(manualReviewReasons(rules, { ...small, history: recent('cancelled') })).toEqual(
+      expect.arrayContaining(['unfinished_orders', 'order_velocity']),
+    );
+    expect(manualReviewReasons(rules, { ...small, history: recent('new') })).toEqual([
+      'order_velocity',
+    ]);
+  });
+
+  it('builds the WhatsApp message from the created order only (no address or email)', () => {
+    const { actor, checkout } = setup();
+    const customer = actor('wa-customer');
+    const result = checkout(customer, [[CABLE, 2]], {
+      fulfillment: {
+        method: 'delivery',
+        governorate: 'giza',
+        area: 'Dokki',
+        address: '12 Private Street',
+        notes: null,
+      },
+    });
+    if (!result.ok) throw new Error(result.code);
+    const message = orderWhatsAppMessage(
+      result.order,
+      'en',
+      {
+        intro: (n) => `Order ${n}`,
+        customer: (name) => `Name: ${name}`,
+        item: (l) => `- ${l.name} × ${l.quantity}`,
+        total: (t) => `Total: ${t}`,
+        shippingPending: '(shipping to be confirmed)',
+        payment: (m) => `Payment: ${m}`,
+        fulfillment: (m) => `Fulfillment: ${m}`,
+      },
+      (amount) => `EGP ${amount}`,
+      'Cash on delivery',
+      'Delivery',
+    );
+    expect(message).toContain(`Order ${result.order.orderNumber}`);
+    expect(message).toContain('× 2');
+    expect(message).toContain('(shipping to be confirmed)');
+    expect(message).not.toContain('12 Private Street');
+    expect(message).not.toContain('@');
+    const link = buildWhatsAppLink('01000000001', message);
+    expect(link.status === 'ok' && link.url).toMatch(/^https:\/\/wa\.me\/201000000001\?text=/);
+    expect(buildWhatsAppLink(null, message)).toEqual({ status: 'not_configured' });
+  });
+
+  it('keeps status changes, shipping, payment verification and review staff-only', () => {
+    const { actor, checkout, commerce } = setup();
+    const customer = actor('cust-perm');
+    const result = checkout(customer, [[CABLE, 1]]);
+    if (!result.ok) throw new Error(result.code);
+    const id = result.order.id;
+    expect(() => commerce.setStatus(customer, id, 'confirmed', null)).toThrow(DemoPermissionError);
+    expect(() => commerce.setShipping(customer, id, { fee: 0 })).toThrow(DemoPermissionError);
+    expect(() => commerce.recordPayment(customer, id, { amount: 900, method: 'cash' })).toThrow(
+      DemoPermissionError,
+    );
+    expect(() => commerce.review(customer, id, 'approved', null)).toThrow(DemoPermissionError);
+    // Sales can manage orders but cannot verify money.
+    const sales = actor('staff-sales', 'sales');
+    expect(commerce.setStatus(sales, id, 'awaiting_whatsapp', null).ok).toBe(true);
+    expect(() => commerce.recordPayment(sales, id, { amount: 900, method: 'cash' })).toThrow(
+      DemoPermissionError,
+    );
+    // Another customer can't read it.
+    expect(commerce.getMyOrder('someone-else', result.order.orderNumber)).toBeNull();
   });
 });

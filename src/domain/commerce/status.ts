@@ -104,6 +104,16 @@ export function canCustomerCancel(o: {
 }
 
 /** Customer-facing progress steps (cancelled orders show their own state). */
+/**
+ * Where an order sits on its customer-facing progress line. Pre-confirmation states (awaiting
+ * WhatsApp / payment / verification) sit on the first step; `completed` on the last.
+ */
+export function progressIndex(steps: OrderStatus[], status: OrderStatus): number {
+  const index = steps.indexOf(status);
+  if (index >= 0) return index;
+  return status === 'completed' ? steps.length - 1 : 0;
+}
+
 export function progressSteps(method: FulfillmentMethod): OrderStatus[] {
   return method === 'pickup'
     ? ['new', 'confirmed', 'preparing', 'ready_for_pickup', 'completed']

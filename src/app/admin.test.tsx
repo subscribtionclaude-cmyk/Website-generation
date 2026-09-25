@@ -59,9 +59,11 @@ describe('admin shell', () => {
   });
 
   it('planned modules say which phase delivers them', async () => {
-    await previewAs('store_manager', '/admin/orders');
-    expect(await screen.findByRole('heading', { level: 1, name: 'الطلبات' })).toBeInTheDocument();
-    expect(screen.getByText('هذا القسم مجدول للمرحلة 03')).toBeInTheDocument();
+    await previewAs('store_manager', '/admin/shipping');
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'الشحن والاستلام' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('هذا القسم مجدول للمرحلة 06')).toBeInTheDocument();
   });
 
   it('store details page is read-only and shows the published values', async () => {

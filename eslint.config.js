@@ -32,6 +32,8 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.configs.strict.rules,
+      // Radio "choice cards" nest their visible text a few elements deep inside the <label>.
+      'jsx-a11y-x/label-has-associated-control': ['error', { depth: 4 }],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/consistent-type-imports': ['error', { fixStyle: 'inline-type-imports' }],
       '@typescript-eslint/no-unused-vars': [

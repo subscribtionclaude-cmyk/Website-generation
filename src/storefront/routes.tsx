@@ -10,7 +10,6 @@ import type { SectionHandle } from './routeHandles';
  * SEO structure are stable; each renders an honest placeholder until its phase ships.
  */
 const PLANNED_SECTIONS: ({ path: string } & SectionHandle)[] = [
-  { path: 'cart', section: 'cart', phase: 3 },
   { path: 'trade-in', section: 'trade-in', phase: 5 },
   { path: 'repairs', section: 'repairs', phase: 5 },
   { path: 'used', section: 'used', phase: 5 },
@@ -20,6 +19,7 @@ const storePages = () => import('./pages/StorePage');
 const offersPages = () => import('./pages/OffersPages');
 const newsPages = () => import('./pages/NewsPages');
 const newPages = () => import('./pages/NewPages');
+const orderPages = () => import('./pages/OrderPage');
 
 /** Phase 02 storefront pages (each a lazy chunk; the admin bundle is never pulled in). */
 const STOREFRONT_PAGES: RouteObject[] = [
@@ -51,6 +51,23 @@ const STOREFRONT_PAGES: RouteObject[] = [
   },
 ];
 
+/** Phase 03 commerce pages. Auth is only required from checkout onwards. */
+const COMMERCE_PAGES: RouteObject[] = [
+  { path: 'cart', lazy: () => import('./pages/CartPage').then((m) => ({ Component: m.CartPage })) },
+  {
+    path: 'checkout',
+    lazy: () => import('./pages/CheckoutPage').then((m) => ({ Component: m.CheckoutPage })),
+  },
+  {
+    path: 'order/:orderNumber',
+    lazy: () => orderPages().then((m) => ({ Component: m.OrderPage })),
+  },
+  {
+    path: 'order/:orderNumber/invoice',
+    lazy: () => import('./pages/InvoicePage').then((m) => ({ Component: m.InvoicePage })),
+  },
+];
+
 const placeholder = () =>
   import('./pages/SectionPlaceholderPage').then((m) => ({ Component: m.SectionPlaceholderPage }));
 
@@ -68,6 +85,7 @@ export function storefrontRoutes(locale: Locale): RouteObject {
             lazy: () => import('./pages/HomePage').then((m) => ({ Component: m.HomePage })),
           },
           ...STOREFRONT_PAGES,
+          ...COMMERCE_PAGES,
           ...PLANNED_SECTIONS.map(({ path, section, phase }) => ({
             path,
             handle: { section, phase } satisfies SectionHandle,

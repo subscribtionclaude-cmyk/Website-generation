@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 import { Alert } from '@/components/feedback/Alert';
 import { Button } from '@/components/ui/Button';
 import { DemoModeBanner } from '@/features/data-mode/DemoModeBanner';
+import { CartProvider } from '@/features/cart/CartProvider';
 import { useSettingsContext } from '@/features/settings/context';
 import { WhatsAppMessageContext } from '@/features/whatsapp/context';
 import { WhatsAppFab } from '@/features/whatsapp/WhatsAppFab';
@@ -33,33 +34,35 @@ function StorefrontShell() {
   const whatsapp = useMemo(() => ({ message, setMessage }), [message]);
 
   return (
-    <WhatsAppMessageContext value={whatsapp}>
-      <div className={styles.shell}>
-        <SkipLink />
-        <DemoModeBanner />
-        <SiteHeader />
-        {loadFailed && (
-          <div className={`container ${styles.notice}`}>
-            <Alert
-              tone="warning"
-              live
-              action={
-                <Button size="sm" variant="secondary" onClick={refetch}>
-                  {t('common.retry')}
-                </Button>
-              }
-            >
-              {t('errors.backendUnavailable')}
-            </Alert>
-          </div>
-        )}
-        <main id="main-content" tabIndex={-1} className={styles.main}>
-          <Outlet />
-        </main>
-        <SiteFooter />
-        <MobileTabBar />
-        <WhatsAppFab />
-      </div>
-    </WhatsAppMessageContext>
+    <CartProvider>
+      <WhatsAppMessageContext value={whatsapp}>
+        <div className={styles.shell}>
+          <SkipLink />
+          <DemoModeBanner />
+          <SiteHeader />
+          {loadFailed && (
+            <div className={`container ${styles.notice}`}>
+              <Alert
+                tone="warning"
+                live
+                action={
+                  <Button size="sm" variant="secondary" onClick={refetch}>
+                    {t('common.retry')}
+                  </Button>
+                }
+              >
+                {t('errors.backendUnavailable')}
+              </Alert>
+            </div>
+          )}
+          <main id="main-content" tabIndex={-1} className={styles.main}>
+            <Outlet />
+          </main>
+          <SiteFooter />
+          <MobileTabBar />
+          <WhatsAppFab />
+        </div>
+      </WhatsAppMessageContext>
+    </CartProvider>
   );
 }

@@ -6,6 +6,7 @@ import { LanguageSwitch } from '@/components/navigation/LanguageSwitch';
 import { LocaleLink, LocaleNavLink } from '@/components/navigation/LocaleLink';
 import { isExternalHref, localizePath, parseLocalePath } from '@/i18n/paths';
 import { resolveLocalized } from '@/domain/localized';
+import { useCart } from '@/features/cart/context';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { MobileMenu } from './MobileMenu';
@@ -15,6 +16,7 @@ export function SiteHeader() {
   const { navigation } = useSettings();
   const { t, locale } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { count } = useCart();
   const items = navigation.primary.filter((item) => item.visible);
 
   return (
@@ -44,10 +46,15 @@ export function SiteHeader() {
           </LocaleLink>
           <LocaleLink
             to="/cart"
-            className={`${styles.iconAction} ${styles.desktopOnly}`}
-            aria-label={t('common.cart')}
+            className={`${styles.iconAction} ${styles.desktopOnly} ${styles.cartLink}`}
+            aria-label={count > 0 ? t('common.cartItems', { count }) : t('common.cart')}
           >
             <ShoppingCart aria-hidden="true" />
+            {count > 0 && (
+              <span className={styles.cartCount} aria-hidden="true">
+                {count > 99 ? '99+' : count}
+              </span>
+            )}
           </LocaleLink>
           <button
             type="button"

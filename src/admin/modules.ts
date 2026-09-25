@@ -78,7 +78,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: ClipboardList,
     permission: 'orders.view',
-    plannedPhase: 3,
+    plannedPhase: null,
   },
   {
     id: 'shipping',
@@ -86,7 +86,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: Truck,
     permission: 'shipping.manage',
-    plannedPhase: 3,
+    plannedPhase: 6,
   },
   {
     id: 'receipts',
@@ -94,7 +94,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: Receipt,
     permission: 'settings.manage',
-    plannedPhase: 3,
+    plannedPhase: 6,
   },
   {
     id: 'repairs',

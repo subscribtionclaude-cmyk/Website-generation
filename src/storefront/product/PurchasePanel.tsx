@@ -1,5 +1,6 @@
 import {
   BellRing,
+  CircleCheck,
   Hourglass,
   Info,
   MessageCircle,
@@ -8,11 +9,15 @@ import {
   ShoppingBag,
   ShoppingCart,
 } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
 import { Button } from '@/components/ui/Button';
 import { buttonClassName } from '@/components/ui/buttonStyles';
 import type { ProductDetail, ProductVariant } from '@/domain/catalog/types';
 import type { PurchaseState } from '@/domain/catalog/variants';
+import { useCart } from '@/features/cart/context';
+import { localizePath } from '@/i18n/paths';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { toTelHref } from '@/lib/phone';
@@ -21,8 +26,9 @@ import type { RequestKind } from './RequestDrawer';
 import styles from './product.module.css';
 
 /**
- * CTA block driven by purchaseState(). Cart/checkout arrive in Phase 03: until then Add to cart /
- * Buy now are visibly disabled with an honest note, and the working paths are call + WhatsApp.
+ * CTA block driven by purchaseState(). Add to cart / Buy now put the EXACT selected variant in the
+ * cart (Buy now then opens checkout — the same server validation applies); call and WhatsApp
+ * remain available for customers who prefer to talk to the store.
  */
 export function PurchasePanel({
   product,
@@ -68,35 +74,8 @@ export function PurchasePanel({
 
   return (
     <div className={styles.purchase}>
-      {state.kind === 'purchasable' && (
-        <>
-          <div className={styles.purchaseActions}>
-            <Button
-              variant="accent"
-              size="lg"
-              block
-              disabled
-              aria-describedby="ordering-soon"
-              icon={<ShoppingCart aria-hidden="true" />}
-            >
-              {t('product.addToCart')}
-            </Button>
-            <Button
-              variant="primary"
-              size="lg"
-              block
-              disabled
-              aria-describedby="ordering-soon"
-              icon={<ShoppingBag aria-hidden="true" />}
-            >
-              {t('product.buyNow')}
-            </Button>
-          </div>
-          <p id="ordering-soon" className={styles.purchaseNote}>
-            <Info aria-hidden="true" />
-            {t('product.orderingSoon')}
-          </p>
-        </>
+      {state.kind === 'purchasable' && variant && (
+        <PurchaseButtons product={product} variant={variant} />
       )}
       {state.kind === 'out_of_stock' && (
         <>
@@ -160,5 +139,74 @@ export function PurchasePanel({
         </LocaleLink>
       )}
     </div>
+  );
+}
+
+function PurchaseButtons({
+  product,
+  variant,
+}: {
+  product: ProductDetail;
+  variant: ProductVariant;
+}) {
+  const { t, locale } = useI18n();
+  const cart = useCart();
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState<'add' | 'buy' | null>(null);
+  const [added, setAdded] = useState(false);
+  const inCart = cart.lines.find((l) => l.variantId === variant.id && !l.savedForLater);
+
+  const add = async (mode: 'add' | 'buy') => {
+    setBusy(mode);
+    try {
+      await cart.add({
+        variantId: variant.id,
+        productSlug: product.slug,
+        quantity: 1,
+        seenUnitPrice: variant.price,
+      });
+      if (mode === 'buy') void navigate(localizePath('/checkout', locale));
+      else setAdded(true);
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.purchaseActions}>
+        <Button
+          variant="accent"
+          size="lg"
+          block
+          loading={busy === 'add'}
+          disabled={busy !== null}
+          icon={<ShoppingCart aria-hidden="true" />}
+          onClick={() => void add('add')}
+        >
+          {t('product.addToCart')}
+        </Button>
+        <Button
+          variant="primary"
+          size="lg"
+          block
+          loading={busy === 'buy'}
+          disabled={busy !== null}
+          icon={<ShoppingBag aria-hidden="true" />}
+          onClick={() => void add('buy')}
+        >
+          {t('product.buyNow')}
+        </Button>
+      </div>
+      <p className={styles.addedNote} role="status">
+        {added && inCart ? (
+          <>
+            <CircleCheck aria-hidden="true" />
+            <span>{t('cart.added', { count: inCart.quantity })}</span>
+            <LocaleLink to="/cart">{t('cart.view')}</LocaleLink>
+          </>
+        ) : null}
+      </p>
+    </>
   );
 }

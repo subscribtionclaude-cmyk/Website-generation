@@ -171,8 +171,12 @@ describe('product detail page', () => {
     expect(await screen.findByText('IP18P-512GB-BLACK')).toBeInTheDocument();
     // Warranty comes from the variant/product data, never a hard-coded label.
     expect(screen.getByText(/Authorized distributor warranty/)).toBeInTheDocument();
-    // Cart is Phase 03: buttons are visibly disabled with an honest note.
-    expect(screen.getByRole('button', { name: /Add to cart/ })).toBeDisabled();
+    // Phase 03: the exact selected variant goes into the cart.
+    await user.click(screen.getByRole('button', { name: /Add to cart/ }));
+    expect(await screen.findByText('In cart: 1')).toBeInTheDocument();
+    expect(JSON.parse(window.localStorage.getItem('malek:v1:cart') ?? '[]')).toMatchObject([
+      { quantity: 1, productSlug: 'iphone-18-pro' },
+    ]);
   });
 
   it('offers Notify Me for a sold-out variant and validates the request form', async () => {

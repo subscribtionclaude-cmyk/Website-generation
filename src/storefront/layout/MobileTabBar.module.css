@@ -59,3 +59,25 @@
   border-radius: 0 0 3px 3px;
   background: var(--color-brand-primary);
 }
+
+.iconWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.badge {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: -10px;
+  min-width: 17px;
+  height: 17px;
+  padding-inline: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-primary);
+  color: var(--color-on-brand-primary);
+  font-size: 0.65rem;
+  font-weight: 800;
+  line-height: 17px;
+  text-align: center;
+  font-family: var(--font-numeric);
+}
