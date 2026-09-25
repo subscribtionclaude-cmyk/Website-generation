@@ -28,6 +28,7 @@ import {
 import { addMoney, multiplyMoney, percentOf, subtractMoney, toMinor } from './money';
 import { normalizeQuoteItems } from './pricing';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
+import { deliveryPlace } from './governorates';
 import { manualReviewReasons } from './review';
 import {
   derivedPaymentStatus,
@@ -538,6 +539,14 @@ describe('status rules', () => {
 });
 
 describe('progress, review rules, WhatsApp hand-off and staff-only actions', () => {
+  it('joins delivery places with the locale comma', () => {
+    expect(deliveryPlace({ governorate: 'giza', area: 'Dokki' }, 'en')).toBe('Giza, Dokki');
+    expect(deliveryPlace({ governorate: 'giza', area: 'الدقي', address: '12 شارع' }, 'ar')).toBe(
+      'الجيزة، الدقي، 12 شارع',
+    );
+    expect(deliveryPlace({ governorate: null, area: ' ', address: null }, 'en')).toBe('');
+  });
+
   it('places pre-confirmation statuses on the first progress step', () => {
     const steps = progressSteps('delivery');
     expect(progressIndex(steps, 'awaiting_payment')).toBe(0);

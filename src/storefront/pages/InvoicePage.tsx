@@ -159,7 +159,10 @@ function Invoice({ order, template }: { order: Order; template: InvoiceTemplate 
               <p>{resolveLocalized(order.fulfillment.pickupBranch.name, locale)}</p>
             ) : (
               <p>
-                {deliveryPlace(order.fulfillment, locale)}
+                {deliveryPlace(
+                  { governorate: order.fulfillment.governorate, area: order.fulfillment.area },
+                  locale,
+                )}
                 <br />
                 {order.fulfillment.address}
               </p>

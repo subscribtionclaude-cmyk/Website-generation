@@ -196,7 +196,7 @@
 | `npm run lint`                                                                           | ✅ 0 errors, 0 warnings                                                                                 |
 | `npm run format:check`                                                                   | ✅                                                                                                      |
 | `npm run seed:check`                                                                     | ✅ demo catalog, media and seed SQL up to date                                                          |
-| `npm test` (Vitest)                                                                      | ✅ 166 / 166 tests, 16 files (21 commerce domain tests, 8 commerce integration tests)                   |
+| `npm test` (Vitest)                                                                      | ✅ 167 / 167 tests, 16 files (22 commerce domain tests, 8 commerce integration tests)                   |
 | `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ migrations + seeds + idempotent re-run, contracts, 349 / 349 SQL assertions (140 in `07_commerce`)   |
 | Concurrency (separate parallel sessions)                                                 | ✅ last unit: `cart_invalid` + `ok` (one order); double submit: `ok` + `ok:duplicate` (one order)       |
 | `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 146 passed, 6 skipped (viewport-specific) — incl. 20 commerce journeys                               |

@@ -268,7 +268,13 @@ function Receipt({ order, placed }: { order: Order; placed: boolean }) {
                     </>
                   ) : (
                     <>
-                      {deliveryPlace(order.fulfillment, locale)}
+                      {deliveryPlace(
+                        {
+                          governorate: order.fulfillment.governorate,
+                          area: order.fulfillment.area,
+                        },
+                        locale,
+                      )}
                       <br />
                       {order.fulfillment.address}
                     </>

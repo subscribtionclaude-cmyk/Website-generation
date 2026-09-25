@@ -184,6 +184,9 @@ describe('guest cart → checkout → order', { timeout: 30_000 }, () => {
     expect(screen.getByText('Total before shipping')).toBeInTheDocument();
     expect(screen.getAllByText('Awaiting transfer').length).toBeGreaterThan(0);
     expect(screen.getByText('Promo code used: DEMO10')).toBeInTheDocument();
+    // The street address is shown once (not repeated after governorate/area).
+    expect(screen.getAllByText(/12 Tahrir St, floor 3/)).toHaveLength(1);
+    expect(screen.getByText(/Giza, Dokki/)).toBeInTheDocument();
     // DEMO10 only targets accessories: 7,500 + 2 × 900 − 10% × 1,800 = 9,120.
     expect(screen.getAllByText(/9,120/).length).toBeGreaterThan(0);
   }, 30_000);
