@@ -146,7 +146,7 @@
   display: grid;
   gap: var(--space-1);
   width: min(100%, 340px);
-  margin: 0 0 0 auto;
+  margin: 0;
   margin-inline-start: auto;
 }
 

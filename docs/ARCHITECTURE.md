@@ -160,7 +160,7 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 | Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | 08 (wizard), 10 (cleanup)         |
 | Storage uploads UI & image compression              | buckets + policies                                                                  | 05 / 06                           |
 | Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                |
-| Cart / checkout / orders / receipts                 | routed placeholders                                                                 | 03                                |
+| Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                |
 | PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                |
 | Integrations center                                 | none (everything optional)                                                          | 09                                |
 
@@ -200,9 +200,8 @@ come from settings.
 
 **Customer requests.** Notify-me (sold-out variant) and waitlist (upcoming product) are real,
 validated intake contracts (`request_stock_alert`, `join_waitlist`) — Phase 04 adds account linking
-and notifications, Phase 06 the staff queue. Add to cart / Buy now are visibly disabled with an
-honest "ordering online soon" note until Phase 03; call and context-aware WhatsApp (product, storage,
-colour, SKU, price) are the working paths.
+and notifications, Phase 06 the staff queue. Add to cart / Buy now (enabled in Phase 03, §12) sit
+next to call and context-aware WhatsApp (product, storage, colour, SKU, price).
 
 **Motion.** Hybrid model: restrained CSS motion (hero rise + slow float) on capable devices; off for
 `prefers-reduced-motion`, and `data-motion="reduced"` is set automatically on constrained devices
@@ -210,3 +209,116 @@ colour, SKU, price) are the working paths.
 
 **Bundles.** Every storefront page is a lazy chunk; the admin bundle is never requested by
 storefront pages (asserted in e2e). The demo catalog ships inside the lazily loaded demo runtime only.
+
+## 12. Commerce (Phase 03)
+
+**Money.** Prices are `numeric(12,2)` EGP in the database. TypeScript never does float arithmetic on
+money: `domain/commerce/money.ts` works in integer piasters and rounds half-up exactly like
+`round(x, 2)`. The UI shows a single final price — there is no VAT line; receipts say "not a tax
+invoice".
+
+**Price authority.** The browser only ever sends variant ids and quantities. `quote_checkout`
+(anonymous or signed-in) and `create_order` compute everything on the server with one pricing
+function set (`app.variant_pricing` → `app.build_quote`): automatic offers (flash / limited-time /
+percentage / fixed — best discount wins, inside their time window), bundles (complete sets of
+bundle items), free gifts (price 0, only while in stock), then the promo code (`offers.kind =
+'promo_code'`, `features.promoCodes`, window, min subtotal, total and per-customer limits; an
+untargeted code applies to the whole cart). `domain/commerce/pricing.ts` mirrors it for the demo
+adapter; `commerce.test.ts` and `07_commerce.test.sql` assert the same numbers.
+
+**Cart.** One line = one exact variant. Signed out, the cart lives in `localStorage`
+(`malek:v1:cart`, display data only, synced across tabs). On sign-in it is merged **once** into the
+account cart by `cart_merge` (deterministic: quantities summed and capped at
+`commerce.maxQuantityPerLine`, unknown variants dropped, adjustments reported to the customer; stock
+shortfalls are then flagged by the quote).
+Every cart view is re-quoted; a line whose price moved since the customer saw it shows **"Price
+updated"** (old → new) and checkout stays disabled until the customer accepts; sold-out, over-stock,
+unavailable and not-purchasable lines are flagged instead of being changed silently.
+
+**Checkout.** Browsing and the cart are anonymous; `/checkout` requires sign-in (email code — no paid
+SMS). Steps: Contact (Egyptian mobile normalised to `+20…`, no OTP) → Fulfillment (delivery:
+governorate / area / address / notes, fee "to be confirmed"; or pickup from a `store.branches`
+branch with `pickupEnabled`) → Payment (only methods enabled in the `commerce` setting: COD,
+InstaPay, split; pay-at-store only if `features.payAtStore` and pickup) → Review (promo code, note)
+→ Create. Each step moves focus to its heading; radio groups are real fieldsets with legends;
+statuses always carry text and an icon.
+
+**Order creation (`create_order`).** One transaction:
+
+1. `pg_advisory_xact_lock` per customer, then the idempotency key is checked (unique
+   `(customer_id, idempotency_key)`; a replay returns the existing order with `duplicate: true`). The
+   UI derives the key from the payload, so a double click or retry can never create two orders.
+2. Contact, fulfillment, payment and the open-order limit (`commerce.maxOpenOrdersPerCustomer`) are
+   validated.
+3. The variants are locked `FOR UPDATE` in id order (deadlock-free) and the quote is rebuilt. If any
+   unit price or the total differs from what the customer confirmed, **nothing is written** and the
+   new quote comes back as `price_changed`.
+4. Manual-review rules run, the human order number is issued (`MS-2026-000123` from a sequence,
+   Cairo year — never the primary key), and items (full snapshots: name, variant, SKU, image,
+   warranty, regular / unit price, discounts, applied offer), reservations, the promo redemption, the
+   first timeline event and an audit event are inserted; ordered lines leave the account cart.
+
+Business outcomes are returned as `{ ok: false, code }` (never raw database errors); permission
+failures raise `42501`.
+
+**Reservations (no cron).** Each order line holds a soft reservation with `reservation_expires_at =
+now() + commerce.reservationMinutes` (30). Availability everywhere — quotes, product stock states,
+`FOR UPDATE` checks — is `stock_quantity − active reservations whose expiry is in the future`, so an
+expired hold stops counting the moment its timestamp passes; `release_expired_reservations()` only
+tidies statuses (staff button; safe to call from any scheduler later). Stock is **committed once**,
+when staff confirm the order: `stock_quantity` is decremented, one `sale` row is written to
+`stock_movements` and the reservations become `committed`. Cancelling before commit releases the
+holds; cancelling after commit restocks with a `cancellation_restock` movement.
+
+**Concurrency.** `test:db` runs real parallel sessions: two customers racing for the last unit (one
+order, one `cart_invalid`) and the same idempotency key submitted twice at once (one order, one
+duplicate).
+
+**Order lifecycle.** `new → awaiting_whatsapp / awaiting_payment / payment_verification → confirmed →
+preparing → ready_for_pickup | out_for_delivery → delivered → completed`, plus `cancelled`
+(`app.order_transition_allowed`, mirrored in `domain/commerce/status.ts`). Confirming requires: no
+pending/rejected review, a confirmed shipping fee for delivery, InstaPay fully paid, split deposit
+paid. Completing requires `remaining = 0`. Every change writes an append-only `order_events` row
+(actor kind, status, note, customer-visible flag) and the row-level audit trigger.
+
+**Payments.** COD, InstaPay, split (InstaPay deposit + rest on delivery) and optional pay-at-store —
+no gateway. `payment_status` is **derived** from the method and _verified_ money only
+(`cod_pending`, `awaiting_payment`, `awaiting_deposit`, `verification_pending`, `deposit_verified`,
+`partially_paid`, `paid`, `pay_at_store`, `void`). A customer's screenshot never changes it: staff
+can mark "payment verification" (`orders.manage`), but only `staff_record_payment` —
+`payments.verify` **and** the MFA gate — adds money, with method, amount, reference and note, audited.
+The database enforces `total = subtotal − discount_total + shipping_fee`, `paid_amount ≤ total` and
+`remaining_amount = total − paid_amount` (generated column). InstaPay details come from the
+`commerce.instapay` setting; when unset, checkout says the team sends them on WhatsApp — nothing is
+invented.
+
+**Shipping.** Delivery orders start with `shipping_fee_status = 'pending'` ("to be confirmed", total
+shown as "total before shipping"). Staff with `shipping.manage` enter the fee (plus ETA, courier,
+tracking) — audited; a fee that would make the verified payments exceed the new total is refused.
+Pickup orders have no fee.
+
+**Manual review.** `order_review` (private setting) holds conservative demo defaults — high value
+(≥ 100,000), several expensive units, new customer with a large order, split payment, recently
+cancelled orders, order velocity. Flagged orders show "needs review" to the customer (without the
+reasons) and cannot be confirmed until `payments.verify` staff approve.
+
+**Customer views.** `/order/:number` (receipt + progress + WhatsApp hand-off + cancel while allowed),
+`/order/:number/invoice` and `/account` (order list) read through `get_my_order` / `list_my_orders`,
+which only return the caller's own orders; an unknown and a foreign number look identical. The
+WhatsApp hand-off appears only after the order exists, prefilled with the number, items, total,
+payment and fulfillment (no address or email); if no WhatsApp number is configured the page says so
+instead of rendering a broken link.
+
+**Invoice.** Browser-native: print CSS hides the site chrome (`print-hidden`) and "Print / save as
+PDF" uses the browser's own PDF output — no paid service. The page renders from an editable template
+contract (`domain/commerce/invoiceTemplate.ts`: logo, visible fields, title, terms, footer) that
+Phase 06's receipt-template editor will store as a setting.
+
+**Staff.** `/admin/orders` (queue with status / review filters, search, release expired holds) and
+`/admin/orders/:id` (items, totals, customer, review reasons, verified payments, holds, timeline;
+actions: review, status, shipping, payment verification, record verified payment, cancel, note).
+Each action is available only with its permission and is re-checked by the RPC.
+
+**Demo vs live.** Demo mode runs the same rules in the browser (`domain/commerce/demoCommerce.ts`,
+persisted in `localStorage`) and badges every order "Demo". Live mode uses only the Supabase RPCs; if
+they fail, the customer sees an error state — never demo data.

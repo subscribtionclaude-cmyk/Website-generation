@@ -21,7 +21,7 @@ import { LocaleLink } from '@/components/navigation/LocaleLink';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/TextField';
 import { parseAmount } from '@/domain/catalog/amount';
-import { GOVERNORATES, governorateName } from '@/domain/commerce/governorates';
+import { deliveryPlace, GOVERNORATES } from '@/domain/commerce/governorates';
 import type { CreateOrderPayload, FulfillmentMethod, PaymentMethod } from '@/domain/commerce/types';
 import { resolveLocalized } from '@/domain/localized';
 import { useSession } from '@/features/auth/context';
@@ -664,7 +664,7 @@ function Checkout() {
                 >
                   {form.fulfillment === 'pickup'
                     ? `${t('fulfillment.pickup')} — ${resolveLocalized(branches.find((b) => b.id === form.branchId)?.name ?? { ar: '' }, locale)}`
-                    : `${t('fulfillment.delivery')} — ${resolveLocalized(governorateName(form.governorate) ?? { ar: '' }, locale)}، ${form.area}، ${form.address}`}
+                    : `${t('fulfillment.delivery')} — ${deliveryPlace({ governorate: form.governorate, area: form.area, address: form.address }, locale)}`}
                 </ReviewRow>
                 <ReviewRow label={t('checkout.stepPayment')} onEdit={() => setStep('payment')}>
                   {form.payment ? t(PAYMENT_METHOD_LABEL[form.payment]) : '—'}

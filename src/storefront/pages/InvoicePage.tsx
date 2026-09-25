@@ -6,7 +6,7 @@ import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
 import { BidiText } from '@/components/text/BidiText';
 import { Button } from '@/components/ui/Button';
-import { governorateName } from '@/domain/commerce/governorates';
+import { deliveryPlace } from '@/domain/commerce/governorates';
 import { DEFAULT_INVOICE_TEMPLATE, type InvoiceTemplate } from '@/domain/commerce/invoiceTemplate';
 import type { Order } from '@/domain/commerce/types';
 import { resolveLocalized } from '@/domain/localized';
@@ -72,7 +72,6 @@ function Invoice({ order, template }: { order: Order; template: InvoiceTemplate 
   const { brand, store } = useSettings();
   const branch = store.branches[0];
   const money = (amount: number) => format.money(amount, { fractionDigits: 2 });
-  const governorate = governorateName(order.fulfillment.governorate);
 
   return (
     <div className={`container ${styles.page}`}>
@@ -160,7 +159,7 @@ function Invoice({ order, template }: { order: Order; template: InvoiceTemplate 
               <p>{resolveLocalized(order.fulfillment.pickupBranch.name, locale)}</p>
             ) : (
               <p>
-                {governorate && resolveLocalized(governorate, locale)}، {order.fulfillment.area}
+                {deliveryPlace(order.fulfillment, locale)}
                 <br />
                 {order.fulfillment.address}
               </p>

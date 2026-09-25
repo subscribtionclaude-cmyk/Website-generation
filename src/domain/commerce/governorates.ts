@@ -1,4 +1,4 @@
-import type { LocalizedText } from '@/domain/localized';
+import { resolveLocalized, type LocalizedText } from '@/domain/localized';
 
 /** Egypt's 27 governorates (delivery is available broadly; the fee is confirmed manually by staff). */
 export const GOVERNORATES: { key: string; name: LocalizedText }[] = [
@@ -33,4 +33,15 @@ export const GOVERNORATES: { key: string; name: LocalizedText }[] = [
 
 export function governorateName(key: string | null): LocalizedText | null {
   return GOVERNORATES.find((g) => g.key === key)?.name ?? (key ? { ar: key } : null);
+}
+
+/** "Governorate, area[, address]" with the locale's comma (، in Arabic). */
+export function deliveryPlace(
+  parts: { governorate: string | null; area: string | null; address?: string | null },
+  locale: 'ar' | 'en',
+): string {
+  const governorate = governorateName(parts.governorate);
+  return [governorate ? resolveLocalized(governorate, locale) : null, parts.area, parts.address]
+    .filter((part): part is string => Boolean(part && part.trim()))
+    .join(locale === 'ar' ? '، ' : ', ');
 }

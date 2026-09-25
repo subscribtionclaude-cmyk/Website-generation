@@ -4,7 +4,7 @@ import styles from './StorefrontLayout.module.css';
 export function SkipLink({ targetId = 'main-content' }: { targetId?: string }) {
   const { t } = useI18n();
   return (
-    <a className={styles.skipLink} href={`#${targetId}`}>
+    <a className={`${styles.skipLink} print-hidden`} href={`#${targetId}`}>
       {t('common.skipToContent')}
     </a>
   );

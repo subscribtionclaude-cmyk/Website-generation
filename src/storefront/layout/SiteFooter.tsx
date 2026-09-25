@@ -30,7 +30,7 @@ export function SiteFooter() {
   const year = getZonedParts(new Date()).year;
 
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} print-hidden`}>
       <div className="container">
         <div className={styles.grid}>
           <div className={styles.brandCol}>

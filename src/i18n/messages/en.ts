@@ -224,15 +224,14 @@ export const en: Widen<typeof ar> = {
     unavailableValue: 'Not available with your current selection',
     addToCart: 'Add to cart',
     buyNow: 'Buy now',
-    orderingSoon:
-      'Online ordering opens soon. You can order now from the branch by phone or WhatsApp.',
     callToOrder: 'Call to order',
     outOfStockTitle: 'This option is out of stock',
     notifyMe: 'Notify me when available',
     joinWaitlist: 'Join the waitlist',
     comingSoonNote:
       'This product is coming soon. Register and we’ll tell you as soon as it’s available.',
-    preOrderNote: 'Pre-orders open with online ordering. Contact us if you’d like to reserve now.',
+    preOrderNote:
+      "Online pre-orders aren't available yet. Register your interest and we'll let you know, or call us to reserve.",
     unavailableNote: 'This combination isn’t available. Try another storage or colour.',
     tradeInCta: 'Have an old device? Trade it in and see the difference',
     whatsappCta: 'Ask on WhatsApp',
@@ -582,6 +581,10 @@ export const en: Widen<typeof ar> = {
     waShippingPending: '(shipping to be confirmed)',
     waPayment: 'Payment: {method}',
     waFulfillment: 'Fulfillment: {method}',
+    placedBodyNoWhatsapp:
+      'Our team will review it and contact you on your number to confirm availability, shipping and payment.',
+    nextBodyNoWhatsapp:
+      "We'll call you on your number to confirm availability, shipping and payment. You can also call the store.",
   },
   invoice: {
     pageTitle: 'Invoice {number}',

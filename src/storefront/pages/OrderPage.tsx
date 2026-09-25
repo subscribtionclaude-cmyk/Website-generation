@@ -18,7 +18,7 @@ import { Skeleton } from '@/components/feedback/Skeleton';
 import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { Button } from '@/components/ui/Button';
 import { buttonClassName } from '@/components/ui/buttonStyles';
-import { governorateName } from '@/domain/commerce/governorates';
+import { deliveryPlace } from '@/domain/commerce/governorates';
 import { progressIndex, progressSteps } from '@/domain/commerce/status';
 import type { Order } from '@/domain/commerce/types';
 import { orderWhatsAppMessage } from '@/domain/commerce/whatsapp';
@@ -136,7 +136,6 @@ function Receipt({ order, placed }: { order: Order; placed: boolean }) {
 
   const steps = progressSteps(order.fulfillment.method);
   const currentIndex = progressIndex(steps, order.status);
-  const governorate = governorateName(order.fulfillment.governorate);
 
   return (
     <div className={`container ${styles.page}`}>
@@ -144,7 +143,7 @@ function Receipt({ order, placed }: { order: Order; placed: boolean }) {
         <div className={styles.success} role="status">
           <CircleCheck aria-hidden="true" />
           <h1 className={styles.successTitle}>{t('order.placedTitle')}</h1>
-          <p>{t('order.placedBody')}</p>
+          <p>{t(whatsapp.status === 'ok' ? 'order.placedBody' : 'order.placedBodyNoWhatsapp')}</p>
         </div>
       )}
 
@@ -207,7 +206,9 @@ function Receipt({ order, placed }: { order: Order; placed: boolean }) {
             <h2 id="order-next" className={styles.cardTitle}>
               {t('order.nextTitle')}
             </h2>
-            <p className={styles.muted}>{t('order.nextBody')}</p>
+            <p className={styles.muted}>
+              {t(whatsapp.status === 'ok' ? 'order.nextBody' : 'order.nextBodyNoWhatsapp')}
+            </p>
             {whatsapp.status === 'ok' ? (
               <a
                 href={whatsapp.url}
@@ -267,8 +268,7 @@ function Receipt({ order, placed }: { order: Order; placed: boolean }) {
                     </>
                   ) : (
                     <>
-                      {governorate && resolveLocalized(governorate, locale)}،{' '}
-                      {order.fulfillment.area}
+                      {deliveryPlace(order.fulfillment, locale)}
                       <br />
                       {order.fulfillment.address}
                     </>

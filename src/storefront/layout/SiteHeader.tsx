@@ -20,7 +20,7 @@ export function SiteHeader() {
   const items = navigation.primary.filter((item) => item.visible);
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} print-hidden`}>
       <div className={`container ${styles.bar}`}>
         <LocaleLink to="/" className={styles.brandLink} aria-label={t('common.brandHome')}>
           <BrandLogo size="md" withWordmark />

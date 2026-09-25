@@ -15,7 +15,7 @@ export function MobileTabBar() {
   if (items.length === 0) return null;
 
   return (
-    <nav className={styles.bar} aria-label={t('common.mobileNavigation')}>
+    <nav className={`${styles.bar} print-hidden`} aria-label={t('common.mobileNavigation')}>
       <ul className={styles.list}>
         {items.map((item) => (
           <li key={item.id}>

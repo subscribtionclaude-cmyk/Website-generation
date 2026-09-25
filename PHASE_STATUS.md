@@ -4,8 +4,8 @@
 | ----- | ---------------------------- | ------------------------ |
 | 01    | Foundation                   | ✅ COMPLETE (2026-09-24) |
 | 02    | Storefront                   | ✅ COMPLETE (2026-09-24) |
-| 03    | Commerce                     | ⚪ NOT STARTED — next    |
-| 04    | Customer Features            | ⚪ NOT STARTED           |
+| 03    | Commerce                     | ✅ COMPLETE (2026-09-25) |
+| 04    | Customer Features            | ⚪ NOT STARTED — next    |
 | 05    | Service Experiences          | ⚪ NOT STARTED           |
 | 06    | Admin Control Center         | ⚪ NOT STARTED           |
 | 07    | Visual Site Editor           | ⚪ NOT STARTED           |
@@ -126,17 +126,101 @@
   validated locally with PostgreSQL 16 + the Supabase shim, and the Supabase adapter parses every RPC with zod.
 - Product imagery is generated demo illustrations, not photos; real media arrives with admin uploads (Phase 06).
 - Notify-me / waitlist requests are stored but nobody is notified yet (Phase 04 notifications, Phase 06 queue).
-- Promo codes are displayed only; they apply at checkout (Phase 03).
+- Promo codes were display-only in Phase 02; they apply at checkout since Phase 03.
 - Structured data and meta are client-rendered (SPA); prerendering + sitemap are Phase 08.
 - The Phase 02 migrations were edited during Phase 02 (not yet applied to any real project); from now on
   changes go into new migration files.
 
-## Phase 03 — Commerce (next)
+## Phase 03 — Commerce ✅
 
-Cart (guest, local) + account merge, verified checkout (phone required), orders, receipt + printable invoice,
-COD, InstaPay (manual funds verification), split payment, optional pay-at-store, 30-minute soft reservation
-(`reservation_expires_at`), manual shipping fee, store pickup, WhatsApp handoff after order creation,
-manual-review rules.
+### Delivered
+
+- [x] **Cart**: guest cart in the browser (one line per exact variant, quantity caps, save for later,
+      multi-tab sync, survives refresh); header / tab-bar badges; Add to cart and Buy now enabled.
+      On sign-in the browser cart is merged once into the account cart (`cart_merge`, deterministic,
+      adjustments shown).
+- [x] **Server price authority**: every cart view and order is re-quoted server-side (`quote_checkout`,
+      `create_order`) — variant, price, stock, offer window, quantity, bundles, free gifts, promo code;
+      the demo engine mirrors it with identical test expectations. "Price updated" (old → new, accept to
+      continue), sold-out, insufficient-stock, not-purchasable and max-quantity states.
+- [x] **Checkout** (`/checkout`, sign-in required only here — email code, no paid SMS): Contact
+      (Egyptian mobile validated + normalised) → Fulfillment (delivery: governorate / area / address /
+      notes, fee "to be confirmed"; or store pickup from settings) → Payment (COD, InstaPay, split;
+      pay-at-store when enabled) → Review (promo code, note) → Create. Mobile-first, focus management,
+      fieldset radio groups, Arabic + English.
+- [x] **Order creation**: atomic and idempotent (per-customer advisory lock + unique idempotency key),
+      `FOR UPDATE` row locks in id order, price-change detection that writes nothing, open-order limit,
+      human order number `MS-2026-000001` (sequence, not the PK), full item snapshots, discount snapshot,
+      promo redemption, status history (actor, time, note, customer-visible flag), audit events.
+- [x] **Reservations**: 30-minute soft hold per line via `reservation_expires_at` — availability ignores
+      expired holds by timestamp (no cron); stock is committed **once** on staff confirmation with a
+      `sale` stock movement; cancellation releases holds or restocks (`cancellation_restock`).
+- [x] **Payments**: COD, InstaPay (manual verification), split (InstaPay deposit + rest on delivery),
+      optional pay-at-store. Payment status derived from verified money only; a screenshot never marks
+      an order paid; only `payments.verify` staff (+ MFA gate) record money; the database enforces
+      `total = subtotal − discount + shipping`, `paid ≤ total`, `remaining = total − paid`.
+- [x] **Shipping**: manual per-order fee by `shipping.manage` staff (ETA, courier, tracking), audited;
+      "total before shipping" until confirmed; pickup has no fee.
+- [x] **Promo codes** validated server-side (window, min subtotal, total + per-customer limits, targets);
+      DEMO10 demo case (10% off accessories, max 2 per customer). `features.promoCodes` stays off in
+      the real base settings and is on only in demo mode.
+- [x] **Manual review** rules as a private setting (`order_review`) with conservative demo defaults
+      (high value, several expensive units, new customer + large order, split payment, recently
+      cancelled orders, velocity); flagged orders cannot be confirmed until approved.
+- [x] **Receipt** (`/order/:number`): success state, status + payment badges (icon + text), items,
+      totals, next steps, WhatsApp hand-off after creation (prefilled, never a broken link — honest
+      notice when no number is configured), call the store, progress timeline, customer cancel while
+      allowed. **Account** order list. Orders are visible to their owner only.
+- [x] **Printable invoice** (`/order/:number/invoice`): browser print / save as PDF, print CSS hiding site
+      chrome, A4 page margins, rendered from an editable template contract
+      (`domain/commerce/invoiceTemplate.ts`) for Phase 06's editor. Final prices, no VAT line,
+      "not a tax invoice".
+- [x] **Admin Orders** (`/admin/orders`, `/admin/orders/:id`): queue (status / review filters, search,
+      release expired holds) and detail (snapshots, totals, customer, review reasons, verified payments,
+      holds, timeline) with permission-gated actions: review, status, shipping fee, payment
+      verification, record verified payment, cancel, internal note — each re-checked by its RPC and
+      audited.
+- [x] **Migrations** (4 new files): commerce tables with RLS (owner / staff read, no direct writes),
+      pricing + reservation-aware availability, checkout and customer RPCs, staff operations; demo
+      registration for orders and stock movements.
+- [x] Fixes found during Phase 03 QA: guest quotes are scoped like other private queries (the auth
+      clean-up no longer drops an in-flight guest quote); `scroll-padding` keeps focused controls clear
+      of the sticky header and mobile tab bar (WCAG 2.4.11); checkout grids can no longer widen the page
+      on phones; the DEMO10 description no longer says "later phase".
+
+### Validation
+
+| Check                                                                                    | Result                                                                                                  |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck`                                                                      | ✅ 0 errors                                                                                             |
+| `npm run lint`                                                                           | ✅ 0 errors, 0 warnings                                                                                 |
+| `npm run format:check`                                                                   | ✅                                                                                                      |
+| `npm run seed:check`                                                                     | ✅ demo catalog, media and seed SQL up to date                                                          |
+| `npm test` (Vitest)                                                                      | ✅ 166 / 166 tests, 16 files (21 commerce domain tests, 8 commerce integration tests)                   |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ migrations + seeds + idempotent re-run, contracts, 349 / 349 SQL assertions (140 in `07_commerce`)   |
+| Concurrency (separate parallel sessions)                                                 | ✅ last unit: `cart_invalid` + `ok` (one order); double submit: `ok` + `ok:duplicate` (one order)       |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 146 passed, 6 skipped (viewport-specific) — incl. 20 commerce journeys                               |
+| `npm run build`                                                                          | ✅ storefront entry ≈ 114 KB gz; cart / checkout / order / invoice pages are lazy chunks                |
+| Visual review (Arabic + English, 390 / 1440 px) + invoice print (A4 render + PDF)        | ✅ fixed: receipt copy without WhatsApp, RTL invoice totals, Arabic comma in English addresses, spacing |
+| Security review                                                                          | ✅ no client total trusted; staff-only payment verification; orders private; no paid integration        |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project (needs the owner's project); RPCs, RLS and the MFA
+  gate are validated locally with PostgreSQL 16 + the Supabase shim, and the adapter parses every RPC
+  with zod.
+- `store.whatsappNumber` and `commerce.instapay` are empty in the real base settings until the owner
+  provides real values (the UI shows honest notices meanwhile — nothing is invented).
+- No automatic customer notifications (SMS / email / WhatsApp Business) — the WhatsApp hand-off is
+  customer-initiated; notifications are Phase 04, WhatsApp Business is an optional Phase 09 adapter.
+- Refunds are handled by staff outside the app: an order that received money cannot be cancelled in
+  the app (`refund_required`); an after-sales / refund workflow belongs to Phase 05.
+- Customers send transfer screenshots on WhatsApp; in-app uploads arrive with Phases 05/06.
+- Shipping zones / fee rules, receipt-template editing, staff invoice printing, stock adjustment UI and
+  the order-review settings UI are Phase 06 (the data model already supports them).
+- Expired holds stop counting immediately; their status is tidied by the staff button or any future
+  scheduler (`release_expired_reservations`) — no cron is required.
+- Demo orders live in the browser that created them (localStorage) and are badged "Demo".
 
 ## Phase 04 — Customer Features
 

@@ -30,7 +30,7 @@ export function WhatsAppFab({ message }: { message?: string }) {
 
   if (link.status === 'ok') {
     return (
-      <div className={styles.root}>
+      <div className={`${styles.root} print-hidden`}>
         <a
           className={styles.fab}
           href={link.url}
@@ -47,7 +47,7 @@ export function WhatsAppFab({ message }: { message?: string }) {
   if (!isDemo && !isStaff) return null;
 
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} print-hidden`}>
       {showGuidance && (
         <div id={panelId} className={styles.panel} role="status">
           <p className={styles.panelTitle}>{t('whatsapp.notConfiguredTitle')}</p>

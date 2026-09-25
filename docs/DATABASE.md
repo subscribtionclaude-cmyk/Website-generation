@@ -42,6 +42,19 @@ Every Phase 02 table has RLS enabled with **no direct anon access**: the storefr
 are registered for `delete_all_demo_data()`; demo rows are served in live mode **only** when the
 `features.showDemoCatalog` staging flag is on (and are then labelled "Demo" in the UI).
 
+### Phase 03 migrations
+
+| File                                     | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `20260926100000_commerce.sql`            | `commerce` (public) + `order_review` (private) setting definitions; offer limits (`max_redemptions`, `max_redemptions_per_customer`, `min_subtotal`, unique promo code); `order_number_seq`; `carts`, `cart_items`; `orders` (human `order_number`, idempotency key, contact / fulfillment / payment, `subtotal`, `discount_total`, `shipping_fee` + status, `total`, `paid_amount`, generated `remaining_amount`, derived `payment_status`, manual review, reservation expiry, stock-committed flag; check constraints on the money arithmetic); `order_items` (snapshots, line checks, gifts at 0); append-only `order_events`; `payment_records`; `stock_reservations`; `stock_movements`; `promo_redemptions`; RLS (owner / staff read, no direct writes), audit triggers, demo registration |
+| `20260926100100_commerce_pricing.sql`    | `app.commerce_config`, reservation-aware availability (`variant_reserved_quantity`, `variant_available_quantity`), `app.variant_pricing` (automatic offers → effective price); `app.storefront_variants` now returns the effective price and reservation-aware stock state (same columns)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `20260926100200_commerce_checkout.sql`   | quote builder (lines → bundles → gifts → promo → totals), cart RPCs, manual-review rules, `order_json` (customer vs staff view), `create_order`, customer order RPCs, `app.cancel_order_internal`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `20260926100300_commerce_operations.sql` | permission helper, payment-status derivation, transition table, stock commit, staff RPCs, `release_expired_reservations`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+Commerce tables have RLS with **no direct insert/update/delete** for API roles — every write goes
+through the RPCs below. Customers read only their own cart and orders; staff read with `orders.view`.
+`orders` and `stock_movements` are registered for `delete_all_demo_data()`; demo orders carry `is_demo`.
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,
@@ -71,6 +84,22 @@ Phase 02 storefront RPCs (granted to `anon` + `authenticated`, all zod-validated
 | `storefront_page_sections(page_key)`                                         | visible page layout rows (home, apple, offers)                                                                                                                                            |
 | `request_stock_alert(…)` / `join_waitlist(…)`                                | Notify-me and waitlist intake: validated Egyptian mobile, duplicate-safe (returns `created` / `duplicate`)                                                                                |
 
+Phase 03 commerce RPCs (business outcomes return `{ ok: false, code }`; missing permissions raise
+`42501`; all revoked from `anon` unless stated):
+
+| RPC                                                                                                                                                 | Who                              | Purpose                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `quote_checkout(items, promo_code, fulfillment)`                                                                                                    | anon + signed-in                 | server price quote: effective prices, stock/limit issues per line, bundles, gifts, promo result, totals (shipping pending for delivery) |
+| `cart_get()` / `cart_set_item(variant, qty, saved, seen_price)` / `cart_merge(items)`                                                               | signed-in customer               | account cart; deterministic one-time merge of the browser cart                                                                          |
+| `create_order(payload)`                                                                                                                             | signed-in customer               | atomic, idempotent order creation with row locks, price-change detection, reservations, review rules, snapshots                         |
+| `get_my_order(number)` / `list_my_orders(limit)` / `cancel_my_order(number, reason)`                                                                | order owner                      | customer views (no internal notes, review reasons, payments or holds); cancel only before payment / stock commit                        |
+| `staff_list_orders(filter)` / `staff_get_order(id)`                                                                                                 | `orders.view`                    | queue (status, payment status, review, search) and full detail with timeline                                                            |
+| `staff_set_order_status(id, status, note)`                                                                                                          | `orders.manage`                  | allowed transitions only; confirm commits stock once                                                                                    |
+| `staff_cancel_order(id, reason)` / `staff_assign_order(id, staff)` / `staff_add_order_note(id, note)` / `staff_mark_payment_verification(id, note)` | `orders.manage`                  | cancel (releases holds or restocks; refused after dispatch or once money was received), assignment, notes, "customer says they paid"    |
+| `staff_set_shipping(id, fee, eta, courier, tracking, note)`                                                                                         | `shipping.manage`                | manual shipping fee, audited                                                                                                            |
+| `staff_record_payment(id, amount, method, reference, note)` / `staff_review_order(id, decision, note)`                                              | `payments.verify` + MFA gate     | verified money (never from a screenshot) and manual-review decisions                                                                    |
+| `release_expired_reservations()`                                                                                                                    | `orders.manage` (or a scheduler) | marks lapsed holds `expired` (availability already ignores them by timestamp)                                                           |
+
 Sensitive RPCs call `app.assert_sensitive_action_allowed()`, which requires an MFA (`aal2`) session
 when `security.adminMfaRequired` is enabled.
 
@@ -93,10 +122,16 @@ when `security.adminMfaRequired` is enabled.
    `auth.uid()`, `storage.*`, and Supabase's default grants — so RLS must be the real guard),
 3. applies all migrations, the base and demo seeds, then **re-applies all migrations** (idempotency),
 4. checks the contracts above, and
-5. runs `supabase/tests/sql/*.test.sql` (204 assertions after Phase 02 — catalog/search parity with the
-   in-memory engine, demo gating, windows, request intake — plus Phase 01's RLS on every table, anonymous vs
-   customer vs staff visibility, anti-escalation, bootstrap rules, draft isolation, publish/rollback
-   versions, MFA gate, storage folder isolation, audit immutability, demo deletion).
+5. runs `supabase/tests/sql/*.test.sql` (349 assertions after Phase 03 — pricing windows, quotes,
+   promo rules, validation, price-change rollback, idempotency, reservation expiry, stock commit /
+   restock, payments, split, shipping, review, order privacy, snapshots, cart merge; catalog/search
+   parity with the in-memory engine, demo gating, windows, request intake; Phase 01's RLS on every
+   table, anonymous vs customer vs staff visibility, anti-escalation, bootstrap rules, draft
+   isolation, publish/rollback versions, MFA gate, storage folder isolation, audit immutability, demo
+   deletion), and
+6. runs `supabase/tests/concurrency/*` in **separate parallel sessions**: two customers racing for the
+   last unit (exactly one order) and one idempotency key submitted twice at once (one order, one
+   duplicate).
 
 With the Supabase CLI you can also run everything against a full local stack: `supabase start` then
 `supabase db reset` (applies migrations and the seeds listed in `supabase/config.toml`).

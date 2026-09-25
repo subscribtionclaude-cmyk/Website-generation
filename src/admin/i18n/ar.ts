@@ -227,7 +227,6 @@ export const adminAr = {
     notFound: 'الطلب غير موجود أو ليس لديك صلاحية عرضه.',
     saved: 'تم الحفظ وتسجيل الإجراء.',
     items: 'المنتجات والإجماليات',
-    invoiceNote: 'فاتورة العميل (تفتح للعميل صاحب الطلب فقط)',
     customerAndDelivery: 'العميل والاستلام',
     customerNote: 'ملاحظة العميل',
     staffNote: 'ملاحظات داخلية',

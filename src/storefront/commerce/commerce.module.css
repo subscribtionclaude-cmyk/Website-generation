@@ -19,6 +19,8 @@
 
 .layout {
   display: grid;
+  /* minmax(0, …): long content (e.g. the collapsed summary) must never widen the page. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
   align-items: start;
 }
@@ -44,6 +46,7 @@
 
 .card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
   padding: var(--space-5);
   border-radius: var(--radius-md);
@@ -444,6 +447,7 @@ a.lineName:hover {
 
 .section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-4);
 }
 
@@ -643,6 +647,7 @@ a.lineName:hover {
 
 .review {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
   margin: 0;
 }
@@ -670,6 +675,7 @@ a.lineName:hover {
   display: grid;
   gap: var(--space-2);
   justify-items: start;
+  margin-block-end: var(--space-6);
   padding: var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-success-subtle);

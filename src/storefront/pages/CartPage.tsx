@@ -20,7 +20,7 @@ import { changedPrices } from '@/features/cart/priceChanges';
 import { useQuote } from '@/features/cart/useQuote';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n } from '@/i18n/context';
-import { LineRow, Money, Totals } from '../commerce/CommerceParts';
+import { LineRow, Totals } from '../commerce/CommerceParts';
 import { quoteLineView } from '../commerce/lineViews';
 import { LINE_STATUS_LABEL } from '../commerce/labels';
 import styles from '../commerce/commerce.module.css';
@@ -286,11 +286,6 @@ export function CartPage() {
                       <Trash2 aria-hidden="true" />
                       {t('cart.remove')}
                     </button>
-                    {q.unitPrice !== null && (
-                      <span className={styles.muted}>
-                        {t('cart.unitPrice')} <Money amount={q.unitPrice} />
-                      </span>
-                    )}
                   </div>
                 }
               />

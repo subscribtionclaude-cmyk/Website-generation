@@ -232,7 +232,6 @@ export const adminEn: Widen<typeof adminAr> = {
     notFound: "The order doesn't exist or you can't view it.",
     saved: 'Saved and audited.',
     items: 'Items and totals',
-    invoiceNote: 'Customer invoice (opens for the ordering customer only)',
     customerAndDelivery: 'Customer and fulfillment',
     customerNote: 'Customer note',
     staffNote: 'Internal notes',

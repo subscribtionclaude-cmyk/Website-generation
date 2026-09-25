@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Printer, ShieldAlert } from 'lucide-react';
+import { ArrowLeft, ShieldAlert } from 'lucide-react';
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router';
 import { Alert } from '@/components/feedback/Alert';
@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { TextField } from '@/components/ui/TextField';
-import { governorateName } from '@/domain/commerce/governorates';
+import { deliveryPlace } from '@/domain/commerce/governorates';
 import { toMinor } from '@/domain/commerce/money';
 import { nextStatuses } from '@/domain/commerce/status';
 import type { OrderStatus, StaffActionResult, StaffOrder } from '@/domain/commerce/types';
@@ -159,7 +159,6 @@ function OrderDetail({ order }: { order: StaffOrder }) {
   const { can } = useAccess();
   const money = (amount: number) => format.money(amount, { fractionDigits: 2 });
   const closed = order.status === 'cancelled' || order.status === 'completed';
-  const governorate = governorateName(order.fulfillment.governorate);
 
   return (
     <div className={adminStyles.stack}>
@@ -203,7 +202,9 @@ function OrderDetail({ order }: { order: StaffOrder }) {
             <dl className={adminStyles.dl}>
               <Row label={t('checkout.subtotal')}>{money(order.totals.subtotal)}</Row>
               <Row label={t('checkout.discounts')}>
-                {money(order.totals.discountTotal)}
+                {order.totals.discountTotal > 0
+                  ? `−${money(order.totals.discountTotal)}`
+                  : money(0)}
                 {order.promoCode && ` (${order.promoCode})`}
               </Row>
               <Row label={t('checkout.shipping')}>
@@ -219,11 +220,6 @@ function OrderDetail({ order }: { order: StaffOrder }) {
               <Row label={t('checkout.paid')}>{money(order.totals.paidAmount)}</Row>
               <Row label={t('checkout.remaining')}>{money(order.totals.remainingAmount)}</Row>
             </dl>
-            <p className={adminStyles.muted}>
-              <Link to={`/order/${order.orderNumber}/invoice`} className={styles.inlineLink}>
-                <Printer aria-hidden="true" /> {at('orders.invoiceNote')}
-              </Link>
-            </p>
           </Card>
 
           <Card>
@@ -242,7 +238,7 @@ function OrderDetail({ order }: { order: StaffOrder }) {
                 {order.fulfillment.method === 'pickup'
                   ? order.fulfillment.pickupBranch &&
                     resolveLocalized(order.fulfillment.pickupBranch.name, locale)
-                  : `${governorate ? resolveLocalized(governorate, locale) : ''}، ${order.fulfillment.area ?? ''}، ${order.fulfillment.address ?? ''}`}
+                  : deliveryPlace(order.fulfillment, locale)}
                 {order.fulfillment.notes && (
                   <span className={`${adminStyles.muted} ${styles.block}`}>
                     {order.fulfillment.notes}
