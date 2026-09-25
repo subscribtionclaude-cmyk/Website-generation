@@ -48,6 +48,8 @@ describe('CMS home', () => {
           listCategories: () => Promise.reject(new Error('down')),
           search: () => Promise.reject(new Error('down')),
           getProduct: () => Promise.reject(new Error('down')),
+          getProductsByIds: () => Promise.reject(new Error('down')),
+          getRecommendations: () => Promise.reject(new Error('down')),
         },
       },
     });

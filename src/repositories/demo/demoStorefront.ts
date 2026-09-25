@@ -1,14 +1,7 @@
 import pageSectionsJson from '@seed/base/page-sections.json';
 import type { PageSection } from '@/domain/content/types';
 import type { DemoCommerceStore } from './demoCommerce';
-import { readStored, writeStored } from '@/lib/storage/localStore';
-import { z } from 'zod';
-import type {
-  CatalogRepository,
-  ContentRepository,
-  CustomerRequestsRepository,
-  RequestResult,
-} from '../types';
+import type { CatalogRepository, ContentRepository } from '../types';
 
 /** Simulated latency keeps loading states honest during demo previews. */
 const delay = (ms = 140) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -39,6 +32,16 @@ export class DemoCatalogRepository implements CatalogRepository {
   async getProduct(slug: string) {
     await delay();
     return this.store.engine().product(slug);
+  }
+
+  async getProductsByIds(ids: string[]) {
+    await delay(80);
+    return this.store.customer.summariesByIds(ids);
+  }
+
+  async getRecommendations(slug: string) {
+    await delay();
+    return this.store.customer.recommendations(slug);
   }
 }
 
@@ -81,31 +84,5 @@ export class DemoContentRepository implements ContentRepository {
   async getEntry(slug: string) {
     await delay();
     return this.store.engine().entry(slug);
-  }
-}
-
-const storedRequestsSchema = z.array(z.string());
-
-/** DEMO: requests are kept in this browser tab only (nothing is sent anywhere). */
-export class DemoCustomerRequestsRepository implements CustomerRequestsRepository {
-  private record(kind: string, key: string): RequestResult {
-    const storageKey = `demo-requests:${kind}`;
-    const existing = readStored(storageKey, storedRequestsSchema, 'session') ?? [];
-    if (existing.includes(key)) return { status: 'duplicate' };
-    writeStored(storageKey, [...existing, key], 'session');
-    return { status: 'created' };
-  }
-
-  async requestStockAlert(request: Parameters<CustomerRequestsRepository['requestStockAlert']>[0]) {
-    await delay(300);
-    return this.record(
-      'stock',
-      `${request.productSlug}:${request.variantSku ?? '*'}:${request.phone}`,
-    );
-  }
-
-  async joinWaitlist(request: Parameters<CustomerRequestsRepository['joinWaitlist']>[0]) {
-    await delay(300);
-    return this.record('waitlist', `${request.productSlug}:${request.phone}`);
   }
 }

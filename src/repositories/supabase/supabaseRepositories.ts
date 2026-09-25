@@ -19,6 +19,10 @@ import {
   SupabaseCustomerRequestsRepository,
 } from './supabaseStorefront';
 import { SupabaseCommerceRepository, SupabaseOrderOperationsRepository } from './supabaseCommerce';
+import { createSupabaseCustomerRepositories } from './supabaseCustomer';
+import { rpc } from './rpc';
+import { profileResultSchema } from '@/domain/customer/schemas';
+import type { CustomerProfileInput } from '@/domain/customer/types';
 
 function fail(operation: string, error: unknown): never {
   throw new RepositoryError(`Supabase ${operation} failed`, error);
@@ -114,6 +118,7 @@ class SupabaseAccessRepository implements AccessRepository {
 }
 
 const profileRowSchema = z.object({
+  created_at: z.string().nullable().optional(),
   id: z.string(),
   email: z.string().nullable(),
   full_name: z.string().nullable(),
@@ -139,7 +144,7 @@ class SupabaseProfileRepository implements ProfileRepository {
     if (!userId) return null;
     const { data, error } = await this.client
       .from('profiles')
-      .select('id, email, full_name, phone, preferred_locale, admin_locale')
+      .select('id, email, full_name, phone, preferred_locale, admin_locale, created_at')
       .eq('id', userId)
       .maybeSingle();
     if (error) fail('profiles select', error);
@@ -152,7 +157,17 @@ class SupabaseProfileRepository implements ProfileRepository {
       phone: row.phone,
       preferredLocale: row.preferred_locale,
       adminLocale: row.admin_locale,
+      createdAt: row.created_at ?? null,
     };
+  }
+
+  updateMyProfile(input: CustomerProfileInput) {
+    return rpc(
+      this.client,
+      'update_my_profile',
+      { p_full_name: input.fullName, p_phone: input.phone, p_locale: input.preferredLocale },
+      profileResultSchema,
+    );
   }
 
   async updateMyPreferences(update: ProfilePreferencesUpdate): Promise<void> {
@@ -177,6 +192,7 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     requests: new SupabaseCustomerRequestsRepository(client),
     commerce: new SupabaseCommerceRepository(client),
     orders: new SupabaseOrderOperationsRepository(client),
+    ...createSupabaseCustomerRepositories(client),
   };
 }
 

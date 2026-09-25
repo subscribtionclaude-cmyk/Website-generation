@@ -5,6 +5,7 @@ import type {
   CatalogQuery,
   Category,
   ProductDetail,
+  ProductSummary,
 } from '@/domain/catalog/types';
 import type {
   AccountCart,
@@ -22,6 +23,27 @@ import type {
   StaffOrderSummary,
 } from '@/domain/commerce/types';
 import type { ContentEntry, ContentType, Offer, PageSection } from '@/domain/content/types';
+import type {
+  AbandonedCartRow,
+  ActionResult,
+  Address,
+  AddressInput,
+  CartStatus,
+  CustomerProfileInput,
+  MyRequests,
+  NotificationChannel,
+  NotificationPage,
+  NotificationPreference,
+  OwnReview,
+  PublicReviews,
+  RecentEntry,
+  Recommendations,
+  RequestClaim,
+  ReviewEligibility,
+  ReviewInput,
+  StaffReview,
+  WishlistView,
+} from '@/domain/customer/types';
 import type { RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
 import type { Locale } from '@/i18n/config';
@@ -50,6 +72,7 @@ export interface Profile {
   phone: string | null;
   preferredLocale: Locale;
   adminLocale: Locale | null;
+  createdAt?: string | null;
 }
 
 export interface ProfilePreferencesUpdate {
@@ -60,6 +83,8 @@ export interface ProfilePreferencesUpdate {
 export interface ProfileRepository {
   getMyProfile(): Promise<Profile | null>;
   updateMyPreferences(update: ProfilePreferencesUpdate): Promise<void>;
+  /** Name, Egyptian mobile (normalised like checkout) and preferred language. */
+  updateMyProfile(input: CustomerProfileInput): Promise<ActionResult>;
 }
 
 /** Storefront catalog reads. Only published rows; exact stock quantities are never exposed. */
@@ -69,6 +94,10 @@ export interface CatalogRepository {
   /** Server-side search/filter/sort/paginate (never loads the whole catalog into the browser). */
   search(query: CatalogQuery): Promise<CatalogPage>;
   getProduct(slug: string): Promise<ProductDetail | null>;
+  /** Cards for known product ids (guest wishlist, recently viewed, compare). Hidden ids are skipped. */
+  getProductsByIds(ids: string[]): Promise<ProductSummary[]>;
+  /** Rule-based recommendations for a product page (manual relations first; aggregates only). */
+  getRecommendations(slug: string): Promise<Recommendations | null>;
 }
 
 export interface EntryFilter {
@@ -107,6 +136,9 @@ export interface WaitlistRequest {
 
 export interface RequestResult {
   status: 'created' | 'duplicate';
+  /** Returned for new requests; `claimToken` only for guests (to link the request after sign-in). */
+  id?: string;
+  claimToken?: string | null;
 }
 
 /**
@@ -116,6 +148,77 @@ export interface RequestResult {
 export interface CustomerRequestsRepository {
   requestStockAlert(request: StockAlertRequest): Promise<RequestResult>;
   joinWaitlist(request: WaitlistRequest): Promise<RequestResult>;
+  /** The signed-in customer's own requests (refreshes their back-in-stock / waitlist state). */
+  listMine(): Promise<MyRequests>;
+  cancel(kind: 'notify' | 'waitlist', id: string): Promise<ActionResult>;
+  /** Link guest requests from this browser (one-time tokens) or with the verified sign-in email. */
+  claim(claims: RequestClaim[]): Promise<{ linked: number }>;
+}
+
+/** Saved addresses + cart state for the account area (owner only). */
+export interface AccountRepository {
+  listAddresses(): Promise<Address[]>;
+  saveAddress(input: AddressInput): Promise<ActionResult & { address?: Address }>;
+  deleteAddress(id: string): Promise<ActionResult>;
+  getCartStatus(): Promise<CartStatus>;
+}
+
+export interface WishlistRepository {
+  get(): Promise<WishlistView>;
+  set(productId: string, variantId: string | null, saved: boolean): Promise<ActionResult>;
+  /** Deterministic guest → account merge; safe to repeat (repeated or concurrent sign-ins). */
+  merge(
+    items: { productId: string; variantId: string | null; addedAt?: string }[],
+  ): Promise<WishlistView>;
+}
+
+export interface RecentlyViewedRepository {
+  track(productId: string, variantId: string | null): Promise<void>;
+  merge(items: { productId: string; variantId: string | null; viewedAt: string }[]): Promise<void>;
+  list(limit?: number): Promise<RecentEntry[]>;
+  clear(): Promise<void>;
+}
+
+export interface NotificationsRepository {
+  list(options?: {
+    limit?: number;
+    before?: string | null;
+    unreadOnly?: boolean;
+  }): Promise<NotificationPage>;
+  unreadCount(): Promise<number>;
+  markRead(id: string): Promise<number>;
+  markAllRead(): Promise<number>;
+  preferences(): Promise<NotificationPreference[]>;
+  setPreference(
+    category: string,
+    channel: NotificationChannel,
+    enabled: boolean,
+  ): Promise<ActionResult>;
+}
+
+export interface ReviewsRepository {
+  listPublic(productSlug: string, limit?: number, offset?: number): Promise<PublicReviews | null>;
+  myStatus(productSlug: string): Promise<ReviewEligibility>;
+  submit(input: ReviewInput): Promise<ActionResult & { review?: OwnReview }>;
+  deleteMine(id: string): Promise<ActionResult>;
+  listMine(): Promise<OwnReview[]>;
+  /** Stores a (compressed) review photo in the customer's own folder; returns its path. */
+  uploadImage(file: Blob): Promise<string>;
+  /** Displayable URLs for stored review photos (approved ones for the public, own ones for the author). */
+  imageUrls(paths: string[]): Promise<Record<string, string>>;
+}
+
+/** Minimal staff tools for Phase 04 (full admin in Phase 06). Every call is permission-checked. */
+export interface CustomerOperationsRepository {
+  listReviews(
+    status: 'pending' | 'approved' | 'rejected' | null,
+  ): Promise<{ total: number; items: StaffReview[] }>;
+  moderateReview(
+    id: string,
+    decision: 'approved' | 'rejected',
+    note: string | null,
+  ): Promise<ActionResult>;
+  listAbandonedCarts(): Promise<{ total: number; items: AbandonedCartRow[] }>;
 }
 
 /**
@@ -188,4 +291,10 @@ export interface Repositories {
   requests: CustomerRequestsRepository;
   commerce: CommerceRepository;
   orders: OrderOperationsRepository;
+  account: AccountRepository;
+  wishlist: WishlistRepository;
+  recent: RecentlyViewedRepository;
+  notifications: NotificationsRepository;
+  reviews: ReviewsRepository;
+  customerOps: CustomerOperationsRepository;
 }

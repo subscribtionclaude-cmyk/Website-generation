@@ -12,10 +12,17 @@ import {
   DemoOrderOperationsRepository,
 } from './demoCommerce';
 import {
-  DemoCatalogRepository,
-  DemoContentRepository,
+  DemoAccountRepository,
+  DemoCustomerOperationsRepository,
   DemoCustomerRequestsRepository,
-} from './demoStorefront';
+  DemoNotificationsRepository,
+  DemoRecentlyViewedRepository,
+  DemoReviewsRepository,
+  DemoWishlistRepository,
+} from './demoCustomer';
+import { DemoCatalogRepository, DemoContentRepository } from './demoStorefront';
+import { RepositoryError } from '../supabase/errors';
+import type { CustomerProfileInput } from '@/domain/customer/types';
 import type {
   AccessRepository,
   Profile,
@@ -69,17 +76,16 @@ class DemoAccessRepository implements AccessRepository {
   }
 }
 
-const demoProfileSchema = z.object({
-  preferredLocale: z.enum(['ar', 'en']),
-  adminLocale: z.enum(['ar', 'en']).nullable(),
-  fullName: z.string().nullable(),
-});
+const demoPreferencesSchema = z.object({ adminLocale: z.enum(['ar', 'en']).nullable() });
 
+/** Profile data lives in the demo customer store (localStorage); the admin language per tab. */
 class DemoProfileRepository implements ProfileRepository {
   private readonly auth: DemoAuthService;
+  private readonly store: DemoCommerceStore;
 
-  constructor(auth: DemoAuthService) {
+  constructor(auth: DemoAuthService, store: DemoCommerceStore) {
     this.auth = auth;
+    this.store = store;
   }
 
   private key(userId: string) {
@@ -89,29 +95,37 @@ class DemoProfileRepository implements ProfileRepository {
   async getMyProfile(): Promise<Profile | null> {
     const session = await this.auth.getSession();
     if (!session) return null;
-    const stored = readStored(this.key(session.userId), demoProfileSchema, 'session');
+    const stored = readStored(this.key(session.userId), demoPreferencesSchema, 'session');
+    const profile = this.store.customer.profile(session.userId);
     return {
       id: session.userId,
       email: session.email,
-      phone: null,
-      fullName: stored?.fullName ?? null,
-      preferredLocale: stored?.preferredLocale ?? 'ar',
+      phone: profile.phone,
+      fullName: profile.fullName,
+      preferredLocale: profile.preferredLocale,
       adminLocale: stored?.adminLocale ?? null,
+      createdAt: profile.createdAt,
     };
   }
 
   async updateMyPreferences(update: ProfilePreferencesUpdate): Promise<void> {
     const profile = await this.getMyProfile();
     if (!profile) return;
-    writeStored(
-      this.key(profile.id),
-      {
-        preferredLocale: update.preferredLocale ?? profile.preferredLocale,
-        adminLocale: update.adminLocale ?? profile.adminLocale,
-        fullName: profile.fullName,
-      },
-      'session',
-    );
+    if (update.adminLocale)
+      writeStored(this.key(profile.id), { adminLocale: update.adminLocale }, 'session');
+    if (update.preferredLocale)
+      this.store.customer.updateProfile(profile.id, {
+        fullName: profile.fullName ?? '',
+        phone: profile.phone ?? '',
+        preferredLocale: update.preferredLocale,
+      });
+  }
+
+  async updateMyProfile(input: CustomerProfileInput) {
+    await delay(200);
+    const session = await this.auth.getSession();
+    if (!session) throw new RepositoryError('authentication required', null, 'forbidden');
+    return this.store.customer.updateProfile(session.userId, input);
   }
 }
 
@@ -120,11 +134,17 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
   return {
     settings: new DemoSettingsRepository(),
     access: new DemoAccessRepository(auth),
-    profiles: new DemoProfileRepository(auth),
+    profiles: new DemoProfileRepository(auth, store),
     catalog: new DemoCatalogRepository(store),
     content: new DemoContentRepository(store),
-    requests: new DemoCustomerRequestsRepository(),
+    requests: new DemoCustomerRequestsRepository(store, auth),
     commerce: new DemoCommerceRepository(store, auth),
     orders: new DemoOrderOperationsRepository(store, auth),
+    account: new DemoAccountRepository(store, auth),
+    wishlist: new DemoWishlistRepository(store, auth),
+    recent: new DemoRecentlyViewedRepository(store, auth),
+    notifications: new DemoNotificationsRepository(store, auth),
+    reviews: new DemoReviewsRepository(store, auth),
+    customerOps: new DemoCustomerOperationsRepository(store, auth),
   };
 }

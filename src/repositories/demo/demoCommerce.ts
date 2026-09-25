@@ -12,7 +12,15 @@ import {
   type DemoCommerceState,
 } from '@/domain/commerce/demoCommerce';
 import {
+  DemoCustomer,
+  DemoPermissionError as DemoCustomerPermissionError,
+  type DemoCustomerSettings,
+  type DemoCustomerState,
+} from '@/domain/customer/demoCustomer';
+import {
+  abandonedCartSettingsSchema,
   commerceSettingsSchema,
+  engagementSettingsSchema,
   featuresSettingsSchema,
   orderReviewSettingsSchema,
   storeSettingsSchema,
@@ -41,6 +49,26 @@ export function demoCommerceSettings(): DemoCommerceSettings {
 }
 
 const STORAGE_KEY = 'demo-commerce';
+const CUSTOMER_STORAGE_KEY = 'demo-customer';
+const storedCustomerSchema = z.object({
+  version: z.literal(1),
+  seq: z.number().int().min(0),
+  profiles: z.record(z.string(), z.any()),
+  addresses: z.record(z.string(), z.array(z.any())),
+  wishlist: z.record(z.string(), z.array(z.any())),
+  recent: z.record(z.string(), z.array(z.any())),
+  notifications: z.array(z.any()),
+  preferences: z.record(z.string(), z.record(z.string(), z.boolean())),
+  requests: z.array(z.any()),
+  reviews: z.array(z.any()),
+}) as unknown as z.ZodType<DemoCustomerState>;
+
+export function demoCustomerSettings(): DemoCustomerSettings {
+  return {
+    engagement: engagementSettingsSchema.parse(baseSeed.settings.engagement),
+    abandonedCart: abandonedCartSettingsSchema.parse(baseSeed.settings.abandoned_cart),
+  };
+}
 const storedStateSchema = z.object({
   version: z.literal(1),
   seq: z.number().int().min(0),
@@ -49,6 +77,7 @@ const storedStateSchema = z.object({
   redemptions: z.array(z.any()),
   stockDelta: z.record(z.string(), z.number()),
   movements: z.array(z.any()),
+  cartActivity: z.record(z.string(), z.string()).optional(),
 }) as unknown as z.ZodType<DemoCommerceState>;
 
 /** Simulated latency keeps loading states honest during demo previews. */
@@ -57,12 +86,15 @@ const delay = (ms = 180) => new Promise((resolve) => setTimeout(resolve, ms));
 /** One demo commerce store per runtime (kept in this browser's localStorage). */
 export class DemoCommerceStore {
   readonly commerce: DemoCommerce;
+  /** Phase 04 customer features (wishlist, requests, notifications, reviews…) on the same store. */
+  readonly customer: DemoCustomer;
   private version = 0;
   private cached: { engine: CatalogEngine; version: number; builtAt: number } | null = null;
 
   constructor() {
+    const raw = rawCatalogSchema.parse(demoCatalogJson);
     this.commerce = new DemoCommerce({
-      raw: rawCatalogSchema.parse(demoCatalogJson),
+      raw,
       storage: {
         load: () => readStored(STORAGE_KEY, storedStateSchema),
         save: (state) => {
@@ -71,6 +103,16 @@ export class DemoCommerceStore {
         },
       },
       settings: demoCommerceSettings,
+    });
+    this.customer = new DemoCustomer({
+      raw,
+      commerce: this.commerce,
+      settings: demoCustomerSettings,
+      storage: {
+        load: () => readStored(CUSTOMER_STORAGE_KEY, storedCustomerSchema),
+        save: (state) => writeStored(CUSTOMER_STORAGE_KEY, state),
+      },
+      engine: () => this.engine(),
     });
   }
 
@@ -88,7 +130,7 @@ export class DemoCommerceStore {
   }
 }
 
-async function actorOf(auth: DemoAuthService): Promise<DemoActor> {
+export async function actorOf(auth: DemoAuthService): Promise<DemoActor> {
   const session = await auth.getSession();
   const role = SYSTEM_ROLES.find((r) => r.key === auth.demo.getRoleKey());
   return {
@@ -98,11 +140,11 @@ async function actorOf(auth: DemoAuthService): Promise<DemoActor> {
   };
 }
 
-function guard<T>(fn: () => T): T {
+export function guard<T>(fn: () => T): T {
   try {
     return fn();
   } catch (error) {
-    if (error instanceof DemoPermissionError)
+    if (error instanceof DemoPermissionError || error instanceof DemoCustomerPermissionError)
       throw new RepositoryError(error.message, error, 'forbidden');
     throw error;
   }
@@ -160,7 +202,16 @@ export class DemoCommerceRepository implements CommerceRepository {
 
   async createOrder(payload: Parameters<CommerceRepository['createOrder']>[0]) {
     await delay(400);
-    return this.store.commerce.createOrder(await actorOf(this.auth), payload);
+    const actor = await actorOf(this.auth);
+    const result = this.store.commerce.createOrder(actor, payload);
+    // Like create_order: remember the checkout name / phone when the profile has none yet.
+    if (result.ok && actor.userId)
+      this.store.customer.fillProfileFromOrder(
+        actor.userId,
+        payload.contact.name,
+        payload.contact.phone,
+      );
+    return result;
   }
 
   async getMyOrder(orderNumber: string) {

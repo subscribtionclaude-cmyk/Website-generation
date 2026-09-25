@@ -5,7 +5,15 @@ import {
   catalogPageSchema,
   categorySchema,
   productDetailSchema,
+  productSummarySchema,
 } from '@/domain/catalog/schemas';
+import {
+  actionResultSchema,
+  myRequestsSchema,
+  recommendationsSchema,
+  requestResultSchema,
+} from '@/domain/customer/schemas';
+import type { RequestClaim } from '@/domain/customer/types';
 import type { CatalogQuery } from '@/domain/catalog/types';
 import { contentEntrySchema, offerSchema, pageSectionSchema } from '@/domain/content/schemas';
 import type {
@@ -66,6 +74,21 @@ export class SupabaseCatalogRepository implements CatalogRepository {
   getProduct(slug: string) {
     return rpc(this.client, 'catalog_product', { p_slug: slug }, productDetailSchema.nullable());
   }
+
+  getProductsByIds(ids: string[]) {
+    const uuids = ids.filter((id) => /^[0-9a-f-]{36}$/i.test(id)).slice(0, 50);
+    if (uuids.length === 0) return Promise.resolve([]);
+    return rpc(this.client, 'catalog_products', { p_ids: uuids }, z.array(productSummarySchema));
+  }
+
+  getRecommendations(slug: string) {
+    return rpc(
+      this.client,
+      'product_recommendations',
+      { p_product_slug: slug },
+      recommendationsSchema.nullable(),
+    );
+  }
 }
 
 export class SupabaseContentRepository implements ContentRepository {
@@ -110,8 +133,6 @@ export class SupabaseContentRepository implements ContentRepository {
   }
 }
 
-const requestResultSchema = z.object({ status: z.enum(['created', 'duplicate']) });
-
 export class SupabaseCustomerRequestsRepository implements CustomerRequestsRepository {
   private readonly client: SupabaseClient;
 
@@ -149,6 +170,23 @@ export class SupabaseCustomerRequestsRepository implements CustomerRequestsRepos
         p_locale: request.locale,
       },
       requestResultSchema,
+    );
+  }
+
+  listMine() {
+    return rpc(this.client, 'list_my_requests', {}, myRequestsSchema);
+  }
+
+  cancel(kind: 'notify' | 'waitlist', id: string) {
+    return rpc(this.client, 'cancel_my_request', { p_kind: kind, p_id: id }, actionResultSchema);
+  }
+
+  claim(claims: RequestClaim[]) {
+    return rpc(
+      this.client,
+      'claim_my_requests',
+      { p_claims: claims },
+      z.object({ linked: z.number().int().min(0) }),
     );
   }
 }

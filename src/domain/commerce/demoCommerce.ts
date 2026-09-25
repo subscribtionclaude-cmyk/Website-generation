@@ -79,6 +79,8 @@ export interface DemoCommerceState {
   redemptions: DemoRedemption[];
   stockDelta: Record<string, number>;
   movements: DemoMovement[];
+  /** Last cart change per customer (abandoned-cart derivation, Phase 04). */
+  cartActivity?: Record<string, string>;
 }
 
 export interface DemoCommerceStorage {
@@ -165,6 +167,25 @@ export class DemoCommerce {
 
   private persist() {
     this.storage.save(this.state);
+  }
+
+  private touchCart(userId: string) {
+    this.state.cartActivity = { ...this.state.cartActivity, [userId]: this.now().toISOString() };
+  }
+
+  // ── Read-only views for the demo customer engine (Phase 04) ────────────────
+  orderRecords(): readonly DemoOrderRecord[] {
+    return this.state.orders;
+  }
+
+  cartActivity(userId: string): string | null {
+    return this.state.cartActivity?.[userId] ?? null;
+  }
+
+  /** Test/demo hook: pretend the cart was last touched at `at`. */
+  setCartActivity(userId: string, at: string) {
+    this.state.cartActivity = { ...this.state.cartActivity, [userId]: at };
+    this.persist();
   }
 
   // ── Quote ────────────────────────────────────────────────────────────────
@@ -298,6 +319,7 @@ export class DemoCommerce {
       },
     );
     this.state.carts[userId] = result.items;
+    this.touchCart(userId);
     this.persist();
     return result;
   }
@@ -325,6 +347,7 @@ export class DemoCommerce {
         ? lines.map((l) => (l.variantId === variantId ? next : l))
         : [...lines, next];
     }
+    this.touchCart(userId);
     this.persist();
     return this.getCart(userId);
   }
