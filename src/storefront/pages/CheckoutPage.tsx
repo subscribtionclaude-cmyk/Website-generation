@@ -330,15 +330,6 @@ function Checkout() {
           },
         ]
       : []),
-    ...(settings.features.payAtStore && form.fulfillment === 'pickup'
-      ? [
-          {
-            key: 'pay_at_store' as const,
-            icon: <Store aria-hidden="true" />,
-            text: 'checkout.payAtStoreText' as const,
-          },
-        ]
-      : []),
   ];
   const instapay = settings.commerce.instapay;
 

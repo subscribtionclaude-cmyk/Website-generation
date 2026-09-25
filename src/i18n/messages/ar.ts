@@ -434,7 +434,6 @@ export const ar = {
     instapayText:
       'حوّل المبلغ بالكامل عبر إنستاباي. الطلب يتأكد بعد ما فريقنا يتحقق من وصول المبلغ.',
     splitText: 'مقدم عبر إنستاباي والباقي عند الاستلام.',
-    payAtStoreText: 'ادفع في الفرع وقت الاستلام.',
     instapayHowTitle: 'الدفع عبر إنستاباي',
     instapayHandle: 'عنوان إنستاباي',
     instapayViaWhatsapp: 'بيانات التحويل هتوصلك من فريقنا على واتساب بعد إنشاء الطلب.',
@@ -502,7 +501,6 @@ export const ar = {
     cod: 'الدفع عند الاستلام',
     instapay: 'إنستاباي',
     split: 'مقدم إنستاباي + الباقي عند الاستلام',
-    pay_at_store: 'الدفع في الفرع',
   },
   orderStatus: {
     new: 'جديد',
@@ -525,7 +523,6 @@ export const ar = {
     deposit_verified: 'تم التحقق من المقدم',
     partially_paid: 'مدفوع جزئيًا',
     paid: 'مدفوع',
-    pay_at_store: 'الدفع في الفرع',
     void: 'لا يوجد دفع',
   },
   order: {

@@ -30,7 +30,6 @@ export const PAYMENT_STATUS_LABEL: Record<PaymentStatus, CoreMessageKey> = {
   deposit_verified: 'paymentStatus.deposit_verified',
   partially_paid: 'paymentStatus.partially_paid',
   paid: 'paymentStatus.paid',
-  pay_at_store: 'paymentStatus.pay_at_store',
   void: 'paymentStatus.void',
 };
 
@@ -38,7 +37,6 @@ export const PAYMENT_METHOD_LABEL: Record<PaymentMethod, CoreMessageKey> = {
   cod: 'payment.cod',
   instapay: 'payment.instapay',
   split: 'payment.split',
-  pay_at_store: 'payment.pay_at_store',
 };
 
 export const FULFILLMENT_LABEL: Record<FulfillmentMethod, CoreMessageKey> = {

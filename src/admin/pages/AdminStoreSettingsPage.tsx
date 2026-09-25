@@ -156,7 +156,6 @@ export function AdminStoreSettingsPage() {
           <dl className={styles.dl}>
             <Row label={at('storeSettings.promoCodes')}>{onOff(settings.features.promoCodes)}</Row>
             <Row label={at('storeSettings.loyalty')}>{onOff(settings.features.loyalty)}</Row>
-            <Row label={at('storeSettings.payAtStore')}>{onOff(settings.features.payAtStore)}</Row>
           </dl>
         </Card>
       </div>

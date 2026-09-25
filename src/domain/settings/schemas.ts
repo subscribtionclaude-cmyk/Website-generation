@@ -144,7 +144,6 @@ export const localizationSettingsSchema = z.strictObject({
 export const featuresSettingsSchema = z.strictObject({
   promoCodes: z.boolean(),
   loyalty: z.boolean(),
-  payAtStore: z.boolean(),
   /**
    * Staging only: let the LIVE storefront show rows flagged is_demo (always labelled "Demo").
    * Off by default, so demo products never appear as live inventory.

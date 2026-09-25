@@ -177,7 +177,6 @@ export const adminEn: Widen<typeof adminAr> = {
     disabled: 'Disabled',
     promoCodes: 'Promo codes',
     loyalty: 'Loyalty points',
-    payAtStore: 'Pay at store (pickup)',
     pickup: 'Store pickup',
     maps: 'Map link',
   },

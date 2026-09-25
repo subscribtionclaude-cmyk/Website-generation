@@ -61,8 +61,6 @@ export function initialPaymentStatus(method: PaymentMethod): PaymentStatus {
       return 'awaiting_payment';
     case 'split':
       return 'awaiting_deposit';
-    default:
-      return 'pay_at_store';
   }
 }
 

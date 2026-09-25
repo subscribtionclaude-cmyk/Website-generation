@@ -36,6 +36,7 @@ import type {
   StaffOrderFilter,
   StaffOrderSummary,
 } from './types';
+import { PAYMENT_METHODS } from './types';
 
 /**
  * DEMO MODE ONLY — an in-browser mirror of the commerce RPCs so the full checkout can be previewed
@@ -378,13 +379,7 @@ export class DemoCommerce {
       return { ok: false, code: 'invalid_request', field: 'note' };
 
     const method = payload.payment.method;
-    if (method === 'pay_at_store') {
-      if (fulfillment.method !== 'pickup' || !settings.features.payAtStore)
-        return { ok: false, code: 'payment_method_unavailable', field: 'payment.method' };
-    } else if (
-      !['cod', 'instapay', 'split'].includes(method) ||
-      !settings.commerce.paymentMethods[method]
-    ) {
+    if (!PAYMENT_METHODS.includes(method) || !settings.commerce.paymentMethods[method]) {
       return { ok: false, code: 'payment_method_unavailable', field: 'payment.method' };
     }
 

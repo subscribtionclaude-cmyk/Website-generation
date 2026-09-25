@@ -437,7 +437,6 @@ export const en: Widen<typeof ar> = {
     instapayText:
       'Transfer the full amount via InstaPay. The order is confirmed after our team verifies the money arrived.',
     splitText: 'A deposit via InstaPay and the rest on delivery.',
-    payAtStoreText: 'Pay at the store when you collect.',
     instapayHowTitle: 'Paying with InstaPay',
     instapayHandle: 'InstaPay address',
     instapayViaWhatsapp:
@@ -509,7 +508,6 @@ export const en: Widen<typeof ar> = {
     cod: 'Cash on delivery',
     instapay: 'InstaPay',
     split: 'InstaPay deposit + rest on delivery',
-    pay_at_store: 'Pay at the store',
   },
   orderStatus: {
     new: 'New',
@@ -532,7 +530,6 @@ export const en: Widen<typeof ar> = {
     deposit_verified: 'Deposit verified',
     partially_paid: 'Partially paid',
     paid: 'Paid',
-    pay_at_store: 'Pay at the store',
     void: 'No payment due',
   },
   order: {

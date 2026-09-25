@@ -95,7 +95,8 @@ Never put a service-role key, database password or any secret in the frontend or
      `reservationMinutes` (30), `maxQuantityPerLine`, `maxOpenOrdersPerCustomer`.
    - `order_review` (private) — manual-review thresholds; the shipped values are conservative
      demo defaults, tune them to the store.
-   - `features.promoCodes` / `features.payAtStore` — off by default in the real base settings.
+   - `features.promoCodes` — off by default in the real base settings. V1 payment methods are exactly
+     COD, InstaPay and split payment (there is no pay-at-store method).
    - Staff who verify money need `payments.verify`; with `security.adminMfaRequired` on they must
      use an MFA session.
 6. **Frontend env**: set `VITE_DATA_MODE=live`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,

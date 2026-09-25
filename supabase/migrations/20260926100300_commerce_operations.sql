@@ -42,8 +42,7 @@ as $$
     else case o.payment_method
            when 'cod' then 'cod_pending'
            when 'instapay' then 'awaiting_payment'
-           when 'split' then 'awaiting_deposit'
-           else 'pay_at_store' end
+           else 'awaiting_deposit' end
   end;
 $$;
 

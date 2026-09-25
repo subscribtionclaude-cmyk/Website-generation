@@ -345,7 +345,6 @@ function OrderDetail({ order }: { order: StaffOrder }) {
           )}
           {!closed &&
             order.paymentMethod !== 'cod' &&
-            order.paymentMethod !== 'pay_at_store' &&
             can('orders.manage') &&
             order.totals.paidAmount === 0 && <VerificationAction order={order} />}
           {!closed && order.totals.remainingAmount > 0 && can('payments.verify') && (

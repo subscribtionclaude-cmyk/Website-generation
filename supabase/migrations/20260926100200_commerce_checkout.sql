@@ -857,11 +857,8 @@ begin
   end if;
 
   -- Payment method
-  if v_payment = 'pay_at_store' then
-    if v_fulfillment <> 'pickup' or not app.feature_enabled('payAtStore') then
-      return jsonb_build_object('ok', false, 'code', 'payment_method_unavailable', 'field', 'payment.method');
-    end if;
-  elsif v_payment is null or v_payment not in ('cod', 'instapay', 'split')
+  -- V1 methods only: COD, InstaPay, split (each can be switched off in the commerce setting).
+  if v_payment is null or v_payment not in ('cod', 'instapay', 'split')
         or coalesce(v_methods ->> v_payment, 'true') <> 'true' then
     return jsonb_build_object('ok', false, 'code', 'payment_method_unavailable', 'field', 'payment.method');
   end if;
@@ -929,8 +926,7 @@ begin
   v_payment_status := case v_payment
     when 'cod' then 'cod_pending'
     when 'instapay' then 'awaiting_payment'
-    when 'split' then 'awaiting_deposit'
-    else 'pay_at_store' end;
+    else 'awaiting_deposit' end;
 
   v_prefix := left(coalesce(nullif(regexp_replace(upper(coalesce(app.commerce_config() ->> 'orderNumberPrefix', '')),
                                                   '[^A-Z]', '', 'g'), ''), 'MS'), 6);

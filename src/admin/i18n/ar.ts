@@ -173,7 +173,6 @@ export const adminAr = {
     disabled: 'غير مفعّل',
     promoCodes: 'أكواد الخصم',
     loyalty: 'نقاط الولاء',
-    payAtStore: 'الدفع عند الاستلام من الفرع',
     pickup: 'الاستلام من الفرع',
     maps: 'رابط الخريطة',
   },

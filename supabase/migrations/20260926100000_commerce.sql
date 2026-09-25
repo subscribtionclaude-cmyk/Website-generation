@@ -82,10 +82,11 @@ create table if not exists public.orders (
   tracking_number         text check (tracking_number is null or char_length(tracking_number) <= 120),
 
   -- Payment
-  payment_method          text not null check (payment_method in ('cod', 'instapay', 'split', 'pay_at_store')),
+  -- V1 payment methods are exactly COD, InstaPay and split (InstaPay deposit + rest on delivery).
+  payment_method          text not null check (payment_method in ('cod', 'instapay', 'split')),
   payment_status          text not null check (payment_status in (
                             'cod_pending', 'awaiting_payment', 'awaiting_deposit', 'verification_pending',
-                            'deposit_verified', 'partially_paid', 'paid', 'pay_at_store', 'void')),
+                            'deposit_verified', 'partially_paid', 'paid', 'void')),
   split_deposit_amount    numeric(12, 2) check (split_deposit_amount is null or split_deposit_amount > 0),
 
   -- Order status (current; full timeline in order_events)
@@ -138,7 +139,6 @@ create table if not exists public.orders (
   check (fulfillment_method <> 'pickup' or (shipping_fee_status = 'not_required' and pickup_branch is not null)),
   check (fulfillment_method <> 'delivery' or (shipping_fee_status <> 'not_required'
          and delivery_governorate is not null and delivery_area is not null and delivery_address is not null)),
-  check (payment_method <> 'pay_at_store' or fulfillment_method = 'pickup'),
   check (manual_review_required = (manual_review_status <> 'not_required'))
 );
 

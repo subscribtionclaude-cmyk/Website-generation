@@ -146,7 +146,7 @@
 - [x] **Checkout** (`/checkout`, sign-in required only here — email code, no paid SMS): Contact
       (Egyptian mobile validated + normalised) → Fulfillment (delivery: governorate / area / address /
       notes, fee "to be confirmed"; or store pickup from settings) → Payment (COD, InstaPay, split;
-      pay-at-store when enabled) → Review (promo code, note) → Create. Mobile-first, focus management,
+      V1 methods only — pay-at-store was removed by the Phase 04 correction) → Review (promo code, note) → Create. Mobile-first, focus management,
       fieldset radio groups, Arabic + English.
 - [x] **Order creation**: atomic and idempotent (per-customer advisory lock + unique idempotency key),
       `FOR UPDATE` row locks in id order, price-change detection that writes nothing, open-order limit,
@@ -156,7 +156,7 @@
       expired holds by timestamp (no cron); stock is committed **once** on staff confirmation with a
       `sale` stock movement; cancellation releases holds or restocks (`cancellation_restock`).
 - [x] **Payments**: COD, InstaPay (manual verification), split (InstaPay deposit + rest on delivery),
-      optional pay-at-store. Payment status derived from verified money only; a screenshot never marks
+      no other method (pay-at-store removed in Phase 04). Payment status derived from verified money only; a screenshot never marks
       an order paid; only `payments.verify` staff (+ MFA gate) record money; the database enforces
       `total = subtotal − discount + shipping`, `paid ≤ total`, `remaining = total − paid`.
 - [x] **Shipping**: manual per-order fee by `shipping.manage` staff (ETA, courier, tracking), audited;

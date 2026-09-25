@@ -191,6 +191,32 @@ describe('guest cart → checkout → order', { timeout: 30_000 }, () => {
     expect(screen.getAllByText(/9,120/).length).toBeGreaterThan(0);
   }, 30_000);
 
+  it('offers exactly the three V1 payment methods (COD, InstaPay, split) — never pay-at-store', async () => {
+    const user = userEvent.setup();
+    signInAs('methods@example.com');
+    seedCart([{ variantId: ADAPTER, quantity: 1 }]);
+    renderApp('/en/checkout', {
+      // Even a stray legacy flag must not surface pay-at-store.
+      settings: { features: { ...baseSeed.settings.features, payAtStore: true } },
+    });
+    await fillContact(user);
+    await screen.findByRole('heading', { level: 2, name: 'Fulfillment' }, T);
+    await user.click(screen.getByRole('radio', { name: /Store pickup/ }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await screen.findByRole('heading', { level: 2, name: 'Payment' }, T);
+    const group = screen.getByRole('group', { name: 'Choose a payment method' });
+    const names = within(group)
+      .getAllByRole('radio')
+      .map(
+        (radio) => radio.getAttribute('aria-label') ?? radio.closest('label')?.textContent ?? '',
+      );
+    expect(names).toHaveLength(3);
+    expect(names[0]).toMatch(/^Cash on delivery/);
+    expect(names[1]).toMatch(/^InstaPay/);
+    expect(names[2]).toMatch(/^InstaPay deposit/);
+    expect(screen.queryByText(/Pay at the store/)).not.toBeInTheDocument();
+  });
+
   it('validates the Egyptian phone number without any SMS step', async () => {
     const user = userEvent.setup();
     signInAs('phone@example.com');

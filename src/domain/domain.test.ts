@@ -101,7 +101,6 @@ describe('site settings', () => {
     expect(BASE_SETTINGS.features).toEqual({
       promoCodes: false,
       loyalty: false,
-      payAtStore: false,
       showDemoCatalog: false,
     });
   });

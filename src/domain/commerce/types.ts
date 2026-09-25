@@ -10,7 +10,8 @@ import type { LocalizedText } from '@/domain/localized';
 export const FULFILLMENT_METHODS = ['delivery', 'pickup'] as const;
 export type FulfillmentMethod = (typeof FULFILLMENT_METHODS)[number];
 
-export const PAYMENT_METHODS = ['cod', 'instapay', 'split', 'pay_at_store'] as const;
+/** Malek Store V1 payment methods — exactly these three (no gateway, no pay-at-store). */
+export const PAYMENT_METHODS = ['cod', 'instapay', 'split'] as const;
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export const PAYMENT_STATUSES = [
@@ -21,7 +22,6 @@ export const PAYMENT_STATUSES = [
   'deposit_verified',
   'partially_paid',
   'paid',
-  'pay_at_store',
   'void',
 ] as const;
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];

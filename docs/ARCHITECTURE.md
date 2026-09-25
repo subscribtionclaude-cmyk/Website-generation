@@ -239,7 +239,7 @@ unavailable and not-purchasable lines are flagged instead of being changed silen
 SMS). Steps: Contact (Egyptian mobile normalised to `+20…`, no OTP) → Fulfillment (delivery:
 governorate / area / address / notes, fee "to be confirmed"; or pickup from a `store.branches`
 branch with `pickupEnabled`) → Payment (only methods enabled in the `commerce` setting: COD,
-InstaPay, split; pay-at-store only if `features.payAtStore` and pickup) → Review (promo code, note)
+InstaPay, split — the only V1 methods) → Review (promo code, note)
 → Create. Each step moves focus to its heading; radio groups are real fieldsets with legends;
 statuses always carry text and an icon.
 
@@ -281,10 +281,11 @@ pending/rejected review, a confirmed shipping fee for delivery, InstaPay fully p
 paid. Completing requires `remaining = 0`. Every change writes an append-only `order_events` row
 (actor kind, status, note, customer-visible flag) and the row-level audit trigger.
 
-**Payments.** COD, InstaPay, split (InstaPay deposit + rest on delivery) and optional pay-at-store —
+**Payments.** Exactly three V1 methods — COD, InstaPay, split (InstaPay deposit + rest on delivery);
+pay-at-store was not approved and is rejected by the database —
 no gateway. `payment_status` is **derived** from the method and _verified_ money only
 (`cod_pending`, `awaiting_payment`, `awaiting_deposit`, `verification_pending`, `deposit_verified`,
-`partially_paid`, `paid`, `pay_at_store`, `void`). A customer's screenshot never changes it: staff
+`partially_paid`, `paid`, `void`). A customer's screenshot never changes it: staff
 can mark "payment verification" (`orders.manage`), but only `staff_record_payment` —
 `payments.verify` **and** the MFA gate — adds money, with method, amount, reference and note, audited.
 The database enforces `total = subtotal − discount_total + shipping_fee`, `paid_amount ≤ total` and

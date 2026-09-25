@@ -106,7 +106,15 @@ select tests.assert_equal(tests.checkout(tests.items(:'cable', '1'), :'pickup', 
 select tests.assert_equal(tests.checkout(tests.items(:'cable', '1'), '{"method": "delivery", "governorate": "cairo"}',
                                          '{"method": "cod"}') ->> 'code', 'invalid_address', 'delivery address required');
 select tests.assert_equal(tests.checkout(tests.items(:'cable', '1'), :'delivery', '{"method": "pay_at_store"}') ->> 'code',
-  'payment_method_unavailable', 'pay at store only for pickup when enabled');
+  'payment_method_unavailable', 'pay at store is not a V1 payment method (delivery)');
+reset role;
+update public.site_settings set value = value || '{"payAtStore": true}' where key = 'features';
+select tests.act_as(:'cust1');
+select tests.assert_equal(tests.checkout(tests.items(:'cable', '1'), :'pickup', '{"method": "pay_at_store"}') ->> 'code',
+  'payment_method_unavailable', 'pay at store is rejected even for pickup and even if a stray flag is set');
+reset role;
+update public.site_settings set value = value - 'payAtStore' where key = 'features';
+select tests.act_as(:'cust1');
 select tests.assert_equal(public.create_order(jsonb_build_object(
     'idempotencyKey', gen_random_uuid(), 'items', jsonb_build_array(jsonb_build_object('variantId', :'airpods', 'quantity', 1,
       'expectedUnitPrice', 1)), 'expectedTotal', 1, 'contact', jsonb_build_object('name', 'Mona', 'phone', '01012345678'),

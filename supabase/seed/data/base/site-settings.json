@@ -244,7 +244,6 @@
     "features": {
       "promoCodes": false,
       "loyalty": false,
-      "payAtStore": false,
       "showDemoCatalog": false
     },
     "seo": {

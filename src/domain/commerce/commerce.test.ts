@@ -37,7 +37,7 @@ import {
   progressSteps,
 } from './status';
 import { orderWhatsAppMessage } from './whatsapp';
-import type { CreateOrderPayload, Quote } from './types';
+import { PAYMENT_METHODS, type CreateOrderPayload, type Quote } from './types';
 
 const raw = rawCatalogSchema.parse(demoCatalogJson);
 const v = (sku: string) => {
@@ -496,9 +496,11 @@ describe('demo checkout lifecycle', () => {
         fulfillment: { method: 'delivery', governorate: 'cairo', area: 'N', address: '12 St' },
       }),
     ).toMatchObject({ code: 'invalid_address' });
-    expect(checkout(me, [[CABLE, 1]], { payment: { method: 'pay_at_store' } })).toMatchObject({
-      code: 'payment_method_unavailable',
-    });
+    // Pay-at-store is not a V1 method, even for pickup.
+    expect(
+      checkout(me, [[CABLE, 1]], { payment: { method: 'pay_at_store' as unknown as 'cod' } }),
+    ).toMatchObject({ code: 'payment_method_unavailable' });
+    expect(PAYMENT_METHODS).toEqual(['cod', 'instapay', 'split']);
     expect(checkout(actor(null), [[CABLE, 1]])).toMatchObject({ code: 'auth_required' });
   });
 });
