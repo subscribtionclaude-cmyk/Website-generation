@@ -18,6 +18,7 @@ import {
   SupabaseContentRepository,
   SupabaseCustomerRequestsRepository,
 } from './supabaseStorefront';
+import { SupabaseCommerceRepository, SupabaseOrderOperationsRepository } from './supabaseCommerce';
 
 function fail(operation: string, error: unknown): never {
   throw new RepositoryError(`Supabase ${operation} failed`, error);
@@ -174,6 +175,8 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     catalog: new SupabaseCatalogRepository(client),
     content: new SupabaseContentRepository(client),
     requests: new SupabaseCustomerRequestsRepository(client),
+    commerce: new SupabaseCommerceRepository(client),
+    orders: new SupabaseOrderOperationsRepository(client),
   };
 }
 

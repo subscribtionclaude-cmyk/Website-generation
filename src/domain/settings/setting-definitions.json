@@ -72,6 +72,20 @@
       "publishPermission": "settings.publish"
     },
     {
+      "key": "commerce",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "order_review",
+      "scope": "settings",
+      "isPublic": false,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
       "key": "security",
       "scope": "security",
       "isPublic": false,

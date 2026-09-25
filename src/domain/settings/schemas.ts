@@ -184,6 +184,48 @@ export const catalogSettingsSchema = z.strictObject({
   budgetStep: z.number().int().min(50).max(10_000),
 });
 
+// ── commerce (public: checkout rules customers need to see) ─
+export const instapaySettingsSchema = z.strictObject({
+  /** InstaPay handle / IPA exactly as supplied by the owner — never invented. */
+  handle: z.string().trim().min(3).max(80),
+  accountName: localizedTextSchema.nullable(),
+  instructions: localizedTextSchema.nullable(),
+});
+
+export const commerceSettingsSchema = z.strictObject({
+  /** Soft stock reservation after checkout (minutes). */
+  reservationMinutes: z.number().int().min(5).max(1440),
+  maxQuantityPerLine: z.number().int().min(1).max(99),
+  /** Unconfirmed orders one customer may hold at once (limits reservation abuse). */
+  maxOpenOrdersPerCustomer: z.number().int().min(1).max(50),
+  orderNumberPrefix: z.string().regex(/^[A-Z]{1,6}$/),
+  paymentMethods: z.strictObject({ cod: z.boolean(), instapay: z.boolean(), split: z.boolean() }),
+  /** Shown to customers only when configured by the owner (null = staff send details on WhatsApp). */
+  instapay: instapaySettingsSchema.nullable(),
+});
+
+// ── order review (private, staff-only fraud/manual-review rules) ─
+const toggle = z.strictObject({ enabled: z.boolean() });
+export const orderReviewSettingsSchema = z.strictObject({
+  /** 'default' = the conservative starter rules shipped with the platform; 'custom' once edited. */
+  preset: z.enum(['default', 'custom']),
+  highValue: toggle.extend({ threshold: z.number().min(0) }),
+  multipleExpensive: toggle.extend({
+    unitPrice: z.number().min(0),
+    minUnits: z.number().int().min(1),
+  }),
+  newCustomer: toggle.extend({ minTotal: z.number().min(0) }),
+  splitPayment: toggle,
+  unfinishedOrders: toggle.extend({
+    maxCount: z.number().int().min(1),
+    windowDays: z.number().int().min(1).max(365),
+  }),
+  velocity: toggle.extend({
+    maxOrders: z.number().int().min(1),
+    windowHours: z.number().int().min(1).max(720),
+  }),
+});
+
 // ── SEO defaults ─────────────────────────────────────────
 export const seoSettingsSchema = z.strictObject({
   titleTemplate: localizedTextSchema.refine(
@@ -216,3 +258,6 @@ export type SecuritySettings = z.infer<typeof securitySettingsSchema>;
 export type TrustItem = z.infer<typeof trustItemSchema>;
 export type TrustSettings = z.infer<typeof trustSettingsSchema>;
 export type CatalogSettings = z.infer<typeof catalogSettingsSchema>;
+export type InstapaySettings = z.infer<typeof instapaySettingsSchema>;
+export type CommerceSettings = z.infer<typeof commerceSettingsSchema>;
+export type OrderReviewSettings = z.infer<typeof orderReviewSettingsSchema>;

@@ -139,6 +139,9 @@ function buildCatalog() {
       discountAmount: null,
       bundlePrice: null,
       promoCode: null,
+      maxRedemptions: null,
+      maxRedemptionsPerCustomer: null,
+      minSubtotal: null,
       ...o,
       products: o.products.map((x) => {
         if (!slugs.has(x.slug)) throw new Error(`Offer ${o.slug} references unknown ${x.slug}`);

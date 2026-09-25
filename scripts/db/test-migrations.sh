@@ -4,7 +4,8 @@
 #   1. applies the Supabase shim (tests only), every migration, then base + demo seeds
 #   2. re-applies all migrations to prove they are idempotent
 #   3. checks the database matches the frontend JSON contracts (roles, permissions, settings)
-#   4. runs the SQL test suites (RLS, RBAC anti-escalation, settings workflow, storage, audit)
+#   4. runs the SQL test suites (RLS, RBAC anti-escalation, settings workflow, storage, audit, catalog, commerce)
+#   5. runs real multi-session checkout races (last unit, double submit) against the same database
 #
 # Requirements: PostgreSQL 15+ server binaries (initdb, pg_ctl, psql). Override with PG_BIN=/path/bin.
 # No Supabase account, Docker or network access needed.
@@ -85,5 +86,42 @@ for file in "${ROOT}"/supabase/tests/sql/*.test.sql; do
   total=$((total + count))
   echo "   ✓ $(basename "${file}") (${count} assertions)"
 done
+
+echo "▶ Concurrency: parallel checkouts (separate sessions)"
+run_sql "${ROOT}/supabase/tests/concurrency/setup.sql"
+race() { # who sku key hold outfile
+  PGOPTIONS='-c client_min_messages=warning' "${PSQL[@]}" -X -q -At -v ON_ERROR_STOP=1 \
+    -v who="$1" -v sku="$2" -v key="$3" -v hold="$4" -f "${ROOT}/supabase/tests/concurrency/race.sql" >"$5" 2>&1
+}
+# Two customers race for the last unit: A holds its transaction open for 2 s, B starts meanwhile.
+race a RN15P-256GB-PURPLE "" 2 "${WORKDIR}/race_a.out" & pid_a=$!
+sleep 0.5
+race b RN15P-256GB-PURPLE "" 0 "${WORKDIR}/race_b.out" & pid_b=$!
+# One customer double-submits the same checkout (same idempotency key) from two sessions.
+key="$(cat /proc/sys/kernel/random/uuid)"
+race c USBC-1M-WHITE "${key}" 2 "${WORKDIR}/race_c1.out" & pid_c1=$!
+sleep 0.5
+race c USBC-1M-WHITE "${key}" 0 "${WORKDIR}/race_c2.out" & pid_c2=$!
+wait "${pid_a}" "${pid_b}" "${pid_c1}" "${pid_c2}"
+results="$(grep -h '^RESULT:' "${WORKDIR}"/race_a.out "${WORKDIR}"/race_b.out | sort | tr '\n' ' ')"
+dup="$(grep -h '^RESULT:' "${WORKDIR}"/race_c1.out "${WORKDIR}"/race_c2.out | sort | tr '\n' ' ')"
+if [[ "${results}" != "RESULT:cart_invalid RESULT:ok " ]]; then
+  echo "✗ last-unit race: expected one ok + one cart_invalid, got: ${results}" >&2
+  cat "${WORKDIR}"/race_*.out >&2
+  exit 1
+fi
+if [[ "${dup}" != "RESULT:ok RESULT:ok:duplicate " ]]; then
+  echo "✗ double-submit race: expected ok + ok:duplicate, got: ${dup}" >&2
+  exit 1
+fi
+output="$("${PSQL[@]}" -X -q -t -v ON_ERROR_STOP=1 -f "${ROOT}/supabase/tests/concurrency/verify.sql" 2>&1)" || {
+  grep -E 'ERROR|FAILED' <<<"${output}" | sed 's/^/     /'
+  echo "✗ concurrency verification FAILED" >&2
+  exit 1
+}
+count="$(grep -c 'ok - ' <<<"${output}" || true)"
+total=$((total + count + 2))
+echo "   ✓ last-unit race: ${results}"
+echo "   ✓ double submit: ${dup}"
 
 echo "✓ Database migrations valid — ${total} assertions passed"

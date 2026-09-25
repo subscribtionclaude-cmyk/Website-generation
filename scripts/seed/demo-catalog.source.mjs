@@ -691,8 +691,8 @@ export const PRODUCTS = [
     ...matrix({
       skuPrefix: 'APP3',
       axes: { color: ['white'] },
-      price: () => 13500,
-      compareAt: () => 15000,
+      // Regular price; the time-bound "airpods-pro-3-limited" offer (−10%) sets the selling price.
+      price: () => 15000,
       stock: () => 14,
     }),
     specGroups: [
@@ -852,8 +852,8 @@ export const PRODUCTS = [
       skuPrefix: 'PS5S',
       axes: { edition: ['disc', 'digital'], color: ['white'] },
       labels: { disc: L('بقارئ أقراص', 'Disc edition'), digital: L('ديجيتال', 'Digital edition') },
-      price: (o) => (o.edition === 'disc' ? 32000 : 27500),
-      compareAt: (o) => (o.edition === 'disc' ? 34000 : 29500),
+      // Regular prices; the "ps5-flash-offer" (−2,000 EGP while it runs) sets the selling price.
+      price: (o) => (o.edition === 'disc' ? 34000 : 29500),
       stock: (o) => (o.edition === 'digital' ? 1 : 6),
     }),
     specGroups: [
@@ -1126,7 +1126,7 @@ export const OFFERS = [
     title: L('عرض سريع على PlayStation 5 Slim', 'Flash offer on PlayStation 5 Slim'),
     subtitle: L('لمدة قصيرة جدًا', 'For a very short time'),
     badge: L('عرض سريع', 'Flash'),
-    discountPercent: 6,
+    discountAmount: 2000,
     startsAt: '-6h',
     endsAt: '+42h',
     cta: { label: L('الحق العرض', 'Grab it'), href: '/product/playstation-5-slim' },
@@ -1146,6 +1146,8 @@ export const OFFERS = [
     badge: L('كود خصم', 'Promo code'),
     discountPercent: 10,
     promoCode: 'DEMO10',
+    // Demo usage rule: each customer can redeem DEMO10 at most twice.
+    maxRedemptionsPerCustomer: 2,
     startsAt: '-1d',
     endsAt: '+30d',
     cta: { label: L('تسوق الإكسسوارات', 'Shop accessories'), href: '/category/accessories' },

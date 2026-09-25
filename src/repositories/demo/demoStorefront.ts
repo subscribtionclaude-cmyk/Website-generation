@@ -1,8 +1,6 @@
-import demoCatalogJson from '@seed/demo/catalog.json';
 import pageSectionsJson from '@seed/base/page-sections.json';
-import { createCatalogEngine, type CatalogEngine } from '@/domain/catalog/engine';
-import { rawCatalogSchema } from '@/domain/catalog/raw';
 import type { PageSection } from '@/domain/content/types';
+import type { DemoCommerceStore } from './demoCommerce';
 import { readStored, writeStored } from '@/lib/storage/localStore';
 import { z } from 'zod';
 import type {
@@ -15,37 +13,32 @@ import type {
 /** Simulated latency keeps loading states honest during demo previews. */
 const delay = (ms = 140) => new Promise((resolve) => setTimeout(resolve, ms));
 
-let engine: { instance: CatalogEngine; builtAt: number } | null = null;
-
-/** The demo catalog is validated once and re-anchored to "now" every 10 minutes (relative dates). */
-function getEngine(): CatalogEngine {
-  const nowMs = Date.now();
-  if (!engine || nowMs - engine.builtAt > 10 * 60_000) {
-    const raw = rawCatalogSchema.parse(demoCatalogJson);
-    engine = { instance: createCatalogEngine(raw, new Date(nowMs)), builtAt: nowMs };
-  }
-  return engine.instance;
-}
-
+/** Demo catalog reads come from the commerce store's engine, so reservations/sales change stock states. */
 export class DemoCatalogRepository implements CatalogRepository {
+  private readonly store: DemoCommerceStore;
+
+  constructor(store: DemoCommerceStore) {
+    this.store = store;
+  }
+
   async listBrands() {
     await delay();
-    return getEngine().brands();
+    return this.store.engine().brands();
   }
 
   async listCategories() {
     await delay();
-    return getEngine().categories();
+    return this.store.engine().categories();
   }
 
   async search(query: Parameters<CatalogRepository['search']>[0]) {
     await delay();
-    return getEngine().search(query);
+    return this.store.engine().search(query);
   }
 
   async getProduct(slug: string) {
     await delay();
-    return getEngine().product(slug);
+    return this.store.engine().product(slug);
   }
 }
 
@@ -59,6 +52,12 @@ const pageSections: PageSection[] = pageSectionsJson.sections.map((s) => ({
 }));
 
 export class DemoContentRepository implements ContentRepository {
+  private readonly store: DemoCommerceStore;
+
+  constructor(store: DemoCommerceStore) {
+    this.store = store;
+  }
+
   async listPageSections(pageKey: string) {
     await delay(60);
     return pageSections.filter((s) => s.pageKey === pageKey);
@@ -66,22 +65,22 @@ export class DemoContentRepository implements ContentRepository {
 
   async listOffers() {
     await delay();
-    return getEngine().offers();
+    return this.store.engine().offers();
   }
 
   async getOffer(slug: string) {
     await delay();
-    return getEngine().offer(slug);
+    return this.store.engine().offer(slug);
   }
 
   async listEntries(filter?: Parameters<ContentRepository['listEntries']>[0]) {
     await delay();
-    return getEngine().entries(filter);
+    return this.store.engine().entries(filter);
   }
 
   async getEntry(slug: string) {
     await delay();
-    return getEngine().entry(slug);
+    return this.store.engine().entry(slug);
   }
 }
 

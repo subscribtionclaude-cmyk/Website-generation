@@ -4,9 +4,11 @@ import definitionsJson from './setting-definitions.json';
 import {
   brandSettingsSchema,
   catalogSettingsSchema,
+  commerceSettingsSchema,
   featuresSettingsSchema,
   localizationSettingsSchema,
   navigationSettingsSchema,
+  orderReviewSettingsSchema,
   securitySettingsSchema,
   seoSettingsSchema,
   socialSettingsSchema,
@@ -37,6 +39,8 @@ export const SETTING_SCHEMAS = {
   seo: seoSettingsSchema,
   trust: trustSettingsSchema,
   catalog: catalogSettingsSchema,
+  commerce: commerceSettingsSchema,
+  order_review: orderReviewSettingsSchema,
   security: securitySettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
@@ -49,7 +53,7 @@ export const PUBLIC_SETTING_KEYS = SETTING_DEFINITIONS.filter((d) => d.isPublic)
   (d) => d.key,
 ) as PublicSettingKey[];
 
-export type PublicSettingKey = Exclude<SettingKey, 'security'>;
+export type PublicSettingKey = Exclude<SettingKey, 'security' | 'order_review'>;
 
 export type PublicSettings = { [K in PublicSettingKey]: SettingValue<K> };
 

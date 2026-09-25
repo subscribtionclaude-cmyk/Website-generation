@@ -1,4 +1,5 @@
 import type { ContentEntry, Offer } from '@/domain/content/types';
+import { percentOf, subtractMoney } from '@/domain/commerce/money';
 import { resolveDate, resolveTime, type RawCatalog, type RawProduct } from './raw';
 import { normalizeSearchText, searchTokens } from './search';
 import { bestStockState, stockStateFor } from './stock';
@@ -32,6 +33,37 @@ export const MAX_PAGE_SIZE = 48;
 
 interface VariantRow {
   raw: RawProduct['variants'][number];
+  /** Effective selling price (automatic time-bound offer applied). */
+  price: number | null;
+  /** "Was" price: the regular price while an automatic offer runs, else the stored compare-at. */
+  compareAt: number | null;
+  /** Automatic offer that set the price (null when the regular price applies). */
+  priceOfferSlug: string | null;
+  /** Stock minus active reservations. */
+  available: number;
+  stockState: StockState;
+}
+
+/** Offer kinds that change the selling price automatically while their window is open. */
+export const AUTOMATIC_OFFER_KINDS = ['flash', 'limited_time', 'percentage', 'fixed'] as const;
+
+export interface CatalogEngineOptions {
+  /** Quantity held by active, unexpired reservations (demo commerce store). */
+  reservedQuantity?: (variantId: string) => number;
+  /** Committed sales (negative) and restocks (positive) since the seed (demo commerce store). */
+  stockDelta?: (variantId: string) => number;
+}
+
+export interface EngineVariant {
+  product: RawProduct;
+  variant: RawProduct['variants'][number];
+  /** On-hand stock (seed + committed movements). */
+  stock: number;
+  /** stock − active reservations. */
+  available: number;
+  regularPrice: number | null;
+  price: number | null;
+  priceOfferSlug: string | null;
   stockState: StockState;
 }
 
@@ -53,9 +85,15 @@ export interface CatalogEngine {
   offer(slug: string): Offer | null;
   entries(filter?: { types?: string[]; featuredOnly?: boolean; limit?: number }): ContentEntry[];
   entry(slug: string): ContentEntry | null;
+  /** One variant with its effective price and availability (commerce quotes, demo adapter). */
+  variant(variantId: string): EngineVariant | null;
 }
 
-export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): CatalogEngine {
+export function createCatalogEngine(
+  raw: RawCatalog,
+  now: Date = new Date(),
+  options: CatalogEngineOptions = {},
+): CatalogEngine {
   const nowMs = now.getTime();
   const brandBySlug = new Map(raw.brands.map((b) => [b.slug, b]));
   const categoryBySlug = new Map(raw.categories.map((c) => [c.slug, c]));
@@ -97,6 +135,33 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     };
   };
 
+  // Mirrors app.variant_pricing(): best automatic discount wins, never below 0, offers never stack.
+  const automaticOffers = activeOffers.filter(
+    (o) =>
+      (AUTOMATIC_OFFER_KINDS as readonly string[]).includes(o.kind) &&
+      (o.discountPercent !== null || o.discountAmount !== null),
+  );
+  const pricing = (productSlug: string, price: number | null) => {
+    if (price === null) return { price, offerSlug: null, discount: 0 };
+    let best: { slug: string; discount: number } | null = null;
+    for (const o of automaticOffers) {
+      if (!o.products.some((p) => p.slug === productSlug && p.role === 'target')) continue;
+      const discount = Math.max(
+        o.discountPercent !== null ? percentOf(price, o.discountPercent) : 0,
+        o.discountAmount ?? 0,
+      );
+      if (discount > 0 && (!best || discount > best.discount)) best = { slug: o.slug, discount };
+    }
+    if (!best) return { price, offerSlug: null, discount: 0 };
+    return {
+      price: Math.max(subtractMoney(price, best.discount), 0),
+      offerSlug: best.slug,
+      discount: best.discount,
+    };
+  };
+  const reserved = options.reservedQuantity ?? (() => 0);
+  const stockDelta = options.stockDelta ?? (() => 0);
+
   const rows: ProductRow[] = raw.products.map((p) => {
     const brand = brandBySlug.get(p.brandSlug);
     const categorySet = new Set(p.categorySlugs.flatMap(ancestors));
@@ -107,10 +172,21 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     return {
       raw: p,
       releaseDate: resolveDate(p.releaseDate, now),
-      variants: p.variants.map((v) => ({
-        raw: v,
-        stockState: stockStateFor(v.stock, v.lowStockThreshold, v.isActive),
-      })),
+      variants: p.variants.map((v) => {
+        const priced = pricing(p.slug, v.price);
+        const available = Math.max(v.stock + stockDelta(v.id) - reserved(v.id), 0);
+        return {
+          raw: v,
+          price: priced.price,
+          compareAt:
+            priced.offerSlug !== null && v.price !== null
+              ? Math.max(v.price, v.compareAtPrice ?? 0)
+              : v.compareAtPrice,
+          priceOfferSlug: priced.offerSlug,
+          available,
+          stockState: stockStateFor(available, v.lowStockThreshold, v.isActive),
+        };
+      }),
       categorySet,
       haystack: normalizeSearchText(
         [
@@ -130,6 +206,9 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     };
   });
   const rowBySlug = new Map(rows.map((r) => [r.raw.slug, r]));
+  const variantById = new Map(
+    rows.flatMap((row) => row.variants.map((v) => [v.raw.id, { row, v }] as const)),
+  );
 
   // ── Filters ─────────────────────────────────────────────
   const hasVariantFilters = (q: CatalogQuery) =>
@@ -140,7 +219,7 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     Boolean(q.inStockOnly);
 
   const variantMatches = (v: VariantRow, q: CatalogQuery) => {
-    const price = v.raw.price;
+    const price = v.price;
     if (q.minPrice !== undefined && (price === null || price < q.minPrice)) return false;
     if (q.maxPrice !== undefined && (price === null || price > q.maxPrice)) return false;
     if (q.storage?.length && !q.storage.includes(v.raw.options.storage ?? '')) return false;
@@ -170,10 +249,7 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     if (q.availability?.length && !q.availability.includes(p.availabilityState)) return false;
     if (q.onOffer) {
       const dropped = row.variants.some(
-        (v) =>
-          v.raw.compareAtPrice !== null &&
-          v.raw.price !== null &&
-          v.raw.compareAtPrice > v.raw.price,
+        (v) => v.compareAt !== null && v.price !== null && v.compareAt > v.price,
       );
       if (!dropped && !offerBadgeFor(p.slug)) return false;
     }
@@ -210,9 +286,9 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     const variants = hasVariantFilters(q)
       ? matchingVariants(row, q)
       : row.variants.filter((v) => v.raw.isActive);
-    const priced = variants.filter((v) => v.raw.price !== null);
-    const cheapest = [...priced].sort((a, b) => (a.raw.price ?? 0) - (b.raw.price ?? 0))[0];
-    const prices = priced.map((v) => v.raw.price as number);
+    const priced = variants.filter((v) => v.price !== null);
+    const cheapest = [...priced].sort((a, b) => (a.price ?? 0) - (b.price ?? 0))[0];
+    const prices = priced.map((v) => v.price as number);
     const optionValues = (key: string) => {
       const option = p.options.find((o) => o.key === key);
       if (!option) return [];
@@ -247,10 +323,8 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
         min: prices.length ? Math.min(...prices) : null,
         max: prices.length ? Math.max(...prices) : null,
         compareAt:
-          cheapest &&
-          cheapest.raw.compareAtPrice !== null &&
-          cheapest.raw.compareAtPrice > (cheapest.raw.price ?? 0)
-            ? cheapest.raw.compareAtPrice
+          cheapest && cheapest.compareAt !== null && cheapest.compareAt > (cheapest.price ?? 0)
+            ? cheapest.compareAt
             : null,
       },
       storages: optionValues('storage').map((v) => ({ key: v.key, label: v.label })),
@@ -343,9 +417,7 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
     const storageOrder = (key: string) =>
       (Number.parseFloat(key.replace(/[^0-9.]/g, '')) || 0) * (key.endsWith('tb') ? 1024 : 1);
     const prices = scope.flatMap((r) =>
-      r.variants
-        .filter((v) => v.raw.isActive && v.raw.price !== null)
-        .map((v) => v.raw.price as number),
+      r.variants.filter((v) => v.raw.isActive && v.price !== null).map((v) => v.price as number),
     );
     return {
       brands,
@@ -512,8 +584,8 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
           id: v.raw.id,
           sku: v.raw.sku,
           options: v.raw.options,
-          price: v.raw.price,
-          compareAtPrice: v.raw.compareAtPrice,
+          price: v.price,
+          compareAtPrice: v.compareAt,
           stockState: v.stockState,
           warranty: v.raw.warranty,
           isDefault: v.raw.isDefault,
@@ -541,5 +613,19 @@ export function createCatalogEngine(raw: RawCatalog, now: Date = new Date()): Ca
       return filter.limit ? list.slice(0, filter.limit) : list;
     },
     entry: (slug) => visibleEntries().find((e) => e.slug === slug) ?? null,
+    variant: (variantId) => {
+      const found = variantById.get(variantId);
+      if (!found) return null;
+      return {
+        product: found.row.raw,
+        variant: found.v.raw,
+        stock: found.v.raw.stock + stockDelta(variantId),
+        available: found.v.available,
+        regularPrice: found.v.raw.price,
+        price: found.v.price,
+        priceOfferSlug: found.v.priceOfferSlug,
+        stockState: found.v.stockState,
+      };
+    },
   };
 }

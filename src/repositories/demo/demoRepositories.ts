@@ -6,6 +6,12 @@ import type { SettingRecord } from '@/domain/settings/resolve';
 import { readStored, writeStored } from '@/lib/storage/localStore';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
 import {
+  DEMO_SETTINGS_OVERLAY,
+  DemoCommerceRepository,
+  DemoCommerceStore,
+  DemoOrderOperationsRepository,
+} from './demoCommerce';
+import {
   DemoCatalogRepository,
   DemoContentRepository,
   DemoCustomerRequestsRepository,
@@ -27,7 +33,9 @@ class DemoSettingsRepository implements SettingsRepository {
     await delay();
     return Object.entries(baseSeed.settings).map(([key, value]) => ({
       key,
-      value,
+      // Demo previews switch on promo codes (DEMO10); the real base configuration keeps them off.
+      value:
+        key === 'features' ? { ...(value as object), ...DEMO_SETTINGS_OVERLAY.features } : value,
       version: 1,
       updatedAt: null,
     }));
@@ -108,12 +116,15 @@ class DemoProfileRepository implements ProfileRepository {
 }
 
 export function createDemoRepositories(auth: DemoAuthService): Repositories {
+  const store = new DemoCommerceStore();
   return {
     settings: new DemoSettingsRepository(),
     access: new DemoAccessRepository(auth),
     profiles: new DemoProfileRepository(auth),
-    catalog: new DemoCatalogRepository(),
-    content: new DemoContentRepository(),
+    catalog: new DemoCatalogRepository(store),
+    content: new DemoContentRepository(store),
     requests: new DemoCustomerRequestsRepository(),
+    commerce: new DemoCommerceRepository(store, auth),
+    orders: new DemoOrderOperationsRepository(store, auth),
   };
 }

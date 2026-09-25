@@ -6,6 +6,21 @@ import type {
   Category,
   ProductDetail,
 } from '@/domain/catalog/types';
+import type {
+  AccountCart,
+  CartItemInput,
+  CreateOrderPayload,
+  CreateOrderResult,
+  Order,
+  OrderStatus,
+  OrderSummary,
+  Quote,
+  QuoteOptions,
+  StaffActionResult,
+  StaffOrder,
+  StaffOrderFilter,
+  StaffOrderSummary,
+} from '@/domain/commerce/types';
 import type { ContentEntry, ContentType, Offer, PageSection } from '@/domain/content/types';
 import type { RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
@@ -103,6 +118,67 @@ export interface CustomerRequestsRepository {
   joinWaitlist(request: WaitlistRequest): Promise<RequestResult>;
 }
 
+/**
+ * Customer commerce. Every amount is computed by the backend (RPCs / demo mirror); the browser sends
+ * variant ids + quantities and, at checkout, the prices it displayed (to detect changes only).
+ */
+export interface CommerceRepository {
+  /** Authoritative cart validation (works signed out). */
+  quote(items: { variantId: string; quantity: number }[], options?: QuoteOptions): Promise<Quote>;
+  getCart(): Promise<AccountCart>;
+  /** Merge a browser cart into the account cart after sign-in (deterministic). */
+  mergeCart(items: CartItemInput[]): Promise<AccountCart>;
+  setCartItem(
+    variantId: string,
+    quantity: number,
+    savedForLater: boolean,
+    seenUnitPrice: number | null,
+  ): Promise<AccountCart>;
+  /** Atomic, idempotent order creation (reserves stock for the configured window). */
+  createOrder(payload: CreateOrderPayload): Promise<CreateOrderResult>;
+  getMyOrder(orderNumber: string): Promise<Order | null>;
+  listMyOrders(): Promise<OrderSummary[]>;
+  cancelMyOrder(
+    orderNumber: string,
+    reason: string | null,
+  ): Promise<{ ok: boolean; code?: string; order?: Order }>;
+}
+
+/** Staff order operations (permission-checked by the backend). Full Orders module: Phase 06. */
+export interface OrderOperationsRepository {
+  listOrders(filter?: StaffOrderFilter): Promise<{ total: number; items: StaffOrderSummary[] }>;
+  getOrder(orderId: string): Promise<StaffOrder | null>;
+  setStatus(orderId: string, status: OrderStatus, note: string | null): Promise<StaffActionResult>;
+  cancel(orderId: string, reason: string): Promise<StaffActionResult>;
+  setShipping(
+    orderId: string,
+    input: {
+      fee: number | null;
+      eta?: string | null;
+      courier?: string | null;
+      tracking?: string | null;
+      note?: string | null;
+    },
+  ): Promise<StaffActionResult>;
+  markPaymentVerification(orderId: string, note: string | null): Promise<StaffActionResult>;
+  recordPayment(
+    orderId: string,
+    input: {
+      amount: number;
+      method: 'instapay' | 'cash';
+      reference?: string | null;
+      note?: string | null;
+    },
+  ): Promise<StaffActionResult>;
+  review(
+    orderId: string,
+    decision: 'approved' | 'rejected',
+    note: string | null,
+  ): Promise<StaffActionResult>;
+  addNote(orderId: string, note: string): Promise<StaffActionResult>;
+  releaseExpiredReservations(): Promise<number>;
+}
+
 export interface Repositories {
   settings: SettingsRepository;
   access: AccessRepository;
@@ -110,4 +186,6 @@ export interface Repositories {
   catalog: CatalogRepository;
   content: ContentRepository;
   requests: CustomerRequestsRepository;
+  commerce: CommerceRepository;
+  orders: OrderOperationsRepository;
 }

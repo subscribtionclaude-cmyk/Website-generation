@@ -209,15 +209,27 @@
             "ar": "القاهرة، مصر",
             "en": "Cairo, Egypt"
           },
-          "phones": ["01212004229", "01212003775"],
+          "phones": [
+            "01212004229",
+            "01212003775"
+          ],
           "openingHours": [
             {
-              "days": [6, 0, 1, 2, 3, 4],
+              "days": [
+                6,
+                0,
+                1,
+                2,
+                3,
+                4
+              ],
               "open": "12:00",
               "close": "00:00"
             },
             {
-              "days": [5],
+              "days": [
+                5
+              ],
               "open": "13:00",
               "close": "01:00"
             }
@@ -369,6 +381,47 @@
         }
       ],
       "budgetStep": 500
+    },
+    "commerce": {
+      "reservationMinutes": 30,
+      "maxQuantityPerLine": 5,
+      "maxOpenOrdersPerCustomer": 3,
+      "orderNumberPrefix": "MS",
+      "paymentMethods": {
+        "cod": true,
+        "instapay": true,
+        "split": true
+      },
+      "instapay": null
+    },
+    "order_review": {
+      "preset": "default",
+      "highValue": {
+        "enabled": true,
+        "threshold": 100000
+      },
+      "multipleExpensive": {
+        "enabled": true,
+        "unitPrice": 20000,
+        "minUnits": 2
+      },
+      "newCustomer": {
+        "enabled": true,
+        "minTotal": 30000
+      },
+      "splitPayment": {
+        "enabled": true
+      },
+      "unfinishedOrders": {
+        "enabled": true,
+        "maxCount": 2,
+        "windowDays": 7
+      },
+      "velocity": {
+        "enabled": true,
+        "maxOrders": 3,
+        "windowHours": 1
+      }
     },
     "security": {
       "adminMfaRequired": false

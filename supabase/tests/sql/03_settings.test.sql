@@ -12,7 +12,7 @@ grant select on ids to authenticated, anon;
 
 -- ── Public visibility ─────────────────────────────────────────────────────
 select tests.act_as_anon();
-select tests.assert_equal((select count(*)::int from public.site_settings), 10, 'anon reads the 10 public settings');
+select tests.assert_equal((select count(*)::int from public.site_settings), 11, 'anon reads the 11 public settings');
 select tests.assert(not exists (select 1 from public.site_settings where key = 'security'), 'anon cannot read private settings');
 select tests.assert_raises($$select count(*) from public.site_setting_drafts$$, '42501', 'anon cannot read drafts');
 select tests.assert_raises($$update public.site_settings set value = '{}' where key = 'brand'$$, '42501', 'anon cannot write settings');
@@ -20,7 +20,7 @@ select tests.assert_raises($$select public.save_setting_draft('seo', '{}')$$, '4
 reset role;
 
 select tests.act_as((select customer_id from ids));
-select tests.assert_equal((select count(*)::int from public.site_settings), 10, 'customers read only public settings');
+select tests.assert_equal((select count(*)::int from public.site_settings), 11, 'customers read only public settings');
 select tests.assert_raises($$select public.save_setting_draft('seo', '{"x": 1}')$$, '42501', 'customer cannot save drafts');
 select tests.assert_raises($$delete from public.site_settings$$, '42501', 'customer cannot delete settings');
 reset role;

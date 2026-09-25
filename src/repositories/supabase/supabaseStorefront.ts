@@ -17,27 +17,13 @@ import type {
   StockAlertRequest,
   WaitlistRequest,
 } from '../types';
-import { RepositoryError } from './errors';
+import { rpc } from './rpc';
 
 /**
  * Storefront reads go through SECURITY DEFINER RPCs (supabase/migrations/*_storefront_rpcs.sql):
  * they return only published, in-window rows, compute stock STATES (never quantities) and exclude
  * demo rows unless the staging flag features.showDemoCatalog is on.
  */
-async function rpc<T>(
-  client: SupabaseClient,
-  fn: string,
-  args: Record<string, unknown>,
-  schema: z.ZodType<T>,
-): Promise<T> {
-  const { data, error } = await client.rpc(fn, args);
-  if (error) throw new RepositoryError(`Supabase ${fn} failed`, error);
-  const parsed = schema.safeParse(data);
-  if (!parsed.success)
-    throw new RepositoryError(`Unexpected ${fn} payload: ${parsed.error.issues[0]?.message}`);
-  return parsed.data;
-}
-
 function toRpcQuery(query: CatalogQuery) {
   return {
     q: query.q ?? null,

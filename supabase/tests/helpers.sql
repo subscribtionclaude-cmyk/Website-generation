@@ -70,4 +70,29 @@ begin
 end;
 $$;
 
+-- Client-like checkout helper: quote, then submit exactly the quoted prices.
+create or replace function tests.checkout(p_items jsonb, p_fulfillment jsonb, p_payment jsonb,
+                                          p_promo text default null, p_key uuid default gen_random_uuid(),
+                                          p_phone text default '01012345678')
+returns jsonb language plpgsql as $$
+declare
+  v_quote jsonb := public.quote_checkout(p_items, p_promo, p_fulfillment ->> 'method');
+  v_items jsonb;
+begin
+  select coalesce(jsonb_agg(jsonb_build_object('variantId', l ->> 'variantId', 'quantity', (l ->> 'quantity')::int,
+                                               'expectedUnitPrice', (l ->> 'unitPrice')::numeric)), '[]'::jsonb)
+    into v_items
+    from jsonb_array_elements(v_quote -> 'lines') l where not coalesce((l ->> 'isGift')::boolean, false);
+  return public.create_order(jsonb_build_object(
+    'idempotencyKey', p_key, 'items', v_items, 'expectedTotal', (v_quote -> 'totals' ->> 'total')::numeric,
+    'promoCode', p_promo, 'contact', jsonb_build_object('name', 'Test Customer', 'phone', p_phone),
+    'fulfillment', p_fulfillment, 'payment', p_payment, 'locale', 'en'));
+end;
+$$;
+
+create or replace function tests.items(variadic p_pairs text[]) returns jsonb language sql as $$
+  select jsonb_agg(jsonb_build_object('variantId', p_pairs[i], 'quantity', p_pairs[i + 1]::int))
+  from generate_series(1, array_length(p_pairs, 1), 2) i;
+$$;
+
 grant execute on all functions in schema tests to anon, authenticated, service_role;
