@@ -5,8 +5,8 @@
 | 01    | Foundation                   | ✅ COMPLETE (2026-09-24) |
 | 02    | Storefront                   | ✅ COMPLETE (2026-09-24) |
 | 03    | Commerce                     | ✅ COMPLETE (2026-09-25) |
-| 04    | Customer Features            | ⚪ NOT STARTED — next    |
-| 05    | Service Experiences          | ⚪ NOT STARTED           |
+| 04    | Customer Features            | ✅ COMPLETE (2026-09-25) |
+| 05    | Service Experiences          | ⚪ NOT STARTED — next    |
 | 06    | Admin Control Center         | ⚪ NOT STARTED           |
 | 07    | Visual Site Editor           | ⚪ NOT STARTED           |
 | 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED           |
@@ -222,10 +222,86 @@
   scheduler (`release_expired_reservations`) — no cron is required.
 - Demo orders live in the browser that created them (localStorage) and are badged "Demo".
 
-## Phase 04 — Customer Features
+## Phase 04 — Customer Features ✅
 
-Account area, wishlist (local → merge), recently viewed, compare, verified-buyer reviews, notify me,
-waitlist, notifications framework (manual/automatic), abandoned cart, recommendations.
+### Delivered
+
+- [x] **Phase 03 correction**: V1 payment methods are exactly COD, InstaPay and split payment.
+      Pay-at-store was removed from the schema checks, checkout RPC, payment-status derivation, demo
+      engine, UI, labels, settings and seeds; the DB rejects it; a regression test asserts the
+      customer sees exactly the three methods.
+- [x] **Account area** (`/account`, lazy chunk): Overview (latest order, continue-your-cart, saved
+      items, active requests, latest notifications, recently viewed), Orders (current / completed /
+      cancelled, show more), Wishlist, Requests, Notifications, Reviews, Addresses, Profile. Scrollable
+      pill nav on phones, sidebar on desktop, honest empty states.
+- [x] **Profile** (name, Egyptian mobile normalised like checkout, preferred language, read-only
+      email, member since) and **saved addresses** (same typed model and rules as checkout, one
+      default, max 10, owner-only) reused and preselected at checkout, with optional "save this
+      address".
+- [x] **Wishlist**: guest list in the browser, toggles on cards and the product page (accessible
+      names, `aria-pressed`, live announcements); deterministic, idempotent, concurrency-safe merge at
+      sign-in that clears the browser copy only after success; price-drop notices; unavailable items
+      reported.
+- [x] **Recently viewed** (browser for guests, account when signed in, capped, merged at sign-in) and
+      **compare** (max 4, same top-level category with an explained refusal, dynamic spec rows,
+      differences-only, keyboard-scrollable region with sticky first column, floating tray).
+- [x] **Verified-buyer reviews**: DB-validated eligibility (owner, product in the order, delivered /
+      completed), one review per customer per product (edits go back to pending), server-only
+      Verified badge, optional photo (private bucket, public only after approval), moderation at
+      `/admin/reviews` (audited, no self-approval, author notified), public shows approved reviews
+      only with first name + initial; demo reviews labelled.
+- [x] **Notify me / waitlist**: lifecycle Active → Available → Notified, Cancelled, Expired; guest
+      claim tokens (hash stored) and linking by verified sign-in email; event-driven back-in-stock and
+      waitlist notices (triggers, no cron); account Requests area with Repairs / Trade-In / Used
+      placeholders only.
+- [x] **Notifications framework**: templates (localized, closed placeholder set), notifications
+      (idempotent by `dedupe_key`), preferences (in-app; orders mandatory), deliveries (external
+      channels disabled — nothing is sent outside the app); inbox with read / unread, mark one / all,
+      category, time, action link and paging; header bell, account nav and mobile tab badge; audited
+      manual staff messages (RPC).
+- [x] **Abandoned cart**: derived from cart timestamps (enabled, 48 h threshold, one in-app reminder
+      per idle period), "Your cart is waiting → Continue your cart" card, minimal staff view at
+      `/admin/abandoned-carts` (`customers.view`).
+- [x] **Recommendations**: explicit relations first (related, accessories, compatible in both
+      directions — never guessed from names), you may also like, frequently bought together from real
+      delivered / completed orders of ≥ 2 customers (aggregated ids only; demo orders never feed live).
+- [x] Arabic + English strings for every new screen; demo catalog English fields fixed (phone spec
+      values were Arabic-only) with a regression test.
+- [x] Fixes found during Phase 04 QA: the heart / bell no longer push the header wider than small
+      phones (they move into the menu drawer and the Account tab badge below 480 px); the compare tray
+      reserves scroll padding and page space so it never hides focused controls; notification
+      preference switches respond immediately (rolled back if the save fails); subtitles sit under
+      page titles; "1-star" distribution wording.
+
+### Validation
+
+| Check                                                                                    | Result                                                                                                                                                            |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck`                                                                      | ✅ 0 errors                                                                                                                                                       |
+| `npm run lint`                                                                           | ✅ 0 errors, 0 warnings                                                                                                                                           |
+| `npm run format:check`                                                                   | ✅                                                                                                                                                                |
+| `npm run seed:check`                                                                     | ✅ demo catalog, media and seed SQL up to date                                                                                                                    |
+| `npm test` (Vitest)                                                                      | ✅ 189 / 189 tests, 18 files (14 customer domain tests, 6 customer integration tests, pay-at-store regression)                                                    |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ migrations + seeds + idempotent re-run, contracts, 467 / 467 SQL assertions (115 in `08_customer`)                                                             |
+| Concurrency (separate parallel sessions)                                                 | ✅ last unit, double submit, parallel wishlist merge (same account)                                                                                               |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 188 passed, 8 skipped (viewport-specific) — incl. 44 customer journeys (A–J + recommendations × 4 viewports)                                                   |
+| `npm run build`                                                                          | ✅ storefront entry ≈ 117 KB gz; account pages ≈ 8 KB gz lazy chunk; admin pages lazy                                                                             |
+| Visual review (Arabic + English, 390 / 1440 px)                                          | ✅ account pages, wishlist, compare, review flow, notifications, requests, admin reviews, admin abandoned carts                                                   |
+| Security / RLS review                                                                    | ✅ owner-only data (RPC + RLS asserted), server-only verified badge, no self-approval, permission-gated staff views, idempotent notifications, no paid dependency |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project (needs the owner's project); RPCs, RLS and storage
+  policies are validated locally with PostgreSQL 16 + the Supabase shim, and the adapters parse every
+  RPC with zod.
+- External notification channels (email / WhatsApp Business / SMS) are modelled but disabled; the
+  optional adapters are Phase 09. Everything customers need works in-app.
+- A staff UI for manual notifications and for editing product relations / engagement settings arrives
+  with the Phase 06 admin modules (the audited RPCs exist now); the admin "Notifications" module is
+  marked Phase 06.
+- Compare stays in the browser (no personal data, not synced across devices).
+- Demo-mode customer data (wishlist, reviews, notifications, requests) lives in the browser that
+  created it and is badged "Demo" where shown.
 
 ## Phase 05 — Service Experiences
 

@@ -36,3 +36,16 @@ export function useRecentProducts(options: { limit?: number; excludeProductId?: 
     isPending: session ? account.isPending : localIds.length > 0 && local.isPending,
   };
 }
+
+/** Unread in-app notification count for the signed-in customer (0 when signed out). */
+export function useUnreadNotifications(): number {
+  const { repositories } = useRuntime();
+  const session = useSession();
+  const unread = useQuery({
+    queryKey: ['notifications-unread', session?.userId ?? null],
+    queryFn: () => repositories.notifications.unreadCount(),
+    enabled: Boolean(session),
+    staleTime: 30_000,
+  });
+  return session ? (unread.data ?? 0) : 0;
+}

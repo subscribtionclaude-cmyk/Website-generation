@@ -48,6 +48,7 @@ import { resolveLocalized } from '@/domain/localized';
 import { useAccess, useAuth, useSession } from '@/features/auth/context';
 import { RequireAuth } from '@/features/auth/RequireAuth';
 import { useCustomerLists } from '@/features/customer/context';
+import { useUnreadNotifications } from '@/features/customer/hooks';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n, type CoreMessageKey } from '@/i18n/context';
 import { isolate } from '@/i18n/translator';
@@ -82,15 +83,8 @@ function AccountShell() {
   const { t } = useI18n();
   const { state, signOut } = useAuth();
   const { isStaff } = useAccess();
-  const { repositories } = useRuntime();
-  const session = useSession();
   const navLabelId = useId();
-  const unread = useQuery({
-    queryKey: ['notifications-unread', session?.userId ?? null],
-    queryFn: () => repositories.notifications.unreadCount(),
-    enabled: Boolean(session),
-    staleTime: 30_000,
-  });
+  const unread = useUnreadNotifications();
   const email = state.status === 'signed_in' ? state.session.email : null;
   return (
     <div className={`container ${styles.page}`}>
@@ -124,9 +118,9 @@ function AccountShell() {
                 <LocaleNavLink to={to} end={end} className={styles.navLink}>
                   <Icon aria-hidden="true" />
                   {t(label)}
-                  {to === '/account/notifications' && (unread.data ?? 0) > 0 && (
+                  {to === '/account/notifications' && unread > 0 && (
                     <span className={styles.navBadge}>
-                      {unread.data}
+                      {unread}
                       <span className="visually-hidden"> {t('notifications.unreadSuffix')}</span>
                     </span>
                   )}
@@ -1092,10 +1086,14 @@ function NotificationPreferences() {
     queryKey: ['notification-prefs', uid],
     queryFn: () => repositories.notifications.preferences(),
   });
+  // The switch reflects the choice at once; it rolls back if the save fails.
+  const [chosen, setChosen] = useState<Record<string, boolean>>({});
   const set = useMutation({
     mutationFn: (v: { category: string; enabled: boolean }) =>
       repositories.notifications.setPreference(v.category, 'in_app', v.enabled),
-    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ['notification-prefs', uid] }),
+    onError: (_error, v) =>
+      setChosen((c) => Object.fromEntries(Object.entries(c).filter(([k]) => k !== v.category))),
+    onSettled: () => void queryClient.invalidateQueries({ queryKey: ['notification-prefs', uid] }),
   });
   if (!prefs.data) return null;
   return (
@@ -1124,11 +1122,12 @@ function NotificationPreferences() {
                     <label className={styles.checkRow}>
                       <input
                         type="checkbox"
-                        checked={p.channels.in_app.enabled}
-                        disabled={p.mandatory || set.isPending}
-                        onChange={(e) =>
-                          set.mutate({ category: p.category, enabled: e.target.checked })
-                        }
+                        checked={chosen[p.category] ?? p.channels.in_app.enabled}
+                        disabled={p.mandatory}
+                        onChange={(e) => {
+                          setChosen((c) => ({ ...c, [p.category]: e.target.checked }));
+                          set.mutate({ category: p.category, enabled: e.target.checked });
+                        }}
                       />
                       <span className="visually-hidden">
                         {t('notifications.inAppFor', { category: label })}
@@ -1136,7 +1135,7 @@ function NotificationPreferences() {
                       <span aria-hidden="true">
                         {p.mandatory
                           ? t('notifications.always')
-                          : p.channels.in_app.enabled
+                          : (chosen[p.category] ?? p.channels.in_app.enabled)
                             ? t('notifications.on')
                             : t('notifications.off')}
                       </span>

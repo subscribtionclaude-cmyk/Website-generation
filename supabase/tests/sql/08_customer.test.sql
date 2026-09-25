@@ -335,6 +335,12 @@ select tests.act_as(:'alice');
 select tests.assert_equal(public.list_my_reviews() -> 0 ->> 'status', 'rejected', 'author sees their review status');
 select tests.assert(not (public.list_my_reviews()::text ~ 'off-topic'), 'internal moderation note not shown to the author');
 reset role;
+-- Another customer can neither list nor read the rejected review's row.
+select tests.act_as(:'dave');
+select tests.assert_equal(jsonb_array_length(public.list_my_reviews()), 0, 'reviews are private (own list)');
+select tests.assert_equal((select count(*)::int from public.product_reviews where user_id = :'alice'), 0,
+  'reviews are private (RLS)');
+reset role;
 -- Staff cannot moderate their own review.
 select tests.act_as(:'cs');
 select tests.checkout(tests.items(:'cable', '1'), :'delivery', '{"method": "cod"}') -> 'order' ->> 'id' as cs_order \gset

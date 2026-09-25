@@ -253,3 +253,19 @@ describe('helpers', () => {
     expect(parseCatalogQuery(new URLSearchParams('sort=evil&page=-4&min=abc'))).toEqual({});
   });
 });
+
+describe('demo catalog bilingual content', () => {
+  it('never shows Arabic text in an English field (e.g. spec values in compare)', () => {
+    const offenders: string[] = [];
+    const walk = (node: unknown, path: string) => {
+      if (!node || typeof node !== 'object') return;
+      const record = node as Record<string, unknown>;
+      if (typeof record.ar === 'string' && typeof record.en === 'string') {
+        if (/[؀-ۿ]/.test(record.en)) offenders.push(`${path}: ${record.en}`);
+      }
+      for (const [key, value] of Object.entries(record)) walk(value, `${path}.${key}`);
+    };
+    walk(demoCatalogJson, 'catalog');
+    expect(offenders).toEqual([]);
+  });
+});

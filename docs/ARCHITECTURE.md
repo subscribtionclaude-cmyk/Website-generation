@@ -323,3 +323,99 @@ Each action is available only with its permission and is re-checked by the RPC.
 **Demo vs live.** Demo mode runs the same rules in the browser (`domain/commerce/demoCommerce.ts`,
 persisted in `localStorage`) and badges every order "Demo". Live mode uses only the Supabase RPCs; if
 they fail, the customer sees an error state — never demo data.
+
+## 13. Customer features (Phase 04)
+
+**Account area.** `/account` is one lazy chunk (`storefront/pages/account/AccountPages.tsx`) with a
+simple section nav (a scrollable pill row on phones, a sidebar on desktop): Overview · Orders ·
+Wishlist (`/wishlist`) · Requests · Notifications · Reviews · Addresses · Profile. Every section has
+an honest empty state. Orders filter current / completed / cancelled and page with "show more";
+receipts, invoices and the WhatsApp hand-off are the Phase 03 pages. Staff notes never reach the
+customer view.
+
+**Profile and addresses.** `update_my_profile` stores name, Egyptian mobile (normalised exactly like
+checkout) and preferred language; the sign-in email is read-only. Saved addresses share one rule set
+with checkout (`domain/customer/address.ts` ↔ `app.delivery_address_problem`): max 10, one default,
+owner-only. Checkout preselects the default address, offers the saved list and can save a new one
+after the order is placed (best effort — it never blocks the receipt).
+
+**Wishlist.** Guests keep a list in this browser (`localStorage`, capped). At sign-in
+`CustomerListsProvider` calls `wishlist_merge` once: deterministic (oldest first), account entries are
+kept, duplicates are ignored, invalid / unavailable items are reported (not silently dropped) and the
+merge is idempotent and safe under concurrent sessions. The browser copy is cleared **only after** the
+merge succeeded. Toggles on cards and the product page have accessible names and `aria-pressed` (the
+heart fill is never the only signal) and announce the result in a live region. Each saved item keeps
+a `reference_price`; a drop of at least `engagement.wishlist.priceDropPercent` produces one in-app
+notice per new low price.
+
+**Recently viewed.** Product pages record a view. Guests: browser list (max
+`engagement.recentlyViewed.maxItems`, de-duplicated, newest first). Signed in: `recent_track` /
+`recent_merge` keep the same cap in the account. Shown as a rail on product pages and the account
+overview.
+
+**Compare.** Browser-only (no personal data), max `engagement.compare.maxItems` (4). Products must
+share the same top-level category (`rootCategoryOf`); an incompatible product is refused with an
+explanation. Rows come from the Phase 02 spec architecture (`buildCompareRows`: price, availability,
+brand, storage, colours, shared spec items, warranty) with a "differences only" toggle. On phones the
+table scrolls inside a labelled, keyboard-focusable region with a sticky first column; the page never
+scrolls sideways. A floating tray links to `/compare` and reserves scroll padding so it never hides
+focused controls.
+
+**Verified-buyer reviews.** Eligibility is decided in the database (`app.review_eligible_order`): the
+customer owns a non-demo order in an eligible status (`engagement.reviews.eligibleStatuses`, default
+delivered / completed) containing the product as a paid (non-gift) line. Rule: **one review per
+customer per product** — resubmitting edits it and sends it back to `pending`. `verified_buyer` is set
+only by the server; there is no client path to it. Public reads (`product_reviews_public`) return
+approved reviews only, with the author as first name + initial and no ids, emails or moderation data.
+Staff moderate at `/admin/reviews` (`reviews.moderate`, audited `review.approved` / `review.rejected`,
+the author is notified, self-moderation is refused). Optional photos are compressed in the browser and
+stored in the private `reviews` bucket under the customer's folder; they become readable only once
+the review is approved (signed URLs). Seeded demo reviews are `is_demo`, never verified and labelled
+"Demo review".
+
+**Notify me and waitlists.** Requests (`stock_notifications`, `waitlist_entries`) have the lifecycle
+Active → Available → Notified, plus Cancelled and Expired (derived from age,
+`engagement.requests.expireAfterDays`). Guest requests return a one-time claim token (only its hash is
+stored); after sign-in the browser's tokens — and requests made with the verified sign-in email, never
+a phone number — are linked to the account. The account "Requests" area lists them with text + icon
+status pills and cancel, plus placeholders for Repairs, Trade-In and Used (Phase 05).
+
+**Notifications.** Tables: `notification_templates` (localized, closed placeholder set
+`customer_name, order_number, product_name, status, amount, code` — values cannot inject placeholders),
+`notifications` (unique `(user_id, dedupe_key)` ⇒ every producer is idempotent),
+`notification_preferences` and `notification_deliveries`. `app.notify()` is the single producer: it
+honours preferences (order and account messages are mandatory) and queues a delivery row only for an
+external channel that is both enabled and configured — none are in V1, so nothing is sent outside the
+app and no paid email / SMS / WhatsApp is required (adapters stay disabled by default, Phase 09).
+Producers:
+
+- order status: an `order_events` trigger (customer-visible staff events only);
+- back in stock / waitlist available / pre-order: triggers on `product_variants` and `products`
+  (event-driven, no cron), plus a lazy per-user `app.refresh_customer_alerts` on inbox reads and a
+  staff `process_customer_alerts()` catch-up;
+- price drops on saved items; review approved / rejected; abandoned-cart reminder;
+- manual staff messages (`staff_send_notification`, `notifications.manage`, audited).
+
+The inbox pages with a `before` cursor, shows read/unread (text, not colour only), mark one / mark
+all, category, timestamp and action link. The header bell and the account nav show the unread count
+(on small phones inside the menu drawer and on the Account tab).
+
+**Abandoned cart.** Derived, not tracked: a signed-in cart is abandoned when it has items, its last
+activity (max of `carts` / `cart_items.updated_at`) is older than `abandoned_cart.thresholdHours`
+(default 48 h) and no order was created since. Follow-up (`followUp: in_app | off`) is at most one
+in-app reminder per idle period (dedupe `cart:<epoch>`). Customers see a "Your cart is waiting →
+Continue your cart" card; staff with `customers.view` get a minimal list at `/admin/abandoned-carts`
+(name, email, items, last activity, reminder sent) — no payment data.
+
+**Recommendations.** Rule-based, explicit relations first (`product_relations`, audited):
+related (manual, then same category by price closeness), accessories (manual), compatible (explicit
+relation in either direction — never guessed from names), you may also like (same brand / category
+within ±40 % of the price) and frequently bought together (manual, then **real** delivered / completed,
+non-demo, non-gift orders from at least `engagement.recommendations.minCustomers` distinct customers,
+returned as product ids only). Rails are de-duplicated in the order bought-together → accessories →
+compatible → related → you may also like. In demo mode the aggregation runs over demo orders in the
+browser only and never reaches live data.
+
+**Demo vs live.** Demo mode uses `domain/customer/demoCustomer.ts` (same rules, persisted in
+`localStorage`); live mode uses only the Supabase adapters (`repositories/supabase/supabaseCustomer.ts`)
+and shows an error state on failure — never demo data.

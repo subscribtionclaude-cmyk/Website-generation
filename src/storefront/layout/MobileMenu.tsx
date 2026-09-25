@@ -1,10 +1,13 @@
-import { ChevronRight, Phone, UserRound, X } from 'lucide-react';
+import { Bell, ChevronRight, Heart, Phone, UserRound, X } from 'lucide-react';
 import { useId } from 'react';
 import { LanguageSwitch } from '@/components/navigation/LanguageSwitch';
 import { LocaleLink, LocaleNavLink } from '@/components/navigation/LocaleLink';
 import { NavIcon } from '@/components/navigation/navIcons';
 import { Drawer } from '@/components/ui/Drawer';
 import { resolveLocalized } from '@/domain/localized';
+import { useSession } from '@/features/auth/context';
+import { useCustomerLists } from '@/features/customer/context';
+import { useUnreadNotifications } from '@/features/customer/hooks';
 import { OpenStatus } from '@/features/store-info/OpenStatus';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
@@ -16,6 +19,9 @@ import styles from './MobileMenu.module.css';
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { navigation, store } = useSettings();
   const { t, locale } = useI18n();
+  const session = useSession();
+  const { wishlist } = useCustomerLists();
+  const unread = useUnreadNotifications();
   const titleId = useId();
   const items = navigation.primary.filter((item) => item.visible);
   const highlighted = items.filter((item) => item.highlight);
@@ -84,6 +90,24 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             <UserRound aria-hidden="true" />
             {t('common.account')}
           </LocaleLink>
+          <LocaleLink to="/wishlist" className={styles.utilityLink} onClick={onClose}>
+            <Heart aria-hidden="true" />
+            {wishlist.count > 0
+              ? t('wishlist.headerCount', { count: wishlist.count })
+              : t('wishlist.title')}
+          </LocaleLink>
+          {session && (
+            <LocaleLink
+              to="/account/notifications"
+              className={styles.utilityLink}
+              onClick={onClose}
+            >
+              <Bell aria-hidden="true" />
+              {unread > 0
+                ? t('notifications.headerUnread', { count: unread })
+                : t('notifications.title')}
+            </LocaleLink>
+          )}
         </div>
 
         {branch && (

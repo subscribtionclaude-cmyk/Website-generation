@@ -737,7 +737,7 @@ export const ar = {
     loadError: 'تعذر تحميل التقييمات.',
     averageText: 'متوسط {average} من 5 بناءً على {count} تقييم',
     distribution: 'توزيع التقييمات',
-    starsCount: '{stars} نجوم',
+    starsCount: 'النجوم: {stars}',
     empty: 'لا توجد تقييمات بعد.',
     more: 'عرض المزيد من التقييمات',
     ratedText: 'التقييم {rating} من 5',

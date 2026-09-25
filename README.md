@@ -4,7 +4,7 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Build status:** Phase 03 (Commerce) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
+> **Build status:** Phase 04 (Customer Features) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
 > Service flows (05) and admin modules for later phases are routed and clearly marked as scheduled;
 > they are not faked.
 
@@ -99,9 +99,16 @@ Never put a service-role key, database password or any secret in the frontend or
      COD, InstaPay and split payment (there is no pay-at-store method).
    - Staff who verify money need `payments.verify`; with `security.adminMfaRequired` on they must
      use an MFA session.
-6. **Frontend env**: set `VITE_DATA_MODE=live`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
+6. **Customer-feature settings** (Phase 04): `engagement` (public — wishlist cap and price-drop %,
+   recently viewed cap, compare max, review eligibility statuses / photos, request expiry,
+   recommendation privacy threshold), `abandoned_cart` (private — enabled, `thresholdHours` 48,
+   `followUp: in_app | off`) and `notifications` (private — email / WhatsApp / SMS channels are
+   disabled; only in-app notifications are sent, no paid provider is needed). Review photos go to
+   the private `reviews` Storage bucket (created by the migrations) and become readable only after
+   approval.
+7. **Frontend env**: set `VITE_DATA_MODE=live`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
    `VITE_SITE_URL`, then build and deploy.
-7. **Create the first Owner** — see below.
+8. **Create the first Owner** — see below.
 
 ## 5. First Owner (admin bootstrap)
 

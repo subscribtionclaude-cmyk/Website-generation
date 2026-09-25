@@ -176,11 +176,26 @@ export const CATEGORIES = [
   },
 ];
 
+/** English for the demo phone spec phrases (every spec value is bilingual). */
+const phoneSpecEn = (value) =>
+  value
+    .replace(/^([\d.]+) بوصة$/, '$1-inch')
+    .replace(/^(\d+) ميجابكسل$/, '$1 MP')
+    .replace(/^شحن سريع (\d+) وات$/, '$1W fast charging')
+    .replace(/^شحن سريع \+ MagSafe$/, 'Fast charging + MagSafe')
+    .replace(/^شحن سريع$/, 'Fast charging');
+
 const phoneSpecs = (display, chip, camera, battery) => [
-  group('display', 'الشاشة', 'Display', [spec('size', 'المقاس', 'Size', display)]),
+  group('display', 'الشاشة', 'Display', [
+    spec('size', 'المقاس', 'Size', display, phoneSpecEn(display)),
+  ]),
   group('performance', 'الأداء', 'Performance', [spec('chip', 'المعالج', 'Chip', chip)]),
-  group('camera', 'الكاميرا', 'Camera', [spec('main', 'الكاميرا الأساسية', 'Main camera', camera)]),
-  group('battery', 'البطارية', 'Battery', [spec('charging', 'الشحن', 'Charging', battery)]),
+  group('camera', 'الكاميرا', 'Camera', [
+    spec('main', 'الكاميرا الأساسية', 'Main camera', camera, phoneSpecEn(camera)),
+  ]),
+  group('battery', 'البطارية', 'Battery', [
+    spec('charging', 'الشحن', 'Charging', battery, phoneSpecEn(battery)),
+  ]),
   group('connectivity', 'الاتصال', 'Connectivity', [
     spec('sim', 'الشريحة', 'SIM', 'شريحة + eSIM', 'Nano-SIM + eSIM'),
     spec('network', 'الشبكة', 'Network', '5G'),

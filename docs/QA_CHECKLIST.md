@@ -111,12 +111,44 @@ _Last updated: Phase 02 — 2026-09-24._
 | Migrations from a clean DB, re-applied (idempotent), contracts, assertions                                                                                      | ✅               | `npm run test:db` (349 assertions + concurrency)                                         |
 | Live Supabase project run-through (real sessions, MFA for payment verification)                                                                                 | ⏳ owner project | adapters + RPC contracts tested locally (see README §4)                                  |
 
+## Phase 04 — Customer Features
+
+| Area                                                                                                                                                              | Status           | Evidence                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------ |
+| Pay-at-store removed from V1: customers see exactly COD, InstaPay and split; the DB rejects `pay_at_store`                                                        | ✅               | `commerce.test.tsx`, `07_commerce.test.sql`                        |
+| Account area (overview, orders, wishlist, requests, notifications, reviews, addresses, profile), mobile-friendly nav, honest empty states                         | ✅               | `customer.test.tsx`, e2e C / I / J                                 |
+| Profile: name, Egyptian mobile (normalised), preferred language, read-only email, member since                                                                    | ✅               | `08_customer.test.sql`, e2e C                                      |
+| Saved addresses: same rules as checkout, one default, max 10, owner-only; reused (preselected) at checkout                                                        | ✅               | `08_customer.test.sql`, `customer.test.tsx`, e2e C                 |
+| Orders: current / completed / cancelled filters, paging, receipt / invoice / WhatsApp from Phase 03; no staff notes                                               | ✅               | e2e C, `07_commerce.test.sql`                                      |
+| Guest wishlist in the browser, survives refresh; toggles with accessible names + `aria-pressed` (not colour only)                                                 | ✅               | `customer.test.tsx`, e2e A                                         |
+| Sign-in merge: deterministic, no duplicates, invalid items reported, idempotent, concurrent-safe; local copy cleared only after success                           | ✅               | `customer.test.ts`, `08_customer.test.sql`, concurrency run, e2e B |
+| Price-drop and back-in-stock readiness for saved items (one notice per new low price)                                                                             | ✅               | `08_customer.test.sql`, `customer.test.ts`                         |
+| Recently viewed: browser for guests, account when signed in, capped, de-duplicated                                                                                | ✅               | `customer.test.ts`, `08_customer.test.sql`, e2e (recommendations)  |
+| Compare: max 4, same top-level category (explained refusal), dynamic spec rows, differences only, scroll region with sticky first column                          | ✅               | `customer.test.ts`, `customer.test.tsx`, e2e D                     |
+| Verified-buyer reviews: DB eligibility (owner, product in order, eligible status), one per product, pending → moderation → public                                 | ✅               | `08_customer.test.sql`, `customer.test.ts`, e2e E                  |
+| `verified_buyer` server-only; customers cannot approve / moderate; staff cannot moderate their own review; moderation audited                                     | ✅               | `08_customer.test.sql`                                             |
+| Public reviews: approved only, first name + initial, no PII; demo reviews labelled and never verified                                                             | ✅               | `08_customer.test.sql`, `customer.test.tsx`, e2e                   |
+| Notify me / waitlist lifecycle (active, available, notified, cancelled, expired); guest claim token; account linking by token or verified email                   | ✅               | `08_customer.test.sql`, e2e G                                      |
+| Notifications: templates with a closed placeholder set, inbox (read/unread, mark one / all, action link, category, time, paging)                                  | ✅               | `08_customer.test.sql`, `customer.test.ts`, e2e F                  |
+| Order-status notifications idempotent; back-in-stock / waitlist event-driven (triggers, no cron) and idempotent                                                   | ✅               | `08_customer.test.sql`                                             |
+| Preferences: in-app works (orders mandatory); email / WhatsApp / SMS shown as not available; nothing sent externally                                              | ✅               | `08_customer.test.sql`, `customer.test.tsx`, e2e F                 |
+| Customers cannot create notifications for others; manual staff messages need `notifications.manage` and are audited                                               | ✅               | `08_customer.test.sql`                                             |
+| Abandoned cart derived from timestamps (threshold 48 h, in-app follow-up, one reminder per idle period); continuation card                                        | ✅               | `08_customer.test.sql`, `customer.test.ts`, e2e H                  |
+| Abandoned-cart staff view needs `customers.view`; no payment data                                                                                                 | ✅               | `08_customer.test.sql`, e2e H                                      |
+| Recommendations: explicit relations first; compatibility never guessed; bought together from real orders of ≥ 2 customers, aggregated only; demo never feeds live | ✅               | `08_customer.test.sql`, `customer.test.ts`, e2e                    |
+| Privacy: addresses, wishlist, recently viewed, notifications, requests and reviews are owner-only (RPC + RLS)                                                     | ✅               | `08_customer.test.sql`                                             |
+| Requests area with Repairs / Trade-In / Used placeholders only (no Phase 05 workflow)                                                                             | ✅               | e2e G, `customer.test.tsx`                                         |
+| Arabic RTL + English LTR; demo catalog has no Arabic text in English fields                                                                                       | ✅               | e2e I / J, `engine.test.ts`, screenshots                           |
+| Accessibility: axe WCAG 2.1 A/AA on account pages, wishlist, compare, review form, inbox, requests, admin reviews / abandoned carts; keyboard nav; live regions   | ✅               | e2e (4 projects)                                                   |
+| Responsive: no horizontal overflow on 4 viewports; wishlist / bell move into the menu on small phones; compare tray never hides focus                             | ✅               | e2e (4 projects), screenshots 390 / 1440                           |
+| No paid service required (in-app only; external adapters disabled)                                                                                                | ✅               | architecture review, `package.json`                                |
+| Migrations from a clean DB, re-applied, contracts, assertions                                                                                                     | ✅               | `npm run test:db` (467 assertions + concurrency)                   |
+| Live Supabase project run-through (storage bucket policies for review photos with real sessions)                                                                  | ⏳ owner project | adapters + RPC contracts tested locally                            |
+
 ## Later phases (tracked from the specification)
 
 | Area                                                                                           | Status | Phase |
 | ---------------------------------------------------------------------------------------------- | ------ | ----- |
-| Wishlist, recently viewed, compare, reviews; notify-me/waitlist follow-up & account linking    | ⏳     | 04    |
-| Notifications framework, abandoned cart, recommendations                                       | ⏳     | 04    |
 | Trade-In, used requests, repairs + 3D, uploads, after-sales                                    | ⏳     | 05    |
 | Admin modules (products … audit viewer), import/export, analytics                              | ⏳     | 06    |
 | Visual site editor (drag/drop, draft/preview/publish, undo, rollback)                          | ⏳     | 07    |

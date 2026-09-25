@@ -1,5 +1,4 @@
 import { Bell, Heart, Menu, Search, ShoppingCart, UserRound } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import { useId, useState, type FormEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -10,7 +9,7 @@ import { resolveLocalized } from '@/domain/localized';
 import { useSession } from '@/features/auth/context';
 import { useCart } from '@/features/cart/context';
 import { useCustomerLists } from '@/features/customer/context';
-import { useRuntime } from '@/runtime/context';
+import { useUnreadNotifications } from '@/features/customer/hooks';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { MobileMenu } from './MobileMenu';
@@ -23,14 +22,7 @@ export function SiteHeader() {
   const { count } = useCart();
   const { wishlist } = useCustomerLists();
   const session = useSession();
-  const { repositories } = useRuntime();
-  const unread = useQuery({
-    queryKey: ['notifications-unread', session?.userId ?? null],
-    queryFn: () => repositories.notifications.unreadCount(),
-    enabled: Boolean(session),
-    staleTime: 30_000,
-  });
-  const unreadCount = unread.data ?? 0;
+  const unreadCount = useUnreadNotifications();
   const items = navigation.primary.filter((item) => item.visible);
 
   return (
@@ -53,7 +45,7 @@ export function SiteHeader() {
           <LanguageSwitch className={styles.action} />
           <LocaleLink
             to="/wishlist"
-            className={`${styles.iconAction} ${styles.cartLink}`}
+            className={`${styles.iconAction} ${styles.wideOnly} ${styles.cartLink}`}
             aria-label={
               wishlist.count > 0
                 ? t('wishlist.headerCount', { count: wishlist.count })
@@ -70,7 +62,7 @@ export function SiteHeader() {
           {session && (
             <LocaleLink
               to="/account/notifications"
-              className={`${styles.iconAction} ${styles.cartLink}`}
+              className={`${styles.iconAction} ${styles.wideOnly} ${styles.cartLink}`}
               aria-label={
                 unreadCount > 0
                   ? t('notifications.headerUnread', { count: unreadCount })

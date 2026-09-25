@@ -26,6 +26,17 @@ html {
   }
 }
 
+/* While the floating compare tray is shown, keep focused controls clear of it too. */
+html[data-compare-tray] {
+  scroll-padding-block-end: calc(var(--space-4) + 64px);
+}
+
+@media (max-width: 767px) {
+  html[data-compare-tray] {
+    scroll-padding-block-end: calc(var(--tabbar-height) + var(--space-4) + 64px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

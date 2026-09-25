@@ -750,7 +750,7 @@ export const en: Widen<typeof ar> = {
     loadError: "We couldn't load reviews.",
     averageText: 'Average {average} out of 5 from {count} review(s)',
     distribution: 'Rating distribution',
-    starsCount: '{stars} stars',
+    starsCount: '{stars}-star',
     empty: 'No reviews yet.',
     more: 'Show more reviews',
     ratedText: 'Rated {rating} out of 5',

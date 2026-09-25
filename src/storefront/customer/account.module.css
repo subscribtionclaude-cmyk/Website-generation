@@ -17,6 +17,12 @@
   font-size: var(--font-size-h1);
 }
 
+/* A subtitle sits under the title; actions (buttons) stay at the end of the row. */
+.pageHead > p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
 .sectionTitle {
   font-size: var(--font-size-h3);
 }
