@@ -13,3 +13,4 @@ update public.product_variants set stock_quantity = 1 where sku = 'RN15P-256GB-P
 select tests.create_user('a@race.local');
 select tests.create_user('b@race.local');
 select tests.create_user('c@race.local');
+select tests.create_user('w@race.local');

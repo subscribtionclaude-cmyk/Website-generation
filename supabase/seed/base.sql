@@ -20,6 +20,9 @@ insert into public.site_settings (key, value) values
   ('catalog', '{"pageSize":12,"budgetPresets":[{"min":0,"max":10000},{"min":10000,"max":20000},{"min":20000,"max":30000},{"min":30000,"max":50000},{"min":50000,"max":null}],"budgetStep":500}'::jsonb),
   ('commerce', '{"reservationMinutes":30,"maxQuantityPerLine":5,"maxOpenOrdersPerCustomer":3,"orderNumberPrefix":"MS","paymentMethods":{"cod":true,"instapay":true,"split":true},"instapay":null}'::jsonb),
   ('order_review', '{"preset":"default","highValue":{"enabled":true,"threshold":100000},"multipleExpensive":{"enabled":true,"unitPrice":20000,"minUnits":2},"newCustomer":{"enabled":true,"minTotal":30000},"splitPayment":{"enabled":true},"unfinishedOrders":{"enabled":true,"maxCount":2,"windowDays":7},"velocity":{"enabled":true,"maxOrders":3,"windowHours":1}}'::jsonb),
+  ('engagement', '{"wishlist":{"maxItems":100,"priceDropPercent":5},"recentlyViewed":{"maxItems":20},"compare":{"maxItems":4},"reviews":{"enabled":true,"eligibleStatuses":["delivered","completed"],"allowImages":true},"requests":{"expireAfterDays":180},"recommendations":{"minCustomers":2,"limit":8}}'::jsonb),
+  ('abandoned_cart', '{"enabled":true,"thresholdHours":48,"followUp":"in_app"}'::jsonb),
+  ('notifications', '{"channels":{"email":{"enabled":false},"whatsapp":{"enabled":false},"sms":{"enabled":false}}}'::jsonb),
   ('security', '{"adminMfaRequired":false}'::jsonb)
 on conflict (key) do nothing;
 

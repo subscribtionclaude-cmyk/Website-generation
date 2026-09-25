@@ -241,6 +241,9 @@ export const PRODUCTS = [
       ],
       similar: ['iphone-18-pro-max', 'iphone-17', 'galaxy-s26-ultra'],
       recommended: ['airpods-pro-3', 'apple-watch-series-11'],
+      // Explicit compatibility (never inferred from names) + a manual "bought together" pick.
+      compatible: ['magsafe-clear-case-18-pro'],
+      bought_together: ['apple-20w-usb-c-adapter'],
     },
   },
   {
@@ -1332,6 +1335,37 @@ export const ENTRIES = [
 ];
 
 /** Arabic/transliteration search aliases; attached as product keywords when the English term matches. */
+/**
+ * DEMO reviews (is_demo, clearly labelled "Demo review" in the UI, never "Verified buyer").
+ * Kept minimal on purpose: they only show how approved reviews look.
+ */
+export const REVIEWS = [
+  {
+    slug: 'demo-review-iphone-18-pro-1',
+    product: 'iphone-18-pro',
+    rating: 5,
+    title: L('مثال لتقييم', 'Sample review'),
+    body: L(
+      'ده تقييم تجريبي يوضح شكل التقييمات بعد الموافقة عليها. التقييمات الحقيقية بتظهر من مشترين مؤكدين فقط.',
+      'This is a demo review showing how approved reviews look. Real reviews come from verified buyers only.',
+    ),
+    author: 'Demo',
+    createdAt: '-6d',
+  },
+  {
+    slug: 'demo-review-airpods-4-1',
+    product: 'airpods-4',
+    rating: 4,
+    title: null,
+    body: L(
+      'تقييم تجريبي للعرض فقط — مش رأي عميل حقيقي.',
+      'Demo review for preview only — not a real customer opinion.',
+    ),
+    author: 'Demo',
+    createdAt: '-3d',
+  },
+];
+
 export const SEARCH_ALIASES = {
   iphone: 'ايفون آيفون',
   ipad: 'ايباد آيباد تابلت',

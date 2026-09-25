@@ -2,12 +2,15 @@ import type { z } from 'zod';
 import type { PermissionKey } from '@/domain/access/permissions';
 import definitionsJson from './setting-definitions.json';
 import {
+  abandonedCartSettingsSchema,
   brandSettingsSchema,
   catalogSettingsSchema,
   commerceSettingsSchema,
+  engagementSettingsSchema,
   featuresSettingsSchema,
   localizationSettingsSchema,
   navigationSettingsSchema,
+  notificationSettingsSchema,
   orderReviewSettingsSchema,
   securitySettingsSchema,
   seoSettingsSchema,
@@ -41,6 +44,9 @@ export const SETTING_SCHEMAS = {
   catalog: catalogSettingsSchema,
   commerce: commerceSettingsSchema,
   order_review: orderReviewSettingsSchema,
+  engagement: engagementSettingsSchema,
+  abandoned_cart: abandonedCartSettingsSchema,
+  notifications: notificationSettingsSchema,
   security: securitySettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
@@ -53,7 +59,10 @@ export const PUBLIC_SETTING_KEYS = SETTING_DEFINITIONS.filter((d) => d.isPublic)
   (d) => d.key,
 ) as PublicSettingKey[];
 
-export type PublicSettingKey = Exclude<SettingKey, 'security' | 'order_review'>;
+export type PublicSettingKey = Exclude<
+  SettingKey,
+  'security' | 'order_review' | 'abandoned_cart' | 'notifications'
+>;
 
 export type PublicSettings = { [K in PublicSettingKey]: SettingValue<K> };
 

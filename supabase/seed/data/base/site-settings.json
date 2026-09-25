@@ -410,6 +410,48 @@
         "windowHours": 1
       }
     },
+    "engagement": {
+      "wishlist": {
+        "maxItems": 100,
+        "priceDropPercent": 5
+      },
+      "recentlyViewed": {
+        "maxItems": 20
+      },
+      "compare": {
+        "maxItems": 4
+      },
+      "reviews": {
+        "enabled": true,
+        "eligibleStatuses": ["delivered", "completed"],
+        "allowImages": true
+      },
+      "requests": {
+        "expireAfterDays": 180
+      },
+      "recommendations": {
+        "minCustomers": 2,
+        "limit": 8
+      }
+    },
+    "abandoned_cart": {
+      "enabled": true,
+      "thresholdHours": 48,
+      "followUp": "in_app"
+    },
+    "notifications": {
+      "channels": {
+        "email": {
+          "enabled": false
+        },
+        "whatsapp": {
+          "enabled": false
+        },
+        "sms": {
+          "enabled": false
+        }
+      }
+    },
     "security": {
       "adminMfaRequired": false
     }

@@ -908,6 +908,8 @@ insert into public.product_relations (product_id, related_product_id, kind, sort
   (md5('malek-demo:demo-product-iphone-18-pro')::uuid, md5('malek-demo:demo-product-galaxy-s26-ultra')::uuid, 'similar', 2),
   (md5('malek-demo:demo-product-iphone-18-pro')::uuid, md5('malek-demo:demo-product-airpods-pro-3')::uuid, 'recommended', 0),
   (md5('malek-demo:demo-product-iphone-18-pro')::uuid, md5('malek-demo:demo-product-apple-watch-series-11')::uuid, 'recommended', 1),
+  (md5('malek-demo:demo-product-iphone-18-pro')::uuid, md5('malek-demo:demo-product-magsafe-clear-case-18-pro')::uuid, 'compatible', 0),
+  (md5('malek-demo:demo-product-iphone-18-pro')::uuid, md5('malek-demo:demo-product-apple-20w-usb-c-adapter')::uuid, 'bought_together', 0),
   (md5('malek-demo:demo-product-iphone-18-pro-max')::uuid, md5('malek-demo:demo-product-apple-20w-usb-c-adapter')::uuid, 'accessory', 0),
   (md5('malek-demo:demo-product-iphone-18-pro-max')::uuid, md5('malek-demo:demo-product-usb-c-cable')::uuid, 'accessory', 1),
   (md5('malek-demo:demo-product-iphone-18-pro-max')::uuid, md5('malek-demo:demo-product-anker-power-bank-10k')::uuid, 'accessory', 2),
@@ -1039,5 +1041,10 @@ insert into public.content_entry_products (entry_id, product_id, sort_order) val
   (md5('malek-demo:demo-entry-new-iphone-18-pro-release')::uuid, md5('malek-demo:demo-product-iphone-18-pro-max')::uuid, 1),
   (md5('malek-demo:demo-entry-new-galaxy-tab-s11')::uuid, md5('malek-demo:demo-product-galaxy-tab-s11')::uuid, 0),
   (md5('malek-demo:demo-entry-accessories-price-update')::uuid, md5('malek-demo:demo-product-magsafe-clear-case-18-pro')::uuid, 0)
+on conflict do nothing;
+
+insert into public.product_reviews (id, product_id, user_id, rating, title, body, author_name, locale, status, verified_buyer, is_demo, created_at) values
+  (md5('malek-demo:demo-review-demo-review-iphone-18-pro-1')::uuid, md5('malek-demo:demo-product-iphone-18-pro')::uuid, null, 5, 'مثال لتقييم', 'ده تقييم تجريبي يوضح شكل التقييمات بعد الموافقة عليها. التقييمات الحقيقية بتظهر من مشترين مؤكدين فقط.', 'Demo', 'ar', 'approved', false, true, (now() - interval '6 days')),
+  (md5('malek-demo:demo-review-demo-review-airpods-4-1')::uuid, md5('malek-demo:demo-product-airpods-4')::uuid, null, 4, null, 'تقييم تجريبي للعرض فقط — مش رأي عميل حقيقي.', 'Demo', 'ar', 'approved', false, true, (now() - interval '3 days'))
 on conflict do nothing;
 commit;

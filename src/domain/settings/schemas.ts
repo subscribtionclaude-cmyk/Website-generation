@@ -225,6 +225,44 @@ export const orderReviewSettingsSchema = z.strictObject({
   }),
 });
 
+// ── engagement (public): wishlist, recently viewed, compare, reviews, requests, recommendations ─
+export const REVIEW_ELIGIBLE_STATUSES = ['delivered', 'completed'] as const;
+export const engagementSettingsSchema = z.strictObject({
+  wishlist: z.strictObject({
+    maxItems: z.number().int().min(1).max(500),
+    /** Minimum drop (%) below the saved price before an in-app price-drop notice. */
+    priceDropPercent: z.number().int().min(1).max(90),
+  }),
+  recentlyViewed: z.strictObject({ maxItems: z.number().int().min(1).max(100) }),
+  compare: z.strictObject({ maxItems: z.number().int().min(2).max(4) }),
+  reviews: z.strictObject({
+    enabled: z.boolean(),
+    /** Order statuses that make a buyer eligible to review (verified buyer). */
+    eligibleStatuses: z.array(z.enum(REVIEW_ELIGIBLE_STATUSES)).min(1),
+    allowImages: z.boolean(),
+  }),
+  requests: z.strictObject({ expireAfterDays: z.number().int().min(7).max(3650) }),
+  recommendations: z.strictObject({
+    /** Bought-together pairs need at least this many different customers (privacy). */
+    minCustomers: z.number().int().min(2).max(100),
+    limit: z.number().int().min(2).max(24),
+  }),
+});
+
+// ── abandoned cart (private) ─────────────────────────────
+export const abandonedCartSettingsSchema = z.strictObject({
+  enabled: z.boolean(),
+  thresholdHours: z.number().int().min(1).max(720),
+  /** V1: a single gentle in-app reminder per idle period, or nothing. */
+  followUp: z.enum(['in_app', 'off']),
+});
+
+// ── notifications (private): optional external channels, all off by default ─
+const channelToggle = z.strictObject({ enabled: z.boolean() });
+export const notificationSettingsSchema = z.strictObject({
+  channels: z.strictObject({ email: channelToggle, whatsapp: channelToggle, sms: channelToggle }),
+});
+
 // ── SEO defaults ─────────────────────────────────────────
 export const seoSettingsSchema = z.strictObject({
   titleTemplate: localizedTextSchema.refine(
@@ -260,3 +298,6 @@ export type CatalogSettings = z.infer<typeof catalogSettingsSchema>;
 export type InstapaySettings = z.infer<typeof instapaySettingsSchema>;
 export type CommerceSettings = z.infer<typeof commerceSettingsSchema>;
 export type OrderReviewSettings = z.infer<typeof orderReviewSettingsSchema>;
+export type EngagementSettings = z.infer<typeof engagementSettingsSchema>;
+export type AbandonedCartSettings = z.infer<typeof abandonedCartSettingsSchema>;
+export type NotificationSettings = z.infer<typeof notificationSettingsSchema>;

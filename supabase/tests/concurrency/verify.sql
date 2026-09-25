@@ -9,3 +9,6 @@ select tests.assert_equal((select count(*)::int from public.orders o join auth.u
 select tests.assert_equal((select count(*)::int from public.orders o join auth.users u on u.id = o.customer_id
                            where u.email = 'c@race.local'), 1,
   'concurrency: a double-submitted checkout (same key, two sessions) creates one order');
+select tests.assert_equal((select count(*)::int from public.wishlist_items w join auth.users u on u.id = w.user_id
+                           where u.email = 'w@race.local'), 2,
+  'concurrency: two simultaneous wishlist merges for one account create no duplicates');

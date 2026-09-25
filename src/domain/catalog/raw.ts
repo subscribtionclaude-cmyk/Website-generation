@@ -102,7 +102,7 @@ export const rawCatalogSchema = z.object({
       ),
       relations: z.array(
         z.object({
-          kind: z.enum(['accessory', 'similar', 'recommended']),
+          kind: z.enum(['accessory', 'similar', 'recommended', 'compatible', 'bought_together']),
           slug: z.string(),
           sortOrder: z.number(),
         }),
@@ -167,6 +167,21 @@ export const rawCatalogSchema = z.object({
       products: z.array(z.string()),
     }),
   ),
+  /** Demo reviews only (is_demo, never verified buyers). */
+  reviews: z
+    .array(
+      z.object({
+        id: z.string(),
+        slug: z.string(),
+        product: z.string(),
+        rating: z.number().int().min(1).max(5),
+        title: ltn,
+        body: lt,
+        author: z.string(),
+        createdAt: z.string(),
+      }),
+    )
+    .default([]),
 });
 
 export type RawCatalog = z.infer<typeof rawCatalogSchema>;

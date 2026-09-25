@@ -86,6 +86,27 @@
       "publishPermission": "settings.publish"
     },
     {
+      "key": "engagement",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "abandoned_cart",
+      "scope": "settings",
+      "isPublic": false,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "notifications",
+      "scope": "settings",
+      "isPublic": false,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
       "key": "security",
       "scope": "security",
       "isPublic": false,

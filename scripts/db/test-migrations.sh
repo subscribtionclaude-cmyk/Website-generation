@@ -87,7 +87,7 @@ for file in "${ROOT}"/supabase/tests/sql/*.test.sql; do
   echo "   ✓ $(basename "${file}") (${count} assertions)"
 done
 
-echo "▶ Concurrency: parallel checkouts (separate sessions)"
+echo "▶ Concurrency: parallel checkouts and wishlist merges (separate sessions)"
 run_sql "${ROOT}/supabase/tests/concurrency/setup.sql"
 race() { # who sku key hold outfile
   PGOPTIONS='-c client_min_messages=warning' "${PSQL[@]}" -X -q -At -v ON_ERROR_STOP=1 \
@@ -102,7 +102,21 @@ key="$(cat /proc/sys/kernel/random/uuid)"
 race c USBC-1M-WHITE "${key}" 2 "${WORKDIR}/race_c1.out" & pid_c1=$!
 sleep 0.5
 race c USBC-1M-WHITE "${key}" 0 "${WORKDIR}/race_c2.out" & pid_c2=$!
-wait "${pid_a}" "${pid_b}" "${pid_c1}" "${pid_c2}"
+# The same guest wishlist merged by two simultaneous sign-ins of one account.
+merge() { # hold outfile
+  PGOPTIONS='-c client_min_messages=warning' "${PSQL[@]}" -X -q -At -v ON_ERROR_STOP=1 \
+    -v hold="$1" -f "${ROOT}/supabase/tests/concurrency/wishlist_merge.sql" >"$2" 2>&1
+}
+merge 2 "${WORKDIR}/merge_1.out" & pid_m1=$!
+sleep 0.5
+merge 0 "${WORKDIR}/merge_2.out" & pid_m2=$!
+wait "${pid_a}" "${pid_b}" "${pid_c1}" "${pid_c2}" "${pid_m1}" "${pid_m2}"
+merges="$(grep -h '^RESULT:' "${WORKDIR}"/merge_1.out "${WORKDIR}"/merge_2.out | sort | tr '\n' ' ')"
+if [[ "${merges}" != "RESULT:ok RESULT:ok " ]]; then
+  echo "✗ parallel wishlist merge: expected two ok, got: ${merges}" >&2
+  cat "${WORKDIR}"/merge_*.out >&2
+  exit 1
+fi
 results="$(grep -h '^RESULT:' "${WORKDIR}"/race_a.out "${WORKDIR}"/race_b.out | sort | tr '\n' ' ')"
 dup="$(grep -h '^RESULT:' "${WORKDIR}"/race_c1.out "${WORKDIR}"/race_c2.out | sort | tr '\n' ' ')"
 if [[ "${results}" != "RESULT:cart_invalid RESULT:ok " ]]; then
@@ -120,8 +134,9 @@ output="$("${PSQL[@]}" -X -q -t -v ON_ERROR_STOP=1 -f "${ROOT}/supabase/tests/co
   exit 1
 }
 count="$(grep -c 'ok - ' <<<"${output}" || true)"
-total=$((total + count + 2))
+total=$((total + count + 3))
 echo "   ✓ last-unit race: ${results}"
 echo "   ✓ double submit: ${dup}"
+echo "   ✓ parallel wishlist merge (same account): ${merges}"
 
 echo "✓ Database migrations valid — ${total} assertions passed"

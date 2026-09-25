@@ -13,6 +13,7 @@ import {
   ENTRIES,
   OFFERS,
   PRODUCTS,
+  REVIEWS,
   SEARCH_ALIASES,
 } from './demo-catalog.source.mjs';
 
@@ -172,6 +173,11 @@ function buildCatalog() {
         return slug;
       }),
     })),
+    reviews: REVIEWS.map((r) => {
+      if (!slugs.has(r.product))
+        throw new Error(`Review ${r.slug} references unknown ${r.product}`);
+      return { id: `demo-review-${r.slug}`, ...r };
+    }),
   };
 }
 

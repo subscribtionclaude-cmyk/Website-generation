@@ -766,6 +766,16 @@
           "kind": "recommended",
           "slug": "apple-watch-series-11",
           "sortOrder": 1
+        },
+        {
+          "kind": "compatible",
+          "slug": "magsafe-clear-case-18-pro",
+          "sortOrder": 0
+        },
+        {
+          "kind": "bought_together",
+          "slug": "apple-20w-usb-c-adapter",
+          "sortOrder": 0
         }
       ],
       "seo": {
@@ -8674,6 +8684,37 @@
         "href": "/repairs"
       },
       "products": []
+    }
+  ],
+  "reviews": [
+    {
+      "id": "demo-review-demo-review-iphone-18-pro-1",
+      "slug": "demo-review-iphone-18-pro-1",
+      "product": "iphone-18-pro",
+      "rating": 5,
+      "title": {
+        "ar": "مثال لتقييم",
+        "en": "Sample review"
+      },
+      "body": {
+        "ar": "ده تقييم تجريبي يوضح شكل التقييمات بعد الموافقة عليها. التقييمات الحقيقية بتظهر من مشترين مؤكدين فقط.",
+        "en": "This is a demo review showing how approved reviews look. Real reviews come from verified buyers only."
+      },
+      "author": "Demo",
+      "createdAt": "-6d"
+    },
+    {
+      "id": "demo-review-demo-review-airpods-4-1",
+      "slug": "demo-review-airpods-4-1",
+      "product": "airpods-4",
+      "rating": 4,
+      "title": null,
+      "body": {
+        "ar": "تقييم تجريبي للعرض فقط — مش رأي عميل حقيقي.",
+        "en": "Demo review for preview only — not a real customer opinion."
+      },
+      "author": "Demo",
+      "createdAt": "-3d"
     }
   ]
 }
