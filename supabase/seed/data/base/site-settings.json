@@ -1693,6 +1693,134 @@
       "requests": {
         "maxOpenPerCustomer": 10
       }
+    },
+    "shipping": {
+      "message": {
+        "ar": "بنوصل لكل المحافظات، ورسوم الشحن بتتأكد مع فريقنا بعد الطلب حسب منطقتك.",
+        "en": "We deliver across Egypt; our team confirms the shipping fee after you order, based on your area."
+      },
+      "defaultMode": "delivery",
+      "manualFee": true,
+      "pickupNote": {
+        "ar": "الاستلام من فرع العباسية بعد ما نأكد إن طلبك جاهز.",
+        "en": "Pick up at the Abbasseya branch once we confirm your order is ready."
+      },
+      "deliveryNotes": null
+    },
+    "receipt": {
+      "version": 1,
+      "showLogo": true,
+      "title": {
+        "ar": "فاتورة الطلب",
+        "en": "Order invoice"
+      },
+      "fields": {
+        "customerPhone": true,
+        "customerEmail": false,
+        "sku": true,
+        "warranty": true,
+        "paymentStatus": true,
+        "storeAddress": true,
+        "storePhones": true
+      },
+      "footer": {
+        "ar": "شكرًا لتسوقك من MALEK STORE.",
+        "en": "Thank you for shopping at MALEK STORE."
+      },
+      "terms": null,
+      "layout": "standard",
+      "accent": "brand"
+    },
+    "legal": {
+      "pages": {
+        "privacy": {
+          "title": {
+            "ar": "سياسة الخصوصية",
+            "en": "Privacy policy"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "terms": {
+          "title": {
+            "ar": "الشروط والأحكام",
+            "en": "Terms and conditions"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "returns": {
+          "title": {
+            "ar": "سياسة الاسترجاع والاستبدال",
+            "en": "Return and exchange policy"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "warranty": {
+          "title": {
+            "ar": "سياسة الضمان",
+            "en": "Warranty policy"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "shipping": {
+          "title": {
+            "ar": "سياسة الشحن والتوصيل",
+            "en": "Shipping policy"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "repairs": {
+          "title": {
+            "ar": "شروط الصيانة",
+            "en": "Repair terms"
+          },
+          "body": null,
+          "updatedAt": null
+        },
+        "trade_in": {
+          "title": {
+            "ar": "شروط الاستبدال (Trade-In)",
+            "en": "Trade-in terms"
+          },
+          "body": null,
+          "updatedAt": null
+        }
+      }
+    },
+    "loyalty": {
+      "enabled": false,
+      "earn": {
+        "points": 1,
+        "perAmount": 100
+      },
+      "redeem": {
+        "points": 100,
+        "value": 10
+      },
+      "expiryMonths": null,
+      "note": null
+    },
+    "service_sla": {
+      "repair": {
+        "warnHours": 24,
+        "overdueHours": 48
+      },
+      "trade_in": {
+        "warnHours": 24,
+        "overdueHours": 72
+      },
+      "used": {
+        "warnHours": 48,
+        "overdueHours": 120
+      },
+      "after_sales": {
+        "warnHours": 24,
+        "overdueHours": 72
+      }
     }
   }
 }

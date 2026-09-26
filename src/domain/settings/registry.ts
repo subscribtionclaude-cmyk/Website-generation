@@ -20,6 +20,11 @@ import {
   storeSettingsSchema,
   themeSettingsSchema,
   trustSettingsSchema,
+  shippingSettingsSchema,
+  receiptSettingsSchema,
+  legalSettingsSchema,
+  loyaltySettingsSchema,
+  serviceSlaSettingsSchema,
 } from './schemas';
 
 export type SettingScope = 'design' | 'settings' | 'content' | 'security';
@@ -52,6 +57,11 @@ export const SETTING_SCHEMAS = {
   security: securitySettingsSchema,
   services: servicesSettingsSchema,
   repair_catalog: repairCatalogSettingsSchema,
+  shipping: shippingSettingsSchema,
+  receipt: receiptSettingsSchema,
+  legal: legalSettingsSchema,
+  loyalty: loyaltySettingsSchema,
+  service_sla: serviceSlaSettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
 export type SettingKey = keyof typeof SETTING_SCHEMAS;

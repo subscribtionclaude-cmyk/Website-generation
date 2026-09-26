@@ -126,6 +126,41 @@
       "isPublic": true,
       "editPermission": "settings.manage",
       "publishPermission": "settings.publish"
+    },
+    {
+      "key": "shipping",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "receipt",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "legal",
+      "scope": "content",
+      "isPublic": true,
+      "editPermission": "legal.manage",
+      "publishPermission": "legal.manage"
+    },
+    {
+      "key": "loyalty",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "marketing.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "service_sla",
+      "scope": "settings",
+      "isPublic": false,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
     }
   ]
 }

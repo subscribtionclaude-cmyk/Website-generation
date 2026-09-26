@@ -16,9 +16,9 @@ select tests.assert_equal(
   (select count(*)::int from public.role_permissions rp join public.roles r on r.id = rp.role_id where r.key = 'owner'), 0,
   'owner permissions are implicit (no explicit grants)');
 
-select tests.assert_equal((select count(*)::int from public.setting_definitions), 18, '18 setting definitions');
-select tests.assert_equal((select count(*)::int from public.site_settings), 18, 'base seed published 18 settings');
-select tests.assert_equal((select count(*)::int from public.site_settings_versions), 18, 'initial versions recorded');
+select tests.assert_equal((select count(*)::int from public.setting_definitions), 23, '23 setting definitions (Phase 06 adds shipping, receipt, legal, loyalty, service_sla)');
+select tests.assert_equal((select count(*)::int from public.site_settings), 23, 'base seed published 23 settings');
+select tests.assert_equal((select count(*)::int from public.site_settings_versions), 23, 'initial versions recorded');
 select tests.assert_equal(
   (select value -> 'branches' -> 0 -> 'phones' ->> 0 from public.site_settings where key = 'store'), '01212004229',
   'store phone seeded from base settings');

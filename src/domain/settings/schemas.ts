@@ -352,6 +352,100 @@ export const securitySettingsSchema = z.strictObject({
   adminMfaRequired: z.boolean(),
 });
 
+// ── shipping (public: what customers are told about delivery) ─
+export const shippingSettingsSchema = z.strictObject({
+  /** Shown in cart / checkout. Fees are confirmed manually by staff — never auto-calculated. */
+  message: localizedTextSchema,
+  defaultMode: z.enum(['delivery', 'pickup']),
+  /** V1: the shipping fee is always set by staff after the order. */
+  manualFee: z.literal(true),
+  pickupNote: localizedTextSchema.nullable(),
+  deliveryNotes: localizedTextSchema.nullable(),
+});
+
+// ── receipt / invoice template (structured, no freeform designer) ─
+export const receiptSettingsSchema = z.strictObject({
+  version: z.literal(1),
+  showLogo: z.boolean(),
+  title: localizedTextSchema,
+  fields: z.strictObject({
+    customerPhone: z.boolean(),
+    customerEmail: z.boolean(),
+    sku: z.boolean(),
+    warranty: z.boolean(),
+    paymentStatus: z.boolean(),
+    storeAddress: z.boolean(),
+    storePhones: z.boolean(),
+  }),
+  footer: localizedTextSchema.nullable(),
+  terms: localizedTextSchema.nullable(),
+  layout: z.enum(['standard', 'compact']),
+  accent: z.enum(['brand', 'mono']),
+});
+
+// ── legal pages (draft → publish → versions via the settings workflow) ─
+export const LEGAL_PAGE_KEYS = [
+  'privacy',
+  'terms',
+  'returns',
+  'warranty',
+  'shipping',
+  'repairs',
+  'trade_in',
+] as const;
+export type LegalPageKey = (typeof LEGAL_PAGE_KEYS)[number];
+export const legalPageSchema = z.strictObject({
+  title: localizedTextSchema,
+  /** Plain text; blank lines separate paragraphs. null = not written yet (shown honestly). */
+  body: localizedTextSchema.nullable(),
+  updatedAt: z.iso.date().nullable(),
+});
+export const legalSettingsSchema = z.strictObject({
+  pages: z.strictObject(
+    Object.fromEntries(LEGAL_PAGE_KEYS.map((k) => [k, legalPageSchema])) as Record<
+      LegalPageKey,
+      typeof legalPageSchema
+    >,
+  ),
+});
+
+// ── loyalty foundation (off by default; no customer-facing points yet) ─
+export const loyaltySettingsSchema = z.strictObject({
+  enabled: z.boolean(),
+  /** Points earned per `perAmount` EGP of delivered / completed orders. */
+  earn: z.strictObject({
+    points: z.number().int().min(1).max(1000),
+    perAmount: z.number().int().min(1).max(100_000),
+  }),
+  /** Value of `points` points when redeemed, in EGP. */
+  redeem: z.strictObject({
+    points: z.number().int().min(1).max(100_000),
+    value: z.number().int().min(1).max(100_000),
+  }),
+  expiryMonths: z.number().int().min(1).max(60).nullable(),
+  note: localizedTextSchema.nullable(),
+});
+
+// ── service SLA (private operational thresholds — never promised to customers) ─
+const slaSchema = z
+  .strictObject({
+    warnHours: z.number().int().min(1).max(2000),
+    overdueHours: z.number().int().min(1).max(4000),
+  })
+  .refine((v) => v.overdueHours > v.warnHours, 'overdueHours must be greater than warnHours');
+export const serviceSlaSettingsSchema = z.strictObject({
+  repair: slaSchema,
+  trade_in: slaSchema,
+  used: slaSchema,
+  after_sales: slaSchema,
+});
+
+export type ShippingSettings = z.infer<typeof shippingSettingsSchema>;
+export type ReceiptSettings = z.infer<typeof receiptSettingsSchema>;
+export type LegalSettings = z.infer<typeof legalSettingsSchema>;
+export type LoyaltySettings = z.infer<typeof loyaltySettingsSchema>;
+export type ServiceSlaSettings = z.infer<typeof serviceSlaSettingsSchema>;
+
 export type BrandSettings = z.infer<typeof brandSettingsSchema>;
 export type ThemeSettings = z.infer<typeof themeSettingsSchema>;
 export type NavItem = z.infer<typeof navItemSchema>;
