@@ -255,7 +255,7 @@
             "ar": "ابدأ الاستبدال",
             "en": "Start a trade-in"
           },
-          "href": "/trade-in"
+          "href": "/trade-in/request"
         },
         "secondaryCta": null
       }
@@ -296,7 +296,7 @@
             "ar": "اطلب صيانة",
             "en": "Request a repair"
           },
-          "href": "/repairs"
+          "href": "/repairs/request"
         },
         "secondaryCta": {
           "label": {
@@ -545,7 +545,7 @@
             "ar": "ابدأ الاستبدال",
             "en": "Start a trade-in"
           },
-          "href": "/trade-in"
+          "href": "/trade-in/request"
         },
         "secondaryCta": null
       }

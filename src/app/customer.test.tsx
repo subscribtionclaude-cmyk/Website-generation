@@ -83,11 +83,15 @@ describe('customer features', { timeout: 30_000 }, () => {
     expect(router.state.location.pathname).toBe('/account/notifications');
     // External channels are never presented as working.
     expect((await screen.findAllByText('غير متاح حاليًا', {}, T)).length).toBeGreaterThan(0);
-    await user.click(within(nav).getByRole('link', { name: 'طلبات التنبيه' }));
+    await user.click(within(nav).getByRole('link', { name: 'طلبات الخدمة' }));
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'طلبات التنبيه والانتظار' }, T),
+      await screen.findByRole('heading', { level: 1, name: 'طلبات الخدمة والتنبيهات' }, T),
     ).toBeVisible();
-    expect(screen.getByText('طلبات الصيانة')).toBeInTheDocument();
+    // The hub starts every Phase 05 service flow.
+    expect(within(screen.getByRole('main')).getByRole('link', { name: /^صيانة/ })).toHaveAttribute(
+      'href',
+      '/repairs/request',
+    );
   });
 
   it('saved address form uses the checkout address rules', async () => {

@@ -35,6 +35,11 @@ npm run dev                       # http://localhost:5173
   this browser only. Then preview the admin as Owner → **Orders** to set the shipping fee, confirm
   (stock is committed once) and record verified payments. Nothing is charged, sent or delivered.
 
+- Services (demo): `/services` → start a repair (3D / 2D diagnostic), trade-in, used-device or
+  after-sales request, track it under **Account → Requests**, then preview the admin as Owner →
+  **Repairs / Trade-In / Used requests / After-sales** to send quotes, valuations and proposals.
+  Uploaded photos stay in this browser. No price or valuation is ever calculated automatically.
+
 A striped **"Demo mode"** banner is always visible in demo mode. Demo data is never used in live mode.
 
 ## 2. Scripts
@@ -52,7 +57,8 @@ A striped **"Demo mode"** banner is always visible in demo mode. Demo data is ne
 | `npm run test:e2e`                     | Playwright tests on mobile, tablet, desktop and large desktop: every storefront page, key interactions, cart → checkout → order journeys (Arabic + English), admin orders, invoice print, overflow checks and axe-core WCAG 2.1 A/AA scans (builds + previews the app)                                                                         |
 | `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                                                                                                                      |
 | `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                                                                                                                         |
-| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build                                                                                                                                                                                                                                                                                    |
+| `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB and three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                                                                 |
+| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget                                                                                                                                                                                                                                                                    |
 
 ## 3. Environment variables
 
@@ -136,16 +142,18 @@ src/
   services/       Supabase client + auth services (Supabase email OTP, demo)
   repositories/   Repository ports (types.ts) + demo and Supabase adapters (zod-validated)
   domain/         Pure business models: localized text, settings, access, catalog engine, content/sections,
-                  commerce (money, pricing, cart, status, review, WhatsApp text, invoice template, demo engine)
+                  commerce (money, pricing, cart, status, review, WhatsApp text, invoice template, demo engine),
+                  customer features, services (statuses, validation, media rules, demo engine)
   features/       Cross-cutting features: auth, settings, theme, SEO meta, store info, WhatsApp, demo banner, cart
   i18n/           Locales, typed dictionaries (ar/en), translator, locale-aware paths
   lib/            Money (EGP), Cairo time & opening hours, phone, WhatsApp links, storage, colour
   components/     Shared UI (buttons, feedback states, drawer, fields, brand logo, navigation)
-  storefront/     Public layout, pages, section registry, catalog/product + commerce UI and routes (/, /en/…)
+  storefront/     Public layout, pages, section registry, catalog/product + commerce UI, account,
+                  services (request flows, 3D / 2D diagnostic, media uploader) and routes (/, /en/…)
   admin/          Admin area (lazy chunk): layout, module registry, pages, dictionaries
   styles/         Design tokens (CSS variables), base styles, fonts
 supabase/
-  migrations/     Ordered SQL migrations (RLS, RBAC, audit, settings, demo registry, storage, catalog, content, storefront RPCs, commerce)
+  migrations/     Ordered SQL migrations (RLS, RBAC, audit, settings, demo registry, storage, catalog, content, storefront RPCs, commerce, customer, services)
   seed/           base.sql (real config) + demo.sql (demo only), generated from seed/data/*.json
   tests/          Local-only Supabase shim + SQL test suites + concurrency scripts (npm run test:db)
 public/brand/     Source-of-truth logo + optimized derivatives; public/icons: favicons & PWA icons

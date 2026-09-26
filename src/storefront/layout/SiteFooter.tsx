@@ -53,6 +53,16 @@ export function SiteFooter() {
                   </LocaleLink>
                 </li>
               ))}
+              <li>
+                <LocaleLink to="/services" className={styles.link}>
+                  {t('footer.services')}
+                </LocaleLink>
+              </li>
+              <li>
+                <LocaleLink to="/after-sales" className={styles.link}>
+                  {t('footer.afterSales')}
+                </LocaleLink>
+              </li>
             </ul>
           </nav>
 

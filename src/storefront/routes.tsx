@@ -9,11 +9,7 @@ import type { SectionHandle } from './routeHandles';
  * Public storefront sections scheduled for later phases. Routes exist now so navigation, links and
  * SEO structure are stable; each renders an honest placeholder until its phase ships.
  */
-const PLANNED_SECTIONS: ({ path: string } & SectionHandle)[] = [
-  { path: 'trade-in', section: 'trade-in', phase: 5 },
-  { path: 'repairs', section: 'repairs', phase: 5 },
-  { path: 'used', section: 'used', phase: 5 },
-];
+const PLANNED_SECTIONS: ({ path: string } & SectionHandle)[] = [];
 
 const storePages = () => import('./pages/StorePage');
 const offersPages = () => import('./pages/OffersPages');
@@ -69,6 +65,41 @@ const COMMERCE_PAGES: RouteObject[] = [
 ];
 
 const accountPages = () => import('./pages/account/AccountPages');
+const serviceLanding = () => import('./services/ServiceLandingPages');
+const simpleRequests = () => import('./services/SimpleRequestPages');
+
+/**
+ * Phase 05 service experiences. The repair request chunk holds the diagnostic, which itself
+ * lazy-loads the three.js viewer — three never ships with Home, Shop, Product, Checkout or Account.
+ */
+const SERVICE_PAGES: RouteObject[] = [
+  { path: 'services', lazy: () => serviceLanding().then((m) => ({ Component: m.ServicesPage })) },
+  { path: 'repairs', lazy: () => serviceLanding().then((m) => ({ Component: m.RepairsPage })) },
+  {
+    path: 'repairs/request',
+    lazy: () =>
+      import('./services/RepairRequestPage').then((m) => ({ Component: m.RepairRequestPage })),
+  },
+  { path: 'trade-in', lazy: () => serviceLanding().then((m) => ({ Component: m.TradeInPage })) },
+  {
+    path: 'trade-in/request',
+    lazy: () =>
+      import('./services/TradeInRequestPage').then((m) => ({ Component: m.TradeInRequestPage })),
+  },
+  { path: 'used', lazy: () => serviceLanding().then((m) => ({ Component: m.UsedPage })) },
+  {
+    path: 'used/request',
+    lazy: () => simpleRequests().then((m) => ({ Component: m.UsedRequestPage })),
+  },
+  {
+    path: 'after-sales',
+    lazy: () => serviceLanding().then((m) => ({ Component: m.AfterSalesPage })),
+  },
+  {
+    path: 'after-sales/request',
+    lazy: () => simpleRequests().then((m) => ({ Component: m.AfterSalesRequestPage })),
+  },
+];
 
 /** Phase 04 customer pages. Wishlist and compare also work signed out (kept in this browser). */
 const CUSTOMER_PAGES: RouteObject[] = [
@@ -81,6 +112,11 @@ const CUSTOMER_PAGES: RouteObject[] = [
       {
         path: 'requests',
         lazy: () => accountPages().then((m) => ({ Component: m.AccountRequests })),
+      },
+      {
+        path: 'requests/:number',
+        lazy: () =>
+          import('./services/RequestDetailPage').then((m) => ({ Component: m.RequestDetailPage })),
       },
       {
         path: 'notifications',
@@ -128,6 +164,7 @@ export function storefrontRoutes(locale: Locale): RouteObject {
           },
           ...STOREFRONT_PAGES,
           ...COMMERCE_PAGES,
+          ...SERVICE_PAGES,
           ...PLANNED_SECTIONS.map(({ path, section, phase }) => ({
             path,
             handle: { section, phase } satisfies SectionHandle,

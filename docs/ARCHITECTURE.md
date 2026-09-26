@@ -158,7 +158,7 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 | Roles & users management UI                         | read-only matrix; `assign_role` / `revoke_role` / `set_role_permissions` RPCs ready | 06                                |
 | Audit log viewer                                    | table + triggers + RPC events                                                       | 06                                |
 | Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | 08 (wizard), 10 (cleanup)         |
-| Storage uploads UI & image compression              | buckets + policies                                                                  | 05 / 06                           |
+| Storage uploads UI & image compression              | buckets + policies                                                                  | ✅ 05 (service media, §14) / 06   |
 | Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                |
 | Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                |
 | PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                |
@@ -378,7 +378,7 @@ Active → Available → Notified, plus Cancelled and Expired (derived from age,
 `engagement.requests.expireAfterDays`). Guest requests return a one-time claim token (only its hash is
 stored); after sign-in the browser's tokens — and requests made with the verified sign-in email, never
 a phone number — are linked to the account. The account "Requests" area lists them with text + icon
-status pills and cancel, plus placeholders for Repairs, Trade-In and Used (Phase 05).
+status pills and cancel; since Phase 05 the same hub also lists service requests (§14).
 
 **Notifications.** Tables: `notification_templates` (localized, closed placeholder set
 `customer_name, order_number, product_name, status, amount, code` — values cannot inject placeholders),
@@ -419,3 +419,131 @@ browser only and never reaches live data.
 **Demo vs live.** Demo mode uses `domain/customer/demoCustomer.ts` (same rules, persisted in
 `localStorage`); live mode uses only the Supabase adapters (`repositories/supabase/supabaseCustomer.ts`)
 and shows an error state on failure — never demo data.
+
+## 14. Service experiences (Phase 05)
+
+**Routes and chunks.** `/services` (hub), `/repairs`, `/trade-in`, `/used`, `/after-sales` (landing
+pages, one lazy chunk), `/repairs/request`, `/trade-in/request`, `/used/request`,
+`/after-sales/request` (request flows, lazy chunks) and `/account/requests/:number` (tracking,
+inside the account layout). Staff screens live at `/admin/repairs`, `/admin/trade-in`,
+`/admin/used-requests` and `/admin/after-sales` (list + detail each, `RequireModule` + the database
+permission checks). Landing pages are plain scrolling pages — no scroll hijacking — and the home
+Trade-In / Repairs promos link straight into the request flows. A product page's "trade in for this"
+link (`/trade-in?product=slug`) pre-selects that product as the target device.
+
+**One request model.** Every service request is a row of `service_requests` (`kind` = `repair`,
+`trade_in`, `used`, `after_sales`) with a customer-facing number that is not the primary key
+(`RP-` / `TI-` / `UD-` / `AS-YYYY-000001`, one sequence per kind). Events (`service_events`,
+append-only, `visible_to_customer`), offers (`service_offers`) and media (`service_media`) hang off
+it. The frontend mirrors the rules in `src/domain/services/*` (statuses, validation, media checks)
+and a SQL-parity test keeps them aligned with the migrations.
+
+Lifecycles (terminal = completed / cancelled / rejected / not available):
+
+| Kind        | Statuses                                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Repair      | New → Under Review → (Consultation Required) → Device Received → Diagnosing → Quote Sent → Customer Approved → Repairing → Quality Check → Ready → Completed; Cancelled               |
+| Trade-In    | New → Under Review → (Need More Info / Inspection Required) → Valuation Ready → Offer Sent → Customer Accepted (or Declined) → Device Received → Trade Completed; Rejected; Cancelled |
+| Used device | New → Searching Availability → Option Found → Offer Sent → Customer Interested → Reserved → Completed; Not Available; Cancelled                                                       |
+| After-sales | New → Under Review → Approved / Rejected → Item Received → Inspection → Exchange / Refund / Warranty handling (by type) → Completed; Cancelled                                        |
+
+"Offer" statuses (Quote Sent, Valuation Ready / Offer Sent, Option Found) are set only by sending an
+offer; customer approval statuses only by the customer's own response; after-sales approve / reject
+only through the decision action (reason required to reject). Customers can cancel while a request
+is still early (`app.service_customer_can_cancel`).
+
+**Repairs and the diagnostic.** Device type → brand → model → diagnostic (component → symptom, or
+"I'm not sure", or "Start a consultation") → description → photos / one video → contact + hand-off
+(store visit or pickup/delivery) → request number → tracking. The issue model is data
+(`repair_catalog` setting: category → component → symptoms, bilingual), so staff can extend it
+without code. **No price is ever calculated**: quotes (estimate / final) are sent by staff, audited,
+and the repair only proceeds after the customer approves.
+
+The diagnostic (`storefront/services/diagnostic/`) has three equivalent layers:
+
+1. **3D viewer** (`Diagnostic3D.tsx`, three.js core + OrbitControls + RoundedBoxGeometry, all free
+   and bundled — no external models or CDN). Generic primitive models per category (smartphone,
+   tablet, laptop, watch, earbuds, console) are described as data in `deviceModels.ts`; they are
+   labelled "Generic illustration — not an exact picture of your device". The camera is fitted to the
+   model's assembled + exploded bounds for any aspect ratio. Controls: drag / touch rotate, wheel /
+   pinch zoom, arrow keys and +/− on the focused viewer, Explode (animated, instant with reduced
+   motion), Reset, tap to select. Selecting highlights the part (orange emissive), dims the others and
+   opens the symptoms panel. It renders on demand (no idle animation loop work) and disposes all GPU
+   resources on unmount. Quality Auto / Low / High (Auto picks Low on few cores, little memory or
+   Data Saver; Low = no antialiasing, pixel ratio 1, no shadows).
+2. **2D diagram** (SVG, front + back outlines, parts drawn largest first so small parts stay tappable)
+   — used when WebGL is unavailable, when the context is lost, or by choice ("Use 2D view"). When
+   WebGL is missing the 3D toggle is hidden and an honest notice is shown.
+3. **Accessible parts list** (radio group) + symptom radios + "I'm not sure" — always present; the
+   canvas and SVG are mirrors of it, so the request never depends on graphics.
+
+**Bundle.** three.js is only in the `Diagnostic3D` chunk, dynamically imported by the diagnostic
+step. `npm run check:bundle` (part of `npm run check`) fails if three.js appears in any other chunk
+or if the storefront entry exceeds 400 kB; E2E scenario I asserts that Home, Store, Product, Cart and
+Account never request the chunk. Service-only UI strings live in `i18n/messages/services.{ar,en}.ts`
+and are registered by the service chunks (`i18n/extraMessages.ts`), so the entry chunk does not carry
+them; keys stay type-checked and parity-tested.
+
+**Trade-In valuation semantics.** The customer describes the current device (brand, model, storage,
+colour, battery %, tax paid, opened / repaired, condition checklist incl. "No known issue",
+accessories: original box, charger, cable, original accessories, receipt, photos with guidance) and
+picks the target from the **live catalog** (exact variant id, current price shown) or enters a
+manual target. There is **no automatic valuation**. Staff send an offer with Current Device Value;
+for a catalog target the New Device Price is read from the catalog at send time (`app.variant_pricing`,
+staff cannot override it — `catalog_price_only`), for a manual target staff enter it. The database
+computes Difference = New Device Price − Current Device Value (a check constraint enforces it),
+stores a snapshot of the target, an optional inspection note and an expiry (default
+`services.tradeIn.offerValidityDays`). Customers see "Final valuation may change after physical
+inspection", accept or decline; accepting **does not create an order**.
+
+**Used-device requests.** No live used catalogue. Fields: brand, model, storage, colour, battery
+preference (90%+, 85–89%, 80–84%, No specific preference / بدون تفضيل محدد), tax preference,
+budget, notes. Staff answer with a proposal (device details, price, photos, note); the customer marks
+it Interested / Not interested.
+
+**After-sales.** Exchange, Return and Warranty requests are tied to an order item the customer owns
+in a delivered / completed order — checked by the database (`not_eligible`, `not_delivered`,
+duplicate open request per item and type refused). The customer must acknowledge the policy; the
+policy version (`services.afterSales.policyVersion`) is stored with the request and a changed policy
+is refused until re-acknowledged. Staff approve / reject (reason required), request info, move the
+status and add notes / updates — all audited.
+
+**Media security.** Private buckets `repairs`, `trade-in`, `after-sales`, `used-requests`. Files are
+uploaded before submit to `<uid>/<uuid>.<ext>` in the caller's own folder and attached by path; the
+database re-validates every reference (object exists, owner folder, UUID path, MIME ↔ extension from
+the stored object metadata, size and count limits, video rules) — the browser's MIME type is never
+trusted alone (the client also sniffs magic bytes). Readable by the owner and staff with the kind's
+view permission only (storage policy via `app.service_media_visible_to_actor`); anonymous users and
+other customers get nothing; the app uses 15-minute signed URLs. Images are compressed in the browser
+(longest side ≤ `imageMaxDimension`, quality `imageQuality`, detail kept for diagnosis); limits are
+settings and shown up front. Camera capture (`capture="environment"`), preview, remove, replace,
+labels (front, back, damage…) and retry are supported; a failed upload never clears the form.
+
+**Drafts.** Each flow keeps a draft in this browser (`service-draft:<flow>`, 14 days) with the typed
+fields and references to already-uploaded files only — never file blobs. On return the customer sees
+Restore / Discard. Drafts survive the sign-in round trip.
+
+**Notifications.** Reuse the Phase 04 framework (`app.notify`, category `service`, mandatory like
+orders): repair quote ready / status / ready; trade-in info needed / inspection / offer ready /
+accepted / rejected; used option found / offer sent / not available; after-sales approved / rejected /
+inspection / completed. Dedupe keys `service:<id>:<event>` make every producer idempotent; action links
+open `/account/requests/<number>`.
+
+**WhatsApp.** The request page builds a context message (service, number, device) with
+`buildWhatsAppLink` — no internal notes. With no WhatsApp number configured it says so and points to
+the contact page instead of showing a broken link.
+
+**Analytics hooks.** `lib/analytics/track.ts` records `repair_started`, `repair_submitted`,
+`diagnostic_part_selected`, `trade_in_started`, `trade_in_submitted`, `used_request_submitted`,
+`after_sales_submitted` in-page only (a `malek:analytics` DOM event + small ring buffer). Nothing is
+sent to any external or paid service.
+
+**Demo vs live.** Demo mode runs `domain/services/demoServices.ts` (same rules, `localStorage`,
+media previews kept in the browser within a budget) with four seeded requests (one per kind, numbers
+`…-900001`) that have **no owner** — they appear only in the staff queues, badged Demo. Live mode uses
+only the Supabase adapters and shows error states on failure; it never falls back to demo data.
+
+**Higgsfield (optional, not used).** Higgsfield was considered for optional marketing illustrations.
+Its generation required a paid plan ("Requires basic plan or higher"), so per the rules it was not
+used and no credits were spent. All service artwork is local SVG (`ServiceArt.tsx`) and the 3D
+models are code-defined primitives; there is no Higgsfield SDK, key, asset or runtime dependency.

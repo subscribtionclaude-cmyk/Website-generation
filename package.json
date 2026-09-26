@@ -15,6 +15,7 @@
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "check:bundle": "node scripts/check-bundle.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:db": "bash scripts/db/test-migrations.sh",
@@ -22,7 +23,7 @@
     "seed:generate": "node scripts/seed/generate-seed-sql.mjs",
     "seed:check": "node scripts/seed/generate-seed-sql.mjs --check",
     "brand:icons": "node scripts/brand/generate-brand-assets.mjs",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run seed:check && npm run test && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run seed:check && npm run test && npm run build && npm run check:bundle"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",
@@ -33,6 +34,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router": "^8.4.0",
+    "three": "^0.186.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -46,6 +48,7 @@
     "@types/node": "^22.20.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^10.11.0",
     "eslint-plugin-jsx-a11y-x": "^0.2.0",

@@ -1,10 +1,12 @@
 import { createContext, useContext } from 'react';
 import type { Locale, LocaleMeta, NumeralSystem } from './config';
 import type { ar } from './messages/ar';
+import type { servicesAr } from './messages/services.ar';
 import type { MessageParams, MessagePath } from './types';
 import type { Weekday } from '@/lib/time/zoned';
 
-export type CoreMessageKey = MessagePath<typeof ar>;
+/** Core keys plus lazily registered feature dictionaries (type-only; no bundle cost). */
+export type CoreMessageKey = MessagePath<typeof ar> | MessagePath<typeof servicesAr>;
 
 export interface Formatters {
   money(amount: number, options?: { fractionDigits?: 'auto' | 0 | 2 }): string;

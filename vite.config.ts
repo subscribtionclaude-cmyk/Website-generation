@@ -34,8 +34,10 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: false,
-    // Keep the admin, demo data and backend client out of the storefront entry chunk.
-    chunkSizeWarningLimit: 400,
+    // Keep the admin, demo data and backend client out of the storefront entry chunk. The entry
+    // budget (400 kB) is enforced by scripts/check-bundle.mjs; the only larger chunk is the lazy
+    // three.js repair-diagnostic viewer (never loaded by Home, Shop, Product, Checkout, Account).
+    chunkSizeWarningLimit: 600,
   },
   server: {
     port: 5173,

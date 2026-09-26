@@ -103,7 +103,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: Wrench,
     permission: 'repairs.view',
-    plannedPhase: 5,
+    plannedPhase: null,
   },
   {
     id: 'trade-in',
@@ -111,7 +111,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: RefreshCcw,
     permission: 'tradein.view',
-    plannedPhase: 5,
+    plannedPhase: null,
   },
   {
     id: 'used-requests',
@@ -119,7 +119,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: Recycle,
     permission: 'used_requests.view',
-    plannedPhase: 5,
+    plannedPhase: null,
   },
   {
     id: 'after-sales',
@@ -127,7 +127,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: RotateCcw,
     permission: 'after_sales.view',
-    plannedPhase: 5,
+    plannedPhase: null,
   },
 
   {

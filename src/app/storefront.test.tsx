@@ -59,22 +59,27 @@ describe('storefront shell', () => {
 
   it('keeps the visitor on the same section when switching language', async () => {
     renderApp('/en/trade-in');
-    expect(await screen.findByRole('heading', { level: 1, name: 'Trade-In' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Trade in your device' }),
+    ).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: 'التبديل إلى العربية' })[0]).toHaveAttribute(
       'href',
       '/trade-in',
     );
   });
 
-  it('shows an honest placeholder for later-phase sections (phase badge only in demo mode)', async () => {
+  it('service landing pages lead to the real request flows', async () => {
     renderApp('/repairs');
-    expect(await screen.findByRole('heading', { level: 1, name: 'الصيانة' })).toBeInTheDocument();
-    expect(screen.getAllByText('المرحلة 05').length).toBeGreaterThan(0);
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'صيانة الأجهزة' }),
+    ).toBeInTheDocument();
     const main = screen.getByRole('main');
-    expect(within(main).getByRole('link', { name: /تواصل معنا/ })).toHaveAttribute(
+    expect(within(main).getAllByRole('link', { name: 'ابدأ طلب صيانة' })[0]).toHaveAttribute(
       'href',
-      'tel:+201212004229',
+      '/repairs/request',
     );
+    // Never an automatic price.
+    expect(within(main).getByText(/لا نعرض أسعارًا تلقائية/)).toBeInTheDocument();
   });
 
   it('renders a 404 page with next actions', async () => {

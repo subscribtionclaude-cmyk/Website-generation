@@ -362,16 +362,19 @@ test.describe('customer features', () => {
     await page.keyboard.press('Escape');
 
     await page.goto('/en/account/requests');
-    await expect(
-      page.getByRole('heading', { level: 1, name: 'Alerts and waitlists' }),
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'My requests' })).toBeVisible();
     const notify = page.getByRole('region', { name: 'Notify me' });
     await expect(notify.getByRole('link', { name: 'iPhone 18 Pro', exact: true })).toBeVisible();
     await expect(notify.getByText('Waiting')).toBeVisible();
     const waitlists = page.getByRole('region', { name: 'Waitlists' });
     await expect(waitlists.getByRole('link', { name: 'iPhone Duo', exact: true })).toBeVisible();
-    // Phase 05 services are placeholders only.
-    await expect(page.getByText('Repair requests')).toBeVisible();
+    // The same hub starts the Phase 05 service requests.
+    await expect(
+      page
+        .getByRole('main')
+        .getByRole('link', { name: /^Repair/ })
+        .first(),
+    ).toHaveAttribute('href', '/en/repairs/request');
     await checkPage(page);
 
     await notify.getByRole('button', { name: /Cancel request\s*: iPhone 18 Pro/ }).click();
@@ -453,7 +456,7 @@ test.describe('customer features', () => {
     await checkPage(page);
     for (const [link, heading] of [
       ['الإشعارات', 'الإشعارات'],
-      ['طلبات التنبيه', 'طلبات التنبيه والانتظار'],
+      ['طلبات الخدمة', 'طلبات الخدمة والتنبيهات'],
       ['تقييماتي', 'تقييماتي'],
       ['العناوين', 'العناوين المحفوظة'],
       ['الملف الشخصي', 'الملف الشخصي'],

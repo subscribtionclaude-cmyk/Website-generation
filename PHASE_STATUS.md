@@ -6,8 +6,8 @@
 | 02    | Storefront                   | ✅ COMPLETE (2026-09-24) |
 | 03    | Commerce                     | ✅ COMPLETE (2026-09-25) |
 | 04    | Customer Features            | ✅ COMPLETE (2026-09-25) |
-| 05    | Service Experiences          | ⚪ NOT STARTED — next    |
-| 06    | Admin Control Center         | ⚪ NOT STARTED           |
+| 05    | Service Experiences          | ✅ COMPLETE (2026-09-26) |
+| 06    | Admin Control Center         | ⚪ NOT STARTED — next    |
 | 07    | Visual Site Editor           | ⚪ NOT STARTED           |
 | 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED           |
 | 09    | Integrations Layer           | ⚪ NOT STARTED           |
@@ -303,10 +303,86 @@
 - Demo-mode customer data (wishlist, reviews, notifications, requests) lives in the browser that
   created it and is badged "Demo" where shown.
 
-## Phase 05 — Service Experiences
+## Phase 05 — Service Experiences ✅
 
-Trade-In, used-device requests, repairs with category-based 3D diagnostics (Three.js / R3F, lazy-loaded),
-media uploads (compression, limits), after-sales, related admin workflows.
+### Delivered
+
+- [x] **Services hub + landing pages** — `/services`, `/repairs`, `/trade-in`, `/used`, `/after-sales`
+      (premium, plain scrolling, local SVG art); home Trade-In / Repairs promos and the product page's
+      trade-in link go straight into the request flows; footer links to the hub and after-sales.
+- [x] **Repairs** for every device type: device → brand → model → diagnostic → problem → description →
+      photos / video → contact + hand-off → `RP-YYYY-NNNNNN` → tracking in Account → Requests.
+      "I'm not sure" and "Start a consultation" at every step; **no automatic price anywhere**.
+- [x] **3D / visual diagnostic** — generic primitive models (smartphone, tablet, laptop, watch, earbuds,
+      console) in three.js, lazy-loaded only on the diagnostic step; rotate / zoom / explode / select /
+      reset with pointer, touch and keyboard; highlight + dim + symptoms panel; Auto / Low / High
+      quality; reduced motion; auto-fitted camera; honest 2D SVG fallback when WebGL is missing or lost;
+      accessible parts-list mirror; data-driven issue model (`repair_catalog` setting).
+- [x] **Repair operations** — staff assign, change status, add internal notes or customer updates,
+      request information, send estimate / final quotes; customer approves; all permission-checked and
+      audited.
+- [x] **Trade-In** — current device (brand, model, storage, colour, battery, tax paid, opened / repaired,
+      condition checklist incl. "No known issue", accessories, guided photos) + target from the **live
+      catalog** (exact variant, current price) or manual; staff-only valuation (catalog price read by the
+      DB, difference computed by the DB, snapshot, expiry, inspection note); "Final valuation may change
+      after physical inspection"; accept / decline; no automatic order.
+- [x] **Used-device requests** — no live used catalogue; battery preference 90%+ / 85–89% / 80–84% /
+      No specific preference (بدون تفضيل محدد), tax preference, budget; staff proposal with photos;
+      customer interested / not interested.
+- [x] **After-sales** — exchange / return / warranty only for the customer's own delivered order items
+      (DB-checked), reasons, photos, policy acknowledgement with the stored policy version; staff
+      approve / reject (reason required), request info, status, notes — audited.
+- [x] **Requests hub + detail** — one list for notify-me, waitlist, repair, trade-in, used and
+      after-sales with type and open / closed filters; one detail pattern (number, date, device, status,
+      progress, timeline, customer-visible notes, offer, media, next action, cancel, WhatsApp).
+- [x] **Media** — shared uploader (camera capture, multi-pick, preview, label, remove, replace, retry,
+      in-browser compression, limits explained); private buckets (+ `used-requests`), owner + permitted
+      staff only; DB re-validates every file (existence, owner folder, UUID path, MIME ↔ extension from
+      metadata, size, count, video); signed URLs.
+- [x] **Drafts** — Restore / Discard per flow, no media blobs stored; failed / invalid uploads never lose
+      the form.
+- [x] **Notifications** — Phase 04 framework reused (category `service`, 15 templates, idempotent dedupe
+      keys, action links to the request).
+- [x] **Staff screens** — `/admin/repairs`, `/admin/trade-in`, `/admin/used-requests`,
+      `/admin/after-sales` (queue with status / search / assignee filters + detail with actions);
+      read-only for `*.view`, actions for `*.manage`.
+- [x] Numbering `RP-` / `TI-` / `UD-` / `AS-YYYY-000001` (not primary keys), idempotent submission,
+      open-request limit, WhatsApp context links without internal notes (honest note when unconfigured),
+      in-page analytics hooks only, four clearly-marked demo requests (no owner, staff queues only).
+- [x] Performance: service strings moved into a lazily registered dictionary so the storefront entry
+      stays within budget; `npm run check:bundle` enforces the 400 kB entry budget and that three.js
+      lives only in the lazy viewer chunk.
+- [x] Higgsfield: optional; generation required a paid plan, so it was **not used** (no credits spent,
+      no assets, no SDK / key / runtime dependency). All artwork is local SVG / code.
+
+### Validation
+
+| Check                                                                                    | Result                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck`                                                                      | ✅ 0 errors                                                                                                                                                                         |
+| `npm run lint`                                                                           | ✅ 0 errors, 0 warnings                                                                                                                                                             |
+| `npm run format:check`                                                                   | ✅                                                                                                                                                                                  |
+| `npm run seed:check`                                                                     | ✅ demo catalog, media and seed SQL up to date                                                                                                                                      |
+| `npm test` (Vitest)                                                                      | ✅ 207 / 207 tests, 20 files (11 service domain tests incl. SQL parity, 5 service integration tests)                                                                                |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ migrations + seeds + idempotent re-run, contracts, 605 / 605 SQL assertions (138 in `09_services`, incl. storage security)                                                       |
+| Concurrency (separate parallel sessions)                                                 | ✅ last unit, double submit, parallel wishlist merge                                                                                                                                |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | **E2E**                                                                                                                                                                             |
+| `npm run build` + `npm run check:bundle`                                                 | ✅ storefront entry 393 kB (≈ 118 KB gz); three.js only in the lazy `Diagnostic3D` chunk (≈ 135 KB gz); repair flow ≈ 8 KB gz; service strings ≈ 15 KB gz in a shared service chunk |
+| Visual review (Arabic + English, 390 / 1440 px)                                          | ✅ hub, landings, repair diagnostic (3D + 2D), trade-in, used, after-sales, requests hub, request detail, admin queues / detail                                                     |
+| Security / RLS review                                                                    | ✅ owner-only requests / media, permission-gated staff actions, audited decisions, DB-computed money, no internal notes to customers, no paid dependency                            |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project (needs the owner's project); RPCs, RLS and storage
+  policies are validated locally with PostgreSQL 16 + the Supabase shim.
+- The staff screens are functional Phase 05 workflows; bulk actions, SLA views and richer filters come
+  with the Phase 06 admin control center.
+- Client-side HEIC images are uploaded as-is (not recompressed) because browsers cannot decode HEIC;
+  the size limit still applies.
+- No WhatsApp number is configured in base settings, so request pages show the honest "not available"
+  note until the owner adds one.
+- Demo-mode requests and media live in the browser that created them (media previews within a size
+  budget) and are badged "Demo".
 
 ## Phase 06 — Admin Control Center
 

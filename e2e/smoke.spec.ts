@@ -32,7 +32,9 @@ test.describe('storefront', () => {
 
   test('deep links work (SPA fallback) and language switch keeps the section', async ({ page }) => {
     await page.goto('/en/trade-in');
-    await expect(page.getByRole('heading', { level: 1, name: 'Trade-In' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Trade in your device' }),
+    ).toBeVisible();
     await page.getByRole('link', { name: 'التبديل إلى العربية' }).first().click();
     await expect(page).toHaveURL(/\/trade-in$/);
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');

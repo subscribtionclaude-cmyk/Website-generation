@@ -21,6 +21,7 @@ import {
   Star,
   Tag,
   Trash2,
+  Undo2,
   UserRound,
   Wrench,
   type LucideIcon,
@@ -51,6 +52,10 @@ import { useCustomerLists } from '@/features/customer/context';
 import { useUnreadNotifications } from '@/features/customer/hooks';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n, type CoreMessageKey } from '@/i18n/context';
+import { isTerminal } from '@/domain/services/status';
+import type { ServiceKind } from '@/domain/services/types';
+import { KIND_ICON, KIND_LABEL } from '../../services/serviceLabels';
+import { StatusPill } from '../../services/ServiceParts';
 import { isolate } from '@/i18n/translator';
 import { isEgyptianMobile } from '@/lib/phone';
 import { useRuntime } from '@/runtime/context';
@@ -741,33 +746,144 @@ function RequestStatusPill({ status }: { status: RequestStatus }) {
   );
 }
 
+type HubFilter = 'all' | ServiceKind | 'notify' | 'waitlist';
+const HUB_FILTERS: { key: HubFilter; label: CoreMessageKey }[] = [
+  { key: 'all', label: 'requests.filterAll' },
+  { key: 'repair', label: 'services.kindRepair' },
+  { key: 'trade_in', label: 'services.kindTradeIn' },
+  { key: 'used', label: 'services.kindUsed' },
+  { key: 'after_sales', label: 'services.kindAfterSales' },
+  { key: 'notify', label: 'requests.notifySection' },
+  { key: 'waitlist', label: 'requests.waitlistSection' },
+];
+
 export function AccountRequests() {
   const { t, locale, format } = useI18n();
   const { repositories } = useRuntime();
   const session = useSession();
   const queryClient = useQueryClient();
   const uid = session?.userId ?? null;
+  const [filter, setFilter] = useState<HubFilter>('all');
+  const [state, setState] = useState<'all' | 'open' | 'closed'>('all');
   const requests = useQuery({
     queryKey: ['requests', uid],
     queryFn: () => repositories.requests.listMine(),
+  });
+  const services = useQuery({
+    queryKey: ['service-requests', uid],
+    queryFn: () => repositories.services.listMine({ limit: 100 }),
   });
   const cancel = useMutation({
     mutationFn: (r: { kind: 'notify' | 'waitlist'; id: string }) =>
       repositories.requests.cancel(r.kind, r.id),
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ['requests', uid] }),
   });
-  const upcoming: { key: CoreMessageKey; Icon: LucideIcon }[] = [
-    { key: 'requests.futureRepairs', Icon: Wrench },
-    { key: 'requests.futureTradeIn', Icon: RefreshCw },
-    { key: 'requests.futureUsed', Icon: Smartphone },
+  const isServiceFilter = filter !== 'notify' && filter !== 'waitlist';
+  const showNotify = (filter === 'all' || filter === 'notify') && state !== 'closed';
+  const showWaitlist = (filter === 'all' || filter === 'waitlist') && state !== 'closed';
+  const serviceItems = (services.data?.items ?? []).filter(
+    (r) =>
+      (filter === 'all' || r.kind === filter) &&
+      (state === 'all' || (state === 'open' ? !isTerminal(r.status) : isTerminal(r.status))),
+  );
+  const start: { to: string; label: CoreMessageKey; Icon: LucideIcon }[] = [
+    { to: '/repairs/request', label: 'services.kindRepair', Icon: Wrench },
+    { to: '/trade-in/request', label: 'services.kindTradeIn', Icon: RefreshCw },
+    { to: '/used/request', label: 'services.kindUsed', Icon: Smartphone },
+    { to: '/after-sales/request', label: 'services.kindAfterSales', Icon: Undo2 },
   ];
   return (
     <>
       <PageTitle title={t('requests.accountTitle')}>
         <p className={styles.muted}>{t('requests.accountSubtitle')}</p>
       </PageTitle>
+      <div className={styles.filterRow}>
+        <div>
+          <label className={styles.fieldLabel} htmlFor="req-type">
+            {t('requests.filterType')}
+          </label>
+          <select
+            id="req-type"
+            className={styles.select}
+            value={filter}
+            onChange={(e) => setFilter(e.target.value as HubFilter)}
+          >
+            {HUB_FILTERS.map((f) => (
+              <option key={f.key} value={f.key}>
+                {t(f.label)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={styles.fieldLabel} htmlFor="req-state">
+            {t('requests.filterStatus')}
+          </label>
+          <select
+            id="req-state"
+            className={styles.select}
+            value={state}
+            onChange={(e) => setState(e.target.value as 'all' | 'open' | 'closed')}
+          >
+            <option value="all">{t('requests.stateAll')}</option>
+            <option value="open">{t('requests.stateOpen')}</option>
+            <option value="closed">{t('requests.stateClosed')}</option>
+          </select>
+        </div>
+      </div>
+      {isServiceFilter && (
+        <section className={styles.rail} aria-labelledby="req-services">
+          <h2 id="req-services" className={styles.sectionTitle}>
+            {t('requests.servicesSection')}
+          </h2>
+          {services.isPending ? (
+            <Skeleton height="120px" />
+          ) : services.isError ? (
+            <p className={`${styles.notice} ${styles.noticeDanger}`} role="alert">
+              <CircleAlert aria-hidden="true" />
+              {t('account.loadError')}
+            </p>
+          ) : serviceItems.length === 0 ? (
+            <p className={styles.muted}>{t('requests.servicesEmpty')}</p>
+          ) : (
+            <ul className={styles.list}>
+              {serviceItems.map((r) => {
+                const Icon = KIND_ICON[r.kind];
+                return (
+                  <li key={r.id} className={styles.row}>
+                    <span className={styles.icon}>
+                      <Icon aria-hidden="true" />
+                    </span>
+                    <div className={styles.rowBody}>
+                      <LocaleLink to={`/account/requests/${r.number}`} className={styles.rowTitle}>
+                        {t(KIND_LABEL[r.kind])} · <bdi dir="ltr">{r.number}</bdi>
+                      </LocaleLink>
+                      <span className={styles.muted}>
+                        <BidiText text={resolveLocalized(r.title, locale)} />
+                      </span>
+                      <div className={styles.rowMeta}>
+                        <StatusPill status={r.status} awaiting={r.awaitingCustomer} />
+                        {r.openOffer && !r.awaitingCustomer && (
+                          <span className={styles.pill}>{t('requests.offerWaiting')}</span>
+                        )}
+                        <span>{t('requests.requestedOn', { date: format.date(r.createdAt) })}</span>
+                        {r.isDemo && (
+                          <span className={styles.pill}>
+                            <FlaskConical aria-hidden="true" />
+                            {t('catalog.demo')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      )}
       {requests.isPending ? (
-        <Skeleton height="160px" />
+        <Skeleton height="120px" />
       ) : requests.isError ? (
         <p className={`${styles.notice} ${styles.noticeDanger}`} role="alert">
           <CircleAlert aria-hidden="true" />
@@ -775,127 +891,137 @@ export function AccountRequests() {
         </p>
       ) : (
         <>
-          <section className={styles.rail} aria-labelledby="req-notify">
-            <h2 id="req-notify" className={styles.sectionTitle}>
-              {t('requests.notifySection')}
-            </h2>
-            {requests.data.notify.length === 0 ? (
-              <p className={styles.muted}>{t('requests.notifyEmpty')}</p>
-            ) : (
-              <ul className={styles.list}>
-                {requests.data.notify.map((r) => (
-                  <li key={r.id} className={styles.row}>
-                    {r.product.image ? (
-                      <img className={styles.thumb} src={r.product.image.url} alt="" />
-                    ) : (
-                      <span className={styles.thumb} />
-                    )}
-                    <div className={styles.rowBody}>
-                      <LocaleLink to={`/product/${r.product.slug}`} className={styles.rowTitle}>
-                        <BidiText text={resolveLocalized(r.product.name, locale)} />
-                      </LocaleLink>
-                      {r.variant?.label && (
-                        <span className={styles.muted}>
-                          {resolveLocalized(r.variant.label, locale)}
-                        </span>
+          {showNotify && (
+            <section className={styles.rail} aria-labelledby="req-notify">
+              <h2 id="req-notify" className={styles.sectionTitle}>
+                {t('requests.notifySection')}
+              </h2>
+              {requests.data.notify.length === 0 ? (
+                <p className={styles.muted}>{t('requests.notifyEmpty')}</p>
+              ) : (
+                <ul className={styles.list}>
+                  {requests.data.notify.map((r) => (
+                    <li key={r.id} className={styles.row}>
+                      {r.product.image ? (
+                        <img className={styles.thumb} src={r.product.image.url} alt="" />
+                      ) : (
+                        <span className={styles.thumb} />
                       )}
-                      <div className={styles.rowMeta}>
-                        <RequestStatusPill status={r.status} />
-                        {r.stockState && (
-                          <span>{t(stockLabelKey(r.stockState, r.product.availabilityState))}</span>
-                        )}
-                        <span>{t('requests.requestedOn', { date: format.date(r.createdAt) })}</span>
-                        {r.product.isDemo && (
-                          <span className={styles.pill}>
-                            <FlaskConical aria-hidden="true" />
-                            {t('catalog.demo')}
+                      <div className={styles.rowBody}>
+                        <LocaleLink to={`/product/${r.product.slug}`} className={styles.rowTitle}>
+                          <BidiText text={resolveLocalized(r.product.name, locale)} />
+                        </LocaleLink>
+                        {r.variant?.label && (
+                          <span className={styles.muted}>
+                            {resolveLocalized(r.variant.label, locale)}
                           </span>
                         )}
-                      </div>
-                      {['active', 'available'].includes(r.status) && (
-                        <div className={styles.rowActions}>
-                          <button
-                            type="button"
-                            className={styles.linkButton}
-                            onClick={() => cancel.mutate({ kind: 'notify', id: r.id })}
-                          >
-                            {t('requests.cancel')}
-                            <span className="visually-hidden">
-                              : {resolveLocalized(r.product.name, locale)}
+                        <div className={styles.rowMeta}>
+                          <RequestStatusPill status={r.status} />
+                          {r.stockState && (
+                            <span>
+                              {t(stockLabelKey(r.stockState, r.product.availabilityState))}
                             </span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-          <section className={styles.rail} aria-labelledby="req-waitlist">
-            <h2 id="req-waitlist" className={styles.sectionTitle}>
-              {t('requests.waitlistSection')}
-            </h2>
-            {requests.data.waitlist.length === 0 ? (
-              <p className={styles.muted}>{t('requests.waitlistEmpty')}</p>
-            ) : (
-              <ul className={styles.list}>
-                {requests.data.waitlist.map((r) => (
-                  <li key={r.id} className={styles.row}>
-                    {r.product.image ? (
-                      <img className={styles.thumb} src={r.product.image.url} alt="" />
-                    ) : (
-                      <span className={styles.thumb} />
-                    )}
-                    <div className={styles.rowBody}>
-                      <LocaleLink to={`/product/${r.product.slug}`} className={styles.rowTitle}>
-                        <BidiText text={resolveLocalized(r.product.name, locale)} />
-                      </LocaleLink>
-                      {(r.desiredStorage || r.desiredColor) && (
-                        <span className={styles.muted}>
-                          {[r.desiredStorage, r.desiredColor].filter(Boolean).join(' · ')}
-                        </span>
-                      )}
-                      <div className={styles.rowMeta}>
-                        <RequestStatusPill status={r.status} />
-                        <span>{t(stockLabelKey('in_stock', r.product.availabilityState))}</span>
-                        <span>{t('requests.requestedOn', { date: format.date(r.createdAt) })}</span>
-                      </div>
-                      {['active', 'available'].includes(r.status) && (
-                        <div className={styles.rowActions}>
-                          <button
-                            type="button"
-                            className={styles.linkButton}
-                            onClick={() => cancel.mutate({ kind: 'waitlist', id: r.id })}
-                          >
-                            {t('requests.cancel')}
-                            <span className="visually-hidden">
-                              : {resolveLocalized(r.product.name, locale)}
+                          )}
+                          <span>
+                            {t('requests.requestedOn', { date: format.date(r.createdAt) })}
+                          </span>
+                          {r.product.isDemo && (
+                            <span className={styles.pill}>
+                              <FlaskConical aria-hidden="true" />
+                              {t('catalog.demo')}
                             </span>
-                          </button>
+                          )}
                         </div>
+                        {['active', 'available'].includes(r.status) && (
+                          <div className={styles.rowActions}>
+                            <button
+                              type="button"
+                              className={styles.linkButton}
+                              onClick={() => cancel.mutate({ kind: 'notify', id: r.id })}
+                            >
+                              {t('requests.cancel')}
+                              <span className="visually-hidden">
+                                : {resolveLocalized(r.product.name, locale)}
+                              </span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )}
+          {showWaitlist && (
+            <section className={styles.rail} aria-labelledby="req-waitlist">
+              <h2 id="req-waitlist" className={styles.sectionTitle}>
+                {t('requests.waitlistSection')}
+              </h2>
+              {requests.data.waitlist.length === 0 ? (
+                <p className={styles.muted}>{t('requests.waitlistEmpty')}</p>
+              ) : (
+                <ul className={styles.list}>
+                  {requests.data.waitlist.map((r) => (
+                    <li key={r.id} className={styles.row}>
+                      {r.product.image ? (
+                        <img className={styles.thumb} src={r.product.image.url} alt="" />
+                      ) : (
+                        <span className={styles.thumb} />
                       )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
+                      <div className={styles.rowBody}>
+                        <LocaleLink to={`/product/${r.product.slug}`} className={styles.rowTitle}>
+                          <BidiText text={resolveLocalized(r.product.name, locale)} />
+                        </LocaleLink>
+                        {(r.desiredStorage || r.desiredColor) && (
+                          <span className={styles.muted}>
+                            {[r.desiredStorage, r.desiredColor].filter(Boolean).join(' · ')}
+                          </span>
+                        )}
+                        <div className={styles.rowMeta}>
+                          <RequestStatusPill status={r.status} />
+                          <span>{t(stockLabelKey('in_stock', r.product.availabilityState))}</span>
+                          <span>
+                            {t('requests.requestedOn', { date: format.date(r.createdAt) })}
+                          </span>
+                        </div>
+                        {['active', 'available'].includes(r.status) && (
+                          <div className={styles.rowActions}>
+                            <button
+                              type="button"
+                              className={styles.linkButton}
+                              onClick={() => cancel.mutate({ kind: 'waitlist', id: r.id })}
+                            >
+                              {t('requests.cancel')}
+                              <span className="visually-hidden">
+                                : {resolveLocalized(r.product.name, locale)}
+                              </span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )}
         </>
       )}
-      <section className={styles.rail} aria-labelledby="req-future">
-        <h2 id="req-future" className={styles.sectionTitle}>
-          {t('requests.futureTitle')}
+      <section className={styles.rail} aria-labelledby="req-start">
+        <h2 id="req-start" className={styles.sectionTitle}>
+          {t('requests.startTitle')}
         </h2>
+        <p className={styles.muted}>{t('requests.startBody')}</p>
         <div className={styles.grid}>
-          {upcoming.map(({ key, Icon }) => (
-            <div key={key} className={styles.card}>
-              <p className={styles.cardTitle}>
+          {start.map(({ to, label, Icon }) => (
+            <LocaleLink key={to} to={to} className={styles.card}>
+              <span className={styles.cardTitle}>
                 <Icon aria-hidden="true" />
-                {t(key)}
-              </p>
-              <p className={styles.muted}>{t('requests.futureBody')}</p>
-            </div>
+                {t(label)}
+              </span>
+            </LocaleLink>
           ))}
         </div>
       </section>

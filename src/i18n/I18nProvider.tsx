@@ -12,9 +12,14 @@ import { LOCALE_META, type Locale, type NumeralSystem } from './config';
 import { I18nContext, type CoreMessageKey, type I18nContextValue } from './context';
 import { ar } from './messages/ar';
 import { en } from './messages/en';
+import { EXTRA_MESSAGES } from './extraMessages';
 import { createTranslator } from './translator';
 
-const DICTIONARIES = { ar, en } as const;
+/** Core dictionary first, then feature dictionaries registered by lazy chunks (read per call). */
+const DICTIONARIES = {
+  ar: (): readonly object[] => [ar, ...EXTRA_MESSAGES.ar],
+  en: (): readonly object[] => [en, ...EXTRA_MESSAGES.en],
+} as const;
 
 export function I18nProvider({ locale, children }: { locale: Locale; children: ReactNode }) {
   // Numeral style is an admin setting; outside the settings provider (e.g. fatal error screens) use Latin digits.
@@ -27,7 +32,7 @@ export function I18nProvider({ locale, children }: { locale: Locale; children: R
       locale,
       meta: LOCALE_META[locale],
       numerals,
-      t: createTranslator<CoreMessageKey>(DICTIONARIES[locale], ar),
+      t: createTranslator<CoreMessageKey>(DICTIONARIES[locale], DICTIONARIES.ar),
       format: {
         money: (amount, options) => formatMoney(amount, { ...ctx, ...options }),
         number: (value) => formatNumber(value, ctx),

@@ -32,17 +32,28 @@ export function interpolate(template: string, params?: MessageParams): string {
   );
 }
 
+type Dictionaries = object | readonly object[] | (() => readonly object[]);
+
 /**
  * Build a `t()` function over a dictionary with a fallback dictionary (Arabic by default).
- * Missing keys fall back to the fallback dictionary, then to the key itself (never crash the UI).
+ * Each side may be a list of dictionaries, or a function returning one (core + lazily registered
+ * feature dictionaries, read at call time). Missing keys fall back to the fallback dictionaries, then to the key itself
+ * (never crash the UI).
  */
 export function createTranslator<Path extends string>(
-  messages: object,
-  fallback: object,
+  messages: Dictionaries,
+  fallback: Dictionaries,
 ): (path: Path, params?: MessageParams) => string {
+  const find = (source: Dictionaries, path: string) => {
+    const trees = typeof source === 'function' ? source() : source;
+    for (const tree of Array.isArray(trees) ? trees : [trees]) {
+      const value = lookup(tree as Tree, path);
+      if (value !== undefined) return value;
+    }
+    return undefined;
+  };
   return (path, params) => {
-    const template =
-      lookup(messages as Tree, path) ?? lookup(fallback as Tree, path) ?? (path as string);
+    const template = find(messages, path) ?? find(fallback, path) ?? (path as string);
     return interpolate(template, params);
   };
 }

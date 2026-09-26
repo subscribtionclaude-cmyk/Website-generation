@@ -64,6 +64,62 @@ export const adminRoutes: RouteObject = {
                 })),
             },
             {
+              path: 'repairs',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.RepairListRoute,
+                })),
+            },
+            {
+              path: 'repairs/:requestId',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.RepairDetailRoute,
+                })),
+            },
+            {
+              path: 'trade-in',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.TradeInListRoute,
+                })),
+            },
+            {
+              path: 'trade-in/:requestId',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.TradeInDetailRoute,
+                })),
+            },
+            {
+              path: 'used-requests',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.UsedRequestListRoute,
+                })),
+            },
+            {
+              path: 'used-requests/:requestId',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.UsedRequestDetailRoute,
+                })),
+            },
+            {
+              path: 'after-sales',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.AfterSalesListRoute,
+                })),
+            },
+            {
+              path: 'after-sales/:requestId',
+              lazy: () =>
+                import('./pages/AdminModuleRoutes').then((m) => ({
+                  Component: m.AfterSalesDetailRoute,
+                })),
+            },
+            {
               path: ':moduleId',
               lazy: () =>
                 import('./pages/AdminPlannedModulePage').then((m) => ({
