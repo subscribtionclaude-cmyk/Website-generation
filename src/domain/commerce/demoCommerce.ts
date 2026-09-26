@@ -62,13 +62,26 @@ interface DemoRedemption {
   status: 'active' | 'released';
 }
 
-interface DemoMovement {
+export interface DemoMovement {
   variantId: string;
   delta: number;
   quantityAfter: number;
-  reason: 'sale' | 'cancellation_restock';
-  orderId: string;
+  /** Phase 06 adds the admin adjustment / import / initial reasons. */
+  reason:
+    | 'sale'
+    | 'cancellation_restock'
+    | 'addition'
+    | 'reduction'
+    | 'damage'
+    | 'return'
+    | 'correction'
+    | 'import'
+    | 'initial';
+  orderId: string | null;
   at: string;
+  quantityBefore?: number;
+  note?: string | null;
+  actorName?: string | null;
 }
 
 export interface DemoCommerceState {
@@ -120,6 +133,7 @@ export class DemoCommerce {
   private readonly storage: DemoCommerceStorage;
   private readonly settings: () => DemoCommerceSettings;
   private readonly now: () => Date;
+  private readonly staffName: (id: string) => string | null;
   private state: DemoCommerceState;
 
   constructor(options: {
@@ -127,8 +141,11 @@ export class DemoCommerce {
     storage: DemoCommerceStorage;
     settings: () => DemoCommerceSettings;
     now?: () => Date;
+    /** Display name of a staff user (demo access registry). */
+    staffName?: (id: string) => string | null;
   }) {
     this.raw = options.raw;
+    this.staffName = options.staffName ?? (() => null);
     this.storage = options.storage;
     this.settings = options.settings;
     this.now = options.now ?? (() => new Date());
@@ -155,6 +172,50 @@ export class DemoCommerce {
 
   stockDelta(variantId: string): number {
     return this.state.stockDelta[variantId] ?? 0;
+  }
+
+  /** On-hand quantity: seed stock + committed movements (sales, restocks, admin adjustments). */
+  onHand(variantId: string): number {
+    const base =
+      this.raw.products.flatMap((p) => p.variants).find((v) => v.id === variantId)?.stock ?? 0;
+    return base + this.stockDelta(variantId);
+  }
+
+  /** Phase 06 admin stock change (adjustment / import / initial stock) with its movement row. */
+  applyStockChange(
+    variantId: string,
+    delta: number,
+    movement: Pick<DemoMovement, 'reason' | 'note' | 'actorName'>,
+  ): DemoMovement {
+    const before = this.onHand(variantId);
+    this.state.stockDelta[variantId] = this.stockDelta(variantId) + delta;
+    const row: DemoMovement = {
+      variantId,
+      delta,
+      quantityBefore: before,
+      quantityAfter: before + delta,
+      orderId: null,
+      at: this.now().toISOString(),
+      ...movement,
+    };
+    this.state.movements.push(row);
+    this.persist();
+    return row;
+  }
+
+  movementRecords(): readonly DemoMovement[] {
+    return this.state.movements;
+  }
+
+  /** Staff assignment of an order (staff_assign_order). */
+  assignOrder(actor: DemoActor, orderId: string, staffId: string | null) {
+    this.require(actor, 'orders.manage');
+    const order = this.find(orderId);
+    if (!order) return { ok: false as const, code: 'not_found' };
+    order.assignedStaffId = staffId;
+    order.events.push(this.event('assignment', { data: { staffId } }, false, 'staff'));
+    this.persist();
+    return { ok: true as const };
   }
 
   /** Catalog engine that sees this store's reservations and committed sales. */
@@ -193,23 +254,29 @@ export class DemoCommerce {
     const now = this.now();
     const engine = this.engine();
     const settings = this.settings();
-    const offers: QuoteOfferInfo[] = this.raw.offers.map((o) => ({
-      id: o.id,
-      slug: o.slug,
-      kind: o.kind,
-      title: o.title,
-      badge: o.badge,
-      discountPercent: o.discountPercent,
-      discountAmount: o.discountAmount,
-      promoCode: o.promoCode,
-      startsAt: resolveTime(o.startsAt, now),
-      endsAt: resolveTime(o.endsAt, now),
-      maxRedemptions: o.maxRedemptions,
-      maxRedemptionsPerCustomer: o.maxRedemptionsPerCustomer,
-      minSubtotal: o.minSubtotal,
-      sortOrder: o.sortOrder,
-      products: o.products.map((p) => ({ productSlug: p.slug, role: p.role, quantity: 1 })),
-    }));
+    const offers: QuoteOfferInfo[] = this.raw.offers
+      .filter((o) => o.status === 'published')
+      .map((o) => ({
+        id: o.id,
+        slug: o.slug,
+        kind: o.kind,
+        title: o.title,
+        badge: o.badge,
+        discountPercent: o.discountPercent,
+        discountAmount: o.discountAmount,
+        promoCode: o.promoCode,
+        startsAt: resolveTime(o.startsAt, now),
+        endsAt: resolveTime(o.endsAt, now),
+        maxRedemptions: o.maxRedemptions,
+        maxRedemptionsPerCustomer: o.maxRedemptionsPerCustomer,
+        minSubtotal: o.minSubtotal,
+        sortOrder: o.sortOrder,
+        products: o.products.map((p) => ({
+          productSlug: p.slug,
+          role: p.role,
+          quantity: p.quantity,
+        })),
+      }));
     const brandName = (slug: string) => this.raw.brands.find((b) => b.slug === slug)?.name ?? null;
     return {
       now,
@@ -228,7 +295,7 @@ export class DemoCommerce {
       },
       defaultVariant: (productSlug) => {
         const product = this.raw.products.find((p) => p.slug === productSlug);
-        const active = product?.variants.filter((v) => v.isActive) ?? [];
+        const active = product?.variants.filter((v) => v.isActive && !v.retiredAt) ?? [];
         return (active.find((v) => v.isDefault) ?? active[0])?.id ?? null;
       },
       variant: (variantId) => {
@@ -653,7 +720,19 @@ export class DemoCommerce {
           (!filter.status || o.status === filter.status) &&
           (!filter.paymentStatus || o.paymentStatus === filter.paymentStatus) &&
           (!filter.reviewPending || o.manualReview.status === 'pending') &&
+          (!filter.paymentMethod || o.paymentMethod === filter.paymentMethod) &&
+          (!filter.fulfillment || o.fulfillment.method === filter.fulfillment) &&
+          (!filter.customerId || o.customerId === filter.customerId) &&
+          (!filter.assigned ||
+            (filter.assigned === 'me'
+              ? o.assignedStaffId === actor.userId
+              : filter.assigned === 'unassigned'
+                ? o.assignedStaffId === null
+                : o.assignedStaffId === filter.assigned)) &&
+          (!filter.from || o.createdAt >= filter.from) &&
+          (!filter.to || o.createdAt < filter.to) &&
           (!q ||
+            (o.customer.email ?? '').toLowerCase().includes(q) ||
             o.orderNumber.toLowerCase().includes(q) ||
             o.customer.name.toLowerCase().includes(q) ||
             (digits !== undefined && digits.length > 0 && o.customer.phone.includes(digits))),
@@ -682,6 +761,10 @@ export class DemoCommerce {
         stockCommitted: o.stockCommitted,
         itemCount: o.items.reduce((n, i) => n + i.quantity, 0),
         isDemo: true,
+        assignedTo: o.assignedStaffId
+          ? { id: o.assignedStaffId, name: this.staffName(o.assignedStaffId) }
+          : null,
+        customerId: o.customerId,
       })),
     };
   }

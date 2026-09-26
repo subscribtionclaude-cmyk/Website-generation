@@ -424,6 +424,15 @@ export class DemoServices {
     };
   }
 
+  /** Read-only view for the demo admin engine (Phase 06 queues, dashboard, exports). */
+  records(): readonly DemoServiceRecord[] {
+    return this.state.requests;
+  }
+
+  titleOf(r: DemoServiceRecord): LocalizedText {
+    return this.title(r);
+  }
+
   private title(r: DemoServiceRecord): LocalizedText {
     if (r.kind === 'after_sales') {
       const item = this.orderItem(r.orderItemId);

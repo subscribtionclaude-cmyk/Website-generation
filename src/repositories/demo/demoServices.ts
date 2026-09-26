@@ -68,7 +68,7 @@ abstract class DemoServiceBase {
 
   protected async actor(ms = 150) {
     await delay(ms);
-    return actorOf(this.auth);
+    return actorOf(this.auth, this.store);
   }
 
   protected async uploadInto(bucket: ServiceBucket, file: Blob, mime: ServiceMime) {
@@ -144,6 +144,19 @@ export class DemoServiceOperationsRepository
   extends DemoServiceBase
   implements ServiceOperationsRepository
 {
+  /** Successful staff writes are recorded in the demo audit log (the database audits by trigger). */
+  private audited<T extends { ok: boolean }>(
+    actor: Awaited<ReturnType<typeof actorOf>>,
+    action: string,
+    id: string,
+    detail: Record<string, unknown>,
+    run: () => T,
+  ): T {
+    const result = guard(run);
+    if (result.ok) this.store.admin.audit(actor, action, 'public.service_requests', id, detail);
+    return result;
+  }
+
   async list(kind: ServiceKind, filter: StaffServiceFilter = {}) {
     const actor = await this.actor();
     return guard(() => this.services.staffList(actor, kind, filter));
@@ -158,19 +171,27 @@ export class DemoServiceOperationsRepository
   }
   async assign(id: string, staffId: string | null) {
     const actor = await this.actor(200);
-    return guard(() => this.services.assign(actor, id, staffId));
+    return this.audited(actor, 'service.assigned', id, { staffId }, () =>
+      this.services.assign(actor, id, staffId),
+    );
   }
   async setStatus(id: string, status: string, note: string | null = null) {
     const actor = await this.actor(200);
-    return guard(() => this.services.setStatusStaff(actor, id, status, note));
+    return this.audited(actor, 'service.status_changed', id, { status, note }, () =>
+      this.services.setStatusStaff(actor, id, status, note),
+    );
   }
   async addNote(id: string, message: string, visible: boolean) {
     const actor = await this.actor(200);
-    return guard(() => this.services.addNote(actor, id, message, visible));
+    return this.audited(actor, 'service.note_added', id, { visible }, () =>
+      this.services.addNote(actor, id, message, visible),
+    );
   }
   async requestInfo(id: string, message: string) {
     const actor = await this.actor(200);
-    return guard(() => this.services.requestInfo(actor, id, message));
+    return this.audited(actor, 'service.info_requested', id, {}, () =>
+      this.services.requestInfo(actor, id, message),
+    );
   }
   async sendRepairQuote(
     id: string,
@@ -179,11 +200,15 @@ export class DemoServiceOperationsRepository
     note: string | null = null,
   ) {
     const actor = await this.actor(200);
-    return guard(() => this.services.sendRepairQuote(actor, id, kind, amount, note));
+    return this.audited(actor, 'service.quote_sent', id, { kind, amount }, () =>
+      this.services.sendRepairQuote(actor, id, kind, amount, note),
+    );
   }
   async sendTradeInOffer(id: string, input: TradeInOfferInput) {
     const actor = await this.actor(200);
-    return guard(() => this.services.sendTradeInOffer(actor, id, input));
+    return this.audited(actor, 'service.offer_sent', id, {}, () =>
+      this.services.sendTradeInOffer(actor, id, input),
+    );
   }
   async sendUsedProposal(
     id: string,
@@ -193,7 +218,9 @@ export class DemoServiceOperationsRepository
     media: MediaRef[] = [],
   ) {
     const actor = await this.actor(200);
-    return guard(() => this.services.sendUsedProposal(actor, id, device, price, note, media));
+    return this.audited(actor, 'service.proposal_sent', id, { price }, () =>
+      this.services.sendUsedProposal(actor, id, device, price, note, media),
+    );
   }
   async decideAfterSales(
     id: string,
@@ -201,7 +228,9 @@ export class DemoServiceOperationsRepository
     note: string | null = null,
   ) {
     const actor = await this.actor(200);
-    return guard(() => this.services.decideAfterSales(actor, id, decision, note));
+    return this.audited(actor, 'service.after_sales_decided', id, { decision }, () =>
+      this.services.decideAfterSales(actor, id, decision, note),
+    );
   }
   uploadProposalPhoto(file: Blob, mime: ServiceMime) {
     return this.uploadInto('used-requests', file, mime);

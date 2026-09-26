@@ -412,6 +412,13 @@ export interface StaffOrderFilter {
   paymentStatus?: PaymentStatus | null;
   reviewPending?: boolean;
   q?: string | null;
+  /** Phase 06 admin filters. `assigned`: 'me' | 'unassigned' | staff user id. */
+  paymentMethod?: PaymentMethod | null;
+  fulfillment?: 'delivery' | 'pickup' | null;
+  assigned?: string | null;
+  customerId?: string | null;
+  from?: string | null;
+  to?: string | null;
   limit?: number;
   offset?: number;
 }

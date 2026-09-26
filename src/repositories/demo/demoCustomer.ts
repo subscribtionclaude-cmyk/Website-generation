@@ -126,7 +126,7 @@ export class DemoCustomerRequestsRepository
 {
   private async create(input: Parameters<DemoCommerceStore['customer']['createRequest']>[1]) {
     await delay(300);
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     try {
       return this.customer.createRequest(actor, input);
     } catch (error) {
@@ -168,7 +168,7 @@ export class DemoCustomerRequestsRepository
 
   async claim(claims: RequestClaim[]) {
     await delay(80);
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     return guard(() => this.customer.claimRequests(actor, claims));
   }
 }
@@ -218,17 +218,17 @@ export class DemoCustomerOperationsRepository
 {
   async listReviews(status: 'pending' | 'approved' | 'rejected' | null) {
     await delay();
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     return guard(() => this.customer.staffReviews(actor, status));
   }
   async moderateReview(id: string, decision: 'approved' | 'rejected', note: string | null) {
     await delay(200);
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     return guard(() => this.customer.moderateReview(actor, id, decision, note));
   }
   async listAbandonedCarts() {
     await delay();
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     return guard(() => this.customer.abandonedCarts(actor));
   }
 }

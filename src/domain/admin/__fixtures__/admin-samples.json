@@ -1,0 +1,4628 @@
+{
+  "get_my_access": {
+    "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
+    "userId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+    "grantsAll": true,
+    "suspended": false,
+    "permissions": [
+      "after_sales.manage",
+      "after_sales.view",
+      "analytics.view",
+      "audit.view",
+      "catalog.manage",
+      "catalog.view",
+      "content.manage",
+      "content.publish",
+      "content.view",
+      "customers.manage",
+      "customers.view",
+      "dashboard.view",
+      "data.backup",
+      "data.import",
+      "demo.manage",
+      "design.edit",
+      "design.publish",
+      "integrations.manage",
+      "inventory.manage",
+      "legal.manage",
+      "marketing.manage",
+      "notifications.manage",
+      "orders.manage",
+      "orders.view",
+      "payments.verify",
+      "pricing.manage",
+      "repairs.manage",
+      "repairs.view",
+      "reports.export",
+      "reviews.moderate",
+      "roles.manage",
+      "security.manage",
+      "settings.manage",
+      "settings.publish",
+      "settings.view",
+      "shipping.manage",
+      "tradein.manage",
+      "tradein.view",
+      "used_requests.manage",
+      "used_requests.view",
+      "users.manage",
+      "users.view",
+      "waitlists.manage"
+    ]
+  },
+  "admin_analytics": {
+    "byDay": [],
+    "range": {
+      "to": "2026-09-26T15:25:23.884409+00:00",
+      "from": "2026-08-27T15:25:23.884409+00:00"
+    },
+    "stock": { "low": 9, "out": 10 },
+    "totals": {
+      "paid": 0,
+      "orders": 0,
+      "revenue": 0,
+      "cancelled": 0,
+      "customers": 0,
+      "itemsSold": 0,
+      "conversion": null,
+      "activeCarts": 0,
+      "averageOrderValue": 0
+    },
+    "byStatus": {},
+    "services": {
+      "used": { "open": 1, "created": 1, "completed": 0 },
+      "repair": { "open": 1, "created": 1, "completed": 0 },
+      "trade_in": { "open": 1, "created": 1, "completed": 0 },
+      "after_sales": { "open": 1, "created": 1, "completed": 0 }
+    },
+    "byPayment": {},
+    "bestSellers": [],
+    "includeDemo": true,
+    "abandonedCarts": 0,
+    "repeatCustomers": { "customers": 0, "ofCustomers": 0 }
+  },
+  "admin_dashboard": {
+    "carts": { "abandoned": 0 },
+    "range": {
+      "to": "2026-09-26T15:25:23.884409+00:00",
+      "from": "2026-08-27T15:25:23.884409+00:00"
+    },
+    "stock": { "low": 9, "out": 10 },
+    "orders": {
+      "open": 1,
+      "paid": 0,
+      "count": 0,
+      "revenue": 0,
+      "cancelled": 0,
+      "demoExcluded": 0,
+      "manualReview": 1,
+      "averageOrderValue": 0,
+      "pendingVerification": 0
+    },
+    "reviews": { "pending": 0 },
+    "activity": [
+      {
+        "id": 450,
+        "action": "stock.adjusted",
+        "module": "catalog",
+        "entityId": "IP17-256GB-BLACK",
+        "actorName": "owner.sample@test.local",
+        "entityType": "public.product_variants",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 449,
+        "action": "update",
+        "module": "catalog",
+        "entityId": "IP17-256GB-BLACK",
+        "actorName": "owner.sample@test.local",
+        "entityType": "public.product_variants",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 448,
+        "action": "insert",
+        "module": "customers",
+        "entityId": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "actorName": "owner.sample@test.local",
+        "entityType": "public.customer_notes",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 447,
+        "action": "order.created",
+        "module": "orders",
+        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorName": "Sample Customer",
+        "entityType": "order",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 446,
+        "action": "insert",
+        "module": "orders",
+        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorName": "Sample Customer",
+        "entityType": "public.orders",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 445,
+        "action": "insert",
+        "module": "access",
+        "entityId": "582e448f-6b1c-4da8-811d-95078d289bf1:e08cdbe5-1b5a-48dd-a54f-f84391b8279f",
+        "actorName": null,
+        "entityType": "public.user_roles",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 444,
+        "action": "update",
+        "module": "settings",
+        "entityId": "features",
+        "actorName": null,
+        "entityType": "public.site_settings",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+      },
+      {
+        "id": 443,
+        "action": "insert",
+        "module": "content",
+        "entityId": "repairs-consultation",
+        "actorName": null,
+        "entityType": "public.content_entries",
+        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+      },
+      {
+        "id": 442,
+        "action": "insert",
+        "module": "content",
+        "entityId": "trade-in-at-malek",
+        "actorName": null,
+        "entityType": "public.content_entries",
+        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+      },
+      {
+        "id": 441,
+        "action": "insert",
+        "module": "content",
+        "entityId": "accessories-price-update",
+        "actorName": null,
+        "entityType": "public.content_entries",
+        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+      }
+    ],
+    "requests": { "notify": 0, "waitlist": 0 },
+    "services": {
+      "used": { "open": 1, "created": 1, "overdue": 0 },
+      "repair": { "open": 1, "created": 1, "overdue": 1 },
+      "trade_in": { "open": 1, "created": 1, "overdue": 0 },
+      "after_sales": { "open": 1, "created": 1, "overdue": 0 }
+    },
+    "includeDemo": true
+  },
+  "admin_get_entry": {
+    "id": "83b46d73-2809-4a62-7ada-9b89719c52e4",
+    "body": null,
+    "slug": "iphone-18-pro-launch",
+    "type": "campaign",
+    "state": "available",
+    "title": {
+      "ar": "iPhone 18 Pro و iPhone 18 Pro Max",
+      "en": "iPhone 18 Pro & iPhone 18 Pro Max"
+    },
+    "isDemo": true,
+    "status": "published",
+    "ctaHref": "/product/iphone-18-pro",
+    "excerpt": null,
+    "eyebrow": { "ar": "جديد في MALEK STORE", "en": "New at MALEK STORE" },
+    "ctaLabel": { "ar": "اتسوّق دلوقتي", "en": "Shop now" },
+    "mediaAlt": { "ar": "صورة توضيحية لـ iPhone 18 Pro", "en": "Illustration of iPhone 18 Pro" },
+    "mediaUrl": "/demo/media/phone-back-orange.svg",
+    "products": [
+      {
+        "name": { "ar": "iPhone 18 Pro", "en": "iPhone 18 Pro" },
+        "slug": "iphone-18-pro",
+        "productId": "94ac2f34-3962-e505-c56b-421bc5a99fc0"
+      },
+      {
+        "name": { "ar": "iPhone 18 Pro Max", "en": "iPhone 18 Pro Max" },
+        "slug": "iphone-18-pro-max",
+        "productId": "bf5b925a-2f65-d0b1-b336-8b854f94a046"
+      }
+    ],
+    "seoTitle": null,
+    "subtitle": {
+      "ar": "وصلوا عندنا. اختار المساحة واللون اللي يناسبك واطلب من الفرع أو أونلاين قريب.",
+      "en": "They have arrived. Pick your storage and colour — order in store now, online soon."
+    },
+    "expiresAt": null,
+    "mediaKind": "image",
+    "publishAt": "2026-09-14T15:24:54.308911+00:00",
+    "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+    "isFeatured": true,
+    "releaseDate": null,
+    "mediaPosterUrl": null,
+    "seoDescription": null,
+    "secondaryCtaHref": "/product/iphone-18-pro-max",
+    "secondaryCtaLabel": { "ar": "شوف التفاصيل", "en": "View details" }
+  },
+  "admin_get_offer": {
+    "id": "c4cd2cf9-3e4a-42ae-8741-b75375b4c1f4",
+    "kind": "limited_time",
+    "slug": "airpods-pro-3-limited",
+    "badge": { "ar": "عرض محدود", "en": "Limited offer" },
+    "state": "active",
+    "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
+    "endsAt": "2026-10-02T15:24:54.308911+00:00",
+    "isDemo": true,
+    "status": "published",
+    "ctaHref": "/product/airpods-pro-3",
+    "ctaLabel": { "ar": "شوف العرض", "en": "View offer" },
+    "mediaAlt": null,
+    "mediaUrl": null,
+    "products": [
+      {
+        "name": { "ar": "AirPods Pro 3", "en": "AirPods Pro 3" },
+        "role": "target",
+        "slug": "airpods-pro-3",
+        "quantity": 1,
+        "productId": "0e33b88a-aaeb-beb0-649f-ecba3a98c3b6",
+        "variantId": null
+      }
+    ],
+    "seoTitle": null,
+    "startsAt": "2026-09-24T15:24:54.308911+00:00",
+    "subtitle": {
+      "ar": "عرض لفترة محدودة — لحد ما الكمية تخلص",
+      "en": "Limited time — while stock lasts"
+    },
+    "mediaKind": null,
+    "promoCode": null,
+    "sortOrder": 1,
+    "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+    "bundlePrice": null,
+    "buyQuantity": null,
+    "categoryIds": [],
+    "description": null,
+    "getQuantity": null,
+    "minSubtotal": null,
+    "redemptions": 0,
+    "showCountdown": true,
+    "discountAmount": null,
+    "featuredOnHome": true,
+    "maxRedemptions": null,
+    "seoDescription": null,
+    "discountPercent": 10.0,
+    "maxRedemptionsPerCustomer": null
+  },
+  "admin_list_roles": [
+    {
+      "key": "owner",
+      "name": { "ar": "المالك", "en": "Owner" },
+      "rank": 100,
+      "users": [
+        {
+          "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+          "name": null,
+          "email": "owner.sample@test.local",
+          "suspended": false
+        }
+      ],
+      "editable": false,
+      "isSystem": true,
+      "grantsAll": true,
+      "description": null,
+      "permissions": []
+    },
+    {
+      "key": "super_admin",
+      "name": { "ar": "مدير عام النظام", "en": "Super Admin" },
+      "rank": 90,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": [
+        "after_sales.manage",
+        "after_sales.view",
+        "analytics.view",
+        "audit.view",
+        "catalog.manage",
+        "catalog.view",
+        "content.manage",
+        "content.publish",
+        "content.view",
+        "customers.manage",
+        "customers.view",
+        "dashboard.view",
+        "data.backup",
+        "data.import",
+        "demo.manage",
+        "design.edit",
+        "design.publish",
+        "integrations.manage",
+        "inventory.manage",
+        "legal.manage",
+        "marketing.manage",
+        "notifications.manage",
+        "orders.manage",
+        "orders.view",
+        "payments.verify",
+        "pricing.manage",
+        "repairs.manage",
+        "repairs.view",
+        "reports.export",
+        "reviews.moderate",
+        "roles.manage",
+        "security.manage",
+        "settings.manage",
+        "settings.publish",
+        "settings.view",
+        "shipping.manage",
+        "tradein.manage",
+        "tradein.view",
+        "used_requests.manage",
+        "used_requests.view",
+        "users.manage",
+        "users.view",
+        "waitlists.manage"
+      ]
+    },
+    {
+      "key": "store_manager",
+      "name": { "ar": "مدير الفرع", "en": "Store Manager" },
+      "rank": 70,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": [
+        "after_sales.manage",
+        "after_sales.view",
+        "analytics.view",
+        "audit.view",
+        "catalog.manage",
+        "catalog.view",
+        "content.manage",
+        "content.publish",
+        "content.view",
+        "customers.manage",
+        "customers.view",
+        "dashboard.view",
+        "data.import",
+        "inventory.manage",
+        "legal.manage",
+        "marketing.manage",
+        "notifications.manage",
+        "orders.manage",
+        "orders.view",
+        "payments.verify",
+        "pricing.manage",
+        "repairs.manage",
+        "repairs.view",
+        "reports.export",
+        "reviews.moderate",
+        "settings.view",
+        "shipping.manage",
+        "tradein.manage",
+        "tradein.view",
+        "used_requests.manage",
+        "used_requests.view",
+        "users.view",
+        "waitlists.manage"
+      ]
+    },
+    {
+      "key": "customer_service",
+      "name": { "ar": "خدمة العملاء", "en": "Customer Service" },
+      "rank": 40,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": [
+        "after_sales.manage",
+        "after_sales.view",
+        "catalog.view",
+        "customers.view",
+        "dashboard.view",
+        "notifications.manage",
+        "orders.view",
+        "repairs.view",
+        "reviews.moderate",
+        "tradein.view",
+        "used_requests.manage",
+        "used_requests.view",
+        "waitlists.manage"
+      ]
+    },
+    {
+      "key": "sales",
+      "name": { "ar": "المبيعات", "en": "Sales" },
+      "rank": 40,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": [
+        "catalog.view",
+        "customers.view",
+        "dashboard.view",
+        "orders.manage",
+        "orders.view",
+        "shipping.manage",
+        "tradein.manage",
+        "tradein.view",
+        "used_requests.manage",
+        "used_requests.view",
+        "waitlists.manage"
+      ]
+    },
+    {
+      "key": "content_editor",
+      "name": { "ar": "محرر المحتوى", "en": "Content Editor" },
+      "rank": 30,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": ["catalog.view", "content.manage", "content.view", "dashboard.view"]
+    },
+    {
+      "key": "design_editor",
+      "name": { "ar": "محرر التصميم", "en": "Design Editor" },
+      "rank": 30,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": ["content.view", "dashboard.view", "design.edit", "design.publish"]
+    },
+    {
+      "key": "repairs_team",
+      "name": { "ar": "فريق الصيانة", "en": "Repairs Team" },
+      "rank": 30,
+      "users": [],
+      "editable": true,
+      "isSystem": true,
+      "grantsAll": false,
+      "description": null,
+      "permissions": [
+        "after_sales.view",
+        "customers.view",
+        "dashboard.view",
+        "repairs.manage",
+        "repairs.view"
+      ]
+    }
+  ],
+  "admin_list_staff": [
+    {
+      "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+      "name": null,
+      "rank": 100,
+      "email": "owner.sample@test.local",
+      "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
+      "status": "active",
+      "createdAt": "2026-09-26T15:25:23.884409+00:00",
+      "suspendedAt": null,
+      "lastActiveAt": null,
+      "suspensionReason": null
+    }
+  ],
+  "admin_get_product": {
+    "id": "326b6c57-bac1-32c3-bf04-9d4b4734551f",
+    "name": { "ar": "iPhone 17", "en": "iPhone 17" },
+    "slug": "iphone-17",
+    "isNew": false,
+    "media": [
+      {
+        "id": "ed0b6498-ec27-1735-afee-de19ddeeb40b",
+        "alt": {
+          "ar": "iPhone 17 — أسود (صورة توضيحية)",
+          "en": "iPhone 17 — Black (illustration)"
+        },
+        "url": "/demo/media/phone-back-dual-black.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": true,
+        "colorKey": "black",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "8d894447-fc26-d75f-eec3-90aba98fb98d",
+        "alt": {
+          "ar": "iPhone 17 — أسود (صورة توضيحية)",
+          "en": "iPhone 17 — Black (illustration)"
+        },
+        "url": "/demo/media/phone-front-black.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "black",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "e90bf78a-7d5f-b169-c747-14c5679c22be",
+        "alt": {
+          "ar": "iPhone 17 — أبيض (صورة توضيحية)",
+          "en": "iPhone 17 — White (illustration)"
+        },
+        "url": "/demo/media/phone-back-dual-white.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "white",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "fc481759-52d9-eb4a-ec93-f4a5a00314f0",
+        "alt": {
+          "ar": "iPhone 17 — أبيض (صورة توضيحية)",
+          "en": "iPhone 17 — White (illustration)"
+        },
+        "url": "/demo/media/phone-front-white.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "white",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "15f8adcf-3204-3a9c-ab8f-19a84668c009",
+        "alt": { "ar": "iPhone 17 — أزرق (صورة توضيحية)", "en": "iPhone 17 — Blue (illustration)" },
+        "url": "/demo/media/phone-back-dual-blue.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "blue",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "8ad9ced1-c2eb-f844-dc2e-09be7ba25930",
+        "alt": { "ar": "iPhone 17 — أزرق (صورة توضيحية)", "en": "iPhone 17 — Blue (illustration)" },
+        "url": "/demo/media/phone-front-blue.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "blue",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "79b6306d-cc3f-905a-f6e9-7cb5b2dcebdf",
+        "alt": {
+          "ar": "iPhone 17 — أخضر (صورة توضيحية)",
+          "en": "iPhone 17 — Green (illustration)"
+        },
+        "url": "/demo/media/phone-back-dual-green.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "green",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      },
+      {
+        "id": "ea8a71cc-ea98-330c-066c-c3e65d11ab33",
+        "alt": {
+          "ar": "iPhone 17 — أخضر (صورة توضيحية)",
+          "en": "iPhone 17 — Green (illustration)"
+        },
+        "url": "/demo/media/phone-front-green.svg",
+        "kind": "image",
+        "width": 800,
+        "height": 800,
+        "isCover": false,
+        "colorKey": "green",
+        "posterUrl": null,
+        "variantSku": null,
+        "captionsUrl": null
+      }
+    ],
+    "model": "iPhone 17",
+    "isDemo": true,
+    "status": "published",
+    "brandId": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+    "options": [
+      {
+        "key": "storage",
+        "name": { "ar": "المساحة", "en": "Storage" },
+        "values": [
+          { "key": "256gb", "label": { "ar": "256 جيجابايت", "en": "256GB" }, "swatchHex": null },
+          { "key": "512gb", "label": { "ar": "512 جيجابايت", "en": "512GB" }, "swatchHex": null }
+        ]
+      },
+      {
+        "key": "color",
+        "name": { "ar": "اللون", "en": "Color" },
+        "values": [
+          { "key": "black", "label": { "ar": "أسود", "en": "Black" }, "swatchHex": "#1d1d1f" },
+          { "key": "white", "label": { "ar": "أبيض", "en": "White" }, "swatchHex": "#f2f1ec" },
+          { "key": "blue", "label": { "ar": "أزرق", "en": "Blue" }, "swatchHex": "#3f5f82" },
+          { "key": "green", "label": { "ar": "أخضر", "en": "Green" }, "swatchHex": "#9fb8a3" }
+        ]
+      }
+    ],
+    "keywords": "ايفون آيفون ابل",
+    "seoTitle": null,
+    "subtitle": { "ar": "اختيار ذكي لكل يوم", "en": "A smart everyday choice" },
+    "variants": [
+      {
+        "id": "dde0660a-c0a3-44b7-4fff-8c56fd241d63",
+        "sku": "IP17-256GB-BLACK",
+        "price": 48000.0,
+        "stock": 11,
+        "barcode": null,
+        "options": { "color": "black", "storage": "256gb" },
+        "isActive": true,
+        "reserved": 1,
+        "warranty": null,
+        "available": 10,
+        "isDefault": true,
+        "updatedAt": "2026-09-26T15:25:23.931976+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "696422bd-33f2-e2f9-1de9-e333fa5fef74",
+        "sku": "IP17-256GB-WHITE",
+        "price": 48000.0,
+        "stock": 9,
+        "barcode": null,
+        "options": { "color": "white", "storage": "256gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 9,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "5d1bb6d6-18ed-c449-081d-050095abe5f6",
+        "sku": "IP17-256GB-BLUE",
+        "price": 48000.0,
+        "stock": 9,
+        "barcode": null,
+        "options": { "color": "blue", "storage": "256gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 9,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "aed4ce03-ae5a-cc90-a587-ad7ceec8c01b",
+        "sku": "IP17-256GB-GREEN",
+        "price": 48000.0,
+        "stock": 3,
+        "barcode": null,
+        "options": { "color": "green", "storage": "256gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 3,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "e123fc6f-3305-c516-83f9-b28c92d067a8",
+        "sku": "IP17-512GB-BLACK",
+        "price": 58000.0,
+        "stock": 9,
+        "barcode": null,
+        "options": { "color": "black", "storage": "512gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 9,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "bea79a68-1459-df3a-133a-87247a6d058a",
+        "sku": "IP17-512GB-WHITE",
+        "price": 58000.0,
+        "stock": 9,
+        "barcode": null,
+        "options": { "color": "white", "storage": "512gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 9,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "3952fbeb-3edc-30e0-bbde-e015fa0998d6",
+        "sku": "IP17-512GB-BLUE",
+        "price": 58000.0,
+        "stock": 9,
+        "barcode": null,
+        "options": { "color": "blue", "storage": "512gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 9,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      },
+      {
+        "id": "c18e9e6d-035a-8dfa-874c-6e110ac0e35b",
+        "sku": "IP17-512GB-GREEN",
+        "price": 58000.0,
+        "stock": 3,
+        "barcode": null,
+        "options": { "color": "green", "storage": "512gb" },
+        "isActive": true,
+        "reserved": 0,
+        "warranty": null,
+        "available": 3,
+        "isDefault": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "warrantyKind": null,
+        "compareAtPrice": null,
+        "lastPriceChange": {
+          "at": "2026-09-26T15:24:54.308911+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
+        "lowStockThreshold": 2
+      }
+    ],
+    "warranty": { "ar": "ضمان وكيل", "en": "Authorized distributor warranty" },
+    "createdAt": "2026-09-26T15:24:54.308911+00:00",
+    "isVisible": true,
+    "relations": [
+      {
+        "kind": "accessory",
+        "name": { "ar": "شاحن Apple USB-C بقوة 20 وات", "en": "Apple 20W USB-C Power Adapter" },
+        "slug": "apple-20w-usb-c-adapter",
+        "productId": "cf9ed7e2-c78e-adcf-d20e-88cca0c0f135"
+      },
+      {
+        "kind": "accessory",
+        "name": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
+        "slug": "usb-c-cable",
+        "productId": "294da053-2649-8cab-0f4e-f2295b7ebe47"
+      },
+      {
+        "kind": "similar",
+        "name": { "ar": "iPhone 16", "en": "iPhone 16" },
+        "slug": "iphone-16",
+        "productId": "ddd02dbb-0020-f9f6-8094-3d756bc69dee"
+      },
+      {
+        "kind": "similar",
+        "name": { "ar": "Galaxy A57", "en": "Galaxy A57" },
+        "slug": "galaxy-a57",
+        "productId": "3396cc45-6527-7366-7e53-5f1fd21c5ede"
+      }
+    ],
+    "updatedAt": "2026-09-26T15:24:54.366383+00:00",
+    "categories": [{ "id": "d535a58b-7510-1240-a26d-b9a9c0564525", "isPrimary": true }],
+    "hasHistory": true,
+    "isFeatured": false,
+    "specGroups": [
+      {
+        "key": "display",
+        "items": [
+          {
+            "key": "size",
+            "label": { "ar": "المقاس", "en": "Size" },
+            "value": { "ar": "6.3 بوصة", "en": "6.3-inch" },
+            "visible": true
+          }
+        ],
+        "title": { "ar": "الشاشة", "en": "Display" }
+      },
+      {
+        "key": "performance",
+        "items": [
+          {
+            "key": "chip",
+            "label": { "ar": "المعالج", "en": "Chip" },
+            "value": { "ar": "A-series", "en": "A-series" },
+            "visible": true
+          }
+        ],
+        "title": { "ar": "الأداء", "en": "Performance" }
+      },
+      {
+        "key": "camera",
+        "items": [
+          {
+            "key": "main",
+            "label": { "ar": "الكاميرا الأساسية", "en": "Main camera" },
+            "value": { "ar": "48 ميجابكسل", "en": "48 MP" },
+            "visible": true
+          }
+        ],
+        "title": { "ar": "الكاميرا", "en": "Camera" }
+      },
+      {
+        "key": "battery",
+        "items": [
+          {
+            "key": "charging",
+            "label": { "ar": "الشحن", "en": "Charging" },
+            "value": { "ar": "شحن سريع + MagSafe", "en": "Fast charging + MagSafe" },
+            "visible": true
+          }
+        ],
+        "title": { "ar": "البطارية", "en": "Battery" }
+      },
+      {
+        "key": "connectivity",
+        "items": [
+          {
+            "key": "sim",
+            "label": { "ar": "الشريحة", "en": "SIM" },
+            "value": { "ar": "شريحة + eSIM", "en": "Nano-SIM + eSIM" },
+            "visible": true
+          },
+          {
+            "key": "network",
+            "label": { "ar": "الشبكة", "en": "Network" },
+            "value": { "ar": "5G", "en": "5G" },
+            "visible": true
+          }
+        ],
+        "title": { "ar": "الاتصال", "en": "Connectivity" }
+      }
+    ],
+    "description": {
+      "ar": "iPhone 17 بمساحتين وأكتر من لون.",
+      "en": "iPhone 17 in two storage sizes and several colours."
+    },
+    "releaseDate": "2025-09-11",
+    "warrantyKind": null,
+    "seoDescription": null,
+    "availabilityState": "available"
+  },
+  "admin_list_brands": [
+    {
+      "id": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+      "name": { "ar": "Apple", "en": "Apple" },
+      "slug": "apple",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 1,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": [
+        "d535a58b-7510-1240-a26d-b9a9c0564525",
+        "7d08b156-5fb7-5d2d-95a0-8d3834043bf4",
+        "1134f1d9-07e5-7686-eb1d-033fda0395a7",
+        "89242e01-cdba-d617-c3e6-eb7227aabbc8",
+        "8173d458-d585-1431-764e-5a609b36f75d",
+        "6147e5b6-18e3-050c-aa12-a79743b2c727",
+        "2876b3da-9883-1302-4655-4410335901d1"
+      ],
+      "description": {
+        "ar": "آيفون وماك وآيباد وساعات Apple وإيربودز وإكسسوارات.",
+        "en": "iPhone, Mac, iPad, Apple Watch, AirPods and accessories."
+      },
+      "showOnApple": false,
+      "productCount": 16,
+      "seoDescription": null
+    },
+    {
+      "id": "f5b33671-a129-d290-12a5-3a9db473efd9",
+      "name": { "ar": "Samsung", "en": "Samsung" },
+      "slug": "samsung",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 2,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": [
+        "d535a58b-7510-1240-a26d-b9a9c0564525",
+        "7d08b156-5fb7-5d2d-95a0-8d3834043bf4",
+        "1134f1d9-07e5-7686-eb1d-033fda0395a7",
+        "89242e01-cdba-d617-c3e6-eb7227aabbc8"
+      ],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 5,
+      "seoDescription": null
+    },
+    {
+      "id": "e11839a0-caab-a5bb-0d2e-61e556515352",
+      "name": { "ar": "Xiaomi", "en": "Xiaomi" },
+      "slug": "xiaomi",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 3,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": [
+        "d535a58b-7510-1240-a26d-b9a9c0564525",
+        "51705900-dad0-4190-cb6f-8cd7212e420a"
+      ],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 2,
+      "seoDescription": null
+    },
+    {
+      "id": "c8c62848-91d7-b929-9db7-ed2af9a85d31",
+      "name": { "ar": "Honor", "en": "Honor" },
+      "slug": "honor",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 4,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 1,
+      "seoDescription": null
+    },
+    {
+      "id": "4b447e87-0b11-2ef6-c8dd-61104661bde5",
+      "name": { "ar": "OPPO", "en": "OPPO" },
+      "slug": "oppo",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 5,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 1,
+      "seoDescription": null
+    },
+    {
+      "id": "2267ccfd-c805-3934-eb7e-e311d7975d50",
+      "name": { "ar": "Sony", "en": "Sony" },
+      "slug": "sony",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 6,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": [
+        "853c6b33-6241-6459-662a-cbbb796a003f",
+        "5722f924-247d-df1b-65ce-3df9a1e9190d",
+        "2876b3da-9883-1302-4655-4410335901d1"
+      ],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 2,
+      "seoDescription": null
+    },
+    {
+      "id": "fa3233e9-4836-9672-9f6b-4cd8440a1967",
+      "name": { "ar": "Anker", "en": "Anker" },
+      "slug": "anker",
+      "isDemo": true,
+      "logoUrl": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "sortOrder": 7,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "isFeatured": false,
+      "categoryIds": ["2876b3da-9883-1302-4655-4410335901d1"],
+      "description": null,
+      "showOnApple": false,
+      "productCount": 1,
+      "seoDescription": null
+    }
+  ],
+  "admin_list_offers": {
+    "items": [
+      {
+        "id": "c4cd2cf9-3e4a-42ae-8741-b75375b4c1f4",
+        "kind": "limited_time",
+        "slug": "airpods-pro-3-limited",
+        "state": "active",
+        "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
+        "endsAt": "2026-10-02T15:24:54.308911+00:00",
+        "isDemo": true,
+        "status": "published",
+        "startsAt": "2026-09-24T15:24:54.308911+00:00",
+        "promoCode": null,
+        "sortOrder": 1,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "redemptions": 0,
+        "productCount": 1,
+        "discountAmount": null,
+        "featuredOnHome": true,
+        "discountPercent": 10.0
+      },
+      {
+        "id": "135baf78-fcb5-f0c0-2f10-25b64c237b58",
+        "kind": "bundle",
+        "slug": "airpods-watch-bundle",
+        "state": "active",
+        "title": {
+          "ar": "باقة AirPods 4 + Apple Watch Series 11",
+          "en": "AirPods 4 + Apple Watch Series 11 bundle"
+        },
+        "endsAt": "2026-10-16T15:24:54.308911+00:00",
+        "isDemo": true,
+        "status": "published",
+        "startsAt": "2026-09-21T15:24:54.308911+00:00",
+        "promoCode": null,
+        "sortOrder": 2,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "redemptions": 0,
+        "productCount": 2,
+        "discountAmount": null,
+        "featuredOnHome": true,
+        "discountPercent": 10.0
+      },
+      {
+        "id": "20fdc0ee-101f-605d-53ad-16d4d0ec6316",
+        "kind": "price_drop",
+        "slug": "galaxy-s26-ultra-price-drop",
+        "state": "active",
+        "title": { "ar": "سعر جديد على Galaxy S26 Ultra", "en": "New price on Galaxy S26 Ultra" },
+        "endsAt": null,
+        "isDemo": true,
+        "status": "published",
+        "startsAt": "2026-09-16T15:24:54.308911+00:00",
+        "promoCode": null,
+        "sortOrder": 3,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "redemptions": 0,
+        "productCount": 1,
+        "discountAmount": null,
+        "featuredOnHome": true,
+        "discountPercent": null
+      }
+    ],
+    "total": 7
+  },
+  "staff_list_orders": {
+    "items": [
+      {
+        "id": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "total": 48000.0,
+        "isDemo": true,
+        "status": "new",
+        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "itemCount": 1,
+        "assignedTo": null,
+        "customerId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "paidAmount": 0.0,
+        "orderNumber": "MS-2026-000001",
+        "customerName": "Test Customer",
+        "customerPhone": "+201012345678",
+        "paymentMethod": "cod",
+        "paymentStatus": "cod_pending",
+        "reviewPending": true,
+        "stockCommitted": false,
+        "remainingAmount": 48000.0,
+        "fulfillmentMethod": "pickup",
+        "shippingFeeStatus": "not_required",
+        "reservationExpiresAt": "2026-09-26T15:55:23.884409+00:00"
+      }
+    ],
+    "total": 1
+  },
+  "admin_get_customer": {
+    "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+    "name": "Sample Customer",
+    "email": "cust.sample@test.local",
+    "notes": [
+      {
+        "id": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "body": "Prefers WhatsApp",
+        "isPinned": false,
+        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "updatedAt": "2026-09-26T15:25:23.884409+00:00",
+        "authorName": "owner.sample@test.local"
+      }
+    ],
+    "phone": "+201000000001",
+    "stats": {
+      "lastOrderAt": "2026-09-26T15:25:23.884409+00:00",
+      "ordersCount": 1,
+      "openRequests": 0,
+      "lifetimeValue": 0.0,
+      "wishlistCount": 0
+    },
+    "orders": [
+      {
+        "id": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "total": 48000.0,
+        "isDemo": true,
+        "status": "new",
+        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "orderNumber": "MS-2026-000001",
+        "paymentStatus": "cod_pending"
+      }
+    ],
+    "isStaff": false,
+    "reviews": [],
+    "activity": { "followUp": null, "cartItems": 0, "recentlyViewed": 0 },
+    "joinedAt": "2026-09-26T15:25:23.884409+00:00",
+    "addresses": [],
+    "lastSignInAt": null,
+    "notifications": [],
+    "preferredLocale": "ar",
+    "serviceRequests": []
+  },
+  "admin_list_entries": {
+    "items": [
+      {
+        "id": "b10bcab5-ee43-55ae-aed1-1d514c2ee57e",
+        "live": true,
+        "slug": "iphone-duo-teaser",
+        "type": "coming_soon",
+        "title": { "ar": "iPhone Duo", "en": "iPhone Duo" },
+        "isDemo": true,
+        "status": "published",
+        "mediaUrl": "/demo/media/phone-front-black.svg",
+        "expiresAt": null,
+        "publishAt": "2026-09-22T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "isFeatured": true
+      },
+      {
+        "id": "6d1ebf73-a0a0-12a1-924e-768f3e982911",
+        "live": true,
+        "slug": "accessories-price-update",
+        "type": "offer_update",
+        "title": { "ar": "أسعار جديدة على الإكسسوارات", "en": "New prices on accessories" },
+        "isDemo": true,
+        "status": "published",
+        "mediaUrl": "/demo/media/case-white.svg",
+        "expiresAt": null,
+        "publishAt": "2026-09-22T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "isFeatured": true
+      },
+      {
+        "id": "b5daa85b-113c-a196-8998-fce0f5abce7e",
+        "live": true,
+        "slug": "trade-in-at-malek",
+        "type": "news",
+        "title": { "ar": "بدّل جهازك القديم في الفرع", "en": "Trade in your old device in store" },
+        "isDemo": true,
+        "status": "published",
+        "mediaUrl": "/demo/media/phone-front-blue.svg",
+        "expiresAt": null,
+        "publishAt": "2026-09-18T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "isFeatured": true
+      }
+    ],
+    "total": 7
+  },
+  "admin_list_reviews": {
+    "items": [
+      {
+        "id": "8896ab63-1498-9ade-ad01-0b965ca34b71",
+        "body": "تقييم تجريبي للعرض فقط — مش رأي عميل حقيقي.",
+        "title": null,
+        "isDemo": true,
+        "rating": 4,
+        "status": "approved",
+        "history": [],
+        "product": { "name": { "ar": "AirPods 4", "en": "AirPods 4" }, "slug": "airpods-4" },
+        "eligible": false,
+        "rejected": false,
+        "createdAt": "2026-09-23T15:24:54.308911+00:00",
+        "imagePath": null,
+        "productId": "fd61b83a-a426-7839-f0d0-e316a89e0de2",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "authorName": "Demo",
+        "moderatedAt": null,
+        "orderNumber": null,
+        "verifiedBuyer": false,
+        "moderationNote": null
+      },
+      {
+        "id": "c73c32a8-0133-1382-ec3c-1d285d5c69a8",
+        "body": "ده تقييم تجريبي يوضح شكل التقييمات بعد الموافقة عليها. التقييمات الحقيقية بتظهر من مشترين مؤكدين فقط.",
+        "title": "مثال لتقييم",
+        "isDemo": true,
+        "rating": 5,
+        "status": "approved",
+        "history": [],
+        "product": {
+          "name": { "ar": "iPhone 18 Pro", "en": "iPhone 18 Pro" },
+          "slug": "iphone-18-pro"
+        },
+        "eligible": false,
+        "rejected": false,
+        "createdAt": "2026-09-20T15:24:54.308911+00:00",
+        "imagePath": null,
+        "productId": "94ac2f34-3962-e505-c56b-421bc5a99fc0",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "authorName": "Demo",
+        "moderatedAt": null,
+        "orderNumber": null,
+        "verifiedBuyer": false,
+        "moderationNote": null
+      }
+    ],
+    "total": 2
+  },
+  "admin_get_audit_log": {
+    "id": 450,
+    "after": { "quantity": 11 },
+    "action": "stock.adjusted",
+    "before": { "quantity": 9 },
+    "module": "catalog",
+    "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+    "entityId": "IP17-256GB-BLACK",
+    "metadata": { "type": "addition", "reason": "Sample restock" },
+    "actorName": "owner.sample@test.local",
+    "actorRole": "authenticated",
+    "actorEmail": "owner.sample@test.local",
+    "entityType": "public.product_variants",
+    "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+    "changedFields": ["quantity"]
+  },
+  "admin_list_products": {
+    "items": [
+      {
+        "id": "dd086237-9294-ec4a-c059-bfb0c68daac7",
+        "name": {
+          "ar": "باور بانك Anker بسعة 10,000 مللي أمبير",
+          "en": "Anker Power Bank 10,000mAh"
+        },
+        "slug": "anker-power-bank-10k",
+        "brand": {
+          "id": "fa3233e9-4836-9672-9f6b-4cd8440a1967",
+          "name": { "ar": "Anker", "en": "Anker" }
+        },
+        "image": "/demo/media/powerbank-black.svg",
+        "isNew": false,
+        "model": "Power Bank 10,000mAh",
+        "stock": { "low": 0, "out": 0, "total": 22, "available": 22 },
+        "isDemo": true,
+        "status": "published",
+        "category": {
+          "id": "2876b3da-9883-1302-4655-4410335901d1",
+          "name": { "ar": "إكسسوارات", "en": "Accessories" }
+        },
+        "hasOffer": true,
+        "isVisible": true,
+        "updatedAt": "2026-09-26T15:24:54.383507+00:00",
+        "isFeatured": false,
+        "variantCount": 2,
+        "startingPrice": 2100.0,
+        "availabilityState": "available"
+      },
+      {
+        "id": "294da053-2649-8cab-0f4e-f2295b7ebe47",
+        "name": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
+        "slug": "usb-c-cable",
+        "brand": {
+          "id": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+          "name": { "ar": "Apple", "en": "Apple" }
+        },
+        "image": "/demo/media/cable-white.svg",
+        "isNew": false,
+        "model": "USB-C Charge Cable",
+        "stock": { "low": 0, "out": 0, "total": 50, "available": 50 },
+        "isDemo": true,
+        "status": "published",
+        "category": {
+          "id": "2876b3da-9883-1302-4655-4410335901d1",
+          "name": { "ar": "إكسسوارات", "en": "Accessories" }
+        },
+        "hasOffer": true,
+        "isVisible": true,
+        "updatedAt": "2026-09-26T15:24:54.382741+00:00",
+        "isFeatured": false,
+        "variantCount": 2,
+        "startingPrice": 900.0,
+        "availabilityState": "available"
+      },
+      {
+        "id": "bb2436ae-0111-48ff-7db2-89d1ac305f50",
+        "name": {
+          "ar": "جراب شفاف MagSafe لـ iPhone 18 Pro",
+          "en": "Clear Case with MagSafe for iPhone 18 Pro"
+        },
+        "slug": "magsafe-clear-case-18-pro",
+        "brand": {
+          "id": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+          "name": { "ar": "Apple", "en": "Apple" }
+        },
+        "image": "/demo/media/case-white.svg",
+        "isNew": true,
+        "model": "Clear Case with MagSafe",
+        "stock": { "low": 0, "out": 0, "total": 15, "available": 15 },
+        "isDemo": true,
+        "status": "published",
+        "category": {
+          "id": "2876b3da-9883-1302-4655-4410335901d1",
+          "name": { "ar": "إكسسوارات", "en": "Accessories" }
+        },
+        "hasOffer": true,
+        "isVisible": true,
+        "updatedAt": "2026-09-26T15:24:54.382128+00:00",
+        "isFeatured": false,
+        "variantCount": 1,
+        "startingPrice": 2400.0,
+        "availabilityState": "available"
+      }
+    ],
+    "total": 28
+  },
+  "admin_list_waitlist": { "items": [], "total": 0 },
+  "admin_import_preview": {
+    "ok": true,
+    "rows": [
+      {
+        "data": {
+          "sku": "SAMPLE-1",
+          "color": null,
+          "price": 1000,
+          "stock": 2,
+          "nameAr": null,
+          "nameEn": null,
+          "brandId": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+          "storage": null,
+          "colorHex": null,
+          "productId": null,
+          "variantId": null,
+          "categoryId": "d535a58b-7510-1240-a26d-b9a9c0564525",
+          "colorLabel": null,
+          "productSlug": "sample-phone",
+          "currentPrice": null,
+          "currentStock": null,
+          "storageLabel": null,
+          "compareAtPrice": null,
+          "lowStockThreshold": null
+        },
+        "rowNo": 1,
+        "action": "error",
+        "errors": ["name_required"]
+      },
+      {
+        "data": {
+          "sku": "",
+          "color": null,
+          "price": null,
+          "stock": null,
+          "nameAr": null,
+          "nameEn": null,
+          "brandId": null,
+          "storage": null,
+          "colorHex": null,
+          "productId": null,
+          "variantId": null,
+          "categoryId": null,
+          "colorLabel": null,
+          "productSlug": null,
+          "currentPrice": null,
+          "currentStock": null,
+          "storageLabel": null,
+          "compareAtPrice": null,
+          "lowStockThreshold": null
+        },
+        "rowNo": 2,
+        "action": "error",
+        "errors": [
+          "invalid_sku",
+          "invalid_slug",
+          "price_required",
+          "name_required",
+          "unknown_brand",
+          "unknown_category"
+        ]
+      }
+    ],
+    "jobId": "a7200316-26e4-482a-abd6-7f3e1c3bc186",
+    "summary": { "total": 2, "errors": 2, "update": 0, "createProduct": 0, "createVariant": 0 }
+  },
+  "admin_list_customers": {
+    "items": [
+      {
+        "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "name": "Sample Customer",
+        "email": "cust.sample@test.local",
+        "phone": "+201000000001",
+        "joinedAt": "2026-09-26T15:25:23.884409+00:00",
+        "lastOrderAt": "2026-09-26T15:25:23.884409+00:00",
+        "ordersCount": 1,
+        "openRequests": 0,
+        "lifetimeValue": 0.0,
+        "wishlistCount": 0,
+        "preferredLocale": "ar"
+      }
+    ],
+    "total": 1
+  },
+  "admin_list_inventory": {
+    "items": [
+      {
+        "sku": "AWS11-46MM-ROSE-GOLD",
+        "state": "out",
+        "isDemo": true,
+        "isActive": true,
+        "quantity": 0,
+        "reserved": 0,
+        "available": 0,
+        "productId": "28579a2d-0436-d285-aeda-9d602c0c1881",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "variantId": "fb6b8dda-5940-b644-2143-757c217bdafe",
+        "productName": { "ar": "Apple Watch Series 11", "en": "Apple Watch Series 11" },
+        "productSlug": "apple-watch-series-11",
+        "variantLabel": [
+          { "ar": "46 مم", "en": "46mm" },
+          { "ar": "روز جولد", "en": "Rose Gold" }
+        ],
+        "backInStockAt": null,
+        "lastMovementAt": null,
+        "lowStockThreshold": 2
+      },
+      {
+        "sku": "AWU3-BLACK",
+        "state": "out",
+        "isDemo": true,
+        "isActive": true,
+        "quantity": 0,
+        "reserved": 0,
+        "available": 0,
+        "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "variantId": "6f45a1f8-d49d-1e08-1192-ccd1361d7e3e",
+        "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
+        "productSlug": "apple-watch-ultra-3",
+        "variantLabel": [{ "ar": "أسود", "en": "Black" }],
+        "backInStockAt": null,
+        "lastMovementAt": null,
+        "lowStockThreshold": 2
+      },
+      {
+        "sku": "AWU3-TITANIUM",
+        "state": "out",
+        "isDemo": true,
+        "isActive": true,
+        "quantity": 0,
+        "reserved": 0,
+        "available": 0,
+        "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "variantId": "2dd2ce3d-a33e-86f1-1628-0e44561f4d13",
+        "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
+        "productSlug": "apple-watch-ultra-3",
+        "variantLabel": [{ "ar": "تيتانيوم طبيعي", "en": "Natural Titanium" }],
+        "backInStockAt": null,
+        "lastMovementAt": null,
+        "lowStockThreshold": 2
+      }
+    ],
+    "total": 116
+  },
+  "admin_lookup_account": {
+    "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+    "name": "Sample Customer",
+    "email": "cust.sample@test.local",
+    "found": true,
+    "roles": []
+  },
+  "admin_catalog_lookups": {
+    "brands": [
+      {
+        "id": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
+        "name": { "ar": "Apple", "en": "Apple" },
+        "slug": "apple",
+        "isVisible": true
+      },
+      {
+        "id": "f5b33671-a129-d290-12a5-3a9db473efd9",
+        "name": { "ar": "Samsung", "en": "Samsung" },
+        "slug": "samsung",
+        "isVisible": true
+      },
+      {
+        "id": "e11839a0-caab-a5bb-0d2e-61e556515352",
+        "name": { "ar": "Xiaomi", "en": "Xiaomi" },
+        "slug": "xiaomi",
+        "isVisible": true
+      },
+      {
+        "id": "c8c62848-91d7-b929-9db7-ed2af9a85d31",
+        "name": { "ar": "Honor", "en": "Honor" },
+        "slug": "honor",
+        "isVisible": true
+      },
+      {
+        "id": "4b447e87-0b11-2ef6-c8dd-61104661bde5",
+        "name": { "ar": "OPPO", "en": "OPPO" },
+        "slug": "oppo",
+        "isVisible": true
+      },
+      {
+        "id": "2267ccfd-c805-3934-eb7e-e311d7975d50",
+        "name": { "ar": "Sony", "en": "Sony" },
+        "slug": "sony",
+        "isVisible": true
+      },
+      {
+        "id": "fa3233e9-4836-9672-9f6b-4cd8440a1967",
+        "name": { "ar": "Anker", "en": "Anker" },
+        "slug": "anker",
+        "isVisible": true
+      }
+    ],
+    "categories": [
+      {
+        "id": "8173d458-d585-1431-764e-5a609b36f75d",
+        "name": { "ar": "ماك بوك", "en": "MacBook" },
+        "slug": "macbook",
+        "parentId": "6147e5b6-18e3-050c-aa12-a79743b2c727",
+        "isVisible": true
+      },
+      {
+        "id": "d535a58b-7510-1240-a26d-b9a9c0564525",
+        "name": { "ar": "موبايلات", "en": "Phones" },
+        "slug": "phones",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "853c6b33-6241-6459-662a-cbbb796a003f",
+        "name": { "ar": "بلايستيشن 5", "en": "PlayStation 5" },
+        "slug": "playstation-5",
+        "parentId": "5722f924-247d-df1b-65ce-3df9a1e9190d",
+        "isVisible": true
+      },
+      {
+        "id": "7d08b156-5fb7-5d2d-95a0-8d3834043bf4",
+        "name": { "ar": "تابلت", "en": "Tablets" },
+        "slug": "tablets",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "6147e5b6-18e3-050c-aa12-a79743b2c727",
+        "name": { "ar": "لابتوب", "en": "Laptops" },
+        "slug": "laptops",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "1134f1d9-07e5-7686-eb1d-033fda0395a7",
+        "name": { "ar": "ساعات ذكية", "en": "Watches" },
+        "slug": "watches",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "89242e01-cdba-d617-c3e6-eb7227aabbc8",
+        "name": { "ar": "سماعات", "en": "Headphones & Earbuds" },
+        "slug": "audio",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "5722f924-247d-df1b-65ce-3df9a1e9190d",
+        "name": { "ar": "ألعاب", "en": "Gaming" },
+        "slug": "gaming",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "51705900-dad0-4190-cb6f-8cd7212e420a",
+        "name": { "ar": "سكوتر كهربائي", "en": "Electric Scooters" },
+        "slug": "scooters",
+        "parentId": null,
+        "isVisible": true
+      },
+      {
+        "id": "2876b3da-9883-1302-4655-4410335901d1",
+        "name": { "ar": "إكسسوارات", "en": "Accessories" },
+        "slug": "accessories",
+        "parentId": null,
+        "isVisible": true
+      }
+    ]
+  },
+  "admin_export_products": {
+    "kind": "products",
+    "rows": [
+      {
+        "slug": "airpods-4",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "AirPods 4",
+        "name_en": "AirPods 4",
+        "visible": true,
+        "category": "audio",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.375003+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "airpods-pro-3",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "AirPods Pro 3",
+        "name_en": "AirPods Pro 3",
+        "visible": true,
+        "category": "audio",
+        "variants": 1,
+        "updated_at": "2026-09-26T15:24:54.374483+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "anker-power-bank-10k",
+        "brand": "anker",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "باور بانك Anker بسعة 10,000 مللي أمبير",
+        "name_en": "Anker Power Bank 10,000mAh",
+        "visible": true,
+        "category": "accessories",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.383507+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "apple-20w-usb-c-adapter",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "شاحن Apple USB-C بقوة 20 وات",
+        "name_en": "Apple 20W USB-C Power Adapter",
+        "visible": true,
+        "category": "accessories",
+        "variants": 1,
+        "updated_at": "2026-09-26T15:24:54.381496+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "apple-watch-series-11",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Apple Watch Series 11",
+        "name_en": "Apple Watch Series 11",
+        "visible": true,
+        "category": "watches",
+        "variants": 6,
+        "updated_at": "2026-09-26T15:24:54.372595+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "apple-watch-ultra-3",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Apple Watch Ultra 3",
+        "name_en": "Apple Watch Ultra 3",
+        "visible": true,
+        "category": "watches",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.373246+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "dualsense-controller",
+        "brand": "sony",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "ذراع DualSense",
+        "name_en": "DualSense Controller",
+        "visible": true,
+        "category": "gaming",
+        "variants": 3,
+        "updated_at": "2026-09-26T15:24:54.380376+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "galaxy-a57",
+        "brand": "samsung",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Galaxy A57",
+        "name_en": "Galaxy A57",
+        "visible": true,
+        "category": "phones",
+        "variants": 4,
+        "updated_at": "2026-09-26T15:24:54.368294+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "galaxy-buds-3-pro",
+        "brand": "samsung",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Galaxy Buds 3 Pro",
+        "name_en": "Galaxy Buds 3 Pro",
+        "visible": true,
+        "category": "audio",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.375584+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "galaxy-s26-ultra",
+        "brand": "samsung",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Galaxy S26 Ultra",
+        "name_en": "Galaxy S26 Ultra",
+        "visible": true,
+        "category": "phones",
+        "variants": 6,
+        "updated_at": "2026-09-26T15:24:54.36768+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "galaxy-tab-s11",
+        "brand": "samsung",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Galaxy Tab S11",
+        "name_en": "Galaxy Tab S11",
+        "visible": true,
+        "category": "tablets",
+        "variants": 4,
+        "updated_at": "2026-09-26T15:24:54.371939+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "galaxy-watch-8",
+        "brand": "samsung",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Galaxy Watch 8",
+        "name_en": "Galaxy Watch 8",
+        "visible": true,
+        "category": "watches",
+        "variants": 4,
+        "updated_at": "2026-09-26T15:24:54.373891+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "honor-400",
+        "brand": "honor",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Honor 400",
+        "name_en": "Honor 400",
+        "visible": true,
+        "category": "phones",
+        "variants": 4,
+        "updated_at": "2026-09-26T15:24:54.369499+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "ipad-11",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPad مقاس 11 بوصة",
+        "name_en": "iPad 11-inch",
+        "visible": true,
+        "category": "tablets",
+        "variants": 8,
+        "updated_at": "2026-09-26T15:24:54.371405+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "ipad-air-11",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPad Air مقاس 11 بوصة",
+        "name_en": "iPad Air 11-inch",
+        "visible": true,
+        "category": "tablets",
+        "variants": 6,
+        "updated_at": "2026-09-26T15:24:54.370811+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "iphone-16",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPhone 16",
+        "name_en": "iPhone 16",
+        "visible": true,
+        "category": "phones",
+        "variants": 6,
+        "updated_at": "2026-09-26T15:24:54.367006+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "iphone-17",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPhone 17",
+        "name_en": "iPhone 17",
+        "visible": true,
+        "category": "phones",
+        "variants": 8,
+        "updated_at": "2026-09-26T15:24:54.366383+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "iphone-18-pro",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPhone 18 Pro",
+        "name_en": "iPhone 18 Pro",
+        "visible": true,
+        "category": "phones",
+        "variants": 12,
+        "updated_at": "2026-09-26T15:24:54.363626+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "iphone-18-pro-max",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPhone 18 Pro Max",
+        "name_en": "iPhone 18 Pro Max",
+        "visible": true,
+        "category": "phones",
+        "variants": 12,
+        "updated_at": "2026-09-26T15:24:54.364864+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "iphone-duo",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "iPhone Duo",
+        "name_en": "iPhone Duo",
+        "visible": true,
+        "category": "phones",
+        "variants": 0,
+        "updated_at": "2026-09-26T15:24:54.365597+00:00",
+        "availability": "coming_soon"
+      },
+      {
+        "slug": "macbook-air-13",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "MacBook Air مقاس 13 بوصة",
+        "name_en": "MacBook Air 13-inch",
+        "visible": true,
+        "category": "macbook",
+        "variants": 8,
+        "updated_at": "2026-09-26T15:24:54.376824+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "macbook-pro-14",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "MacBook Pro مقاس 14 بوصة",
+        "name_en": "MacBook Pro 14-inch",
+        "visible": true,
+        "category": "macbook",
+        "variants": 4,
+        "updated_at": "2026-09-26T15:24:54.377996+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "magsafe-clear-case-18-pro",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "جراب شفاف MagSafe لـ iPhone 18 Pro",
+        "name_en": "Clear Case with MagSafe for iPhone 18 Pro",
+        "visible": true,
+        "category": "accessories",
+        "variants": 1,
+        "updated_at": "2026-09-26T15:24:54.382128+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "oppo-reno-14",
+        "brand": "oppo",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "OPPO Reno 14",
+        "name_en": "OPPO Reno 14",
+        "visible": true,
+        "category": "phones",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.37025+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "playstation-5-slim",
+        "brand": "sony",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "PlayStation 5 Slim",
+        "name_en": "PlayStation 5 Slim",
+        "visible": true,
+        "category": "playstation-5",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.379243+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "redmi-note-15-pro",
+        "brand": "xiaomi",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "Redmi Note 15 Pro",
+        "name_en": "Redmi Note 15 Pro",
+        "visible": true,
+        "category": "phones",
+        "variants": 3,
+        "updated_at": "2026-09-26T15:24:54.368913+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "usb-c-cable",
+        "brand": "apple",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "كابل شحن USB-C",
+        "name_en": "USB-C Charge Cable",
+        "visible": true,
+        "category": "accessories",
+        "variants": 2,
+        "updated_at": "2026-09-26T15:24:54.382741+00:00",
+        "availability": "available"
+      },
+      {
+        "slug": "xiaomi-electric-scooter-5",
+        "brand": "xiaomi",
+        "status": "published",
+        "is_demo": true,
+        "name_ar": "سكوتر شاومي الكهربائي 5",
+        "name_en": "Xiaomi Electric Scooter 5",
+        "visible": true,
+        "category": "scooters",
+        "variants": 1,
+        "updated_at": "2026-09-26T15:24:54.380843+00:00",
+        "availability": "available"
+      }
+    ],
+    "generatedAt": "2026-09-26T15:25:23.884409+00:00"
+  },
+  "admin_list_audit_logs": {
+    "items": [
+      {
+        "id": 450,
+        "action": "stock.adjusted",
+        "module": "catalog",
+        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+        "entityId": "IP17-256GB-BLACK",
+        "actorName": "owner.sample@test.local",
+        "actorRole": "authenticated",
+        "actorEmail": "owner.sample@test.local",
+        "entityType": "public.product_variants",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "changedFields": ["quantity"]
+      },
+      {
+        "id": 449,
+        "action": "update",
+        "module": "catalog",
+        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+        "entityId": "IP17-256GB-BLACK",
+        "actorName": "owner.sample@test.local",
+        "actorRole": "authenticated",
+        "actorEmail": "owner.sample@test.local",
+        "entityType": "public.product_variants",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "changedFields": ["stock_quantity", "updated_at"]
+      },
+      {
+        "id": 448,
+        "action": "insert",
+        "module": "customers",
+        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+        "entityId": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "actorName": "owner.sample@test.local",
+        "actorRole": "authenticated",
+        "actorEmail": "owner.sample@test.local",
+        "entityType": "public.customer_notes",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "changedFields": [
+          "author_id",
+          "body",
+          "created_at",
+          "customer_id",
+          "deleted_at",
+          "id",
+          "is_pinned",
+          "updated_at"
+        ]
+      },
+      {
+        "id": 447,
+        "action": "order.created",
+        "module": "orders",
+        "actorId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorName": "Sample Customer",
+        "actorRole": "authenticated",
+        "actorEmail": "cust.sample@test.local",
+        "entityType": "order",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "changedFields": ["fulfillment", "manualReview", "orderNumber", "paymentMethod", "total"]
+      },
+      {
+        "id": 446,
+        "action": "insert",
+        "module": "orders",
+        "actorId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorName": "Sample Customer",
+        "actorRole": "authenticated",
+        "actorEmail": "cust.sample@test.local",
+        "entityType": "public.orders",
+        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "changedFields": [
+          "assigned_staff_id",
+          "cancel_reason",
+          "cancelled_at",
+          "courier",
+          "created_at",
+          "customer_email",
+          "customer_id",
+          "customer_name",
+          "customer_note",
+          "customer_phone",
+          "customer_phone_display",
+          "delivery_address",
+          "delivery_area",
+          "delivery_eta",
+          "delivery_governorate",
+          "delivery_notes",
+          "discount_total",
+          "fulfillment_method",
+          "id",
+          "idempotency_key",
+          "is_demo",
+          "locale",
+          "manual_review_reasons",
+          "manual_review_required",
+          "manual_review_status",
+          "order_number",
+          "original_subtotal",
+          "paid_amount",
+          "payment_method",
+          "payment_status",
+          "pickup_branch",
+          "promo_code",
+          "remaining_amount",
+          "reservation_expires_at",
+          "review_note",
+          "reviewed_at",
+          "reviewed_by",
+          "shipping_fee",
+          "shipping_fee_status",
+          "split_deposit_amount",
+          "staff_note",
+          "status",
+          "stock_committed_at",
+          "subtotal",
+          "total",
+          "tracking_number",
+          "updated_at"
+        ]
+      }
+    ],
+    "total": 450
+  },
+  "admin_list_categories": [
+    {
+      "id": "8173d458-d585-1431-764e-5a609b36f75d",
+      "icon": "laptop",
+      "name": { "ar": "ماك بوك", "en": "MacBook" },
+      "slug": "macbook",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": "6147e5b6-18e3-050c-aa12-a79743b2c727",
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": false,
+      "sortOrder": 1,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": false,
+      "description": null,
+      "productCount": 2,
+      "seoDescription": null,
+      "showInCategoryGrid": false
+    },
+    {
+      "id": "d535a58b-7510-1240-a26d-b9a9c0564525",
+      "icon": "phone",
+      "name": { "ar": "موبايلات", "en": "Phones" },
+      "slug": "phones",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 1,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 10,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "853c6b33-6241-6459-662a-cbbb796a003f",
+      "icon": "gamepad",
+      "name": { "ar": "بلايستيشن 5", "en": "PlayStation 5" },
+      "slug": "playstation-5",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": "5722f924-247d-df1b-65ce-3df9a1e9190d",
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": false,
+      "sortOrder": 1,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": false,
+      "description": null,
+      "productCount": 1,
+      "seoDescription": null,
+      "showInCategoryGrid": false
+    },
+    {
+      "id": "7d08b156-5fb7-5d2d-95a0-8d3834043bf4",
+      "icon": "tablet",
+      "name": { "ar": "تابلت", "en": "Tablets" },
+      "slug": "tablets",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 2,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 3,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "6147e5b6-18e3-050c-aa12-a79743b2c727",
+      "icon": "laptop",
+      "name": { "ar": "لابتوب", "en": "Laptops" },
+      "slug": "laptops",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 3,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 1,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 2,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "1134f1d9-07e5-7686-eb1d-033fda0395a7",
+      "icon": "watch",
+      "name": { "ar": "ساعات ذكية", "en": "Watches" },
+      "slug": "watches",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 4,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 3,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "89242e01-cdba-d617-c3e6-eb7227aabbc8",
+      "icon": "headphones",
+      "name": { "ar": "سماعات", "en": "Headphones & Earbuds" },
+      "slug": "audio",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 5,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 3,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "5722f924-247d-df1b-65ce-3df9a1e9190d",
+      "icon": "gamepad",
+      "name": { "ar": "ألعاب", "en": "Gaming" },
+      "slug": "gaming",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 6,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 1,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 2,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "51705900-dad0-4190-cb6f-8cd7212e420a",
+      "icon": "scooter",
+      "name": { "ar": "سكوتر كهربائي", "en": "Electric Scooters" },
+      "slug": "scooters",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 7,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 1,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    },
+    {
+      "id": "2876b3da-9883-1302-4655-4410335901d1",
+      "icon": "plug",
+      "name": { "ar": "إكسسوارات", "en": "Accessories" },
+      "slug": "accessories",
+      "isDemo": true,
+      "imageUrl": null,
+      "parentId": null,
+      "seoTitle": null,
+      "isVisible": true,
+      "showInNav": true,
+      "sortOrder": 8,
+      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "childCount": 0,
+      "showInShop": true,
+      "showOnHome": true,
+      "description": null,
+      "productCount": 5,
+      "seoDescription": null,
+      "showInCategoryGrid": true
+    }
+  ],
+  "admin_order_assignees": [
+    { "id": "582e448f-6b1c-4da8-811d-95078d289bf1", "name": "owner.sample@test.local" }
+  ],
+  "admin_service_context": {
+    "sla": "approaching",
+    "priority": "normal",
+    "slaHours": { "warnHours": 48, "overdueHours": 120 },
+    "lastChangeAt": "2026-09-23T15:24:54.308911+00:00",
+    "notifications": []
+  },
+  "admin_list_import_jobs": [],
+  "admin_setting_versions": [
+    {
+      "note": null,
+      "value": {
+        "email": null,
+        "branches": [
+          {
+            "id": "abbasseya",
+            "city": { "ar": "القاهرة، مصر", "en": "Cairo, Egypt" },
+            "name": { "ar": "فرع العباسية", "en": "Abbasseya Branch" },
+            "phones": ["01212004229", "01212003775"],
+            "address": { "ar": "72 شارع العباسية", "en": "72 Abbasseya Street" },
+            "mapsUrl": null,
+            "landmark": { "ar": "أمام مترو عبده باشا", "en": "In front of Abdou Pasha Metro" },
+            "openingHours": [
+              { "days": [6, 0, 1, 2, 3, 4], "open": "12:00", "close": "00:00" },
+              { "days": [5], "open": "13:00", "close": "01:00" }
+            ],
+            "pickupEnabled": true
+          }
+        ],
+        "whatsappNumber": null
+      },
+      "version": 1,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null
+    }
+  ],
+  "admin_search_recipients": [
+    {
+      "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+      "name": "Sample Customer",
+      "email": "cust.sample@test.local"
+    },
+    {
+      "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+      "name": null,
+      "email": "owner.sample@test.local"
+    }
+  ],
+  "admin_settings_overview": [
+    {
+      "key": "abandoned_cart",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": false,
+      "published": { "enabled": true, "followUp": "in_app", "thresholdHours": 48 },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "brand",
+      "draft": null,
+      "scope": "design",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "logo": {
+          "alt": { "ar": "شعار MALEK STORE", "en": "MALEK STORE logo" },
+          "src": "/brand/malek-store-logo.png"
+        },
+        "name": "MALEK STORE",
+        "tagline": {
+          "ar": "موبايلات وأجهزة، صيانة واستبدال — كله في مكان واحد.",
+          "en": "Phones and devices, repairs and trade-in — all in one place."
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "catalog",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "pageSize": 12,
+        "budgetStep": 500,
+        "budgetPresets": [
+          { "max": 10000, "min": 0 },
+          { "max": 20000, "min": 10000 },
+          { "max": 30000, "min": 20000 },
+          { "max": 50000, "min": 30000 },
+          { "max": null, "min": 50000 }
+        ]
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "commerce",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "instapay": null,
+        "paymentMethods": { "cod": true, "split": true, "instapay": true },
+        "orderNumberPrefix": "MS",
+        "maxQuantityPerLine": 5,
+        "reservationMinutes": 30,
+        "maxOpenOrdersPerCustomer": 3
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "engagement",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "compare": { "maxItems": 4 },
+        "reviews": {
+          "enabled": true,
+          "allowImages": true,
+          "eligibleStatuses": ["delivered", "completed"]
+        },
+        "requests": { "expireAfterDays": 180 },
+        "wishlist": { "maxItems": 100, "priceDropPercent": 5 },
+        "recentlyViewed": { "maxItems": 20 },
+        "recommendations": { "limit": 8, "minCustomers": 2 }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "features",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 2,
+      "isPublic": true,
+      "published": { "loyalty": false, "promoCodes": false, "showDemoCatalog": true },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:25:23.884409+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "legal",
+      "draft": null,
+      "scope": "content",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "pages": {
+          "terms": {
+            "body": null,
+            "title": { "ar": "الشروط والأحكام", "en": "Terms and conditions" },
+            "updatedAt": null
+          },
+          "privacy": {
+            "body": null,
+            "title": { "ar": "سياسة الخصوصية", "en": "Privacy policy" },
+            "updatedAt": null
+          },
+          "repairs": {
+            "body": null,
+            "title": { "ar": "شروط الصيانة", "en": "Repair terms" },
+            "updatedAt": null
+          },
+          "returns": {
+            "body": null,
+            "title": { "ar": "سياسة الاسترجاع والاستبدال", "en": "Return and exchange policy" },
+            "updatedAt": null
+          },
+          "shipping": {
+            "body": null,
+            "title": { "ar": "سياسة الشحن والتوصيل", "en": "Shipping policy" },
+            "updatedAt": null
+          },
+          "trade_in": {
+            "body": null,
+            "title": { "ar": "شروط الاستبدال (Trade-In)", "en": "Trade-in terms" },
+            "updatedAt": null
+          },
+          "warranty": {
+            "body": null,
+            "title": { "ar": "سياسة الضمان", "en": "Warranty policy" },
+            "updatedAt": null
+          }
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "localization",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "currency": "EGP",
+        "numerals": "latn",
+        "timeZone": "Africa/Cairo",
+        "weekStartsOn": 6
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "loyalty",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "earn": { "points": 1, "perAmount": 100 },
+        "note": null,
+        "redeem": { "value": 10, "points": 100 },
+        "enabled": false,
+        "expiryMonths": null
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "navigation",
+      "draft": null,
+      "scope": "design",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "primary": [
+          {
+            "id": "home",
+            "href": "/",
+            "icon": "home",
+            "label": { "ar": "الرئيسية", "en": "Home" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "apple",
+            "href": "/apple",
+            "icon": "apple",
+            "label": { "ar": "Apple", "en": "Apple" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "store",
+            "href": "/store",
+            "icon": "store",
+            "label": { "ar": "المتجر", "en": "Store" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "offers",
+            "href": "/offers",
+            "icon": "offers",
+            "label": { "ar": "العروض", "en": "Offers" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "new",
+            "href": "/new",
+            "icon": "new",
+            "label": { "ar": "الجديد", "en": "New" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "trade-in",
+            "href": "/trade-in",
+            "icon": "trade-in",
+            "label": { "ar": "Trade-In", "en": "Trade-In" },
+            "visible": true,
+            "highlight": true
+          },
+          {
+            "id": "repairs",
+            "href": "/repairs",
+            "icon": "repairs",
+            "label": { "ar": "الصيانة", "en": "Repairs" },
+            "visible": true,
+            "highlight": true
+          },
+          {
+            "id": "used",
+            "href": "/used",
+            "icon": "used",
+            "label": { "ar": "المستعمل", "en": "Used" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "news",
+            "href": "/news",
+            "icon": "news",
+            "label": { "ar": "الأخبار", "en": "News" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "contact",
+            "href": "/contact",
+            "icon": "contact",
+            "label": { "ar": "تواصل معنا", "en": "Contact" },
+            "visible": true,
+            "highlight": false
+          }
+        ],
+        "mobileTabBar": [
+          {
+            "id": "tab-home",
+            "href": "/",
+            "icon": "home",
+            "label": { "ar": "الرئيسية", "en": "Home" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "tab-shop",
+            "href": "/store",
+            "icon": "store",
+            "label": { "ar": "المتجر", "en": "Shop" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "tab-offers",
+            "href": "/offers",
+            "icon": "offers",
+            "label": { "ar": "العروض", "en": "Offers" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "tab-cart",
+            "href": "/cart",
+            "icon": "cart",
+            "label": { "ar": "السلة", "en": "Cart" },
+            "visible": true,
+            "highlight": false
+          },
+          {
+            "id": "tab-account",
+            "href": "/account",
+            "icon": "account",
+            "label": { "ar": "حسابي", "en": "Account" },
+            "visible": true,
+            "highlight": false
+          }
+        ]
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "notifications",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": false,
+      "published": {
+        "channels": {
+          "sms": { "enabled": false },
+          "email": { "enabled": false },
+          "whatsapp": { "enabled": false }
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "order_review",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": false,
+      "published": {
+        "preset": "default",
+        "velocity": { "enabled": true, "maxOrders": 3, "windowHours": 1 },
+        "highValue": { "enabled": true, "threshold": 100000 },
+        "newCustomer": { "enabled": true, "minTotal": 30000 },
+        "splitPayment": { "enabled": true },
+        "unfinishedOrders": { "enabled": true, "maxCount": 2, "windowDays": 7 },
+        "multipleExpensive": { "enabled": true, "minUnits": 2, "unitPrice": 20000 }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "receipt",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "terms": null,
+        "title": { "ar": "فاتورة الطلب", "en": "Order invoice" },
+        "accent": "brand",
+        "fields": {
+          "sku": true,
+          "warranty": true,
+          "storePhones": true,
+          "storeAddress": true,
+          "customerEmail": false,
+          "customerPhone": true,
+          "paymentStatus": true
+        },
+        "footer": {
+          "ar": "شكرًا لتسوقك من MALEK STORE.",
+          "en": "Thank you for shopping at MALEK STORE."
+        },
+        "layout": "standard",
+        "version": 1,
+        "showLogo": true
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "repair_catalog",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "categories": [
+          {
+            "key": "smartphone",
+            "label": { "ar": "موبايل", "en": "Smartphone" },
+            "model": "smartphone",
+            "brands": [
+              "Apple",
+              "Samsung",
+              "Xiaomi",
+              "OPPO",
+              "Honor",
+              "realme",
+              "Vivo",
+              "Huawei",
+              "Other"
+            ],
+            "components": [
+              {
+                "key": "screen",
+                "label": { "ar": "الشاشة", "en": "Screen" },
+                "symptoms": [
+                  { "key": "broken_glass", "label": { "ar": "زجاج مكسور", "en": "Broken glass" } },
+                  {
+                    "key": "touch_issue",
+                    "label": { "ar": "اللمس مش شغال كويس", "en": "Touch not responding" }
+                  },
+                  {
+                    "key": "display_issue",
+                    "label": { "ar": "مشكلة في العرض أو الألوان", "en": "Display or colour issue" }
+                  },
+                  {
+                    "key": "lines_black_screen",
+                    "label": { "ar": "خطوط أو شاشة سوداء", "en": "Lines or black screen" }
+                  }
+                ]
+              },
+              {
+                "key": "battery",
+                "label": { "ar": "البطارية", "en": "Battery" },
+                "symptoms": [
+                  {
+                    "key": "drains_fast",
+                    "label": { "ar": "البطارية بتخلص بسرعة", "en": "Drains quickly" }
+                  },
+                  {
+                    "key": "swelling",
+                    "label": { "ar": "انتفاخ في البطارية", "en": "Swollen battery" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } },
+                  {
+                    "key": "shuts_down",
+                    "label": { "ar": "بيقفل فجأة", "en": "Shuts down suddenly" }
+                  }
+                ]
+              },
+              {
+                "key": "camera",
+                "label": { "ar": "الكاميرا", "en": "Camera" },
+                "symptoms": [
+                  { "key": "blurry", "label": { "ar": "الصورة مش واضحة", "en": "Blurry photos" } },
+                  { "key": "shaking", "label": { "ar": "الكاميرا بتهتز", "en": "Camera shaking" } },
+                  {
+                    "key": "not_opening",
+                    "label": { "ar": "الكاميرا مش بتفتح", "en": "Camera does not open" }
+                  },
+                  { "key": "damaged_lens", "label": { "ar": "عدسة مكسورة", "en": "Damaged lens" } }
+                ]
+              },
+              {
+                "key": "charging",
+                "label": { "ar": "منطقة الشحن", "en": "Charging area" },
+                "symptoms": [
+                  {
+                    "key": "loose_port",
+                    "label": { "ar": "مدخل الشحن سايب", "en": "Loose charging port" }
+                  },
+                  { "key": "slow_charging", "label": { "ar": "شحن بطيء", "en": "Slow charging" } },
+                  {
+                    "key": "not_detected",
+                    "label": { "ar": "الشاحن مش بيتعرف", "en": "Charger not detected" }
+                  },
+                  {
+                    "key": "wireless_charging",
+                    "label": {
+                      "ar": "الشحن اللاسلكي مش شغال",
+                      "en": "Wireless charging not working"
+                    }
+                  }
+                ]
+              },
+              {
+                "key": "speakers",
+                "label": { "ar": "السماعات والمايك", "en": "Speakers & mic" },
+                "symptoms": [
+                  { "key": "no_sound", "label": { "ar": "مفيش صوت", "en": "No sound" } },
+                  { "key": "low_volume", "label": { "ar": "الصوت واطي", "en": "Low volume" } },
+                  {
+                    "key": "distorted_sound",
+                    "label": { "ar": "الصوت مشوش", "en": "Distorted sound" }
+                  },
+                  {
+                    "key": "mic_issue",
+                    "label": { "ar": "المايك مش شغال", "en": "Microphone issue" }
+                  }
+                ]
+              },
+              {
+                "key": "board",
+                "label": { "ar": "اللوحة الأم", "en": "Main board" },
+                "symptoms": [
+                  { "key": "no_power", "label": { "ar": "الجهاز مش بيفتح", "en": "No power" } },
+                  {
+                    "key": "restarts",
+                    "label": { "ar": "بيعيد التشغيل لوحده", "en": "Restarts by itself" }
+                  },
+                  { "key": "no_signal", "label": { "ar": "مفيش شبكة", "en": "No signal" } },
+                  { "key": "water_damage", "label": { "ar": "دخلته مياه", "en": "Water damage" } }
+                ]
+              },
+              {
+                "key": "back_glass",
+                "label": { "ar": "الضهر والإطار", "en": "Back glass & frame" },
+                "symptoms": [
+                  {
+                    "key": "cracked_back",
+                    "label": { "ar": "الضهر مكسور", "en": "Cracked back glass" }
+                  },
+                  { "key": "bent_frame", "label": { "ar": "الإطار مثني", "en": "Bent frame" } }
+                ]
+              },
+              {
+                "key": "buttons",
+                "label": { "ar": "الأزرار", "en": "Buttons" },
+                "symptoms": [
+                  {
+                    "key": "power_button",
+                    "label": { "ar": "زرار التشغيل", "en": "Power button" }
+                  },
+                  {
+                    "key": "volume_buttons",
+                    "label": { "ar": "أزرار الصوت", "en": "Volume buttons" }
+                  },
+                  { "key": "stuck_button", "label": { "ar": "زرار معلق", "en": "Stuck button" } }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "tablet",
+            "label": { "ar": "تابلت", "en": "Tablet" },
+            "model": "tablet",
+            "brands": ["Apple", "Samsung", "Xiaomi", "Huawei", "Lenovo", "Other"],
+            "components": [
+              {
+                "key": "screen",
+                "label": { "ar": "الشاشة", "en": "Screen" },
+                "symptoms": [
+                  { "key": "broken_glass", "label": { "ar": "زجاج مكسور", "en": "Broken glass" } },
+                  {
+                    "key": "touch_issue",
+                    "label": { "ar": "اللمس مش شغال كويس", "en": "Touch not responding" }
+                  },
+                  {
+                    "key": "display_issue",
+                    "label": { "ar": "مشكلة في العرض أو الألوان", "en": "Display or colour issue" }
+                  },
+                  {
+                    "key": "lines_black_screen",
+                    "label": { "ar": "خطوط أو شاشة سوداء", "en": "Lines or black screen" }
+                  }
+                ]
+              },
+              {
+                "key": "battery",
+                "label": { "ar": "البطارية", "en": "Battery" },
+                "symptoms": [
+                  {
+                    "key": "drains_fast",
+                    "label": { "ar": "البطارية بتخلص بسرعة", "en": "Drains quickly" }
+                  },
+                  {
+                    "key": "swelling",
+                    "label": { "ar": "انتفاخ في البطارية", "en": "Swollen battery" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } },
+                  {
+                    "key": "shuts_down",
+                    "label": { "ar": "بيقفل فجأة", "en": "Shuts down suddenly" }
+                  }
+                ]
+              },
+              {
+                "key": "camera",
+                "label": { "ar": "الكاميرا", "en": "Camera" },
+                "symptoms": [
+                  { "key": "blurry", "label": { "ar": "الصورة مش واضحة", "en": "Blurry photos" } },
+                  { "key": "shaking", "label": { "ar": "الكاميرا بتهتز", "en": "Camera shaking" } },
+                  {
+                    "key": "not_opening",
+                    "label": { "ar": "الكاميرا مش بتفتح", "en": "Camera does not open" }
+                  },
+                  { "key": "damaged_lens", "label": { "ar": "عدسة مكسورة", "en": "Damaged lens" } }
+                ]
+              },
+              {
+                "key": "charging",
+                "label": { "ar": "منطقة الشحن", "en": "Charging area" },
+                "symptoms": [
+                  {
+                    "key": "loose_port",
+                    "label": { "ar": "مدخل الشحن سايب", "en": "Loose charging port" }
+                  },
+                  { "key": "slow_charging", "label": { "ar": "شحن بطيء", "en": "Slow charging" } },
+                  {
+                    "key": "not_detected",
+                    "label": { "ar": "الشاحن مش بيتعرف", "en": "Charger not detected" }
+                  }
+                ]
+              },
+              {
+                "key": "speakers",
+                "label": { "ar": "السماعات والمايك", "en": "Speakers & mic" },
+                "symptoms": [
+                  { "key": "no_sound", "label": { "ar": "مفيش صوت", "en": "No sound" } },
+                  { "key": "low_volume", "label": { "ar": "الصوت واطي", "en": "Low volume" } },
+                  {
+                    "key": "distorted_sound",
+                    "label": { "ar": "الصوت مشوش", "en": "Distorted sound" }
+                  },
+                  {
+                    "key": "mic_issue",
+                    "label": { "ar": "المايك مش شغال", "en": "Microphone issue" }
+                  }
+                ]
+              },
+              {
+                "key": "board",
+                "label": { "ar": "اللوحة الأم", "en": "Main board" },
+                "symptoms": [
+                  { "key": "no_power", "label": { "ar": "الجهاز مش بيفتح", "en": "No power" } },
+                  {
+                    "key": "restarts",
+                    "label": { "ar": "بيعيد التشغيل لوحده", "en": "Restarts by itself" }
+                  },
+                  { "key": "no_signal", "label": { "ar": "مفيش شبكة", "en": "No signal" } },
+                  { "key": "water_damage", "label": { "ar": "دخلته مياه", "en": "Water damage" } }
+                ]
+              },
+              {
+                "key": "buttons",
+                "label": { "ar": "الأزرار", "en": "Buttons" },
+                "symptoms": [
+                  {
+                    "key": "power_button",
+                    "label": { "ar": "زرار التشغيل", "en": "Power button" }
+                  },
+                  {
+                    "key": "volume_buttons",
+                    "label": { "ar": "أزرار الصوت", "en": "Volume buttons" }
+                  },
+                  { "key": "stuck_button", "label": { "ar": "زرار معلق", "en": "Stuck button" } }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "laptop",
+            "label": { "ar": "لابتوب / MacBook", "en": "Laptop / MacBook" },
+            "model": "laptop",
+            "brands": ["Apple", "Dell", "HP", "Lenovo", "ASUS", "Acer", "MSI", "Other"],
+            "components": [
+              {
+                "key": "screen",
+                "label": { "ar": "الشاشة", "en": "Screen" },
+                "symptoms": [
+                  { "key": "broken_glass", "label": { "ar": "زجاج مكسور", "en": "Broken glass" } },
+                  {
+                    "key": "display_issue",
+                    "label": { "ar": "مشكلة في العرض أو الألوان", "en": "Display or colour issue" }
+                  },
+                  {
+                    "key": "lines_black_screen",
+                    "label": { "ar": "خطوط أو شاشة سوداء", "en": "Lines or black screen" }
+                  },
+                  { "key": "hinge", "label": { "ar": "مشكلة في المفصلة", "en": "Hinge problem" } }
+                ]
+              },
+              {
+                "key": "keyboard",
+                "label": { "ar": "الكيبورد", "en": "Keyboard" },
+                "symptoms": [
+                  {
+                    "key": "keys_not_working",
+                    "label": { "ar": "زراير مش شغالة", "en": "Keys not working" }
+                  },
+                  { "key": "sticky_keys", "label": { "ar": "زراير بتعلق", "en": "Sticky keys" } },
+                  { "key": "water_damage", "label": { "ar": "دخلته مياه", "en": "Water damage" } }
+                ]
+              },
+              {
+                "key": "trackpad",
+                "label": { "ar": "التراك باد", "en": "Trackpad" },
+                "symptoms": [
+                  {
+                    "key": "trackpad_click",
+                    "label": { "ar": "التراك باد مش بيضغط", "en": "Trackpad not clicking" }
+                  },
+                  {
+                    "key": "cursor_jumping",
+                    "label": { "ar": "المؤشر بيتحرك لوحده", "en": "Cursor jumping" }
+                  }
+                ]
+              },
+              {
+                "key": "battery",
+                "label": { "ar": "البطارية", "en": "Battery" },
+                "symptoms": [
+                  {
+                    "key": "drains_fast",
+                    "label": { "ar": "البطارية بتخلص بسرعة", "en": "Drains quickly" }
+                  },
+                  {
+                    "key": "swelling",
+                    "label": { "ar": "انتفاخ في البطارية", "en": "Swollen battery" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } },
+                  {
+                    "key": "shuts_down",
+                    "label": { "ar": "بيقفل فجأة", "en": "Shuts down suddenly" }
+                  }
+                ]
+              },
+              {
+                "key": "ports",
+                "label": { "ar": "المنافذ والشحن", "en": "Ports & charging" },
+                "symptoms": [
+                  {
+                    "key": "port_not_working",
+                    "label": { "ar": "منفذ مش شغال", "en": "Port not working" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } },
+                  {
+                    "key": "loose_port",
+                    "label": { "ar": "مدخل الشحن سايب", "en": "Loose charging port" }
+                  }
+                ]
+              },
+              {
+                "key": "board",
+                "label": { "ar": "اللوحة الأم والتبريد", "en": "Logic board & cooling" },
+                "symptoms": [
+                  { "key": "no_power", "label": { "ar": "الجهاز مش بيفتح", "en": "No power" } },
+                  { "key": "overheating", "label": { "ar": "سخونة زيادة", "en": "Overheating" } },
+                  { "key": "fan_noise", "label": { "ar": "صوت مروحة عالي", "en": "Loud fan" } },
+                  {
+                    "key": "restarts",
+                    "label": { "ar": "بيعيد التشغيل لوحده", "en": "Restarts by itself" }
+                  }
+                ]
+              },
+              {
+                "key": "speakers",
+                "label": { "ar": "السماعات", "en": "Speakers" },
+                "symptoms": [
+                  { "key": "no_sound", "label": { "ar": "مفيش صوت", "en": "No sound" } },
+                  {
+                    "key": "distorted_sound",
+                    "label": { "ar": "الصوت مشوش", "en": "Distorted sound" }
+                  },
+                  {
+                    "key": "mic_issue",
+                    "label": { "ar": "المايك مش شغال", "en": "Microphone issue" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "watch",
+            "label": { "ar": "ساعة ذكية", "en": "Watch" },
+            "model": "watch",
+            "brands": ["Apple", "Samsung", "Huawei", "Xiaomi", "Other"],
+            "components": [
+              {
+                "key": "screen",
+                "label": { "ar": "الشاشة", "en": "Screen" },
+                "symptoms": [
+                  { "key": "broken_glass", "label": { "ar": "زجاج مكسور", "en": "Broken glass" } },
+                  {
+                    "key": "touch_issue",
+                    "label": { "ar": "اللمس مش شغال كويس", "en": "Touch not responding" }
+                  },
+                  {
+                    "key": "display_issue",
+                    "label": { "ar": "مشكلة في العرض أو الألوان", "en": "Display or colour issue" }
+                  }
+                ]
+              },
+              {
+                "key": "battery",
+                "label": { "ar": "البطارية", "en": "Battery" },
+                "symptoms": [
+                  {
+                    "key": "drains_fast",
+                    "label": { "ar": "البطارية بتخلص بسرعة", "en": "Drains quickly" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } },
+                  {
+                    "key": "swelling",
+                    "label": { "ar": "انتفاخ في البطارية", "en": "Swollen battery" }
+                  }
+                ]
+              },
+              {
+                "key": "crown",
+                "label": { "ar": "الـ Crown والأزرار", "en": "Crown & buttons" },
+                "symptoms": [
+                  {
+                    "key": "crown_stuck",
+                    "label": { "ar": "الـ Crown مش بيلف", "en": "Crown not turning" }
+                  },
+                  { "key": "stuck_button", "label": { "ar": "زرار معلق", "en": "Stuck button" } }
+                ]
+              },
+              {
+                "key": "sensors",
+                "label": { "ar": "الحساسات", "en": "Sensors" },
+                "symptoms": [
+                  {
+                    "key": "sensor_not_reading",
+                    "label": { "ar": "الحساسات مش بتقرا", "en": "Sensors not reading" }
+                  }
+                ]
+              },
+              {
+                "key": "board",
+                "label": { "ar": "اللوحة الأم", "en": "Main board" },
+                "symptoms": [
+                  { "key": "no_power", "label": { "ar": "الجهاز مش بيفتح", "en": "No power" } },
+                  {
+                    "key": "restarts",
+                    "label": { "ar": "بيعيد التشغيل لوحده", "en": "Restarts by itself" }
+                  },
+                  { "key": "water_damage", "label": { "ar": "دخلته مياه", "en": "Water damage" } }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "earbuds",
+            "label": { "ar": "AirPods / سماعات", "en": "AirPods / Earbuds" },
+            "model": "earbuds",
+            "brands": ["Apple", "Samsung", "Sony", "Anker", "JBL", "Other"],
+            "components": [
+              {
+                "key": "left_bud",
+                "label": { "ar": "السماعة الشمال", "en": "Left earbud" },
+                "symptoms": [
+                  { "key": "no_sound", "label": { "ar": "مفيش صوت", "en": "No sound" } },
+                  { "key": "low_volume", "label": { "ar": "الصوت واطي", "en": "Low volume" } },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } }
+                ]
+              },
+              {
+                "key": "right_bud",
+                "label": { "ar": "السماعة اليمين", "en": "Right earbud" },
+                "symptoms": [
+                  { "key": "no_sound", "label": { "ar": "مفيش صوت", "en": "No sound" } },
+                  { "key": "low_volume", "label": { "ar": "الصوت واطي", "en": "Low volume" } },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } }
+                ]
+              },
+              {
+                "key": "case",
+                "label": { "ar": "علبة الشحن", "en": "Charging case" },
+                "symptoms": [
+                  {
+                    "key": "case_not_charging",
+                    "label": { "ar": "العلبة مش بتشحن", "en": "Case not charging" }
+                  },
+                  { "key": "lid_hinge", "label": { "ar": "غطا العلبة", "en": "Case lid problem" } },
+                  {
+                    "key": "not_pairing",
+                    "label": { "ar": "مش بيعمل اقتران", "en": "Not pairing" }
+                  }
+                ]
+              },
+              {
+                "key": "connection",
+                "label": { "ar": "الاتصال والمايك", "en": "Connection & mic" },
+                "symptoms": [
+                  {
+                    "key": "not_pairing",
+                    "label": { "ar": "مش بيعمل اقتران", "en": "Not pairing" }
+                  },
+                  {
+                    "key": "one_side",
+                    "label": { "ar": "صوت من ناحية واحدة", "en": "Sound from one side only" }
+                  },
+                  {
+                    "key": "mic_issue",
+                    "label": { "ar": "المايك مش شغال", "en": "Microphone issue" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "console",
+            "label": { "ar": "PlayStation / كونسول", "en": "PlayStation / Console" },
+            "model": "console",
+            "brands": ["Sony PlayStation", "Microsoft Xbox", "Nintendo", "Other"],
+            "components": [
+              {
+                "key": "power",
+                "label": { "ar": "التشغيل والكهربا", "en": "Power" },
+                "symptoms": [
+                  { "key": "no_power", "label": { "ar": "الجهاز مش بيفتح", "en": "No power" } },
+                  {
+                    "key": "restarts",
+                    "label": { "ar": "بيعيد التشغيل لوحده", "en": "Restarts by itself" }
+                  }
+                ]
+              },
+              {
+                "key": "disc_drive",
+                "label": { "ar": "قارئ الأسطوانات", "en": "Disc drive" },
+                "symptoms": [
+                  {
+                    "key": "disc_not_reading",
+                    "label": { "ar": "مش بيقرا الأسطوانة", "en": "Disc not reading" }
+                  }
+                ]
+              },
+              {
+                "key": "hdmi",
+                "label": { "ar": "منفذ HDMI", "en": "HDMI port" },
+                "symptoms": [
+                  {
+                    "key": "no_display_output",
+                    "label": { "ar": "مفيش صورة على الشاشة", "en": "No picture on TV" }
+                  },
+                  {
+                    "key": "port_not_working",
+                    "label": { "ar": "منفذ مش شغال", "en": "Port not working" }
+                  }
+                ]
+              },
+              {
+                "key": "cooling",
+                "label": { "ar": "التبريد", "en": "Cooling" },
+                "symptoms": [
+                  { "key": "overheating", "label": { "ar": "سخونة زيادة", "en": "Overheating" } },
+                  { "key": "fan_noise", "label": { "ar": "صوت مروحة عالي", "en": "Loud fan" } }
+                ]
+              },
+              {
+                "key": "controller",
+                "label": { "ar": "الدراع", "en": "Controller" },
+                "symptoms": [
+                  {
+                    "key": "controller_drift",
+                    "label": { "ar": "الدراع بيتحرك لوحده", "en": "Controller drift" }
+                  },
+                  {
+                    "key": "controller_buttons",
+                    "label": { "ar": "أزرار الدراع", "en": "Controller buttons" }
+                  },
+                  { "key": "not_charging", "label": { "ar": "مش بيشحن", "en": "Does not charge" } }
+                ]
+              }
+            ]
+          },
+          {
+            "key": "other",
+            "label": { "ar": "جهاز آخر", "en": "Other device" },
+            "model": "none",
+            "brands": ["Other"],
+            "components": []
+          }
+        ]
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "security",
+      "draft": null,
+      "scope": "security",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": false,
+      "published": { "adminMfaRequired": false },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "seo",
+      "draft": null,
+      "scope": "content",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "defaultTitle": {
+          "ar": "MALEK STORE | موبايلات وأجهزة وصيانة واستبدال",
+          "en": "MALEK STORE | Phones, devices, repairs & trade-in"
+        },
+        "allowIndexing": true,
+        "titleTemplate": { "ar": "%s | MALEK STORE", "en": "%s | MALEK STORE" },
+        "defaultDescription": {
+          "ar": "MALEK STORE في العباسية، القاهرة: موبايلات وأجهزة جديدة، عروض، صيانة واستبدال الأجهزة.",
+          "en": "MALEK STORE in Abbasseya, Cairo: new phones and devices, offers, repairs and device trade-in."
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "service_sla",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": false,
+      "published": {
+        "used": { "warnHours": 48, "overdueHours": 120 },
+        "repair": { "warnHours": 24, "overdueHours": 48 },
+        "trade_in": { "warnHours": 24, "overdueHours": 72 },
+        "after_sales": { "warnHours": 24, "overdueHours": 72 }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "services",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "media": {
+          "maxFiles": 8,
+          "maxVideos": 1,
+          "allowVideo": true,
+          "imageQuality": 0.85,
+          "maxImageBytes": 8388608,
+          "maxVideoBytes": 26214400,
+          "imageMaxDimension": 2560
+        },
+        "enabled": { "used": true, "repairs": true, "tradeIn": true, "afterSales": true },
+        "tradeIn": { "offerValidityDays": 7 },
+        "requests": { "maxOpenPerCustomer": 10 },
+        "afterSales": {
+          "policies": {
+            "return": {
+              "ar": "طلبات الإرجاع بتتراجع حسب حالة المنتج وتغليفه وسياسة المتجر السارية. أي استرداد بيتم بعد الفحص وموافقة الفريق.",
+              "en": "Return requests are reviewed against the item's condition, packaging and the store policy in force. Any refund happens only after inspection and team approval."
+            },
+            "exchange": {
+              "ar": "طلبات الاستبدال بيراجعها فريق ملك ستور حسب حالة المنتج وسياسة المتجر السارية وقت الشراء. الموافقة مش تلقائية، وهنبلغك بالقرار وبالخطوات الجاية.",
+              "en": "Exchange requests are reviewed by the Malek Store team against the item's condition and the store policy in force when you bought it. Approval is not automatic; we will tell you the decision and next steps."
+            },
+            "warranty": {
+              "ar": "طلبات الضمان بتتراجع حسب ضمان المنتج (الموزع أو الوكيل) والفحص الفني. الضمان مش بيغطي سوء الاستخدام أو الكسر أو المياه إلا لو شروط الضمان بتقول كده.",
+              "en": "Warranty claims are reviewed against the product's warranty (distributor or agent) and a technical inspection. Misuse, breakage or water damage are only covered where the warranty terms say so."
+            }
+          },
+          "policyPath": null,
+          "policyVersion": "2026-09-v1"
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "shipping",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "message": {
+          "ar": "بنوصل لكل المحافظات، ورسوم الشحن بتتأكد مع فريقنا بعد الطلب حسب منطقتك.",
+          "en": "We deliver across Egypt; our team confirms the shipping fee after you order, based on your area."
+        },
+        "manualFee": true,
+        "pickupNote": {
+          "ar": "الاستلام من فرع العباسية بعد ما نأكد إن طلبك جاهز.",
+          "en": "Pick up at the Abbasseya branch once we confirm your order is ready."
+        },
+        "defaultMode": "delivery",
+        "deliveryNotes": null
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "social",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": { "tiktok": null, "facebook": null, "telegram": null, "instagram": null },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "store",
+      "draft": null,
+      "scope": "settings",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "email": null,
+        "branches": [
+          {
+            "id": "abbasseya",
+            "city": { "ar": "القاهرة، مصر", "en": "Cairo, Egypt" },
+            "name": { "ar": "فرع العباسية", "en": "Abbasseya Branch" },
+            "phones": ["01212004229", "01212003775"],
+            "address": { "ar": "72 شارع العباسية", "en": "72 Abbasseya Street" },
+            "mapsUrl": null,
+            "landmark": { "ar": "أمام مترو عبده باشا", "en": "In front of Abdou Pasha Metro" },
+            "openingHours": [
+              { "days": [6, 0, 1, 2, 3, 4], "open": "12:00", "close": "00:00" },
+              { "days": [5], "open": "13:00", "close": "01:00" }
+            ],
+            "pickupEnabled": true
+          }
+        ],
+        "whatsappNumber": null
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "theme",
+      "draft": null,
+      "scope": "design",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": { "tokens": {} },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "trust",
+      "draft": null,
+      "scope": "content",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "items": [
+          {
+            "id": "apple-authorized-reseller",
+            "body": {
+              "ar": "منتجات Apple مع خدمة ومتابعة من فريق MALEK STORE قبل وبعد الشراء.",
+              "en": "Apple products with service and follow-up from the MALEK STORE team before and after you buy."
+            },
+            "icon": "apple",
+            "title": {
+              "ar": "Apple Authorized Reseller — موزع معتمد من Apple",
+              "en": "Apple Authorized Reseller"
+            },
+            "visible": true
+          },
+          {
+            "id": "warranty",
+            "body": {
+              "ar": "نوع الضمان موضح على كل منتج.",
+              "en": "The warranty type is shown on every product."
+            },
+            "icon": "shield",
+            "title": { "ar": "أجهزة بضمان", "en": "Devices with warranty" },
+            "visible": true
+          },
+          {
+            "id": "delivery",
+            "body": {
+              "ar": "بنوصل لكل المحافظات، ورسوم الشحن بتتأكد مع فريقنا.",
+              "en": "We deliver across Egypt; the shipping fee is confirmed by our team."
+            },
+            "icon": "truck",
+            "title": { "ar": "التوصيل متاح", "en": "Delivery available" },
+            "visible": true
+          },
+          {
+            "id": "pickup",
+            "body": {
+              "ar": "72 شارع العباسية — أمام مترو عبده باشا.",
+              "en": "72 Abbasseya Street — in front of Abdou Pasha Metro."
+            },
+            "icon": "store",
+            "title": { "ar": "استلم من الفرع", "en": "Store pickup" },
+            "visible": true
+          },
+          {
+            "id": "trade-in",
+            "body": {
+              "ar": "قيّم جهازك القديم وادفع الفرق على الجديد.",
+              "en": "Value your old device and pay the difference on a new one."
+            },
+            "icon": "refresh",
+            "title": { "ar": "بدّل جهازك", "en": "Trade-In" },
+            "visible": true
+          },
+          {
+            "id": "repairs",
+            "body": {
+              "ar": "تشخيص واستشارة قبل أي إصلاح.",
+              "en": "Diagnosis and advice before any repair."
+            },
+            "icon": "wrench",
+            "title": { "ar": "صيانة واستشارة", "en": "Repairs & consultation" },
+            "visible": true
+          }
+        ]
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    }
+  ],
+  "admin_list_page_sections": [
+    {
+      "id": "666829c0-8ee7-46bc-bd7f-3202435e1a34",
+      "key": "home-hero",
+      "type": "hero_campaign",
+      "props": {
+        "tone": "dark",
+        "teaserSlug": "iphone-duo-teaser",
+        "campaignSlug": "iphone-18-pro-launch"
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 10,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "df153300-94f0-4b79-b589-5a88d06b604a",
+      "key": "home-new-releases",
+      "type": "product_rail",
+      "props": {
+        "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+        "limit": 4,
+        "title": { "ar": "وصل حديثًا", "en": "New releases" },
+        "layout": "premium",
+        "source": {
+          "kind": "new",
+          "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+        },
+        "eyebrow": { "ar": "الجديد", "en": "New" },
+        "subtitle": {
+          "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+          "en": "The latest devices to land in store."
+        }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 20,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "224206d4-9c0a-49aa-8d79-f489964dce71",
+      "key": "home-offers",
+      "type": "offer_rail",
+      "props": {
+        "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+        "limit": 4,
+        "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+        "filter": null,
+        "eyebrow": { "ar": "عروض", "en": "Offers" },
+        "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+        "featuredOnly": true
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 30,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "a79f61ac-7c5d-45d9-9284-4508da613c40",
+      "key": "home-categories",
+      "type": "category_grid",
+      "props": {
+        "limit": 8,
+        "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+        "subtitle": null
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 40,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "490b15e4-399e-4d9f-b385-25aa439542e5",
+      "key": "home-apple",
+      "type": "brand_lines",
+      "props": {
+        "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+        "lines": [
+          { "icon": "phone", "label": { "ar": "آيفون", "en": "iPhone" }, "categorySlug": "phones" },
+          { "icon": "laptop", "label": { "ar": "ماك", "en": "Mac" }, "categorySlug": "laptops" },
+          { "icon": "tablet", "label": { "ar": "آيباد", "en": "iPad" }, "categorySlug": "tablets" },
+          {
+            "icon": "watch",
+            "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+            "categorySlug": "watches"
+          },
+          {
+            "icon": "headphones",
+            "label": { "ar": "AirPods", "en": "AirPods" },
+            "categorySlug": "audio"
+          },
+          {
+            "icon": "plug",
+            "label": { "ar": "إكسسوارات", "en": "Accessories" },
+            "categorySlug": "accessories"
+          }
+        ],
+        "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+        "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+        "subtitle": {
+          "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+          "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+        },
+        "brandSlug": "apple"
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 50,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "023a5c06-8db1-43ea-89d2-9fb7ce8e94ac",
+      "key": "home-best-sellers",
+      "type": "product_rail",
+      "props": {
+        "cta": {
+          "href": "/store?sort=best_selling",
+          "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+        },
+        "limit": 8,
+        "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+        "layout": "grid",
+        "source": { "kind": "best_sellers" },
+        "eyebrow": null,
+        "subtitle": {
+          "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+          "en": "What our customers pick most."
+        }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 60,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "1f7cec41-dba7-4668-aa72-927757ec1c7d",
+      "key": "home-budget",
+      "type": "budget_search",
+      "props": {
+        "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+        "subtitle": {
+          "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+          "en": "Pick a budget and we’ll show you what fits."
+        }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 70,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "1c504112-889f-4aa3-b8f5-3dfb94a88511",
+      "key": "home-trade-in",
+      "type": "promo_banner",
+      "props": {
+        "cta": {
+          "href": "/trade-in/request",
+          "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+        },
+        "body": {
+          "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+          "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+        },
+        "tone": "dark",
+        "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+        "points": [
+          { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+          { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+        ],
+        "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+        "illustration": "trade_in",
+        "secondaryCta": null
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 80,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "09e5e576-6729-49b4-b116-9136c321e056",
+      "key": "home-repairs",
+      "type": "promo_banner",
+      "props": {
+        "cta": {
+          "href": "/repairs/request",
+          "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+        },
+        "body": {
+          "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+          "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+        },
+        "tone": "light",
+        "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+        "points": [
+          { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+          { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+        ],
+        "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+        "illustration": "repairs",
+        "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 90,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "3ba8b28d-a8b1-4b66-bfd0-e3e108abe6bd",
+      "key": "home-coming-soon",
+      "type": "coming_soon",
+      "props": {
+        "limit": 3,
+        "title": { "ar": "قريبًا", "en": "Coming soon" },
+        "subtitle": {
+          "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+          "en": "Register your interest and we’ll tell you first."
+        }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 100,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "ebce1502-8ce1-40ad-9503-3b454bb93429",
+      "key": "home-news",
+      "type": "content_rail",
+      "props": {
+        "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+        "limit": 3,
+        "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+        "types": ["news", "offer_update", "new_release"],
+        "subtitle": null
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 110,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "7e237573-7d2a-4154-b6ff-8620612923b6",
+      "key": "home-trust",
+      "type": "trust_strip",
+      "props": { "title": null, "itemIds": null },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 120,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    },
+    {
+      "id": "0d6a3da8-cc93-4b4d-b09f-63e9963f451d",
+      "key": "home-branch",
+      "type": "branch_contact",
+      "props": {
+        "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+        "subtitle": {
+          "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+          "en": "Our team helps you choose and stays with you after you buy."
+        }
+      },
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 130,
+      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedBy": null
+    }
+  ],
+  "admin_list_price_history": {
+    "items": [
+      {
+        "id": 116,
+        "sku": "ANK10K-WHITE",
+        "isDemo": true,
+        "reason": null,
+        "source": "system",
+        "newPrice": 2100.0,
+        "oldPrice": null,
+        "actorName": null,
+        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
+        "variantId": "423d1d93-56a8-fce6-c941-b75816a277ba",
+        "productName": {
+          "ar": "باور بانك Anker بسعة 10,000 مللي أمبير",
+          "en": "Anker Power Bank 10,000mAh"
+        },
+        "productSlug": "anker-power-bank-10k",
+        "newCompareAt": null,
+        "oldCompareAt": null,
+        "variantLabel": [{ "ar": "أبيض", "en": "White" }]
+      },
+      {
+        "id": 115,
+        "sku": "ANK10K-BLACK",
+        "isDemo": true,
+        "reason": null,
+        "source": "system",
+        "newPrice": 2100.0,
+        "oldPrice": null,
+        "actorName": null,
+        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
+        "variantId": "43a0abe7-be22-5584-9c66-271232fee3bb",
+        "productName": {
+          "ar": "باور بانك Anker بسعة 10,000 مللي أمبير",
+          "en": "Anker Power Bank 10,000mAh"
+        },
+        "productSlug": "anker-power-bank-10k",
+        "newCompareAt": null,
+        "oldCompareAt": null,
+        "variantLabel": [{ "ar": "أسود", "en": "Black" }]
+      },
+      {
+        "id": 114,
+        "sku": "USBC-2M-WHITE",
+        "isDemo": true,
+        "reason": null,
+        "source": "system",
+        "newPrice": 1200.0,
+        "oldPrice": null,
+        "actorName": null,
+        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "productId": "294da053-2649-8cab-0f4e-f2295b7ebe47",
+        "variantId": "8fafb55c-7e8b-bc87-df55-e3538a4a5b58",
+        "productName": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
+        "productSlug": "usb-c-cable",
+        "newCompareAt": null,
+        "oldCompareAt": null,
+        "variantLabel": [
+          { "ar": "2 متر", "en": "2 m" },
+          { "ar": "أبيض", "en": "White" }
+        ]
+      }
+    ],
+    "total": 116
+  },
+  "admin_list_abandoned_carts": {
+    "items": [],
+    "total": 0,
+    "settings": { "enabled": true, "followUp": "in_app", "thresholdHours": 48 }
+  },
+  "admin_list_stock_movements": {
+    "items": [
+      {
+        "id": 1,
+        "sku": "IP17-256GB-BLACK",
+        "type": "addition",
+        "change": 2,
+        "isDemo": true,
+        "reason": "Sample restock",
+        "actorName": "owner.sample@test.local",
+        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "variantId": "dde0660a-c0a3-44b7-4fff-8c56fd241d63",
+        "orderNumber": null,
+        "productName": { "ar": "iPhone 17", "en": "iPhone 17" },
+        "variantLabel": [
+          { "ar": "256 جيجابايت", "en": "256GB" },
+          { "ar": "أسود", "en": "Black" }
+        ],
+        "quantityAfter": 11,
+        "quantityBefore": 9
+      }
+    ],
+    "total": 1
+  },
+  "admin_list_service_requests": {
+    "ok": true,
+    "sla": { "warnHours": 24, "overdueHours": 48 },
+    "items": [
+      {
+        "id": "8f160b82-9a67-6a73-2acc-48f151409d15",
+        "sla": "overdue",
+        "kind": "repair",
+        "title": { "ar": "Samsung Galaxy S23", "en": "Samsung Galaxy S23" },
+        "budget": null,
+        "isDemo": true,
+        "number": "RP-2026-900001",
+        "status": "under_review",
+        "product": null,
+        "ageHours": 48,
+        "priority": "normal",
+        "createdAt": "2026-09-24T15:24:54.308911+00:00",
+        "openOffer": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "assignedTo": null,
+        "contactName": "عميل تجريبي (Demo)",
+        "contactPhone": "+201000000000",
+        "lastChangeAt": "2026-09-24T15:24:54.308911+00:00",
+        "taxPreference": null,
+        "afterSalesType": null,
+        "deviceCategory": "smartphone",
+        "awaitingCustomer": false,
+        "batteryPreference": null
+      }
+    ],
+    "total": 1,
+    "counts": {
+      "new": 0,
+      "ready": 0,
+      "overdue": 1,
+      "awaiting": 0,
+      "completed": 0,
+      "approaching": 0,
+      "in_progress": 1
+    }
+  },
+  "admin_lookup_account_missing": { "found": false },
+  "admin_list_service_requests_used": {
+    "ok": true,
+    "sla": { "warnHours": 48, "overdueHours": 120 },
+    "items": [
+      {
+        "id": "001b26a5-c8d4-2bed-f14e-0ba1bdbf84ce",
+        "sla": "approaching",
+        "kind": "used",
+        "title": { "ar": "Apple iPhone 15 Pro", "en": "Apple iPhone 15 Pro" },
+        "budget": 38000,
+        "isDemo": true,
+        "number": "UD-2026-900001",
+        "status": "searching",
+        "product": null,
+        "ageHours": 72,
+        "priority": "normal",
+        "createdAt": "2026-09-23T15:24:54.308911+00:00",
+        "openOffer": false,
+        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "assignedTo": null,
+        "contactName": "عميل تجريبي (Demo)",
+        "contactPhone": "+201000000000",
+        "lastChangeAt": "2026-09-23T15:24:54.308911+00:00",
+        "taxPreference": "tax_paid",
+        "afterSalesType": null,
+        "deviceCategory": "smartphone",
+        "awaitingCustomer": false,
+        "batteryPreference": "90_plus"
+      }
+    ],
+    "total": 1,
+    "counts": {
+      "new": 0,
+      "ready": 0,
+      "overdue": 0,
+      "awaiting": 0,
+      "completed": 0,
+      "approaching": 1,
+      "in_progress": 1
+    }
+  },
+  "admin_list_notification_templates": {
+    "channels": {
+      "sms": { "enabled": false },
+      "email": { "enabled": false },
+      "whatsapp": { "enabled": false }
+    },
+    "templates": [
+      {
+        "key": "stock.back_in_stock",
+        "body": {
+          "ar": "{{product_name}} متاح دلوقتي. الكمية محدودة.",
+          "en": "{{product_name}} is available again. Quantities are limited."
+        },
+        "title": { "ar": "رجع للمخزون", "en": "Back in stock" },
+        "sent30d": 0,
+        "category": "back_in_stock",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "cart.abandoned",
+        "body": {
+          "ar": "لسه عندك منتجات في السلة. كمّل طلبك وقت ما يناسبك.",
+          "en": "You still have items in your cart. Continue whenever it suits you."
+        },
+        "title": { "ar": "سلتك مستنياك", "en": "Your cart is waiting" },
+        "sent30d": 0,
+        "category": "cart",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.cancelled",
+        "body": {
+          "ar": "تم إلغاء الطلب {{order_number}}. تواصل معانا لو محتاج مساعدة.",
+          "en": "Order {{order_number}} was cancelled. Contact us if you need help."
+        },
+        "title": { "ar": "تم إلغاء طلبك", "en": "Your order was cancelled" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.completed",
+        "body": {
+          "ar": "الطلب {{order_number}} اكتمل. تقدر تقيّم منتجاتك من حسابك.",
+          "en": "Order {{order_number}} is complete. You can review your products from your account."
+        },
+        "title": { "ar": "اكتمل طلبك", "en": "Your order is complete" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.confirmed",
+        "body": {
+          "ar": "الطلب {{order_number}} اتأكد. هنجهزه ونبلغك بكل خطوة.",
+          "en": "Order {{order_number}} is confirmed. We will prepare it and keep you posted."
+        },
+        "title": { "ar": "تم تأكيد طلبك", "en": "Your order is confirmed" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.delivered",
+        "body": {
+          "ar": "تم توصيل الطلب {{order_number}}. نتمنى يعجبك!",
+          "en": "Order {{order_number}} was delivered. We hope you enjoy it!"
+        },
+        "title": { "ar": "تم توصيل طلبك", "en": "Your order was delivered" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.out_for_delivery",
+        "body": {
+          "ar": "الطلب {{order_number}} في الطريق إليك.",
+          "en": "Order {{order_number}} is on its way."
+        },
+        "title": { "ar": "طلبك خرج للتوصيل", "en": "Your order is out for delivery" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.preparing",
+        "body": {
+          "ar": "بدأنا نجهز الطلب {{order_number}}.",
+          "en": "We have started preparing order {{order_number}}."
+        },
+        "title": { "ar": "جاري تجهيز طلبك", "en": "We are preparing your order" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "order.ready_for_pickup",
+        "body": {
+          "ar": "الطلب {{order_number}} جاهز في الفرع.",
+          "en": "Order {{order_number}} is ready at the store."
+        },
+        "title": { "ar": "طلبك جاهز للاستلام", "en": "Your order is ready for pickup" },
+        "sent30d": 0,
+        "category": "order",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "price.drop",
+        "body": {
+          "ar": "سعر {{product_name}} في المفضلة بقى {{amount}}.",
+          "en": "{{product_name}} in your wishlist is now {{amount}}."
+        },
+        "title": { "ar": "السعر نزل", "en": "Price dropped" },
+        "sent30d": 0,
+        "category": "price_drop",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "review.approved",
+        "body": {
+          "ar": "شكرًا! تقييمك لـ {{product_name}} اتنشر.",
+          "en": "Thank you! Your review of {{product_name}} is now published."
+        },
+        "title": { "ar": "تم نشر تقييمك", "en": "Your review is published" },
+        "sent30d": 0,
+        "category": "review",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "review.rejected",
+        "body": {
+          "ar": "تقييمك لـ {{product_name}} مااتنشرش لأنه لا يتوافق مع سياسة التقييمات. تقدر تعدّله.",
+          "en": "Your review of {{product_name}} was not published because it does not meet our review policy. You can edit it."
+        },
+        "title": { "ar": "لم يتم نشر تقييمك", "en": "Your review was not published" },
+        "sent30d": 0,
+        "category": "review",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "service.after_sales.approved",
+        "body": {
+          "ar": "الطلب {{code}} اتقبل. هنتواصل معاك بالخطوات الجاية.",
+          "en": "Request {{code}} was approved. We will contact you with the next steps."
+        },
+        "title": { "ar": "تمت الموافقة على طلبك", "en": "Your request was approved" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.after_sales.completed",
+        "body": {
+          "ar": "الطلب {{code}} خلص. شكرًا لثقتك في ملك ستور.",
+          "en": "Request {{code}} is complete. Thank you for choosing Malek Store."
+        },
+        "title": { "ar": "تم إنهاء طلبك", "en": "Your request is complete" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.after_sales.inspection",
+        "body": {
+          "ar": "الطلب {{code}}: استلمنا المنتج وبدأنا الفحص.",
+          "en": "Request {{code}}: we received the item and started the inspection."
+        },
+        "title": { "ar": "جاري فحص المنتج", "en": "Your item is being inspected" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.after_sales.rejected",
+        "body": {
+          "ar": "الطلب {{code}} اترفض. السبب موجود في تفاصيل الطلب.",
+          "en": "Request {{code}} was not approved. The reason is in the request details."
+        },
+        "title": { "ar": "لم تتم الموافقة على طلبك", "en": "Your request was not approved" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.cancelled",
+        "body": {
+          "ar": "تم إلغاء الطلب {{code}}. لو محتاج مساعدة تواصل معانا.",
+          "en": "Request {{code}} was cancelled. Contact us if you need help."
+        },
+        "title": { "ar": "تم إلغاء الطلب", "en": "Request cancelled" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.info_needed",
+        "body": {
+          "ar": "فريقنا محتاج تفاصيل أو صور إضافية للطلب {{code}}.",
+          "en": "Our team needs more details or photos for request {{code}}."
+        },
+        "title": { "ar": "محتاجين معلومات إضافية", "en": "We need a bit more information" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.repair.quote_ready",
+        "body": {
+          "ar": "أرسلنا عرض سعر للطلب {{code}} بقيمة {{amount}}. راجعه من حسابك.",
+          "en": "We sent a quote of {{amount}} for request {{code}}. Review it in your account."
+        },
+        "title": { "ar": "عرض سعر الصيانة جاهز", "en": "Your repair quote is ready" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.repair.ready",
+        "body": {
+          "ar": "الطلب {{code}}: جهازك جاهز للاستلام أو التوصيل.",
+          "en": "Request {{code}}: your device is ready for pickup or delivery."
+        },
+        "title": { "ar": "جهازك جاهز", "en": "Your device is ready" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.trade_in.inspection",
+        "body": {
+          "ar": "الطلب {{code}}: محتاجين نفحص الجهاز في الفرع قبل التقييم النهائي.",
+          "en": "Request {{code}}: we need to inspect the device in store before the final valuation."
+        },
+        "title": { "ar": "مطلوب فحص الجهاز", "en": "Device inspection required" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.trade_in.offer_ready",
+        "body": {
+          "ar": "الطلب {{code}}: قيمة جهازك الحالي {{amount}}. راجع العرض من حسابك.",
+          "en": "Request {{code}}: your current device is valued at {{amount}}. Review the offer in your account."
+        },
+        "title": { "ar": "عرض الاستبدال جاهز", "en": "Your trade-in offer is ready" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.trade_in.rejected",
+        "body": {
+          "ar": "للأسف مش هنقدر نكمل طلب الاستبدال {{code}}. تفاصيل أكتر في حسابك.",
+          "en": "Unfortunately we cannot continue trade-in request {{code}}. More details are in your account."
+        },
+        "title": { "ar": "تعذر إتمام الاستبدال", "en": "Trade-in not possible" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.updated",
+        "body": {
+          "ar": "في تحديث جديد على الطلب {{code}}. افتح الطلب لتشوف التفاصيل.",
+          "en": "There is a new update on request {{code}}. Open it to see the details."
+        },
+        "title": { "ar": "تحديث على طلبك", "en": "Update on your request" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.used.not_available",
+        "body": {
+          "ar": "للأسف ملقيناش جهاز مناسب للطلب {{code}} حاليًا.",
+          "en": "Unfortunately we could not find a matching device for request {{code}} right now."
+        },
+        "title": { "ar": "الجهاز غير متاح حاليًا", "en": "Device not available right now" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.used.offer_sent",
+        "body": {
+          "ar": "الطلب {{code}}: العرض النهائي جاهز في حسابك.",
+          "en": "Request {{code}}: the final offer is ready in your account."
+        },
+        "title": { "ar": "العرض جاهز", "en": "Your offer is ready" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "service.used.option_found",
+        "body": {
+          "ar": "الطلب {{code}}: لقينا جهاز مستعمل مناسب بسعر {{amount}}. شوف التفاصيل والصور.",
+          "en": "Request {{code}}: we found a matching used device for {{amount}}. See the details and photos."
+        },
+        "title": { "ar": "لقينا جهاز مناسب", "en": "We found a device for you" },
+        "sent30d": 0,
+        "category": "service",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+      },
+      {
+        "key": "waitlist.available",
+        "body": {
+          "ar": "{{product_name}} اللي سجلت اهتمامك بيه متاح دلوقتي.",
+          "en": "{{product_name}}, which you joined the waitlist for, is now available."
+        },
+        "title": { "ar": "المنتج متاح", "en": "Now available" },
+        "sent30d": 0,
+        "category": "waitlist",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      },
+      {
+        "key": "waitlist.pre_order",
+        "body": {
+          "ar": "الحجز المسبق لـ {{product_name}} بدأ.",
+          "en": "Pre-orders for {{product_name}} are open."
+        },
+        "title": { "ar": "الحجز المسبق متاح", "en": "Pre-orders are open" },
+        "sent30d": 0,
+        "category": "waitlist",
+        "isActive": true,
+        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+      }
+    ]
+  }
+}

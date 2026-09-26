@@ -1,9 +1,14 @@
 import { z } from 'zod';
 import baseSeed from '@seed/base/site-settings.json';
+import pageSectionsJson from '@seed/base/page-sections.json';
 import demoCatalogJson from '@seed/demo/catalog.json';
-import { SYSTEM_ROLES } from '@/domain/access/permissions';
+import { DemoAdmin, DemoAdminForbidden, type AdminActor } from '@/domain/admin/demo/demoAdmin';
+import type { DemoAdminState } from '@/domain/admin/demo/context';
+import { DemoAccessControl, type DemoAccessState } from '@/domain/admin/demoAccess';
+import { DemoSettings, type DemoSettingsState } from '@/domain/admin/demoSettings';
 import type { CatalogEngine } from '@/domain/catalog/engine';
-import { rawCatalogSchema } from '@/domain/catalog/raw';
+import { rawCatalogSchema, type RawCatalog } from '@/domain/catalog/raw';
+import type { PageSection } from '@/domain/content/types';
 import {
   DemoCommerce,
   DemoPermissionError,
@@ -32,10 +37,11 @@ import {
   servicesSettingsSchema,
   storeSettingsSchema,
 } from '@/domain/settings/schemas';
-import { readStored, writeStored } from '@/lib/storage/localStore';
+import { readStored, removeStored, writeStored } from '@/lib/storage/localStore';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
 import { RepositoryError } from '../supabase/errors';
 import { DemoServiceMediaStore } from './demoServiceMedia';
+import type { StaffActionResult } from '@/domain/commerce/types';
 import type { CommerceRepository, OrderOperationsRepository } from '../types';
 
 /**
@@ -44,15 +50,27 @@ import type { CommerceRepository, OrderOperationsRepository } from '../types';
  */
 export const DEMO_SETTINGS_OVERLAY = { features: { promoCodes: true } } as const;
 
-export function demoCommerceSettings(): DemoCommerceSettings {
+/** Base configuration + the demo overlay = version 1 of every demo setting. */
+export function demoBaseSettings(): Record<string, Record<string, unknown>> {
+  const base = structuredClone(baseSeed.settings) as Record<string, Record<string, unknown>>;
+  base.features = { ...base.features, ...DEMO_SETTINGS_OVERLAY.features };
+  return base;
+}
+
+type Published = (key: string) => Record<string, unknown> | null;
+
+/** Parse a published demo setting, falling back to the base value if an edit is unusable. */
+function setting<T>(published: Published, key: string, schema: z.ZodType<T>): T {
+  const parsed = schema.safeParse(published(key));
+  return parsed.success ? parsed.data : schema.parse(demoBaseSettings()[key]);
+}
+
+export function demoCommerceSettings(published: Published): DemoCommerceSettings {
   return {
-    features: featuresSettingsSchema.parse({
-      ...baseSeed.settings.features,
-      ...DEMO_SETTINGS_OVERLAY.features,
-    }),
-    commerce: commerceSettingsSchema.parse(baseSeed.settings.commerce),
-    orderReview: orderReviewSettingsSchema.parse(baseSeed.settings.order_review),
-    store: storeSettingsSchema.parse(baseSeed.settings.store),
+    features: setting(published, 'features', featuresSettingsSchema),
+    commerce: setting(published, 'commerce', commerceSettingsSchema),
+    orderReview: setting(published, 'order_review', orderReviewSettingsSchema),
+    store: setting(published, 'store', storeSettingsSchema),
   };
 }
 
@@ -72,18 +90,71 @@ const storedCustomerSchema = z.object({
   reviews: z.array(z.any()),
 }) as unknown as z.ZodType<DemoCustomerState>;
 
-export function demoCustomerSettings(): DemoCustomerSettings {
+export function demoCustomerSettings(published: Published): DemoCustomerSettings {
   return {
-    engagement: engagementSettingsSchema.parse(baseSeed.settings.engagement),
-    abandonedCart: abandonedCartSettingsSchema.parse(baseSeed.settings.abandoned_cart),
+    engagement: setting(published, 'engagement', engagementSettingsSchema),
+    abandonedCart: setting(published, 'abandoned_cart', abandonedCartSettingsSchema),
   };
 }
-export function demoServicesSettings(): DemoServicesSettings {
+export function demoServicesSettings(published: Published): DemoServicesSettings {
   return {
-    services: servicesSettingsSchema.parse(baseSeed.settings.services),
-    repairCatalog: repairCatalogSettingsSchema.parse(baseSeed.settings.repair_catalog).categories,
+    services: setting(published, 'services', servicesSettingsSchema),
+    repairCatalog: setting(published, 'repair_catalog', repairCatalogSettingsSchema).categories,
   };
 }
+
+// ── Phase 06: editable demo catalog, settings, access registry and admin engine ──
+const CATALOG_STORAGE_KEY = 'demo-catalog';
+const SETTINGS_STORAGE_KEY = 'demo-settings';
+const ACCESS_STORAGE_KEY = 'demo-access';
+const ADMIN_STORAGE_KEY = 'demo-admin';
+const MEDIA_STORAGE_KEY = 'demo-service-media';
+/** Every browser key the demo stores use (reset / delete demo data). */
+export const DEMO_STORAGE_KEYS = [
+  STORAGE_KEY,
+  CUSTOMER_STORAGE_KEY,
+  SERVICES_STORAGE_KEY,
+  CATALOG_STORAGE_KEY,
+  SETTINGS_STORAGE_KEY,
+  ACCESS_STORAGE_KEY,
+  ADMIN_STORAGE_KEY,
+  MEDIA_STORAGE_KEY,
+];
+
+/** Changes whenever the shipped demo seed changes, so stale edited copies are discarded. */
+function fingerprint(text: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16);
+}
+const SEED_FINGERPRINT = fingerprint(JSON.stringify(demoCatalogJson));
+const storedCatalogSchema = z.object({
+  fingerprint: z.string(),
+  catalog: z.unknown(),
+});
+
+function loadDemoCatalog(): RawCatalog {
+  const stored = readStored(CATALOG_STORAGE_KEY, storedCatalogSchema);
+  if (stored?.fingerprint === SEED_FINGERPRINT) {
+    const parsed = rawCatalogSchema.safeParse(stored.catalog);
+    if (parsed.success) return parsed.data;
+  }
+  return rawCatalogSchema.parse(demoCatalogJson);
+}
+
+const anyState = <T>() => z.object({ version: z.literal(1) }).loose() as unknown as z.ZodType<T>;
+
+const baseSections: PageSection[] = pageSectionsJson.sections.map((s) => ({
+  id: s.key,
+  pageKey: s.pageKey,
+  type: s.type,
+  sortOrder: s.sortOrder,
+  isVisible: s.isVisible,
+  props: s.props,
+}));
 
 const storedServicesSchema = z.object({
   version: z.literal(1),
@@ -120,11 +191,31 @@ export class DemoCommerceStore {
   /** Phase 05 service requests (repairs, trade-in, used, after-sales) + their demo media. */
   readonly services: DemoServices;
   readonly media: DemoServiceMediaStore;
+  /** Phase 06 admin: editable catalog, settings workflow, role registry and admin RPC mirror. */
+  readonly settings: DemoSettings;
+  readonly access: DemoAccessControl;
+  readonly admin: DemoAdmin;
+  readonly raw: RawCatalog;
   private version = 0;
   private cached: { engine: CatalogEngine; version: number; builtAt: number } | null = null;
 
   constructor() {
-    const raw = rawCatalogSchema.parse(demoCatalogJson);
+    const raw = loadDemoCatalog();
+    this.raw = raw;
+    this.settings = new DemoSettings({
+      base: demoBaseSettings(),
+      storage: {
+        load: () => readStored(SETTINGS_STORAGE_KEY, anyState<DemoSettingsState>()),
+        save: (state) => writeStored(SETTINGS_STORAGE_KEY, state),
+      },
+    });
+    this.access = new DemoAccessControl({
+      storage: {
+        load: () => readStored(ACCESS_STORAGE_KEY, anyState<DemoAccessState>()),
+        save: (state) => writeStored(ACCESS_STORAGE_KEY, state),
+      },
+    });
+    const published = (key: string) => this.settings.published(key);
     this.commerce = new DemoCommerce({
       raw,
       storage: {
@@ -134,12 +225,13 @@ export class DemoCommerceStore {
           writeStored(STORAGE_KEY, state);
         },
       },
-      settings: demoCommerceSettings,
+      settings: () => demoCommerceSettings(published),
+      staffName: (id) => this.admin.staffName(id),
     });
     this.customer = new DemoCustomer({
       raw,
       commerce: this.commerce,
-      settings: demoCustomerSettings,
+      settings: () => demoCustomerSettings(published),
       storage: {
         load: () => readStored(CUSTOMER_STORAGE_KEY, storedCustomerSchema),
         save: (state) => writeStored(CUSTOMER_STORAGE_KEY, state),
@@ -151,7 +243,7 @@ export class DemoCommerceStore {
       raw,
       commerce: this.commerce,
       customer: this.customer,
-      settings: demoServicesSettings,
+      settings: () => demoServicesSettings(published),
       storage: {
         load: () => readStored(SERVICES_STORAGE_KEY, storedServicesSchema),
         save: (state) => writeStored(SERVICES_STORAGE_KEY, state),
@@ -159,6 +251,38 @@ export class DemoCommerceStore {
       mediaInfo: (bucket, path) => this.media.info(bucket, path),
       engine: () => this.engine(),
     });
+    this.admin = new DemoAdmin({
+      raw,
+      commerce: this.commerce,
+      customer: this.customer,
+      services: this.services,
+      settings: this.settings,
+      access: this.access,
+      baseSections,
+      storage: {
+        load: () => readStored(ADMIN_STORAGE_KEY, anyState<DemoAdminState>()),
+        save: (state) => writeStored(ADMIN_STORAGE_KEY, state),
+      },
+      onCatalogChange: () => {
+        this.version += 1;
+        writeStored(CATALOG_STORAGE_KEY, { fingerprint: SEED_FINGERPRINT, catalog: raw });
+      },
+      engine: () => this.engine(),
+    });
+  }
+
+  /** Remove every demo store from this browser (the next load starts from the seed). */
+  static resetBrowserData(options: { emptyCatalog?: boolean } = {}) {
+    for (const key of DEMO_STORAGE_KEYS) removeStored(key);
+    if (options.emptyCatalog) {
+      const empty = rawCatalogSchema.parse(demoCatalogJson);
+      empty.products = [];
+      empty.offers = [];
+      empty.entries = [];
+      empty.reviews = [];
+      empty.serviceRequests = [];
+      writeStored(CATALOG_STORAGE_KEY, { fingerprint: SEED_FINGERPRINT, catalog: empty });
+    }
   }
 
   /** Catalog engine that reflects demo reservations and sales (rebuilt on change / every 10 min). */
@@ -175,13 +299,22 @@ export class DemoCommerceStore {
   }
 }
 
-export async function actorOf(auth: DemoAuthService): Promise<DemoActor> {
+/**
+ * Demo permission context of the signed-in preview user: roles come from the demo access registry
+ * (admin role / permission edits and suspensions apply immediately).
+ */
+export async function actorOf(
+  auth: DemoAuthService,
+  store: DemoCommerceStore,
+): Promise<AdminActor> {
   const session = await auth.getSession();
-  const role = SYSTEM_ROLES.find((r) => r.key === auth.demo.getRoleKey());
+  const access = store.access.actor(session?.userId ?? null, auth.demo.getRoleKey());
+  const roleKey = access.roles[0]?.key ?? null;
   return {
-    userId: session?.userId ?? null,
+    ...access,
     email: session?.email ?? null,
-    can: (permission) => Boolean(role && (role.grantsAll || role.permissions.includes(permission))),
+    name: session ? (store.admin.staffName(session.userId) ?? session.email) : null,
+    roleKey,
   };
 }
 
@@ -189,8 +322,14 @@ export function guard<T>(fn: () => T): T {
   try {
     return fn();
   } catch (error) {
-    if (error instanceof DemoPermissionError || error instanceof DemoCustomerPermissionError)
+    if (
+      error instanceof DemoPermissionError ||
+      error instanceof DemoCustomerPermissionError ||
+      error instanceof DemoAdminForbidden
+    )
       throw new RepositoryError(error.message, error, 'forbidden');
+    if (error instanceof RangeError)
+      throw new RepositoryError(error.message, error, 'invalid_response');
     throw error;
   }
 }
@@ -247,7 +386,7 @@ export class DemoCommerceRepository implements CommerceRepository {
 
   async createOrder(payload: Parameters<CommerceRepository['createOrder']>[0]) {
     await delay(400);
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     const result = this.store.commerce.createOrder(actor, payload);
     // Like create_order: remember the checkout name / phone when the profile has none yet.
     if (result.ok && actor.userId)
@@ -289,8 +428,22 @@ export class DemoOrderOperationsRepository implements OrderOperationsRepository 
 
   private async run<T>(fn: (actor: DemoActor) => T): Promise<T> {
     await delay(150);
-    const actor = await actorOf(this.auth);
+    const actor = await actorOf(this.auth, this.store);
     return guard(() => fn(actor));
+  }
+
+  /** Staff writes are recorded in the demo audit log (the database audits by trigger). */
+  private async write(
+    action: string,
+    orderId: string,
+    detail: Record<string, unknown>,
+    fn: (actor: DemoActor) => StaffActionResult,
+  ): Promise<StaffActionResult> {
+    await delay(150);
+    const actor = await actorOf(this.auth, this.store);
+    const result = guard(() => fn(actor));
+    if (result.ok) this.store.admin.audit(actor, action, 'public.orders', orderId, detail);
+    return result;
   }
 
   listOrders(filter: Parameters<OrderOperationsRepository['listOrders']>[0] = {}) {
@@ -304,25 +457,42 @@ export class DemoOrderOperationsRepository implements OrderOperationsRepository 
     status: Parameters<OrderOperationsRepository['setStatus']>[1],
     note: string | null,
   ) {
-    return this.run((a) => this.store.commerce.setStatus(a, orderId, status, note));
+    return this.write('order.status_changed', orderId, { status, note }, (a) =>
+      this.store.commerce.setStatus(a, orderId, status, note),
+    );
   }
   cancel(orderId: string, reason: string) {
-    return this.run((a) => this.store.commerce.cancel(a, orderId, reason));
+    return this.write('order.cancelled', orderId, { reason }, (a) =>
+      this.store.commerce.cancel(a, orderId, reason),
+    );
   }
   setShipping(orderId: string, input: Parameters<OrderOperationsRepository['setShipping']>[1]) {
-    return this.run((a) => this.store.commerce.setShipping(a, orderId, input));
+    return this.write('order.shipping_set', orderId, { fee: input.fee }, (a) =>
+      this.store.commerce.setShipping(a, orderId, input),
+    );
   }
   markPaymentVerification(orderId: string, note: string | null) {
-    return this.run((a) => this.store.commerce.markPaymentVerification(a, orderId, note));
+    return this.write('payment.verification_started', orderId, {}, (a) =>
+      this.store.commerce.markPaymentVerification(a, orderId, note),
+    );
   }
   recordPayment(orderId: string, input: Parameters<OrderOperationsRepository['recordPayment']>[1]) {
-    return this.run((a) => this.store.commerce.recordPayment(a, orderId, input));
+    return this.write(
+      'payment.recorded',
+      orderId,
+      { amount: input.amount, method: input.method },
+      (a) => this.store.commerce.recordPayment(a, orderId, input),
+    );
   }
   review(orderId: string, decision: 'approved' | 'rejected', note: string | null) {
-    return this.run((a) => this.store.commerce.review(a, orderId, decision, note));
+    return this.write('order.reviewed', orderId, { decision }, (a) =>
+      this.store.commerce.review(a, orderId, decision, note),
+    );
   }
   addNote(orderId: string, note: string) {
-    return this.run((a) => this.store.commerce.addNote(a, orderId, note));
+    return this.write('order.note_added', orderId, {}, (a) =>
+      this.store.commerce.addNote(a, orderId, note),
+    );
   }
   releaseExpiredReservations() {
     return this.run((a) => this.store.commerce.releaseExpiredReservations(a));

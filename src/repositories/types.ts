@@ -66,6 +66,9 @@ import type {
 import type { RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
 import type { Locale } from '@/i18n/config';
+import type { AdminRepository } from './adminTypes';
+
+export type { AdminRepository, Page } from './adminTypes';
 
 /**
  * Repository ports. UI and features depend only on these interfaces; the concrete adapter
@@ -395,4 +398,6 @@ export interface Repositories {
   customerOps: CustomerOperationsRepository;
   services: ServiceRequestsRepository;
   serviceOps: ServiceOperationsRepository;
+  /** Phase 06 admin control center. */
+  admin: AdminRepository;
 }

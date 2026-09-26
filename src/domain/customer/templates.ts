@@ -275,9 +275,34 @@ export function renderTemplate(template: string, vars: TemplateVars, locale: Loc
   return out.replace(/\{\{[^}]*\}\}/g, '').trim();
 }
 
+/**
+ * DEMO MODE ONLY: staff edits of templates made in the demo admin (live mode reads
+ * public.notification_templates). Inactive templates send nothing, like app.notify.
+ */
+let demoOverrides: Record<
+  string,
+  { title: LocalizedText; body: LocalizedText; isActive: boolean }
+> = {};
+export function setDemoTemplateOverrides(overrides: typeof demoOverrides) {
+  demoOverrides = overrides;
+}
+
+export function unknownPlaceholder(...texts: (string | undefined)[]): string | null {
+  for (const text of texts) {
+    for (const match of (text ?? '').matchAll(/\{\{([^}]*)\}\}/g)) {
+      const name = match[1] ?? '';
+      if (!(TEMPLATE_PLACEHOLDERS as readonly string[]).includes(name)) return name;
+    }
+  }
+  return null;
+}
+
 export function renderNotification(templateKey: string, vars: TemplateVars) {
-  const template = NOTIFICATION_TEMPLATES[templateKey];
-  if (!template) return null;
+  const base = NOTIFICATION_TEMPLATES[templateKey];
+  if (!base) return null;
+  const override = demoOverrides[templateKey];
+  if (override && !override.isActive) return null;
+  const template = override ? { ...base, title: override.title, body: override.body } : base;
   return {
     category: template.category,
     title: {

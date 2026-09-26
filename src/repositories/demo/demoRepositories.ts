@@ -1,13 +1,12 @@
 import { DemoServiceOperationsRepository, DemoServiceRequestsRepository } from './demoServices';
+import { DemoAdminRepository } from './demoAdmin';
 import { z } from 'zod';
-import baseSeed from '@seed/base/site-settings.json';
 import { NO_ACCESS, type AccessProfile } from '@/domain/access/access';
-import { SYSTEM_ROLES, type RoleDefinition } from '@/domain/access/permissions';
+import { PERMISSION_KEYS, type RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
 import { readStored, writeStored } from '@/lib/storage/localStore';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
 import {
-  DEMO_SETTINGS_OVERLAY,
   DemoCommerceRepository,
   DemoCommerceStore,
   DemoOrderOperationsRepository,
@@ -36,44 +35,55 @@ import type {
 /** Simulated latency keeps loading states honest during demo previews. */
 const delay = (ms = 120) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/**
+ * Published demo settings: the base configuration (plus the demo promo-code overlay) as version 1,
+ * then whatever staff published in this browser through the admin settings workflow.
+ */
 class DemoSettingsRepository implements SettingsRepository {
+  private readonly store: DemoCommerceStore;
+
+  constructor(store: DemoCommerceStore) {
+    this.store = store;
+  }
+
   async listPublishedSettings(): Promise<SettingRecord[]> {
     await delay();
-    return Object.entries(baseSeed.settings).map(([key, value]) => ({
+    return this.store.settings.publishedAll().map(({ key, value, version }) => ({
       key,
-      // Demo previews switch on promo codes (DEMO10); the real base configuration keeps them off.
-      value:
-        key === 'features' ? { ...(value as object), ...DEMO_SETTINGS_OVERLAY.features } : value,
-      version: 1,
+      value,
+      version,
       updatedAt: null,
     }));
   }
 }
 
+/** Demo access follows the demo role registry (admin role edits / suspensions apply at once). */
 class DemoAccessRepository implements AccessRepository {
   private readonly auth: DemoAuthService;
+  private readonly store: DemoCommerceStore;
 
-  constructor(auth: DemoAuthService) {
+  constructor(auth: DemoAuthService, store: DemoCommerceStore) {
     this.auth = auth;
+    this.store = store;
   }
 
   async getMyAccess(): Promise<AccessProfile | null> {
     await delay();
     const session = await this.auth.getSession();
     if (!session) return null;
-    const role = SYSTEM_ROLES.find((r) => r.key === this.auth.demo.getRoleKey());
-    if (!role) return NO_ACCESS(session.userId);
+    const actor = this.store.access.actor(session.userId, this.auth.demo.getRoleKey());
+    if (actor.roles.length === 0) return NO_ACCESS(session.userId);
     return {
       userId: session.userId,
-      roles: [{ key: role.key, rank: role.rank, name: role.name }],
-      grantsAll: role.grantsAll,
-      permissions: new Set(role.permissions),
+      roles: actor.roles.map((r) => ({ key: r.key, rank: r.rank, name: r.name })),
+      grantsAll: actor.grantsAll,
+      permissions: new Set(PERMISSION_KEYS.filter((p) => actor.can(p))),
     };
   }
 
   async listRoles(): Promise<RoleDefinition[]> {
     await delay();
-    return SYSTEM_ROLES;
+    return this.store.access.roles();
   }
 }
 
@@ -133,8 +143,8 @@ class DemoProfileRepository implements ProfileRepository {
 export function createDemoRepositories(auth: DemoAuthService): Repositories {
   const store = new DemoCommerceStore();
   return {
-    settings: new DemoSettingsRepository(),
-    access: new DemoAccessRepository(auth),
+    settings: new DemoSettingsRepository(store),
+    access: new DemoAccessRepository(auth, store),
     profiles: new DemoProfileRepository(auth, store),
     catalog: new DemoCatalogRepository(store),
     content: new DemoContentRepository(store),
@@ -149,5 +159,6 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
     customerOps: new DemoCustomerOperationsRepository(store, auth),
     services: new DemoServiceRequestsRepository(store, auth),
     serviceOps: new DemoServiceOperationsRepository(store, auth),
+    admin: new DemoAdminRepository(store, auth),
   };
 }

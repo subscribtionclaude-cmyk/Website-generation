@@ -1,5 +1,3 @@
-import pageSectionsJson from '@seed/base/page-sections.json';
-import type { PageSection } from '@/domain/content/types';
 import type { DemoCommerceStore } from './demoCommerce';
 import type { CatalogRepository, ContentRepository } from '../types';
 
@@ -45,15 +43,6 @@ export class DemoCatalogRepository implements CatalogRepository {
   }
 }
 
-const pageSections: PageSection[] = pageSectionsJson.sections.map((s) => ({
-  id: s.key,
-  pageKey: s.pageKey,
-  type: s.type,
-  sortOrder: s.sortOrder,
-  isVisible: s.isVisible,
-  props: s.props,
-}));
-
 export class DemoContentRepository implements ContentRepository {
   private readonly store: DemoCommerceStore;
 
@@ -63,7 +52,8 @@ export class DemoContentRepository implements ContentRepository {
 
   async listPageSections(pageKey: string) {
     await delay(60);
-    return pageSections.filter((s) => s.pageKey === pageKey);
+    // Base layout + structured staff edits (visibility / props) made in the demo admin.
+    return this.store.admin.sections(pageKey).filter((s) => s.isVisible);
   }
 
   async listOffers() {

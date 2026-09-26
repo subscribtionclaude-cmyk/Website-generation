@@ -71,6 +71,7 @@ interface DemoRecentRow {
 interface DemoNotification extends AppNotification {
   userId: string;
   dedupeKey: string;
+  templateKey?: string | null;
 }
 
 interface DemoRequest {
@@ -390,6 +391,35 @@ export class DemoCustomer {
     return this.state.preferences[userId]?.[`${category}:${channel}`] ?? true;
   }
 
+  /** Read-only view for the demo admin engine (Phase 06 customers / reviews / waitlists). */
+  adminState(): Readonly<DemoCustomerState> {
+    return this.state;
+  }
+
+  /** Staff manual notification (admin_send_notifications): in-app only, always delivered. */
+  sendManual(
+    userId: string,
+    title: LocalizedText,
+    body: LocalizedText,
+    actionPath: string | null,
+    dedupeKey: string,
+  ) {
+    this.state.notifications.push({
+      id: this.nextId('notification'),
+      userId,
+      dedupeKey,
+      category: 'account',
+      title,
+      body,
+      actionPath,
+      data: { manual: true },
+      readAt: null,
+      createdAt: this.iso(),
+      isDemo: true,
+    });
+    this.persist();
+  }
+
   /** Other demo engines (service requests) notify through the same idempotent path. */
   notifyUser(
     userId: string | null,
@@ -423,6 +453,7 @@ export class DemoCustomer {
       id: this.nextId('notification'),
       userId,
       dedupeKey,
+      templateKey,
       category: rendered.category,
       title: rendered.title,
       body: rendered.body,

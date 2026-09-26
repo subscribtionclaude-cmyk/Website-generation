@@ -1,6 +1,6 @@
 import type { ContentEntry, Offer } from '@/domain/content/types';
 import { percentOf, subtractMoney } from '@/domain/commerce/money';
-import { resolveDate, resolveTime, type RawCatalog, type RawProduct } from './raw';
+import { publicCatalog, resolveDate, resolveTime, type RawCatalog, type RawProduct } from './raw';
 import { normalizeSearchText, searchTokens } from './search';
 import { bestStockState, stockStateFor } from './stock';
 import type {
@@ -90,11 +90,13 @@ export interface CatalogEngine {
 }
 
 export function createCatalogEngine(
-  raw: RawCatalog,
+  fullRaw: RawCatalog,
   now: Date = new Date(),
   options: CatalogEngineOptions = {},
 ): CatalogEngine {
   const nowMs = now.getTime();
+  // Admin drafts / hidden / archived rows never reach the storefront (Phase 06).
+  const raw = publicCatalog(fullRaw);
   const brandBySlug = new Map(raw.brands.map((b) => [b.slug, b]));
   const categoryBySlug = new Map(raw.categories.map((c) => [c.slug, c]));
 
@@ -461,7 +463,7 @@ export function createCatalogEngine(
     subtitle: o.subtitle,
     description: o.description,
     badge: o.badge,
-    media: null,
+    media: o.media,
     cta: o.cta,
     discountPercent: o.discountPercent,
     discountAmount: o.discountAmount,

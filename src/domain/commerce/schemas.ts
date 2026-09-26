@@ -290,6 +290,13 @@ export const staffOrderSummarySchema = z.object({
   stockCommitted: z.boolean(),
   itemCount: z.number().int(),
   isDemo: z.boolean(),
+  // Phase 06: assignment + customer link (optional so older fixtures still parse).
+  assignedTo: z
+    .object({ id: z.string(), name: z.string().nullable() })
+    .nullable()
+    .optional()
+    .default(null),
+  customerId: z.string().nullable().optional().default(null),
 });
 
 export const createOrderResultSchema = z.union([

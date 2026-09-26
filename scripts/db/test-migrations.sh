@@ -139,4 +139,20 @@ echo "   ✓ last-unit race: ${results}"
 echo "   ✓ double submit: ${dup}"
 echo "   ✓ parallel wishlist merge (same account): ${merges}"
 
+# Admin RPC contract samples: captured from this database and parsed by the zod contracts
+# (src/domain/admin/contracts.test.ts). UPDATE_CONTRACT_SAMPLES=1 refreshes the committed fixture.
+mkdir -p "${ROOT}/node_modules/.cache/malek"
+samples="${ROOT}/node_modules/.cache/malek/admin-samples.json"
+[[ "${UPDATE_CONTRACT_SAMPLES:-}" == "1" ]] && samples="${ROOT}/src/domain/admin/__fixtures__/admin-samples.json"
+PGOPTIONS='-c client_min_messages=warning' "${PSQL[@]}" -X -q -v ON_ERROR_STOP=1 -v out="${samples}" \
+  -f "${ROOT}/supabase/tests/contracts/admin_samples.sql" >/dev/null || { echo "✗ admin contract sample capture FAILED" >&2; exit 1; }
+(cd "${ROOT}" && ADMIN_SAMPLES_FILE="${samples}" npx vitest run src/domain/admin/contracts.test.ts >"${WORKDIR}/contracts.out" 2>&1) || {
+  tail -40 "${WORKDIR}/contracts.out" >&2
+  echo "✗ admin RPC contracts do not match the SQL output" >&2
+  exit 1
+}
+contracts="$(grep -oE 'Tests +[0-9]+ passed' "${WORKDIR}/contracts.out" | grep -oE '[0-9]+')"
+total=$((total + contracts))
+echo "   ✓ admin RPC contracts: ${contracts} samples parsed"
+
 echo "✓ Database migrations valid — ${total} assertions passed"
