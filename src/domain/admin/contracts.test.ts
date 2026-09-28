@@ -3,6 +3,13 @@ import type { z } from 'zod';
 import fixture from './__fixtures__/admin-samples.json';
 import * as s from './schemas';
 import { staffOrderSummarySchema } from '@/domain/commerce/schemas';
+import { pageSectionSchema } from '@/domain/content/schemas';
+import { resolveSections } from '@/domain/content/sections';
+import {
+  editorPageSchema,
+  editorPageSummarySchema,
+  layoutVersionSchema,
+} from '@/domain/siteEditor/schemas';
 
 /**
  * The fixture is captured from the real SQL layer (supabase/tests/contracts/admin_samples.sql),
@@ -52,6 +59,11 @@ const cases: [keyof typeof samples, z.ZodType][] = [
   ['admin_export_products', s.exportResultSchema],
   ['admin_list_import_jobs', s.importJobSchema.array()],
   ['admin_import_preview', s.importPreviewSchema],
+  ['site_editor_overview', editorPageSummarySchema.array()],
+  ['site_editor_get_page', editorPageSchema],
+  ['site_editor_versions', layoutVersionSchema.array()],
+  ['site_editor_conflict', s.adminProblemSchema],
+  ['storefront_page_sections', pageSectionSchema.array()],
 ];
 
 describe('admin RPC contracts (captured SQL samples)', () => {
@@ -61,6 +73,18 @@ describe('admin RPC contracts (captured SQL samples)', () => {
       throw new Error(`${name}: ${JSON.stringify(result.error.issues.slice(0, 6), null, 1)}`);
     }
     expect(result.success).toBe(true);
+  });
+
+  it('site editor samples keep drafts, versions and section design intact', () => {
+    const page = editorPageSchema.parse(samples.site_editor_get_page);
+    expect(page.version).toBe(2);
+    expect(page.draft?.[0]?.design).toEqual({ background: 'muted' });
+    const versions = layoutVersionSchema.array().parse(samples.site_editor_versions);
+    expect(versions.map((v) => v.note)).toEqual(['Sample publish', 'Initial layout']);
+    expect(s.adminProblemSchema.parse(samples.site_editor_conflict).code).toBe('draft_conflict');
+    // The published layout renders: every section resolves through the storefront registry.
+    const rows = pageSectionSchema.array().parse(samples.storefront_page_sections);
+    expect(resolveSections(rows)).toHaveLength(rows.length);
   });
 
   it('the fixture covers every contract case', () => {

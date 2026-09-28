@@ -12,7 +12,7 @@ import styles from './HomePage.module.css';
  * rendered through the section registry. Phase 07's Site Editor edits the same rows.
  */
 export function HomePage() {
-  usePageMeta({});
+  usePageMeta({ seoPage: 'home' });
   return <SectionPage pageKey="home" fallback={<BrandFallback />} header={<BrandHeading />} />;
 }
 

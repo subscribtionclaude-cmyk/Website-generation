@@ -179,6 +179,9 @@ export const adminRoutes: RouteObject = {
             moduleRoute('news/:entryId', 'news', () =>
               import('./pages/content/AdminNewsEditorPage').then((m) => m.AdminNewsEditorPage),
             ),
+            moduleRoute('site-editor', 'site-editor', () =>
+              import('./pages/siteEditor/AdminSiteEditorPage').then((m) => m.AdminSiteEditorPage),
+            ),
             moduleRoute('page-content', 'page-content', () =>
               import('./pages/content/AdminPageContentPage').then((m) => m.AdminPageContentPage),
             ),

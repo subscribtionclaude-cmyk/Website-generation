@@ -46,7 +46,10 @@ export function AdminPageContentPage() {
         subtitle={at('sectionsAdmin.subtitle')}
       />
       <div className={styles.stack}>
-        <Alert tone="info">{at('sectionsAdmin.phase7')}</Alert>
+        <Alert tone="info">
+          {at('sectionsAdmin.phase7')}{' '}
+          <Link to="/admin/site-editor">{at('sectionsAdmin.openEditor')}</Link>
+        </Alert>
         <Tabs
           idBase="page-content"
           label={at('sectionsAdmin.pages')}

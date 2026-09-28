@@ -11,6 +11,7 @@ import {
   TrustFeature,
   TrustStrip,
 } from './InfoSections';
+import { MediaBanner } from './MediaBanner';
 import { OfferGroup, OfferRail } from './OfferSections';
 import { ProductRail } from './ProductRail';
 import styles from './sections.module.css';
@@ -39,6 +40,7 @@ const SECTION_COMPONENTS: { [T in SectionType]: SectionComponent<T> } = {
   trust_strip: TrustStrip,
   trust_feature: TrustFeature,
   branch_contact: BranchContact,
+  media_banner: MediaBanner,
 };
 
 function reportInvalid(id: string, reason: string) {
@@ -58,8 +60,25 @@ export function RenderSections({
       {sections.map((section, index) => {
         const Component = SECTION_COMPONENTS[section.type] as SectionComponent<typeof section.type>;
         const level = heroIsPageHeading && index === 0 && section.type === 'hero_campaign' ? 1 : 2;
-        return (
+        const element = (
           <Component key={section.id} id={`s-${section.id}`} props={section.props} level={level} />
+        );
+        const design = section.design;
+        if (!design || (!design.background && !design.spacing)) return element;
+        // Structured section design (Site Editor): whitelisted data attributes, never inline CSS.
+        return (
+          <div
+            key={section.id}
+            className={styles.design}
+            data-background={
+              design.background && design.background !== 'default' ? design.background : undefined
+            }
+            data-spacing={
+              design.spacing && design.spacing !== 'default' ? design.spacing : undefined
+            }
+          >
+            {element}
+          </div>
         );
       })}
     </>

@@ -38,6 +38,13 @@ export default defineConfig({
     // budget (400 kB) is enforced by scripts/check-bundle.mjs; the only larger chunk is the lazy
     // three.js repair-diagnostic viewer (never loaded by Home, Shop, Product, Checkout, Account).
     chunkSizeWarningLimit: 600,
+    modulePreload: {
+      // Storefront chunks keep their <link rel="modulepreload"> hints. Admin pages and the Site
+      // Editor preview runtime load their own imports instead: their preload lists would otherwise
+      // sit in the storefront entry (the admin route table lives there) for every shopper.
+      resolveDependencies: (filename, deps) =>
+        /(^|\/)(Admin[A-Z]\w*|RequireModule|previewRuntime)-/.test(filename) ? [] : deps,
+    },
   },
   server: {
     port: 5173,

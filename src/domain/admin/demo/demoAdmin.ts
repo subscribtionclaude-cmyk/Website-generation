@@ -131,6 +131,11 @@ export class DemoAdmin {
     this.ctx.audit(actor, action, entityType, entityId, null, after ?? null);
   }
 
+  /** Phase 07 Site Editor layouts (drafts, versions, publish, rollback). */
+  get layouts() {
+    return this.content.layouts;
+  }
+
   /** Page sections with staff edits applied (the demo storefront reads these). */
   sections(pageKey: string): PageSection[] {
     return this.content.sections(pageKey);

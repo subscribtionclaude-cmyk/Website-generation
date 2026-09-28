@@ -97,6 +97,30 @@ triggers (or `app.log_event`), and refuses business problems as `{ ok: false, co
 audit coverage (price change, stock adjustment, role change, payment verification, service update,
 settings publish), import validation and demo cleanup leaving live rows untouched.
 
+### Phase 07 migrations (visual site editor)
+
+| File                             | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `20261001100000_site_editor.sql` | `design.view` permission (super admin, store manager, content editor, design editor); `page_seo` setting (design scope, public); design settings visible to `design.view`; `page_sections.design` (closed object ≤ 2 kB, returned by `storefront_page_sections`); `page_layout_drafts` (one per page, base version, optimistic `updated_at`) and append-only `page_layout_versions` (RLS: `design.view` reads, no direct writes, immutable); layout validation, apply, versioning helpers; `site_editor_*` RPCs; Phase 06 section edits recorded as versions; audit module `design` |
+
+**RPCs** (`security definer`, permission first, business outcomes as `{ ok: false, code }`):
+
+| RPC                                                                               | Who                              | Notes                                                                                                                                                  |
+| --------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `site_editor_overview()` / `site_editor_get_page(page)`                           | `design.view`                    | Home / Apple / Offers: published layout, version, draft (+ base version, author), `canEdit` / `canPublish`                                             |
+| `site_editor_save_draft(page, sections, expected_draft_at)`                       | `design.edit`                    | `invalid_page`, validation codes, `draft_conflict` (someone saved since), `draft_gone`; audited `site_editor.draft_saved` (before / after)             |
+| `site_editor_discard_draft(page)`                                                 | `design.edit`                    | `no_draft`; audited                                                                                                                                    |
+| `site_editor_publish(page, note, force)`                                          | `design.publish`                 | `no_draft`, `draft_conflict` unless forced; first publish records "Initial layout" as v1; replaces live rows; new version; audited with before / after |
+| `site_editor_versions(page, limit)` / `site_editor_rollback(page, version, note)` | `design.view` / `design.publish` | rollback publishes the chosen layout as a new version ("Restored version N"); `version_not_found`; audited                                             |
+
+Validation codes (`app.validate_page_layout`): `invalid_layout`, `too_many_sections` (> 40),
+`invalid_key`, `duplicate_key`, `unknown_type`, `invalid_props`, `invalid_design` (only `background` ∈
+default / muted / dark / brand and `spacing` ∈ compact / default / relaxed). Per-type props are
+validated by the app with the storefront's zod schemas before saving. `supabase/tests/sql/11_site_editor.test.sql`
+(47 assertions) covers permissions per role, validation, draft isolation from the storefront, second
+editor conflicts, publish → versions, a stale draft after a live Phase 06 edit, forced publish,
+rollback, direct-table denial and the audit trail.
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,
@@ -186,7 +210,8 @@ when `security.adminMfaRequired` is enabled.
 - `src/domain/access/access-catalog.json` — permissions, system roles, grants
 - `src/domain/settings/setting-definitions.json` — setting keys, visibility, permissions
 - `supabase/seed/data/base/site-settings.json` — base settings (generates `supabase/seed/base.sql`)
-- `supabase/seed/data/base/page-sections.json` — base page layouts (home, apple, offers)
+- `supabase/seed/data/base/page-sections.json` — base page layouts (home, apple, offers); the Site
+  Editor's first publish records them as version 1
 - `supabase/seed/data/demo/catalog.json` — generated demo catalog (generates `supabase/seed/demo.sql`)
 
 `npm run test:db` fails if the migrated database drifts from these files.

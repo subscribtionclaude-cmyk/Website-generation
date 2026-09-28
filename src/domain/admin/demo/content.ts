@@ -17,7 +17,9 @@ import type {
 } from '../schemas';
 import { OFFER_KINDS, ENTRY_TYPES, PRODUCT_STATUSES } from '../schemas';
 import { validateEntryInput, validateOfferInput } from '../validation';
+import { isEditablePage, type LayoutSection } from '@/domain/siteEditor/schemas';
 import { SEED_UPDATED_AT } from './catalog';
+import { DemoAdminLayouts } from './layouts';
 import {
   type AdminActor,
   type DemoAdminContext,
@@ -35,10 +37,21 @@ type RawEntry = RawCatalog['entries'][number];
 export class DemoAdminContent {
   private readonly ctx: DemoAdminContext;
   private readonly baseSections: PageSection[];
+  /** Phase 07 layouts: drafts, versions and the published layout per editable page. */
+  readonly layouts: DemoAdminLayouts;
 
   constructor(ctx: DemoAdminContext, baseSections: PageSection[]) {
     this.ctx = ctx;
     this.baseSections = baseSections;
+    this.layouts = new DemoAdminLayouts(ctx, (pageKey) =>
+      this.sections(pageKey).map((s): LayoutSection => ({
+        key: s.id,
+        type: s.type,
+        isVisible: s.isVisible,
+        props: s.props as Record<string, unknown>,
+        design: (s.design ?? {}) as LayoutSection['design'],
+      })),
+    );
   }
 
   private time(value: string | null) {
@@ -480,8 +493,22 @@ export class DemoAdminContent {
     return { ok: true };
   }
 
-  // ── Page sections (structured edits only — layout editing is Phase 07) ────
+  // ── Page sections (Phase 06 structured edits; layouts come from the Phase 07 editor) ────
   sections(pageKey: string): PageSection[] {
+    const layout = isEditablePage(pageKey) ? this.layouts.published(pageKey) : null;
+    if (layout)
+      return layout.map((s, index) => {
+        const o = this.ctx.state.sections[s.key];
+        return {
+          id: s.key,
+          pageKey,
+          type: s.type,
+          sortOrder: (index + 1) * 10,
+          isVisible: o?.isVisible ?? s.isVisible,
+          props: o?.props ?? s.props,
+          design: s.design ?? {},
+        };
+      });
     return this.baseSections
       .filter((s) => s.pageKey === pageKey)
       .map((s) => {
@@ -525,13 +552,20 @@ export class DemoAdminContent {
       JSON.stringify(props).length > 65536
     )
       return { ok: false, code: 'invalid_props' };
-    const base = this.baseSections.find((s) => s.id === id);
-    if (!base) return { ok: false, code: 'not_found' };
+    const pageKey =
+      [...new Set(this.baseSections.map((s) => s.pageKey))].find((page) =>
+        this.sections(page).some((s) => s.id === id),
+      ) ?? null;
+    const base = pageKey ? this.sections(pageKey).find((s) => s.id === id) : undefined;
+    if (!pageKey || !base) return { ok: false, code: 'not_found' };
     const current = this.ctx.state.sections[id];
     if ((current?.updatedAt ?? SEED_UPDATED_AT) !== expectedUpdatedAt)
       return { ok: false, code: 'stale' };
+    if (isEditablePage(pageKey)) this.layouts.ensureInitial(pageKey);
     const updatedAt = this.ctx.stamp();
     this.ctx.state.sections[id] = { isVisible, props, updatedAt, updatedBy: actor.name };
+    // Live edits are layout versions too, so the Site Editor history stays complete.
+    if (isEditablePage(pageKey)) this.layouts.recordContentEdit(pageKey, id, actor);
     this.ctx.audit(
       actor,
       'update',

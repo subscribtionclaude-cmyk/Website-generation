@@ -217,8 +217,8 @@ export const ADMIN_MODULES: AdminModule[] = [
     path: 'site-editor',
     group: 'content',
     icon: Palette,
-    permission: 'design.edit',
-    plannedPhase: 7,
+    permission: 'design.view',
+    plannedPhase: null,
   },
   {
     id: 'news',

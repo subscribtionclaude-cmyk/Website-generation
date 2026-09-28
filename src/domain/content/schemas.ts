@@ -72,4 +72,6 @@ export const pageSectionSchema = z.object({
   sortOrder: z.number(),
   isVisible: z.boolean(),
   props: z.unknown(),
+  /** Structured section design (Site Editor); validated by sectionDesignSchema when rendering. */
+  design: z.unknown().optional(),
 });

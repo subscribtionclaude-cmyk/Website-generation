@@ -7,11 +7,13 @@ import { svcEn } from './p6/services';
 import { contentEn } from './p6/content';
 import { fieldsEn } from './p6/fields';
 import { systemEn } from './p6/system';
+import { siteEditorEn } from './p6/siteEditor';
 import { uiEn } from './p6/ui';
 
 /** Admin dashboard strings (English). */
 export const adminEn: Widen<typeof adminAr> = {
   ...uiEn,
+  ...siteEditorEn,
   ...systemEn,
   ...fieldsEn,
   ...contentEn,
@@ -570,6 +572,7 @@ export const adminEn: Widen<typeof adminAr> = {
     'content.manage': 'Edit content (draft)',
     'content.publish': 'Publish content',
     'legal.manage': 'Manage policies',
+    'design.view': 'View the visual editor and drafts',
     'design.edit': 'Edit design (draft)',
     'design.publish': 'Publish design',
     'analytics.view': 'View analytics',

@@ -114,7 +114,8 @@ export class DemoSettings {
     return (
       actor.can(d.editPermission) ||
       actor.can(d.publishPermission) ||
-      (d.scope !== 'security' && actor.can('settings.view'))
+      (d.scope !== 'security' && actor.can('settings.view')) ||
+      (d.scope === 'design' && actor.can('design.view'))
     );
   }
 

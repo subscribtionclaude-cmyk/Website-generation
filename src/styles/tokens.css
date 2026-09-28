@@ -214,3 +214,53 @@
   --duration-slow: 0.01ms;
   --duration-cinematic: 0.01ms;
 }
+
+/*
+ * Structured theme scales (Site Editor → `theme` setting). ThemeController sets these data
+ * attributes from whitelisted enum values only; there is no free-form CSS.
+ */
+:root[data-type-scale='compact'] {
+  --font-size-display: clamp(2rem, 1.1rem + 4vw, 4.25rem);
+  --font-size-h1: clamp(1.75rem, 1.3rem + 1.9vw, 2.625rem);
+  --font-size-h2: clamp(1.375rem, 1.15rem + 1vw, 2rem);
+  --font-size-body-lg: 1.0625rem;
+}
+
+:root[data-type-scale='large'] {
+  --font-size-display: clamp(2.5rem, 1.3rem + 5.4vw, 5.5rem);
+  --font-size-h1: clamp(2rem, 1.4rem + 2.5vw, 3.375rem);
+  --font-size-h2: clamp(1.625rem, 1.25rem + 1.5vw, 2.5rem);
+  --font-size-h3: clamp(1.375rem, 1.2rem + 0.65vw, 1.625rem);
+  --font-size-body-lg: 1.1875rem;
+  --font-size-body: 1.0625rem;
+}
+
+:root[data-heading-weight='semibold'] {
+  --font-weight-display: 600;
+}
+
+:root[data-heading-weight='extrabold'] {
+  --font-weight-display: 800;
+}
+
+:root[data-spacing='compact'] {
+  --section-spacing: clamp(2.25rem, 1.75rem + 2.5vw, 4rem);
+}
+
+:root[data-spacing='relaxed'] {
+  --section-spacing: clamp(3.75rem, 2.5rem + 5vw, 7.5rem);
+}
+
+:root[data-radius='sharp'] {
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+:root[data-radius='round'] {
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 36px;
+}

@@ -1821,6 +1821,25 @@
         "warnHours": 24,
         "overdueHours": 72
       }
+    },
+    "page_seo": {
+      "pages": {
+        "home": {
+          "title": null,
+          "description": null,
+          "ogImage": null
+        },
+        "apple": {
+          "title": null,
+          "description": null,
+          "ogImage": null
+        },
+        "offers": {
+          "title": null,
+          "description": null,
+          "ogImage": null
+        }
+      }
     }
   }
 }

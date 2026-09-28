@@ -67,6 +67,42 @@ import type {
 import type { ImportField } from '@/domain/admin/importMapping';
 import type { LocalizedText } from '@/domain/localized';
 import type { ServiceKind } from '@/domain/services/types';
+import type {
+  EditablePage,
+  EditorPage,
+  EditorPageSummary,
+  LayoutSection,
+  LayoutVersion,
+} from '@/domain/siteEditor/schemas';
+
+/**
+ * Phase 07 Visual Site Editor: page layout drafts, publish, versions and rollback
+ * (RPCs site_editor_* — design.view / design.edit / design.publish enforced in the database).
+ * Design settings (theme, navigation, brand, page SEO) use the AdminRepository settings workflow.
+ */
+export interface SiteEditorRepository {
+  overview(): Promise<EditorPageSummary[]>;
+  getPage(pageKey: EditablePage): Promise<EditorPage | null>;
+  saveDraft(
+    pageKey: EditablePage,
+    sections: LayoutSection[],
+    expectedDraftAt: string | null,
+  ): Promise<AdminResult<{ draftUpdatedAt: string; baseVersion: number | null }>>;
+  discardDraft(pageKey: EditablePage): Promise<AdminResult>;
+  publish(
+    pageKey: EditablePage,
+    note: string | null,
+    force?: boolean,
+  ): Promise<AdminResult<{ version: number }>>;
+  versions(pageKey: EditablePage, limit?: number): Promise<LayoutVersion[]>;
+  rollback(
+    pageKey: EditablePage,
+    version: number,
+    note: string | null,
+  ): Promise<AdminResult<{ version: number }>>;
+  /** Raster image (webp / jpeg / png / avif) into the site media storage; returns its URL. */
+  uploadMedia(file: Blob, mime: string): Promise<{ url: string }>;
+}
 
 export interface Page<T> {
   total: number;

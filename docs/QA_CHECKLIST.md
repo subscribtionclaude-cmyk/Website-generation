@@ -201,11 +201,28 @@ _Last updated: Phase 02 — 2026-09-24._
 | No paid analytics, notification, import or UI library                                                                                           | ✅               | `package.json`                                              |
 | Live Supabase project run-through                                                                                                               | ⏳ owner project | RPC contracts captured from real SQL                        |
 
+## Phase 07 — Visual Site Editor
+
+| Area                                                                                                                                                                                                       | Status           | Evidence                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------------------------------------------- |
+| Editor lazy-loaded behind `design.view`; storefront never loads editor code; entry chunk smaller than before (401,989 B of 409,600 B)                                                                      | ✅               | `npm run check:bundle`, `storefront.spec.ts` (no admin bundle)          |
+| Permissions: `design.view` opens (read-only), `design.edit` drafts, `design.publish` publishes / rolls back — enforced by the RPCs; anon / customer / sales refused; direct table writes denied            | ✅               | `11_site_editor.test.sql`, e2e J, `siteEditor.test.ts` (demo parity)    |
+| Sections: add (supported types, references only from published data), remove (confirm), hide / show, duplicate, reorder by drag and drop, move buttons and keyboard pick-up with announcements             | ✅               | e2e B / C, `siteEditor.test.ts`                                         |
+| Schema-driven inspector from `SECTION_PROP_SCHEMAS`: localized fields, images, links (safe routes), buttons, product / offer / campaign / brand / trust references, visibility, structured design (no CSS) | ✅               | e2e B / G, visual review                                                |
+| Design: theme presets, colour tokens with contrast warnings, type scale, heading weight, spacing, radius; brand; navigation + footer; SEO + per-page SEO (ar + en, share image)                            | ✅               | e2e (design presets), `siteEditor.test.ts` (preset contrast, safe URLs) |
+| Real storefront preview (same renderer) without publishing: desktop / tablet / mobile widths, Arabic RTL / English LTR, Home / Apple / Offers, header / footer; preview follows the selection              | ✅               | e2e A / D / E / F / G                                                   |
+| Sample store preview: demo engine in an isolated namespace, "DEMO CONTENT" banner, live mode only when `showDemoCatalog` is on                                                                             | ✅               | e2e (sample store), `docs/ARCHITECTURE.md` §16                          |
+| Draft → preview → publish → version → compare → rollback; stale drafts refused unless forced; Phase 06 live edits versioned                                                                                | ✅               | e2e D / H + I, `11_site_editor.test.sql`, `siteEditor.test.ts`          |
+| Undo / redo for the whole editing session (buttons + Ctrl/⌘+Z, Ctrl+Shift+Z / Ctrl+Y; typing coalesced)                                                                                                    | ✅               | e2e B, `siteEditor.test.ts`                                             |
+| Media: raster only (PNG / JPEG / WebP / AVIF ≤ 10 MB), browser compression, `site-media` storage needing `design.edit`; SVG / `javascript:` / protocol-relative URLs refused                               | ✅               | `siteEditor.test.ts`, storage policy                                    |
+| Audit: draft saved, discarded, published, rolled back with before / after, filed under "design"                                                                                                            | ✅               | e2e K, `11_site_editor.test.sql`                                        |
+| Accessibility: axe WCAG 2.1 A/AA, keyboard tabs / tree / dialogs, labelled icon buttons, no icon-only critical actions, live status; no horizontal overflow on 4 viewports                                 | ✅               | e2e A–K (4 projects)                                                    |
+| Live Supabase project run-through (site-media uploads with real sessions)                                                                                                                                  | ⏳ owner project | RPC contracts captured from real SQL                                    |
+
 ## Later phases (tracked from the specification)
 
 | Area                                                                                           | Status | Phase |
 | ---------------------------------------------------------------------------------------------- | ------ | ----- |
-| Visual site editor (drag/drop, draft/preview/publish, undo, rollback)                          | ⏳     | 07    |
 | SEO (sitemap, JSON-LD, prerender), PWA service worker, performance settings, onboarding wizard | ⏳     | 08    |
 | Integrations (all optional, disabled by default)                                               | ⏳     | 09    |
 | Full QA, security & RLS review, backups, launch checklist                                      | ⏳     | 10    |

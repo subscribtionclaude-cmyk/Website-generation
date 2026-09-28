@@ -1,7 +1,7 @@
 {
   "get_my_access": {
     "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
-    "userId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+    "userId": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
     "grantsAll": true,
     "suspended": false,
     "permissions": [
@@ -22,6 +22,7 @@
       "demo.manage",
       "design.edit",
       "design.publish",
+      "design.view",
       "integrations.manage",
       "inventory.manage",
       "legal.manage",
@@ -53,8 +54,8 @@
   "admin_analytics": {
     "byDay": [{ "day": "2026-09-28", "orders": 2, "revenue": 14900.0 }],
     "range": {
-      "to": "2026-09-28T09:55:27.252781+00:00",
-      "from": "2026-08-29T09:55:27.252781+00:00"
+      "to": "2026-09-28T16:09:37.821881+00:00",
+      "from": "2026-08-29T16:09:37.821881+00:00"
     },
     "stock": { "low": 8, "out": 11 },
     "totals": {
@@ -99,8 +100,8 @@
   "admin_dashboard": {
     "carts": { "abandoned": 0 },
     "range": {
-      "to": "2026-09-28T09:55:27.252781+00:00",
-      "from": "2026-08-29T09:55:27.252781+00:00"
+      "to": "2026-09-28T16:09:37.821881+00:00",
+      "from": "2026-08-29T16:09:37.821881+00:00"
     },
     "stock": { "low": 8, "out": 11 },
     "orders": {
@@ -117,94 +118,94 @@
     "reviews": { "pending": 0 },
     "activity": [
       {
-        "id": 1379,
+        "id": 1479,
         "action": "stock.adjusted",
         "module": "catalog",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1378,
+        "id": 1478,
         "action": "update",
         "module": "catalog",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1377,
+        "id": 1477,
         "action": "insert",
         "module": "customers",
-        "entityId": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
+        "entityId": "00344979-aa75-4936-8f28-b9d881283a1d",
         "actorName": "owner.sample@test.local",
         "entityType": "public.customer_notes",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1376,
+        "id": 1476,
         "action": "order.created",
         "module": "orders",
-        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "entityId": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "actorName": "Sample Customer",
         "entityType": "order",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1375,
+        "id": 1475,
         "action": "insert",
         "module": "orders",
-        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "entityId": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "actorName": "Sample Customer",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1374,
+        "id": 1474,
         "action": "insert",
         "module": "access",
-        "entityId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd:2a29f49b-5c91-425c-9660-8ba8c29333ce",
+        "entityId": "9acba28e-dda3-4ae8-a68f-71d97961fca6:b5f836a9-ceb5-4e43-90dc-d389eb63a697",
         "actorName": null,
         "entityType": "public.user_roles",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00"
       },
       {
-        "id": 1373,
+        "id": 1473,
         "action": "order.created",
         "module": "orders",
-        "entityId": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "entityId": "e8ba0daf-593f-4f02-9f70-bb55c4c668f8",
         "actorName": "Test Customer",
         "entityType": "order",
-        "occurredAt": "2026-09-28T09:55:23.651186+00:00"
+        "occurredAt": "2026-09-28T16:09:34.226752+00:00"
       },
       {
-        "id": 1372,
+        "id": 1472,
         "action": "insert",
         "module": "orders",
-        "entityId": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "entityId": "e8ba0daf-593f-4f02-9f70-bb55c4c668f8",
         "actorName": "Test Customer",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-28T09:55:23.651186+00:00"
+        "occurredAt": "2026-09-28T16:09:34.226752+00:00"
       },
       {
-        "id": 1371,
+        "id": 1471,
         "action": "order.created",
         "module": "orders",
-        "entityId": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "entityId": "60d3f13e-7ec4-4b9e-9360-868ddde5797d",
         "actorName": "Test Customer",
         "entityType": "order",
-        "occurredAt": "2026-09-28T09:55:23.142312+00:00"
+        "occurredAt": "2026-09-28T16:09:33.722221+00:00"
       },
       {
-        "id": 1370,
+        "id": 1470,
         "action": "insert",
         "module": "orders",
-        "entityId": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "entityId": "60d3f13e-7ec4-4b9e-9360-868ddde5797d",
         "actorName": "Test Customer",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-28T09:55:23.142312+00:00"
+        "occurredAt": "2026-09-28T16:09:33.722221+00:00"
       }
     ],
     "requests": { "notify": 0, "waitlist": 0 },
@@ -253,8 +254,8 @@
     },
     "expiresAt": null,
     "mediaKind": "image",
-    "publishAt": "2026-09-16T09:52:33.836543+00:00",
-    "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+    "publishAt": "2026-09-16T16:06:53.337066+00:00",
+    "updatedAt": "2026-09-28T16:06:53.337066+00:00",
     "isFeatured": true,
     "releaseDate": null,
     "mediaPosterUrl": null,
@@ -269,7 +270,7 @@
     "badge": { "ar": "عرض محدود", "en": "Limited offer" },
     "state": "active",
     "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
-    "endsAt": "2026-10-04T09:52:33.836543+00:00",
+    "endsAt": "2026-10-04T16:06:53.337066+00:00",
     "isDemo": true,
     "status": "published",
     "ctaHref": "/product/airpods-pro-3",
@@ -287,7 +288,7 @@
       }
     ],
     "seoTitle": null,
-    "startsAt": "2026-09-26T09:52:33.836543+00:00",
+    "startsAt": "2026-09-26T16:06:53.337066+00:00",
     "subtitle": {
       "ar": "عرض لفترة محدودة — لحد ما الكمية تخلص",
       "en": "Limited time — while stock lasts"
@@ -295,7 +296,7 @@
     "mediaKind": null,
     "promoCode": null,
     "sortOrder": 1,
-    "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+    "updatedAt": "2026-09-28T16:06:53.337066+00:00",
     "bundlePrice": null,
     "buyQuantity": null,
     "categoryIds": [],
@@ -318,7 +319,7 @@
       "rank": 100,
       "users": [
         {
-          "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+          "id": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
           "name": null,
           "email": "owner.sample@test.local",
           "suspended": false
@@ -357,6 +358,7 @@
         "demo.manage",
         "design.edit",
         "design.publish",
+        "design.view",
         "integrations.manage",
         "inventory.manage",
         "legal.manage",
@@ -408,6 +410,7 @@
         "customers.view",
         "dashboard.view",
         "data.import",
+        "design.view",
         "inventory.manage",
         "legal.manage",
         "marketing.manage",
@@ -487,7 +490,13 @@
       "isSystem": true,
       "grantsAll": false,
       "description": null,
-      "permissions": ["catalog.view", "content.manage", "content.view", "dashboard.view"]
+      "permissions": [
+        "catalog.view",
+        "content.manage",
+        "content.view",
+        "dashboard.view",
+        "design.view"
+      ]
     },
     {
       "key": "design_editor",
@@ -498,7 +507,13 @@
       "isSystem": true,
       "grantsAll": false,
       "description": null,
-      "permissions": ["content.view", "dashboard.view", "design.edit", "design.publish"]
+      "permissions": [
+        "content.view",
+        "dashboard.view",
+        "design.edit",
+        "design.publish",
+        "design.view"
+      ]
     },
     {
       "key": "repairs_team",
@@ -520,13 +535,13 @@
   ],
   "admin_list_staff": [
     {
-      "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+      "id": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
       "name": null,
       "rank": 100,
       "email": "owner.sample@test.local",
       "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
       "status": "active",
-      "createdAt": "2026-09-28T09:55:27.252781+00:00",
+      "createdAt": "2026-09-28T16:09:37.821881+00:00",
       "suspendedAt": null,
       "lastActiveAt": null,
       "suspensionReason": null
@@ -701,11 +716,11 @@
         "warranty": null,
         "available": 10,
         "isDefault": true,
-        "updatedAt": "2026-09-28T09:55:27.308396+00:00",
+        "updatedAt": "2026-09-28T16:09:37.864533+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -725,11 +740,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -749,11 +764,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -773,11 +788,11 @@
         "warranty": null,
         "available": 3,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -797,11 +812,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -821,11 +836,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -845,11 +860,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -869,11 +884,11 @@
         "warranty": null,
         "available": 3,
         "isDefault": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -883,7 +898,7 @@
       }
     ],
     "warranty": { "ar": "ضمان وكيل", "en": "Authorized distributor warranty" },
-    "createdAt": "2026-09-28T09:52:33.836543+00:00",
+    "createdAt": "2026-09-28T16:06:53.337066+00:00",
     "isVisible": true,
     "relations": [
       {
@@ -911,7 +926,7 @@
         "productId": "3396cc45-6527-7366-7e53-5f1fd21c5ede"
       }
     ],
-    "updatedAt": "2026-09-28T09:52:33.899327+00:00",
+    "updatedAt": "2026-09-28T16:06:53.399324+00:00",
     "categories": [{ "id": "d535a58b-7510-1240-a26d-b9a9c0564525", "isPrimary": true }],
     "hasHistory": true,
     "isFeatured": false,
@@ -1002,7 +1017,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 1,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1030,7 +1045,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 2,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1052,7 +1067,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 3,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1072,7 +1087,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 4,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
       "description": null,
@@ -1089,7 +1104,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 5,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
       "description": null,
@@ -1106,7 +1121,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 6,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": [
         "853c6b33-6241-6459-662a-cbbb796a003f",
@@ -1127,7 +1142,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 7,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "isFeatured": false,
       "categoryIds": ["2876b3da-9883-1302-4655-4410335901d1"],
       "description": null,
@@ -1144,13 +1159,13 @@
         "slug": "airpods-pro-3-limited",
         "state": "active",
         "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
-        "endsAt": "2026-10-04T09:52:33.836543+00:00",
+        "endsAt": "2026-10-04T16:06:53.337066+00:00",
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-26T09:52:33.836543+00:00",
+        "startsAt": "2026-09-26T16:06:53.337066+00:00",
         "promoCode": null,
         "sortOrder": 1,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "redemptions": 0,
         "productCount": 1,
         "discountAmount": null,
@@ -1166,13 +1181,13 @@
           "ar": "باقة AirPods 4 + Apple Watch Series 11",
           "en": "AirPods 4 + Apple Watch Series 11 bundle"
         },
-        "endsAt": "2026-10-18T09:52:33.836543+00:00",
+        "endsAt": "2026-10-18T16:06:53.337066+00:00",
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-23T09:52:33.836543+00:00",
+        "startsAt": "2026-09-23T16:06:53.337066+00:00",
         "promoCode": null,
         "sortOrder": 2,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "redemptions": 0,
         "productCount": 2,
         "discountAmount": null,
@@ -1188,10 +1203,10 @@
         "endsAt": null,
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-18T09:52:33.836543+00:00",
+        "startsAt": "2026-09-18T16:06:53.337066+00:00",
         "promoCode": null,
         "sortOrder": 3,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "redemptions": 0,
         "productCount": 1,
         "discountAmount": null,
@@ -1204,14 +1219,14 @@
   "staff_list_orders": {
     "items": [
       {
-        "id": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "id": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "total": 48000.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-28T09:55:27.252781+00:00",
+        "createdAt": "2026-09-28T16:09:37.821881+00:00",
         "itemCount": 1,
         "assignedTo": null,
-        "customerId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+        "customerId": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
         "paidAmount": 0.0,
         "orderNumber": "MS-2026-000022",
         "customerName": "Test Customer",
@@ -1223,17 +1238,17 @@
         "remainingAmount": 48000.0,
         "fulfillmentMethod": "pickup",
         "shippingFeeStatus": "not_required",
-        "reservationExpiresAt": "2026-09-28T10:25:27.252781+00:00"
+        "reservationExpiresAt": "2026-09-28T16:39:37.821881+00:00"
       },
       {
-        "id": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "id": "e8ba0daf-593f-4f02-9f70-bb55c4c668f8",
         "total": 900.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-28T09:55:23.651186+00:00",
+        "createdAt": "2026-09-28T16:09:34.226752+00:00",
         "itemCount": 1,
         "assignedTo": null,
-        "customerId": "d5fc6a60-8c61-4669-ad1f-0328df0727e7",
+        "customerId": "d226f144-0786-447b-b2b4-c2709ca411e5",
         "paidAmount": 0.0,
         "orderNumber": "MS-2026-000021",
         "customerName": "Test Customer",
@@ -1245,17 +1260,17 @@
         "remainingAmount": 900.0,
         "fulfillmentMethod": "pickup",
         "shippingFeeStatus": "not_required",
-        "reservationExpiresAt": "2026-09-28T10:25:23.651186+00:00"
+        "reservationExpiresAt": "2026-09-28T16:39:34.226752+00:00"
       },
       {
-        "id": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "id": "60d3f13e-7ec4-4b9e-9360-868ddde5797d",
         "total": 14000.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-28T09:55:23.142312+00:00",
+        "createdAt": "2026-09-28T16:09:33.722221+00:00",
         "itemCount": 1,
         "assignedTo": null,
-        "customerId": "68900f2b-b272-48e7-b581-62317bf20704",
+        "customerId": "198edb79-738e-4d96-930a-43e0827e6d17",
         "paidAmount": 0.0,
         "orderNumber": "MS-2026-000020",
         "customerName": "Test Customer",
@@ -1267,28 +1282,28 @@
         "remainingAmount": 14000.0,
         "fulfillmentMethod": "pickup",
         "shippingFeeStatus": "not_required",
-        "reservationExpiresAt": "2026-09-28T10:25:23.142312+00:00"
+        "reservationExpiresAt": "2026-09-28T16:39:33.722221+00:00"
       }
     ],
     "total": 3
   },
   "admin_get_customer": {
-    "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+    "id": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
     "name": "Sample Customer",
     "email": "cust.sample@test.local",
     "notes": [
       {
-        "id": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
+        "id": "00344979-aa75-4936-8f28-b9d881283a1d",
         "body": "Prefers WhatsApp",
         "isPinned": false,
-        "createdAt": "2026-09-28T09:55:27.252781+00:00",
-        "updatedAt": "2026-09-28T09:55:27.252781+00:00",
+        "createdAt": "2026-09-28T16:09:37.821881+00:00",
+        "updatedAt": "2026-09-28T16:09:37.821881+00:00",
         "authorName": "owner.sample@test.local"
       }
     ],
     "phone": "+201000000001",
     "stats": {
-      "lastOrderAt": "2026-09-28T09:55:27.252781+00:00",
+      "lastOrderAt": "2026-09-28T16:09:37.821881+00:00",
       "ordersCount": 1,
       "openRequests": 0,
       "lifetimeValue": 0.0,
@@ -1296,11 +1311,11 @@
     },
     "orders": [
       {
-        "id": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "id": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "total": 48000.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-28T09:55:27.252781+00:00",
+        "createdAt": "2026-09-28T16:09:37.821881+00:00",
         "orderNumber": "MS-2026-000022",
         "paymentStatus": "cod_pending"
       }
@@ -1308,7 +1323,7 @@
     "isStaff": false,
     "reviews": [],
     "activity": { "followUp": null, "cartItems": 0, "recentlyViewed": 0 },
-    "joinedAt": "2026-09-28T09:55:27.252781+00:00",
+    "joinedAt": "2026-09-28T16:09:37.821881+00:00",
     "addresses": [],
     "lastSignInAt": null,
     "notifications": [],
@@ -1327,8 +1342,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/phone-front-black.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-24T09:52:33.836543+00:00",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "publishAt": "2026-09-24T16:06:53.337066+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "isFeatured": true
       },
       {
@@ -1341,8 +1356,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/case-white.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-24T09:52:33.836543+00:00",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "publishAt": "2026-09-24T16:06:53.337066+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "isFeatured": true
       },
       {
@@ -1355,8 +1370,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/phone-front-blue.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-20T09:52:33.836543+00:00",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "publishAt": "2026-09-20T16:06:53.337066+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "isFeatured": true
       }
     ],
@@ -1375,10 +1390,10 @@
         "product": { "name": { "ar": "AirPods 4", "en": "AirPods 4" }, "slug": "airpods-4" },
         "eligible": false,
         "rejected": false,
-        "createdAt": "2026-09-25T09:52:33.836543+00:00",
+        "createdAt": "2026-09-25T16:06:53.337066+00:00",
         "imagePath": null,
         "productId": "fd61b83a-a426-7839-f0d0-e316a89e0de2",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "authorName": "Demo",
         "moderatedAt": null,
         "orderNumber": null,
@@ -1399,10 +1414,10 @@
         },
         "eligible": false,
         "rejected": false,
-        "createdAt": "2026-09-22T09:52:33.836543+00:00",
+        "createdAt": "2026-09-22T16:06:53.337066+00:00",
         "imagePath": null,
         "productId": "94ac2f34-3962-e505-c56b-421bc5a99fc0",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "authorName": "Demo",
         "moderatedAt": null,
         "orderNumber": null,
@@ -1413,19 +1428,19 @@
     "total": 2
   },
   "admin_get_audit_log": {
-    "id": 1379,
+    "id": 1479,
     "after": { "quantity": 11 },
     "action": "stock.adjusted",
     "before": { "quantity": 9 },
     "module": "catalog",
-    "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+    "actorId": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
     "entityId": "IP17-256GB-BLACK",
     "metadata": { "type": "addition", "reason": "Sample restock" },
     "actorName": "owner.sample@test.local",
     "actorRole": "authenticated",
     "actorEmail": "owner.sample@test.local",
     "entityType": "public.product_variants",
-    "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+    "occurredAt": "2026-09-28T16:09:37.821881+00:00",
     "changedFields": ["quantity"]
   },
   "admin_list_products": {
@@ -1453,7 +1468,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-28T09:52:33.916252+00:00",
+        "updatedAt": "2026-09-28T16:06:53.422486+00:00",
         "isFeatured": false,
         "variantCount": 2,
         "startingPrice": 2100.0,
@@ -1479,7 +1494,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-28T09:52:33.915633+00:00",
+        "updatedAt": "2026-09-28T16:06:53.421855+00:00",
         "isFeatured": false,
         "variantCount": 2,
         "startingPrice": 900.0,
@@ -1508,7 +1523,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-28T09:52:33.915104+00:00",
+        "updatedAt": "2026-09-28T16:06:53.420993+00:00",
         "isFeatured": false,
         "variantCount": 1,
         "startingPrice": 2400.0,
@@ -1581,18 +1596,18 @@
         ]
       }
     ],
-    "jobId": "90917570-8903-4b8f-a117-fa014c7cf4be",
+    "jobId": "e86d4099-1e93-4650-8fbd-61b5b46d13a9",
     "summary": { "total": 2, "errors": 1, "update": 0, "createProduct": 1, "createVariant": 0 }
   },
   "admin_list_customers": {
     "items": [
       {
-        "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+        "id": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
         "name": "Sample Customer",
         "email": "cust.sample@test.local",
         "phone": "+201000000001",
-        "joinedAt": "2026-09-28T09:55:27.252781+00:00",
-        "lastOrderAt": "2026-09-28T09:55:27.252781+00:00",
+        "joinedAt": "2026-09-28T16:09:37.821881+00:00",
+        "lastOrderAt": "2026-09-28T16:09:37.821881+00:00",
         "ordersCount": 1,
         "openRequests": 0,
         "lifetimeValue": 0.0,
@@ -1600,11 +1615,11 @@
         "preferredLocale": "ar"
       },
       {
-        "id": "25e59bd6-e239-42b5-93dc-1cbfbbed1bdd",
+        "id": "a20364dd-ad43-467e-9e57-33e20e774916",
         "name": null,
         "email": "w@race.local",
         "phone": null,
-        "joinedAt": "2026-09-28T09:55:23.129593+00:00",
+        "joinedAt": "2026-09-28T16:09:33.71135+00:00",
         "lastOrderAt": null,
         "ordersCount": 0,
         "openRequests": 0,
@@ -1613,12 +1628,12 @@
         "preferredLocale": "ar"
       },
       {
-        "id": "d5fc6a60-8c61-4669-ad1f-0328df0727e7",
+        "id": "d226f144-0786-447b-b2b4-c2709ca411e5",
         "name": "Test Customer",
         "email": "c@race.local",
         "phone": "+201012345678",
-        "joinedAt": "2026-09-28T09:55:23.129021+00:00",
-        "lastOrderAt": "2026-09-28T09:55:23.651186+00:00",
+        "joinedAt": "2026-09-28T16:09:33.710837+00:00",
+        "lastOrderAt": "2026-09-28T16:09:34.226752+00:00",
         "ordersCount": 1,
         "openRequests": 0,
         "lifetimeValue": 0.0,
@@ -1640,7 +1655,7 @@
         "reserved": 0,
         "available": 0,
         "productId": "28579a2d-0436-d285-aeda-9d602c0c1881",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "variantId": "fb6b8dda-5940-b644-2143-757c217bdafe",
         "productName": { "ar": "Apple Watch Series 11", "en": "Apple Watch Series 11" },
         "productSlug": "apple-watch-series-11",
@@ -1652,7 +1667,7 @@
         "compareAtPrice": null,
         "lastMovementAt": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -1670,7 +1685,7 @@
         "reserved": 0,
         "available": 0,
         "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "variantId": "6f45a1f8-d49d-1e08-1192-ccd1361d7e3e",
         "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
         "productSlug": "apple-watch-ultra-3",
@@ -1679,7 +1694,7 @@
         "compareAtPrice": null,
         "lastMovementAt": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -1697,7 +1712,7 @@
         "reserved": 0,
         "available": 0,
         "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "variantId": "2dd2ce3d-a33e-86f1-1628-0e44561f4d13",
         "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
         "productSlug": "apple-watch-ultra-3",
@@ -1706,7 +1721,7 @@
         "compareAtPrice": null,
         "lastMovementAt": null,
         "lastPriceChange": {
-          "at": "2026-09-28T09:52:33.836543+00:00",
+          "at": "2026-09-28T16:06:53.337066+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -1718,12 +1733,1269 @@
     "total": 116
   },
   "admin_lookup_account": {
-    "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+    "id": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
     "name": "Sample Customer",
     "email": "cust.sample@test.local",
     "found": true,
     "roles": []
   },
+  "site_editor_conflict": {
+    "ok": false,
+    "code": "draft_conflict",
+    "draftUpdatedAt": "2026-09-28T16:09:38.559774+00:00"
+  },
+  "site_editor_get_page": {
+    "draft": [
+      {
+        "key": "home-hero",
+        "type": "hero_campaign",
+        "props": {
+          "tone": "dark",
+          "teaserSlug": "iphone-duo-teaser",
+          "campaignSlug": "iphone-18-pro-launch"
+        },
+        "design": { "background": "muted" },
+        "isVisible": true
+      },
+      {
+        "key": "home-new-releases",
+        "type": "product_rail",
+        "props": {
+          "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+          "limit": 4,
+          "title": { "ar": "وصل حديثًا", "en": "New releases" },
+          "layout": "premium",
+          "source": {
+            "kind": "new",
+            "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+          },
+          "eyebrow": { "ar": "الجديد", "en": "New" },
+          "subtitle": {
+            "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+            "en": "The latest devices to land in store."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-offers",
+        "type": "offer_rail",
+        "props": {
+          "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+          "limit": 4,
+          "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+          "filter": null,
+          "eyebrow": { "ar": "عروض", "en": "Offers" },
+          "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+          "featuredOnly": true
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-categories",
+        "type": "category_grid",
+        "props": {
+          "limit": 8,
+          "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+          "subtitle": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-apple",
+        "type": "brand_lines",
+        "props": {
+          "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+          "lines": [
+            {
+              "icon": "phone",
+              "label": { "ar": "آيفون", "en": "iPhone" },
+              "categorySlug": "phones"
+            },
+            { "icon": "laptop", "label": { "ar": "ماك", "en": "Mac" }, "categorySlug": "laptops" },
+            {
+              "icon": "tablet",
+              "label": { "ar": "آيباد", "en": "iPad" },
+              "categorySlug": "tablets"
+            },
+            {
+              "icon": "watch",
+              "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+              "categorySlug": "watches"
+            },
+            {
+              "icon": "headphones",
+              "label": { "ar": "AirPods", "en": "AirPods" },
+              "categorySlug": "audio"
+            },
+            {
+              "icon": "plug",
+              "label": { "ar": "إكسسوارات", "en": "Accessories" },
+              "categorySlug": "accessories"
+            }
+          ],
+          "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+          "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+          "subtitle": {
+            "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+            "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+          },
+          "brandSlug": "apple"
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-best-sellers",
+        "type": "product_rail",
+        "props": {
+          "cta": {
+            "href": "/store?sort=best_selling",
+            "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+          },
+          "limit": 8,
+          "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+          "layout": "grid",
+          "source": { "kind": "best_sellers" },
+          "eyebrow": null,
+          "subtitle": {
+            "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+            "en": "What our customers pick most."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-budget",
+        "type": "budget_search",
+        "props": {
+          "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+          "subtitle": {
+            "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+            "en": "Pick a budget and we’ll show you what fits."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-trade-in",
+        "type": "promo_banner",
+        "props": {
+          "cta": {
+            "href": "/trade-in/request",
+            "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+          },
+          "body": {
+            "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+            "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+          },
+          "tone": "dark",
+          "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+          "points": [
+            { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+            { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+          ],
+          "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+          "illustration": "trade_in",
+          "secondaryCta": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-repairs",
+        "type": "promo_banner",
+        "props": {
+          "cta": {
+            "href": "/repairs/request",
+            "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+          },
+          "body": {
+            "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+            "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+          },
+          "tone": "light",
+          "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+          "points": [
+            { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+            { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+          ],
+          "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+          "illustration": "repairs",
+          "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-coming-soon",
+        "type": "coming_soon",
+        "props": {
+          "limit": 3,
+          "title": { "ar": "قريبًا", "en": "Coming soon" },
+          "subtitle": {
+            "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+            "en": "Register your interest and we’ll tell you first."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-news",
+        "type": "content_rail",
+        "props": {
+          "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+          "limit": 3,
+          "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+          "types": ["news", "offer_update", "new_release"],
+          "subtitle": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-trust",
+        "type": "trust_strip",
+        "props": { "title": null, "itemIds": null },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-branch",
+        "type": "branch_contact",
+        "props": {
+          "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+          "subtitle": {
+            "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+            "en": "Our team helps you choose and stays with you after you buy."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      }
+    ],
+    "canEdit": true,
+    "draftBy": "owner.sample@test.local",
+    "pageKey": "home",
+    "version": 2,
+    "published": [
+      {
+        "key": "home-hero",
+        "type": "hero_campaign",
+        "props": {
+          "tone": "dark",
+          "teaserSlug": "iphone-duo-teaser",
+          "campaignSlug": "iphone-18-pro-launch"
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-new-releases",
+        "type": "product_rail",
+        "props": {
+          "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+          "limit": 4,
+          "title": { "ar": "وصل حديثًا", "en": "New releases" },
+          "layout": "premium",
+          "source": {
+            "kind": "new",
+            "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+          },
+          "eyebrow": { "ar": "الجديد", "en": "New" },
+          "subtitle": {
+            "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+            "en": "The latest devices to land in store."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-offers",
+        "type": "offer_rail",
+        "props": {
+          "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+          "limit": 4,
+          "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+          "filter": null,
+          "eyebrow": { "ar": "عروض", "en": "Offers" },
+          "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+          "featuredOnly": true
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-categories",
+        "type": "category_grid",
+        "props": {
+          "limit": 8,
+          "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+          "subtitle": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-apple",
+        "type": "brand_lines",
+        "props": {
+          "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+          "lines": [
+            {
+              "icon": "phone",
+              "label": { "ar": "آيفون", "en": "iPhone" },
+              "categorySlug": "phones"
+            },
+            { "icon": "laptop", "label": { "ar": "ماك", "en": "Mac" }, "categorySlug": "laptops" },
+            {
+              "icon": "tablet",
+              "label": { "ar": "آيباد", "en": "iPad" },
+              "categorySlug": "tablets"
+            },
+            {
+              "icon": "watch",
+              "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+              "categorySlug": "watches"
+            },
+            {
+              "icon": "headphones",
+              "label": { "ar": "AirPods", "en": "AirPods" },
+              "categorySlug": "audio"
+            },
+            {
+              "icon": "plug",
+              "label": { "ar": "إكسسوارات", "en": "Accessories" },
+              "categorySlug": "accessories"
+            }
+          ],
+          "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+          "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+          "subtitle": {
+            "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+            "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+          },
+          "brandSlug": "apple"
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-best-sellers",
+        "type": "product_rail",
+        "props": {
+          "cta": {
+            "href": "/store?sort=best_selling",
+            "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+          },
+          "limit": 8,
+          "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+          "layout": "grid",
+          "source": { "kind": "best_sellers" },
+          "eyebrow": null,
+          "subtitle": {
+            "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+            "en": "What our customers pick most."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-budget",
+        "type": "budget_search",
+        "props": {
+          "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+          "subtitle": {
+            "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+            "en": "Pick a budget and we’ll show you what fits."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-trade-in",
+        "type": "promo_banner",
+        "props": {
+          "cta": {
+            "href": "/trade-in/request",
+            "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+          },
+          "body": {
+            "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+            "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+          },
+          "tone": "dark",
+          "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+          "points": [
+            { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+            { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+          ],
+          "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+          "illustration": "trade_in",
+          "secondaryCta": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-repairs",
+        "type": "promo_banner",
+        "props": {
+          "cta": {
+            "href": "/repairs/request",
+            "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+          },
+          "body": {
+            "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+            "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+          },
+          "tone": "light",
+          "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+          "points": [
+            { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+            { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+          ],
+          "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+          "illustration": "repairs",
+          "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-coming-soon",
+        "type": "coming_soon",
+        "props": {
+          "limit": 3,
+          "title": { "ar": "قريبًا", "en": "Coming soon" },
+          "subtitle": {
+            "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+            "en": "Register your interest and we’ll tell you first."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-news",
+        "type": "content_rail",
+        "props": {
+          "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+          "limit": 3,
+          "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+          "types": ["news", "offer_update", "new_release"],
+          "subtitle": null
+        },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-trust",
+        "type": "trust_strip",
+        "props": { "title": null, "itemIds": null },
+        "design": {},
+        "isVisible": true
+      },
+      {
+        "key": "home-branch",
+        "type": "branch_contact",
+        "props": {
+          "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+          "subtitle": {
+            "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+            "en": "Our team helps you choose and stays with you after you buy."
+          }
+        },
+        "design": {},
+        "isVisible": true
+      }
+    ],
+    "canPublish": true,
+    "publishedAt": "2026-09-28T16:09:37.821881+00:00",
+    "publishedBy": "owner.sample@test.local",
+    "draftUpdatedAt": "2026-09-28T16:09:38.559774+00:00",
+    "draftBaseVersion": 2
+  },
+  "site_editor_overview": [
+    {
+      "draft": [
+        {
+          "key": "home-hero",
+          "type": "hero_campaign",
+          "props": {
+            "tone": "dark",
+            "teaserSlug": "iphone-duo-teaser",
+            "campaignSlug": "iphone-18-pro-launch"
+          },
+          "design": { "background": "muted" },
+          "isVisible": true
+        },
+        {
+          "key": "home-new-releases",
+          "type": "product_rail",
+          "props": {
+            "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+            "limit": 4,
+            "title": { "ar": "وصل حديثًا", "en": "New releases" },
+            "layout": "premium",
+            "source": {
+              "kind": "new",
+              "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+            },
+            "eyebrow": { "ar": "الجديد", "en": "New" },
+            "subtitle": {
+              "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+              "en": "The latest devices to land in store."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-offers",
+          "type": "offer_rail",
+          "props": {
+            "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+            "limit": 4,
+            "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+            "filter": null,
+            "eyebrow": { "ar": "عروض", "en": "Offers" },
+            "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+            "featuredOnly": true
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-categories",
+          "type": "category_grid",
+          "props": {
+            "limit": 8,
+            "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-apple",
+          "type": "brand_lines",
+          "props": {
+            "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+            "lines": [
+              {
+                "icon": "phone",
+                "label": { "ar": "آيفون", "en": "iPhone" },
+                "categorySlug": "phones"
+              },
+              {
+                "icon": "laptop",
+                "label": { "ar": "ماك", "en": "Mac" },
+                "categorySlug": "laptops"
+              },
+              {
+                "icon": "tablet",
+                "label": { "ar": "آيباد", "en": "iPad" },
+                "categorySlug": "tablets"
+              },
+              {
+                "icon": "watch",
+                "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+                "categorySlug": "watches"
+              },
+              {
+                "icon": "headphones",
+                "label": { "ar": "AirPods", "en": "AirPods" },
+                "categorySlug": "audio"
+              },
+              {
+                "icon": "plug",
+                "label": { "ar": "إكسسوارات", "en": "Accessories" },
+                "categorySlug": "accessories"
+              }
+            ],
+            "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+            "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+            "subtitle": {
+              "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+              "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+            },
+            "brandSlug": "apple"
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-best-sellers",
+          "type": "product_rail",
+          "props": {
+            "cta": {
+              "href": "/store?sort=best_selling",
+              "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+            },
+            "limit": 8,
+            "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+            "layout": "grid",
+            "source": { "kind": "best_sellers" },
+            "eyebrow": null,
+            "subtitle": {
+              "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+              "en": "What our customers pick most."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-budget",
+          "type": "budget_search",
+          "props": {
+            "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+            "subtitle": {
+              "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+              "en": "Pick a budget and we’ll show you what fits."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trade-in",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/trade-in/request",
+              "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+            },
+            "body": {
+              "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+              "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+            },
+            "tone": "dark",
+            "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+            "points": [
+              { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+              { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+            ],
+            "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+            "illustration": "trade_in",
+            "secondaryCta": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-repairs",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/repairs/request",
+              "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+            },
+            "body": {
+              "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+              "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+            },
+            "tone": "light",
+            "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+            "points": [
+              { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+              { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+            ],
+            "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+            "illustration": "repairs",
+            "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-coming-soon",
+          "type": "coming_soon",
+          "props": {
+            "limit": 3,
+            "title": { "ar": "قريبًا", "en": "Coming soon" },
+            "subtitle": {
+              "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+              "en": "Register your interest and we’ll tell you first."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-news",
+          "type": "content_rail",
+          "props": {
+            "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+            "limit": 3,
+            "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+            "types": ["news", "offer_update", "new_release"],
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trust",
+          "type": "trust_strip",
+          "props": { "title": null, "itemIds": null },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-branch",
+          "type": "branch_contact",
+          "props": {
+            "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+            "subtitle": {
+              "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+              "en": "Our team helps you choose and stays with you after you buy."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        }
+      ],
+      "canEdit": true,
+      "draftBy": "owner.sample@test.local",
+      "pageKey": "home",
+      "version": 2,
+      "canPublish": true,
+      "publishedAt": "2026-09-28T16:09:37.821881+00:00",
+      "publishedBy": "owner.sample@test.local",
+      "sectionCount": 13,
+      "draftUpdatedAt": "2026-09-28T16:09:38.559774+00:00",
+      "draftBaseVersion": 2
+    },
+    {
+      "draft": null,
+      "canEdit": true,
+      "draftBy": null,
+      "pageKey": "apple",
+      "version": null,
+      "canPublish": true,
+      "publishedAt": null,
+      "publishedBy": null,
+      "sectionCount": 7,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "draft": null,
+      "canEdit": true,
+      "draftBy": null,
+      "pageKey": "offers",
+      "version": null,
+      "canPublish": true,
+      "publishedAt": null,
+      "publishedBy": null,
+      "sectionCount": 8,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    }
+  ],
+  "site_editor_versions": [
+    {
+      "note": "Sample publish",
+      "version": 2,
+      "sections": [
+        {
+          "key": "home-hero",
+          "type": "hero_campaign",
+          "props": {
+            "tone": "dark",
+            "teaserSlug": "iphone-duo-teaser",
+            "campaignSlug": "iphone-18-pro-launch"
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-new-releases",
+          "type": "product_rail",
+          "props": {
+            "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+            "limit": 4,
+            "title": { "ar": "وصل حديثًا", "en": "New releases" },
+            "layout": "premium",
+            "source": {
+              "kind": "new",
+              "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+            },
+            "eyebrow": { "ar": "الجديد", "en": "New" },
+            "subtitle": {
+              "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+              "en": "The latest devices to land in store."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-offers",
+          "type": "offer_rail",
+          "props": {
+            "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+            "limit": 4,
+            "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+            "filter": null,
+            "eyebrow": { "ar": "عروض", "en": "Offers" },
+            "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+            "featuredOnly": true
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-categories",
+          "type": "category_grid",
+          "props": {
+            "limit": 8,
+            "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-apple",
+          "type": "brand_lines",
+          "props": {
+            "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+            "lines": [
+              {
+                "icon": "phone",
+                "label": { "ar": "آيفون", "en": "iPhone" },
+                "categorySlug": "phones"
+              },
+              {
+                "icon": "laptop",
+                "label": { "ar": "ماك", "en": "Mac" },
+                "categorySlug": "laptops"
+              },
+              {
+                "icon": "tablet",
+                "label": { "ar": "آيباد", "en": "iPad" },
+                "categorySlug": "tablets"
+              },
+              {
+                "icon": "watch",
+                "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+                "categorySlug": "watches"
+              },
+              {
+                "icon": "headphones",
+                "label": { "ar": "AirPods", "en": "AirPods" },
+                "categorySlug": "audio"
+              },
+              {
+                "icon": "plug",
+                "label": { "ar": "إكسسوارات", "en": "Accessories" },
+                "categorySlug": "accessories"
+              }
+            ],
+            "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+            "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+            "subtitle": {
+              "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+              "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+            },
+            "brandSlug": "apple"
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-best-sellers",
+          "type": "product_rail",
+          "props": {
+            "cta": {
+              "href": "/store?sort=best_selling",
+              "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+            },
+            "limit": 8,
+            "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+            "layout": "grid",
+            "source": { "kind": "best_sellers" },
+            "eyebrow": null,
+            "subtitle": {
+              "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+              "en": "What our customers pick most."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-budget",
+          "type": "budget_search",
+          "props": {
+            "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+            "subtitle": {
+              "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+              "en": "Pick a budget and we’ll show you what fits."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trade-in",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/trade-in/request",
+              "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+            },
+            "body": {
+              "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+              "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+            },
+            "tone": "dark",
+            "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+            "points": [
+              { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+              { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+            ],
+            "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+            "illustration": "trade_in",
+            "secondaryCta": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-repairs",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/repairs/request",
+              "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+            },
+            "body": {
+              "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+              "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+            },
+            "tone": "light",
+            "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+            "points": [
+              { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+              { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+            ],
+            "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+            "illustration": "repairs",
+            "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-coming-soon",
+          "type": "coming_soon",
+          "props": {
+            "limit": 3,
+            "title": { "ar": "قريبًا", "en": "Coming soon" },
+            "subtitle": {
+              "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+              "en": "Register your interest and we’ll tell you first."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-news",
+          "type": "content_rail",
+          "props": {
+            "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+            "limit": 3,
+            "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+            "types": ["news", "offer_update", "new_release"],
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trust",
+          "type": "trust_strip",
+          "props": { "title": null, "itemIds": null },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-branch",
+          "type": "branch_contact",
+          "props": {
+            "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+            "subtitle": {
+              "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+              "en": "Our team helps you choose and stays with you after you buy."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        }
+      ],
+      "publishedAt": "2026-09-28T16:09:37.821881+00:00",
+      "publishedBy": "owner.sample@test.local"
+    },
+    {
+      "note": "Initial layout",
+      "version": 1,
+      "sections": [
+        {
+          "key": "home-hero",
+          "type": "hero_campaign",
+          "props": {
+            "tone": "dark",
+            "teaserSlug": "iphone-duo-teaser",
+            "campaignSlug": "iphone-18-pro-launch"
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-new-releases",
+          "type": "product_rail",
+          "props": {
+            "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+            "limit": 4,
+            "title": { "ar": "وصل حديثًا", "en": "New releases" },
+            "layout": "premium",
+            "source": {
+              "kind": "new",
+              "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+            },
+            "eyebrow": { "ar": "الجديد", "en": "New" },
+            "subtitle": {
+              "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+              "en": "The latest devices to land in store."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-offers",
+          "type": "offer_rail",
+          "props": {
+            "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+            "limit": 4,
+            "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+            "filter": null,
+            "eyebrow": { "ar": "عروض", "en": "Offers" },
+            "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+            "featuredOnly": true
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-categories",
+          "type": "category_grid",
+          "props": {
+            "limit": 8,
+            "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-apple",
+          "type": "brand_lines",
+          "props": {
+            "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+            "lines": [
+              {
+                "icon": "phone",
+                "label": { "ar": "آيفون", "en": "iPhone" },
+                "categorySlug": "phones"
+              },
+              {
+                "icon": "laptop",
+                "label": { "ar": "ماك", "en": "Mac" },
+                "categorySlug": "laptops"
+              },
+              {
+                "icon": "tablet",
+                "label": { "ar": "آيباد", "en": "iPad" },
+                "categorySlug": "tablets"
+              },
+              {
+                "icon": "watch",
+                "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+                "categorySlug": "watches"
+              },
+              {
+                "icon": "headphones",
+                "label": { "ar": "AirPods", "en": "AirPods" },
+                "categorySlug": "audio"
+              },
+              {
+                "icon": "plug",
+                "label": { "ar": "إكسسوارات", "en": "Accessories" },
+                "categorySlug": "accessories"
+              }
+            ],
+            "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+            "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+            "subtitle": {
+              "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+              "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+            },
+            "brandSlug": "apple"
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-best-sellers",
+          "type": "product_rail",
+          "props": {
+            "cta": {
+              "href": "/store?sort=best_selling",
+              "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+            },
+            "limit": 8,
+            "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+            "layout": "grid",
+            "source": { "kind": "best_sellers" },
+            "eyebrow": null,
+            "subtitle": {
+              "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+              "en": "What our customers pick most."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-budget",
+          "type": "budget_search",
+          "props": {
+            "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+            "subtitle": {
+              "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+              "en": "Pick a budget and we’ll show you what fits."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trade-in",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/trade-in/request",
+              "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+            },
+            "body": {
+              "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+              "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+            },
+            "tone": "dark",
+            "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+            "points": [
+              { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+              { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+            ],
+            "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+            "illustration": "trade_in",
+            "secondaryCta": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-repairs",
+          "type": "promo_banner",
+          "props": {
+            "cta": {
+              "href": "/repairs/request",
+              "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+            },
+            "body": {
+              "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+              "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+            },
+            "tone": "light",
+            "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+            "points": [
+              { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+              { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+            ],
+            "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+            "illustration": "repairs",
+            "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-coming-soon",
+          "type": "coming_soon",
+          "props": {
+            "limit": 3,
+            "title": { "ar": "قريبًا", "en": "Coming soon" },
+            "subtitle": {
+              "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+              "en": "Register your interest and we’ll tell you first."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-news",
+          "type": "content_rail",
+          "props": {
+            "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+            "limit": 3,
+            "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+            "types": ["news", "offer_update", "new_release"],
+            "subtitle": null
+          },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-trust",
+          "type": "trust_strip",
+          "props": { "title": null, "itemIds": null },
+          "design": {},
+          "isVisible": true
+        },
+        {
+          "key": "home-branch",
+          "type": "branch_contact",
+          "props": {
+            "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+            "subtitle": {
+              "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+              "en": "Our team helps you choose and stays with you after you buy."
+            }
+          },
+          "design": {},
+          "isVisible": true
+        }
+      ],
+      "publishedAt": "2026-09-28T16:09:37.821881+00:00",
+      "publishedBy": null
+    }
+  ],
   "admin_catalog_lookups": {
     "brands": [
       {
@@ -1855,7 +3127,7 @@
         "visible": true,
         "category": "audio",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.908339+00:00",
+        "updated_at": "2026-09-28T16:06:53.410286+00:00",
         "availability": "available"
       },
       {
@@ -1868,7 +3140,7 @@
         "visible": true,
         "category": "audio",
         "variants": 1,
-        "updated_at": "2026-09-28T09:52:33.907695+00:00",
+        "updated_at": "2026-09-28T16:06:53.409568+00:00",
         "availability": "available"
       },
       {
@@ -1881,7 +3153,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.916252+00:00",
+        "updated_at": "2026-09-28T16:06:53.422486+00:00",
         "availability": "available"
       },
       {
@@ -1894,7 +3166,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 1,
-        "updated_at": "2026-09-28T09:52:33.914528+00:00",
+        "updated_at": "2026-09-28T16:06:53.419953+00:00",
         "availability": "available"
       },
       {
@@ -1907,7 +3179,7 @@
         "visible": true,
         "category": "watches",
         "variants": 6,
-        "updated_at": "2026-09-28T09:52:33.905897+00:00",
+        "updated_at": "2026-09-28T16:06:53.407367+00:00",
         "availability": "available"
       },
       {
@@ -1920,7 +3192,7 @@
         "visible": true,
         "category": "watches",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.906544+00:00",
+        "updated_at": "2026-09-28T16:06:53.408189+00:00",
         "availability": "available"
       },
       {
@@ -1933,7 +3205,7 @@
         "visible": true,
         "category": "gaming",
         "variants": 3,
-        "updated_at": "2026-09-28T09:52:33.913448+00:00",
+        "updated_at": "2026-09-28T16:06:53.41823+00:00",
         "availability": "available"
       },
       {
@@ -1946,7 +3218,7 @@
         "visible": true,
         "category": "phones",
         "variants": 4,
-        "updated_at": "2026-09-28T09:52:33.901396+00:00",
+        "updated_at": "2026-09-28T16:06:53.402632+00:00",
         "availability": "available"
       },
       {
@@ -1959,7 +3231,7 @@
         "visible": true,
         "category": "audio",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.908849+00:00",
+        "updated_at": "2026-09-28T16:06:53.410952+00:00",
         "availability": "available"
       },
       {
@@ -1972,7 +3244,7 @@
         "visible": true,
         "category": "phones",
         "variants": 6,
-        "updated_at": "2026-09-28T09:52:33.900785+00:00",
+        "updated_at": "2026-09-28T16:06:53.401462+00:00",
         "availability": "available"
       },
       {
@@ -1985,7 +3257,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 4,
-        "updated_at": "2026-09-28T09:52:33.905309+00:00",
+        "updated_at": "2026-09-28T16:06:53.406658+00:00",
         "availability": "available"
       },
       {
@@ -1998,7 +3270,7 @@
         "visible": true,
         "category": "watches",
         "variants": 4,
-        "updated_at": "2026-09-28T09:52:33.907138+00:00",
+        "updated_at": "2026-09-28T16:06:53.408898+00:00",
         "availability": "available"
       },
       {
@@ -2011,7 +3283,7 @@
         "visible": true,
         "category": "phones",
         "variants": 4,
-        "updated_at": "2026-09-28T09:52:33.902791+00:00",
+        "updated_at": "2026-09-28T16:06:53.404012+00:00",
         "availability": "available"
       },
       {
@@ -2024,7 +3296,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 8,
-        "updated_at": "2026-09-28T09:52:33.904753+00:00",
+        "updated_at": "2026-09-28T16:06:53.405951+00:00",
         "availability": "available"
       },
       {
@@ -2037,7 +3309,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 6,
-        "updated_at": "2026-09-28T09:52:33.904215+00:00",
+        "updated_at": "2026-09-28T16:06:53.405242+00:00",
         "availability": "available"
       },
       {
@@ -2050,7 +3322,7 @@
         "visible": true,
         "category": "phones",
         "variants": 6,
-        "updated_at": "2026-09-28T09:52:33.900135+00:00",
+        "updated_at": "2026-09-28T16:06:53.400337+00:00",
         "availability": "available"
       },
       {
@@ -2063,7 +3335,7 @@
         "visible": true,
         "category": "phones",
         "variants": 8,
-        "updated_at": "2026-09-28T09:52:33.899327+00:00",
+        "updated_at": "2026-09-28T16:06:53.399324+00:00",
         "availability": "available"
       },
       {
@@ -2076,7 +3348,7 @@
         "visible": true,
         "category": "phones",
         "variants": 12,
-        "updated_at": "2026-09-28T09:52:33.894917+00:00",
+        "updated_at": "2026-09-28T16:06:53.396412+00:00",
         "availability": "available"
       },
       {
@@ -2089,7 +3361,7 @@
         "visible": true,
         "category": "phones",
         "variants": 12,
-        "updated_at": "2026-09-28T09:52:33.896022+00:00",
+        "updated_at": "2026-09-28T16:06:53.397484+00:00",
         "availability": "available"
       },
       {
@@ -2102,7 +3374,7 @@
         "visible": true,
         "category": "phones",
         "variants": 0,
-        "updated_at": "2026-09-28T09:52:33.896702+00:00",
+        "updated_at": "2026-09-28T16:06:53.398393+00:00",
         "availability": "coming_soon"
       },
       {
@@ -2115,7 +3387,7 @@
         "visible": true,
         "category": "macbook",
         "variants": 8,
-        "updated_at": "2026-09-28T09:52:33.910127+00:00",
+        "updated_at": "2026-09-28T16:06:53.412368+00:00",
         "availability": "available"
       },
       {
@@ -2128,7 +3400,7 @@
         "visible": true,
         "category": "macbook",
         "variants": 4,
-        "updated_at": "2026-09-28T09:52:33.911212+00:00",
+        "updated_at": "2026-09-28T16:06:53.414331+00:00",
         "availability": "available"
       },
       {
@@ -2141,7 +3413,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 1,
-        "updated_at": "2026-09-28T09:52:33.915104+00:00",
+        "updated_at": "2026-09-28T16:06:53.420993+00:00",
         "availability": "available"
       },
       {
@@ -2154,7 +3426,7 @@
         "visible": true,
         "category": "phones",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.903547+00:00",
+        "updated_at": "2026-09-28T16:06:53.40461+00:00",
         "availability": "available"
       },
       {
@@ -2167,7 +3439,7 @@
         "visible": true,
         "category": "playstation-5",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.912353+00:00",
+        "updated_at": "2026-09-28T16:06:53.416313+00:00",
         "availability": "available"
       },
       {
@@ -2180,7 +3452,7 @@
         "visible": true,
         "category": "phones",
         "variants": 3,
-        "updated_at": "2026-09-28T09:52:33.902122+00:00",
+        "updated_at": "2026-09-28T16:06:53.403404+00:00",
         "availability": "available"
       },
       {
@@ -2193,7 +3465,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 2,
-        "updated_at": "2026-09-28T09:52:33.915633+00:00",
+        "updated_at": "2026-09-28T16:06:53.421855+00:00",
         "availability": "available"
       },
       {
@@ -2206,51 +3478,51 @@
         "visible": true,
         "category": "scooters",
         "variants": 1,
-        "updated_at": "2026-09-28T09:52:33.913905+00:00",
+        "updated_at": "2026-09-28T16:06:53.419014+00:00",
         "availability": "available"
       }
     ],
-    "generatedAt": "2026-09-28T09:55:27.252781+00:00"
+    "generatedAt": "2026-09-28T16:09:37.821881+00:00"
   },
   "admin_list_audit_logs": {
     "items": [
       {
-        "id": 1379,
+        "id": 1479,
         "action": "stock.adjusted",
         "module": "catalog",
-        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+        "actorId": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00",
         "changedFields": ["quantity"]
       },
       {
-        "id": 1378,
+        "id": 1478,
         "action": "update",
         "module": "catalog",
-        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+        "actorId": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00",
         "changedFields": ["stock_quantity", "updated_at"]
       },
       {
-        "id": 1377,
+        "id": 1477,
         "action": "insert",
         "module": "customers",
-        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
-        "entityId": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
+        "actorId": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
+        "entityId": "00344979-aa75-4936-8f28-b9d881283a1d",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.customer_notes",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00",
         "changedFields": [
           "author_id",
           "body",
@@ -2263,29 +3535,29 @@
         ]
       },
       {
-        "id": 1376,
+        "id": 1476,
         "action": "order.created",
         "module": "orders",
-        "actorId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
-        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "actorId": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
+        "entityId": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "actorName": "Sample Customer",
         "actorRole": "authenticated",
         "actorEmail": "cust.sample@test.local",
         "entityType": "order",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00",
         "changedFields": ["fulfillment", "manualReview", "orderNumber", "paymentMethod", "total"]
       },
       {
-        "id": 1375,
+        "id": 1475,
         "action": "insert",
         "module": "orders",
-        "actorId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
-        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
+        "actorId": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
+        "entityId": "57e173c8-bc97-4653-a357-8446d8e1cba6",
         "actorName": "Sample Customer",
         "actorRole": "authenticated",
         "actorEmail": "cust.sample@test.local",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
+        "occurredAt": "2026-09-28T16:09:37.821881+00:00",
         "changedFields": [
           "assigned_staff_id",
           "cancel_reason",
@@ -2337,7 +3609,7 @@
         ]
       }
     ],
-    "total": 456
+    "total": 461
   },
   "admin_list_categories": [
     {
@@ -2352,7 +3624,7 @@
       "isVisible": true,
       "showInNav": false,
       "sortOrder": 1,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": false,
@@ -2373,7 +3645,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 1,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2394,7 +3666,7 @@
       "isVisible": true,
       "showInNav": false,
       "sortOrder": 1,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": false,
@@ -2415,7 +3687,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 2,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2436,7 +3708,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 3,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 1,
       "showInShop": true,
       "showOnHome": true,
@@ -2457,7 +3729,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 4,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2478,7 +3750,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 5,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2499,7 +3771,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 6,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 1,
       "showInShop": true,
       "showOnHome": true,
@@ -2520,7 +3792,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 7,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2541,7 +3813,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 8,
-      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+      "updatedAt": "2026-09-28T16:06:53.337066+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2552,13 +3824,13 @@
     }
   ],
   "admin_order_assignees": [
-    { "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd", "name": "owner.sample@test.local" }
+    { "id": "9acba28e-dda3-4ae8-a68f-71d97961fca6", "name": "owner.sample@test.local" }
   ],
   "admin_service_context": {
     "sla": "approaching",
     "priority": "normal",
     "slaHours": { "warnHours": 48, "overdueHours": 120 },
-    "lastChangeAt": "2026-09-25T09:52:33.836543+00:00",
+    "lastChangeAt": "2026-09-25T16:06:53.337066+00:00",
     "notifications": []
   },
   "admin_list_import_jobs": [],
@@ -2586,18 +3858,18 @@
         "whatsappNumber": null
       },
       "version": 1,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null
     }
   ],
   "admin_search_recipients": [
     {
-      "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+      "id": "911ec57d-32b1-4961-9367-fb5cb6b600ba",
       "name": "Sample Customer",
       "email": "cust.sample@test.local"
     },
     {
-      "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+      "id": "9acba28e-dda3-4ae8-a68f-71d97961fca6",
       "name": null,
       "email": "owner.sample@test.local"
     }
@@ -2613,7 +3885,7 @@
       "isPublic": false,
       "published": { "enabled": true, "followUp": "in_app", "thresholdHours": 48 },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2638,7 +3910,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2663,7 +3935,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2685,7 +3957,7 @@
         "maxOpenOrdersPerCustomer": 3
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2711,7 +3983,7 @@
         "recommendations": { "limit": 8, "minCustomers": 2 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2726,7 +3998,7 @@
       "isPublic": true,
       "published": { "loyalty": false, "promoCodes": false, "showDemoCatalog": true },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:55:23.115972+00:00",
+      "publishedAt": "2026-09-28T16:09:33.69821+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2779,7 +4051,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2799,7 +4071,7 @@
         "weekStartsOn": 6
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2820,7 +4092,7 @@
         "expiryMonths": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2960,7 +4232,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2981,7 +4253,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3004,7 +4276,28 @@
         "multipleExpensive": { "enabled": false, "minUnits": 2, "unitPrice": 20000 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:55:23.121881+00:00",
+      "publishedAt": "2026-09-28T16:09:33.704387+00:00",
+      "publishedBy": null,
+      "draftUpdatedAt": null,
+      "draftBaseVersion": null
+    },
+    {
+      "key": "page_seo",
+      "draft": null,
+      "scope": "design",
+      "canEdit": true,
+      "draftBy": null,
+      "version": 1,
+      "isPublic": true,
+      "published": {
+        "pages": {
+          "home": { "title": null, "ogImage": null, "description": null },
+          "apple": { "title": null, "ogImage": null, "description": null },
+          "offers": { "title": null, "ogImage": null, "description": null }
+        }
+      },
+      "canPublish": true,
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3039,7 +4332,7 @@
         "showLogo": true
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3636,7 +4929,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3651,7 +4944,7 @@
       "isPublic": false,
       "published": { "adminMfaRequired": false },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3677,7 +4970,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3697,7 +4990,7 @@
         "after_sales": { "warnHours": 24, "overdueHours": 72 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3743,7 +5036,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3770,7 +5063,7 @@
         "deliveryNotes": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3785,7 +5078,7 @@
       "isPublic": true,
       "published": { "tiktok": null, "facebook": null, "telegram": null, "instagram": null },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3819,7 +5112,7 @@
         "whatsappNumber": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3834,7 +5127,7 @@
       "isPublic": true,
       "published": { "tokens": {} },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3915,7 +5208,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
+      "publishedAt": "2026-09-28T16:06:53.299096+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3923,7 +5216,7 @@
   ],
   "admin_list_page_sections": [
     {
-      "id": "ad7b1b2c-d7f7-4a34-ad1e-4622395dbae0",
+      "id": "5316b7cd-a9b3-4155-a18b-d55f7fe2ed55",
       "key": "home-hero",
       "type": "hero_campaign",
       "props": {
@@ -3934,11 +5227,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 10,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "5e808e48-9ef3-4615-bfbe-da7e2e414247",
+      "id": "2cd135dd-7f31-4751-995f-f377a87c421d",
       "key": "home-new-releases",
       "type": "product_rail",
       "props": {
@@ -3959,11 +5252,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 20,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "a10b2c32-72ec-4c0e-a2c5-57283303d180",
+      "id": "0308fc1d-95a5-47bf-b291-d2ce828dec1f",
       "key": "home-offers",
       "type": "offer_rail",
       "props": {
@@ -3978,11 +5271,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 30,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "485f81b2-98af-4cdd-ae76-9439ee3a217c",
+      "id": "de530d28-c20b-4c41-afbb-a95653f2f01a",
       "key": "home-categories",
       "type": "category_grid",
       "props": {
@@ -3993,11 +5286,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 40,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "9394d63c-b361-42a2-a8d9-820b107136ff",
+      "id": "c6924eb9-2d14-4991-a8c2-38a7ce22fd8e",
       "key": "home-apple",
       "type": "brand_lines",
       "props": {
@@ -4033,11 +5326,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 50,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "3deb8d23-ed60-43b1-bf62-f87951767b11",
+      "id": "9d687a46-f58b-47c0-8491-53d61e5a66c3",
       "key": "home-best-sellers",
       "type": "product_rail",
       "props": {
@@ -4058,11 +5351,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 60,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "83970e87-8760-43e1-ad39-15606498427d",
+      "id": "492a6c6d-8094-4212-89ed-4b3973142289",
       "key": "home-budget",
       "type": "budget_search",
       "props": {
@@ -4075,11 +5368,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 70,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "6e964b96-343e-4939-aa32-a3d075f56705",
+      "id": "d47e2132-923e-4945-89f1-ef3e0179825e",
       "key": "home-trade-in",
       "type": "promo_banner",
       "props": {
@@ -4104,11 +5397,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 80,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "2f2516f9-afd0-4820-9bea-ce110a329148",
+      "id": "a164454b-6c60-45ba-851b-45a6176985b0",
       "key": "home-repairs",
       "type": "promo_banner",
       "props": {
@@ -4133,11 +5426,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 90,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "26a65adc-3759-401c-a94e-40182eda8b29",
+      "id": "d7f44fc8-d034-4a94-998d-652b81c1aafa",
       "key": "home-coming-soon",
       "type": "coming_soon",
       "props": {
@@ -4151,11 +5444,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 100,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "033e6e26-3e1c-4541-a37f-c21a3ed810c4",
+      "id": "fdcff84a-1f8d-4c71-ba40-77ac57be395c",
       "key": "home-news",
       "type": "content_rail",
       "props": {
@@ -4168,22 +5461,22 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 110,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "82b44f5f-347e-4446-81c9-7b4e319c93d0",
+      "id": "0109e481-cf18-466a-885b-f6932c5464d8",
       "key": "home-trust",
       "type": "trust_strip",
       "props": { "title": null, "itemIds": null },
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 120,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     },
     {
-      "id": "ea35f09e-1e70-4c9f-8ed2-8ea58b08e586",
+      "id": "707b648a-a81e-4083-bf6f-ffbabc817043",
       "key": "home-branch",
       "type": "branch_contact",
       "props": {
@@ -4196,7 +5489,7 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 130,
-      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
+      "updatedAt": "2026-09-28T16:06:53.318791+00:00",
       "updatedBy": null
     }
   ],
@@ -4211,7 +5504,7 @@
         "newPrice": 2100.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-28T09:52:33.836543+00:00",
+        "createdAt": "2026-09-28T16:06:53.337066+00:00",
         "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
         "variantId": "423d1d93-56a8-fce6-c941-b75816a277ba",
         "productName": {
@@ -4232,7 +5525,7 @@
         "newPrice": 2100.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-28T09:52:33.836543+00:00",
+        "createdAt": "2026-09-28T16:06:53.337066+00:00",
         "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
         "variantId": "43a0abe7-be22-5584-9c66-271232fee3bb",
         "productName": {
@@ -4253,7 +5546,7 @@
         "newPrice": 1200.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-28T09:52:33.836543+00:00",
+        "createdAt": "2026-09-28T16:06:53.337066+00:00",
         "productId": "294da053-2649-8cab-0f4e-f2295b7ebe47",
         "variantId": "8fafb55c-7e8b-bc87-df55-e3538a4a5b58",
         "productName": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
@@ -4268,6 +5561,259 @@
     ],
     "total": 116
   },
+  "storefront_page_sections": [
+    {
+      "id": "home-hero",
+      "type": "hero_campaign",
+      "props": {
+        "tone": "dark",
+        "teaserSlug": "iphone-duo-teaser",
+        "campaignSlug": "iphone-18-pro-launch"
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 10
+    },
+    {
+      "id": "home-new-releases",
+      "type": "product_rail",
+      "props": {
+        "cta": { "href": "/new", "label": { "ar": "كل الجديد", "en": "All new arrivals" } },
+        "limit": 4,
+        "title": { "ar": "وصل حديثًا", "en": "New releases" },
+        "layout": "premium",
+        "source": {
+          "kind": "new",
+          "categories": ["phones", "tablets", "laptops", "watches", "audio", "gaming"]
+        },
+        "eyebrow": { "ar": "الجديد", "en": "New" },
+        "subtitle": {
+          "ar": "أحدث الأجهزة اللي نزلت عندنا.",
+          "en": "The latest devices to land in store."
+        }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 20
+    },
+    {
+      "id": "home-offers",
+      "type": "offer_rail",
+      "props": {
+        "cta": { "href": "/offers", "label": { "ar": "كل العروض", "en": "All offers" } },
+        "limit": 4,
+        "title": { "ar": "عروض لفترة محدودة", "en": "Limited-time offers" },
+        "filter": null,
+        "eyebrow": { "ar": "عروض", "en": "Offers" },
+        "subtitle": { "ar": "الحق قبل ما العرض يخلص.", "en": "Catch them before they end." },
+        "featuredOnly": true
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 30
+    },
+    {
+      "id": "home-categories",
+      "type": "category_grid",
+      "props": {
+        "limit": 8,
+        "title": { "ar": "تسوّق حسب القسم", "en": "Shop by category" },
+        "subtitle": null
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 40
+    },
+    {
+      "id": "home-apple",
+      "type": "brand_lines",
+      "props": {
+        "cta": { "href": "/apple", "label": { "ar": "اكتشف Apple", "en": "Explore Apple" } },
+        "lines": [
+          { "icon": "phone", "label": { "ar": "آيفون", "en": "iPhone" }, "categorySlug": "phones" },
+          { "icon": "laptop", "label": { "ar": "ماك", "en": "Mac" }, "categorySlug": "laptops" },
+          { "icon": "tablet", "label": { "ar": "آيباد", "en": "iPad" }, "categorySlug": "tablets" },
+          {
+            "icon": "watch",
+            "label": { "ar": "Apple Watch", "en": "Apple Watch" },
+            "categorySlug": "watches"
+          },
+          {
+            "icon": "headphones",
+            "label": { "ar": "AirPods", "en": "AirPods" },
+            "categorySlug": "audio"
+          },
+          {
+            "icon": "plug",
+            "label": { "ar": "إكسسوارات", "en": "Accessories" },
+            "categorySlug": "accessories"
+          }
+        ],
+        "title": { "ar": "عالم Apple كامل عندنا", "en": "The full Apple line-up" },
+        "eyebrow": { "ar": "Apple في MALEK STORE", "en": "Apple at MALEK STORE" },
+        "subtitle": {
+          "ar": "آيفون، ماك، آيباد، ساعات، إيربودز وإكسسوارات.",
+          "en": "iPhone, Mac, iPad, Watch, AirPods and accessories."
+        },
+        "brandSlug": "apple"
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 50
+    },
+    {
+      "id": "home-best-sellers",
+      "type": "product_rail",
+      "props": {
+        "cta": {
+          "href": "/store?sort=best_selling",
+          "label": { "ar": "تسوّق الكل", "en": "Shop all" }
+        },
+        "limit": 8,
+        "title": { "ar": "الأكثر مبيعًا", "en": "Best sellers" },
+        "layout": "grid",
+        "source": { "kind": "best_sellers" },
+        "eyebrow": null,
+        "subtitle": {
+          "ar": "الأجهزة اللي عملاءنا بيختاروها أكتر.",
+          "en": "What our customers pick most."
+        }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 60
+    },
+    {
+      "id": "home-budget",
+      "type": "budget_search",
+      "props": {
+        "title": { "ar": "ميزانيتك كام؟", "en": "What’s your budget?" },
+        "subtitle": {
+          "ar": "اختار ميزانيتك ونطلعلك الأجهزة المناسبة.",
+          "en": "Pick a budget and we’ll show you what fits."
+        }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 70
+    },
+    {
+      "id": "home-trade-in",
+      "type": "promo_banner",
+      "props": {
+        "cta": {
+          "href": "/trade-in/request",
+          "label": { "ar": "ابدأ الاستبدال", "en": "Start a trade-in" }
+        },
+        "body": {
+          "ar": "قولنا جهازك الحالي والجهاز اللي نفسك فيه، وفريقنا يقيّم ويحسبلك الفرق.",
+          "en": "Tell us your current device and the one you want — our team values it and works out the difference."
+        },
+        "tone": "dark",
+        "title": { "ar": "بدّل القديم بالجديد", "en": "Trade old for new" },
+        "points": [
+          { "ar": "تقييم من فريق متخصص", "en": "Valued by our specialists" },
+          { "ar": "السعر النهائي بعد الفحص", "en": "Final price after inspection" }
+        ],
+        "eyebrow": { "ar": "Trade-In", "en": "Trade-In" },
+        "illustration": "trade_in",
+        "secondaryCta": null
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 80
+    },
+    {
+      "id": "home-repairs",
+      "type": "promo_banner",
+      "props": {
+        "cta": {
+          "href": "/repairs/request",
+          "label": { "ar": "اطلب صيانة", "en": "Request a repair" }
+        },
+        "body": {
+          "ar": "استشارة وتشخيص للموبايلات والتابلت واللابتوب والساعات والسماعات والأجهزة.",
+          "en": "Consultation and diagnosis for phones, tablets, laptops, watches, earbuds and consoles."
+        },
+        "tone": "light",
+        "title": { "ar": "جهازك محتاج صيانة؟", "en": "Device needs a repair?" },
+        "points": [
+          { "ar": "تشخيص قبل أي تكلفة", "en": "Diagnosis before any cost" },
+          { "ar": "متابعة على واتساب", "en": "Follow-up on WhatsApp" }
+        ],
+        "eyebrow": { "ar": "الصيانة", "en": "Repairs" },
+        "illustration": "repairs",
+        "secondaryCta": { "href": "/contact", "label": { "ar": "كلّمنا", "en": "Contact us" } }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 90
+    },
+    {
+      "id": "home-coming-soon",
+      "type": "coming_soon",
+      "props": {
+        "limit": 3,
+        "title": { "ar": "قريبًا", "en": "Coming soon" },
+        "subtitle": {
+          "ar": "سجّل اهتمامك وهنبلغك أول ما يوصل.",
+          "en": "Register your interest and we’ll tell you first."
+        }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 100
+    },
+    {
+      "id": "home-news",
+      "type": "content_rail",
+      "props": {
+        "cta": { "href": "/news", "label": { "ar": "كل الأخبار", "en": "All updates" } },
+        "limit": 3,
+        "title": { "ar": "أخبار MALEK", "en": "Malek updates" },
+        "types": ["news", "offer_update", "new_release"],
+        "subtitle": null
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 110
+    },
+    {
+      "id": "home-trust",
+      "type": "trust_strip",
+      "props": { "title": null, "itemIds": null },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 120
+    },
+    {
+      "id": "home-branch",
+      "type": "branch_contact",
+      "props": {
+        "title": { "ar": "زورنا في الفرع", "en": "Visit our branch" },
+        "subtitle": {
+          "ar": "فريقنا موجود يساعدك تختار الجهاز المناسب ويتابع معاك بعد الشراء.",
+          "en": "Our team helps you choose and stays with you after you buy."
+        }
+      },
+      "design": {},
+      "pageKey": "home",
+      "isVisible": true,
+      "sortOrder": 130
+    }
+  ],
   "admin_list_abandoned_carts": {
     "items": [],
     "total": 0,
@@ -4283,7 +5829,7 @@
         "isDemo": true,
         "reason": "Sample restock",
         "actorName": "owner.sample@test.local",
-        "createdAt": "2026-09-28T09:55:27.252781+00:00",
+        "createdAt": "2026-09-28T16:09:37.821881+00:00",
         "variantId": "dde0660a-c0a3-44b7-4fff-8c56fd241d63",
         "orderNumber": null,
         "productName": { "ar": "iPhone 17", "en": "iPhone 17" },
@@ -4313,13 +5859,13 @@
         "product": null,
         "ageHours": 48,
         "priority": "normal",
-        "createdAt": "2026-09-26T09:52:33.836543+00:00",
+        "createdAt": "2026-09-26T16:06:53.337066+00:00",
         "openOffer": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "assignedTo": null,
         "contactName": "عميل تجريبي (Demo)",
         "contactPhone": "+201000000000",
-        "lastChangeAt": "2026-09-26T09:52:33.836543+00:00",
+        "lastChangeAt": "2026-09-26T16:06:53.337066+00:00",
         "taxPreference": null,
         "afterSalesType": null,
         "deviceCategory": "smartphone",
@@ -4355,13 +5901,13 @@
         "product": null,
         "ageHours": 72,
         "priority": "normal",
-        "createdAt": "2026-09-25T09:52:33.836543+00:00",
+        "createdAt": "2026-09-25T16:06:53.337066+00:00",
         "openOffer": false,
-        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T16:06:53.337066+00:00",
         "assignedTo": null,
         "contactName": "عميل تجريبي (Demo)",
         "contactPhone": "+201000000000",
-        "lastChangeAt": "2026-09-25T09:52:33.836543+00:00",
+        "lastChangeAt": "2026-09-25T16:06:53.337066+00:00",
         "taxPreference": "tax_paid",
         "afterSalesType": null,
         "deviceCategory": "smartphone",
@@ -4397,7 +5943,7 @@
         "sent30d": 0,
         "category": "back_in_stock",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "cart.abandoned",
@@ -4409,7 +5955,7 @@
         "sent30d": 0,
         "category": "cart",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.cancelled",
@@ -4421,7 +5967,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.completed",
@@ -4433,7 +5979,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.confirmed",
@@ -4445,7 +5991,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.delivered",
@@ -4457,7 +6003,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.out_for_delivery",
@@ -4469,7 +6015,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.preparing",
@@ -4481,7 +6027,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "order.ready_for_pickup",
@@ -4493,7 +6039,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "price.drop",
@@ -4505,7 +6051,7 @@
         "sent30d": 0,
         "category": "price_drop",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "review.approved",
@@ -4517,7 +6063,7 @@
         "sent30d": 0,
         "category": "review",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "review.rejected",
@@ -4529,7 +6075,7 @@
         "sent30d": 0,
         "category": "review",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "service.after_sales.approved",
@@ -4541,7 +6087,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.after_sales.completed",
@@ -4553,7 +6099,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.after_sales.inspection",
@@ -4565,7 +6111,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.after_sales.rejected",
@@ -4577,7 +6123,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.cancelled",
@@ -4589,7 +6135,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.info_needed",
@@ -4601,7 +6147,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.repair.quote_ready",
@@ -4613,7 +6159,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.repair.ready",
@@ -4625,7 +6171,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.trade_in.inspection",
@@ -4637,7 +6183,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.trade_in.offer_ready",
@@ -4649,7 +6195,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.trade_in.rejected",
@@ -4661,7 +6207,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.updated",
@@ -4673,7 +6219,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.used.not_available",
@@ -4685,7 +6231,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.used.offer_sent",
@@ -4697,7 +6243,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "service.used.option_found",
@@ -4709,7 +6255,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
+        "updatedAt": "2026-09-28T16:06:52.899748+00:00"
       },
       {
         "key": "waitlist.available",
@@ -4721,7 +6267,7 @@
         "sent30d": 0,
         "category": "waitlist",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       },
       {
         "key": "waitlist.pre_order",
@@ -4733,7 +6279,7 @@
         "sent30d": 0,
         "category": "waitlist",
         "isActive": true,
-        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
+        "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       }
     ]
   }

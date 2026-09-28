@@ -8,8 +8,8 @@
 | 04    | Customer Features            | ✅ COMPLETE (2026-09-25) |
 | 05    | Service Experiences          | ✅ COMPLETE (2026-09-26) |
 | 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
-| 07    | Visual Site Editor           | ⚪ NOT STARTED — next    |
-| 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED           |
+| 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28) |
+| 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED — next    |
 | 09    | Integrations Layer           | ⚪ NOT STARTED           |
 | 10    | QA / Staging / Launch        | ⚪ NOT STARTED           |
 
@@ -452,12 +452,63 @@
 - Import accepts CSV (Excel "CSV UTF-8"); native XLSX parsing would need a library and is not included.
 - Conversion is cart → order (site traffic is not tracked without an analytics provider).
 - Staff removal is by suspension (the history stays); roles cannot be revoked to "none".
-- Section reordering, layout and design editing are deliberately left to the Phase 07 Site Editor.
+- Section reordering, layout and design editing were left to the Phase 07 Site Editor (now delivered).
 
-## Phase 07 — Visual Site Editor
+## Phase 07 — Visual Site Editor ✅
 
-Section registry, modular pages, drag & drop, add/remove/hide/duplicate, content & design controls,
-responsive previews, draft → preview → publish, undo/redo, version history, rollback.
+### Delivered
+
+- [x] **Site Editor** (`/admin/site-editor`, lazy chunk behind `design.view`) editing the **real
+      storefront**: Home, Apple and Offers layouts are the same `page_sections` rows the storefront
+      renders; no separate website builder.
+- [x] **Permissions** — new `design.view` (read / preview), `design.edit` (drafts), `design.publish`
+      (publish / rollback), all enforced by `site_editor_*` RPCs and RLS; unauthorized calls refused.
+- [x] **Sections** — add (per-page supported types; reference-needing types only when published data
+      exists), remove (confirm), hide / show, duplicate, reorder by drag and drop, move buttons and a
+      keyboard pick-up (announced); new `media_banner` section; manual product picks; picked offers.
+- [x] **Inspector** — generated from `SECTION_PROP_SCHEMAS` (`SchemaForm` + reference `choices` +
+      `custom` controls): bilingual fields, images (upload / replace / remove), safe-route links and
+      buttons, product / offer / campaign / brand / trust references, visibility, structured section
+      design (background, spacing — no CSS). Apple authorized-reseller badge: hideable / removable as a
+      section, its text editable and switchable off site-wide from the inspector.
+- [x] **Design, navigation, SEO** — theme presets, whitelisted colour tokens with contrast warnings,
+      type scale, heading weight, section spacing, corner radius; brand; header / mobile bar / footer
+      (links, blocks, note); site SEO + share image and new per-page SEO (`page_seo`, ar + en).
+- [x] **Real preview** — the storefront itself in a same-origin frame (lazy preview runtime overriding
+      only page sections and design settings), unpublished changes live, desktop / tablet / mobile
+      widths, Arabic RTL / English LTR, Home / Apple / Offers with header and footer, follows the
+      selected section, opens in a new window.
+- [x] **Preview Sample Store** — same renderer, sections, schemas and preview engine on the demo
+      catalog in an isolated storage namespace, marked **DEMO CONTENT**; refused in live mode unless
+      `features.showDemoCatalog` is on.
+- [x] **Workflow** — undo / redo for the whole session; save draft; publish dialog (per-item, note,
+      permission-locked items, stale-draft "publish anyway"); version history, compare and rollback;
+      Phase 06 live section edits recorded as versions; every draft / discard / publish / rollback
+      audited (module "design").
+- [x] **Media** — raster uploads (PNG / JPEG / WebP / AVIF ≤ 10 MB, compressed in the browser) to the
+      existing `site-media` storage (insert needs `design.edit`); SVG and unsafe URLs refused.
+- [x] **Performance** — editor and preview runtime are separate lazy chunks; the storefront entry is
+      **smaller** than before Phase 07 (401,989 B vs 407,011 B; budget 409,600 B).
+
+### Validation
+
+| Check                                                                                    | Result                                                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck` / `lint` / `format:check` / `seed:check`                             | ✅ 0 errors, 0 warnings                                                                                                                                                                |
+| `npm test` (Vitest)                                                                      | ✅ 314 / 314 tests, 25 files (site-editor domain, validation parity with SQL, history, defaults, protocol, preset contrast, demo engine parity, 45 RPC contract samples, editor smoke) |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ 909 / 909 SQL assertions (47 in `11_site_editor`: permissions, validation, draft isolation, conflicts, publish / versions, stale draft, rollback, direct-table denial, audit)       |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 324 passed, 12 skipped by design, 0 failed; site editor A–K + sample store + design presets on all 4 viewports                                                                      |
+| `npm run build` + `npm run check:bundle`                                                 | ✅ entry 401,989 B of the 409,600 B budget; no editor code in the storefront                                                                                                           |
+| Visual review                                                                            | ✅ Arabic + English editor; desktop / tablet / mobile previews; sample store; dialogs; no overflow, no console errors                                                                  |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project (RPCs, RLS and storage policies validated locally).
+- The three editable pages are Home, Apple and Offers; other pages keep their fixed templates.
+- Theme presets fill colour tokens; fonts are the bundled families (no font uploads).
+- Demo-mode image uploads stay in the browser (data URLs) and cannot be used for the brand logo,
+  which accepts `/brand/` assets or https only.
+- Section design is intentionally limited to background and spacing presets.
 
 ## Phase 08 — Content / SEO / PWA / Polish
 

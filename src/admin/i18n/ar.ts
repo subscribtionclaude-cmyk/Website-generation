@@ -6,10 +6,12 @@ import { svcAr } from './p6/services';
 import { contentAr } from './p6/content';
 import { fieldsAr } from './p6/fields';
 import { systemAr } from './p6/system';
+import { siteEditorAr } from './p6/siteEditor';
 import { uiAr } from './p6/ui';
 
 export const adminAr = {
   ...uiAr,
+  ...siteEditorAr,
   ...systemAr,
   ...fieldsAr,
   ...contentAr,
@@ -563,6 +565,7 @@ export const adminAr = {
     'content.manage': 'تحرير المحتوى (مسودة)',
     'content.publish': 'نشر المحتوى',
     'legal.manage': 'إدارة السياسات',
+    'design.view': 'عرض المحرر المرئي والمسودات',
     'design.edit': 'تحرير التصميم (مسودة)',
     'design.publish': 'نشر التصميم',
     'analytics.view': 'عرض التحليلات',

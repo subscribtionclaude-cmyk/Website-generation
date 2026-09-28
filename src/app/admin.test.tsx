@@ -59,11 +59,26 @@ describe('admin shell', () => {
   });
 
   it('planned modules say which phase delivers them', async () => {
-    await previewAs('owner', '/admin/site-editor');
+    await previewAs('owner', '/admin/seo');
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'تحسين محركات البحث' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('هذا القسم مجدول للمرحلة 08')).toBeInTheDocument();
+  });
+
+  it('opens the visual site editor with the page structure and a live preview frame', async () => {
+    await previewAs('design_editor', '/admin/site-editor');
     expect(
       await screen.findByRole('heading', { level: 1, name: 'محرر الموقع' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('هذا القسم مجدول للمرحلة 07')).toBeInTheDocument();
+    expect(await screen.findByRole('list', { name: 'أقسام صفحة الرئيسية' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'حفظ كمسودة' })).toBeDisabled();
+  });
+
+  it('the site editor is view-only without design.edit', async () => {
+    await previewAs('store_manager', '/admin/site-editor');
+    expect(await screen.findByText(/عرض فقط — يمكنك المعاينة ومراجعة النسخ/)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'إضافة قسم' })).not.toBeInTheDocument();
   });
 
   it('store details open in the settings workspace with the published version', async () => {

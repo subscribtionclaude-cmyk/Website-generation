@@ -35,6 +35,7 @@
     { "key": "content.publish", "module": "content", "sensitive": false },
     { "key": "legal.manage", "module": "content", "sensitive": false },
 
+    { "key": "design.view", "module": "design", "sensitive": false },
     { "key": "design.edit", "module": "design", "sensitive": false },
     { "key": "design.publish", "module": "design", "sensitive": false },
 
@@ -104,6 +105,7 @@
         "content.manage",
         "content.publish",
         "legal.manage",
+        "design.view",
         "analytics.view",
         "reports.export",
         "data.import",
@@ -170,14 +172,26 @@
       "rank": 30,
       "grantsAll": false,
       "name": { "ar": "محرر المحتوى", "en": "Content Editor" },
-      "permissions": ["dashboard.view", "catalog.view", "content.view", "content.manage"]
+      "permissions": [
+        "dashboard.view",
+        "catalog.view",
+        "content.view",
+        "content.manage",
+        "design.view"
+      ]
     },
     {
       "key": "design_editor",
       "rank": 30,
       "grantsAll": false,
       "name": { "ar": "محرر التصميم", "en": "Design Editor" },
-      "permissions": ["dashboard.view", "content.view", "design.edit", "design.publish"]
+      "permissions": [
+        "dashboard.view",
+        "content.view",
+        "design.view",
+        "design.edit",
+        "design.publish"
+      ]
     }
   ]
 }

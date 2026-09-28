@@ -30,6 +30,14 @@ const httpsUrlSchema = z
       return false;
     }
   }, 'Must be an https URL');
+const httpsOrPathSchema = z
+  .string()
+  .trim()
+  .max(500)
+  .refine(
+    (v) => (v.startsWith('/') && !v.startsWith('//')) || v.startsWith('https://'),
+    'Must be an internal path or https URL',
+  );
 const phoneSchema = z.string().trim().refine(isDialablePhone, 'Invalid Egyptian phone number');
 const clockTimeSchema = z.string().refine(isValidClockTime, 'Expected HH:MM (24h)');
 const weekdaySchema = z.union([
@@ -59,11 +67,19 @@ export const brandSettingsSchema = z.strictObject({
 });
 
 // ── theme (Design Studio overrides) ──────────────────────
+export const THEME_PRESETS = ['malek', 'midnight', 'minimal'] as const;
 export const themeSettingsSchema = z.strictObject({
+  /** Starting palette picked in the Site Editor; `tokens` hold any colour adjusted on top of it. */
+  preset: z.enum(THEME_PRESETS).optional(),
   tokens: z.partialRecord(
     z.enum(EDITABLE_COLOR_TOKEN_KEYS as [string, ...string[]]),
     hexColorSchema,
   ),
+  /** Structured typography / spacing / shape scales (applied as whitelisted data attributes). */
+  typeScale: z.enum(['compact', 'default', 'large']).optional(),
+  headingWeight: z.enum(['semibold', 'bold', 'extrabold']).optional(),
+  spacing: z.enum(['compact', 'default', 'relaxed']).optional(),
+  radius: z.enum(['sharp', 'default', 'round']).optional(),
 });
 
 // ── navigation ───────────────────────────────────────────
@@ -93,9 +109,20 @@ export const navItemSchema = z.strictObject({
   highlight: z.boolean(),
 });
 
+export const footerSettingsSchema = z.strictObject({
+  /** Extra footer links (safe internal paths or https only). */
+  links: z.array(navItemSchema).max(12),
+  showServices: z.boolean(),
+  showSocial: z.boolean(),
+  showHours: z.boolean(),
+  note: localizedTextSchema.nullable(),
+});
+
 export const navigationSettingsSchema = z.strictObject({
   primary: z.array(navItemSchema).max(16),
   mobileTabBar: z.array(navItemSchema).max(5),
+  /** Footer presentation (Site Editor). Absent = the Phase 02 footer. */
+  footer: footerSettingsSchema.optional(),
 });
 
 // ── store details ────────────────────────────────────────
@@ -344,6 +371,19 @@ export const seoSettingsSchema = z.strictObject({
   defaultTitle: localizedTextSchema,
   defaultDescription: localizedTextSchema,
   allowIndexing: z.boolean(),
+  /** Default Open Graph / social share image (internal path or https). */
+  ogImage: httpsOrPathSchema.nullable().optional(),
+});
+
+// ── per-page SEO for the editable pages (Site Editor) ─────
+const pageSeoSchema = z.strictObject({
+  title: localizedTextSchema.nullable(),
+  description: localizedTextSchema.nullable(),
+  ogImage: httpsOrPathSchema.nullable(),
+});
+export const PAGE_SEO_KEYS = ['home', 'apple', 'offers'] as const;
+export const pageSeoSettingsSchema = z.strictObject({
+  pages: z.strictObject({ home: pageSeoSchema, apple: pageSeoSchema, offers: pageSeoSchema }),
 });
 
 // ── security (private, staff-only) ───────────────────────
@@ -457,6 +497,8 @@ export type SocialSettings = z.infer<typeof socialSettingsSchema>;
 export type LocalizationSettings = z.infer<typeof localizationSettingsSchema>;
 export type FeaturesSettings = z.infer<typeof featuresSettingsSchema>;
 export type SeoSettings = z.infer<typeof seoSettingsSchema>;
+export type PageSeoSettings = z.infer<typeof pageSeoSettingsSchema>;
+export type FooterSettings = z.infer<typeof footerSettingsSchema>;
 export type SecuritySettings = z.infer<typeof securitySettingsSchema>;
 export type TrustItem = z.infer<typeof trustItemSchema>;
 export type TrustSettings = z.infer<typeof trustSettingsSchema>;

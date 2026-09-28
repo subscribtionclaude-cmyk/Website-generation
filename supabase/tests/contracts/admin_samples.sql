@@ -61,6 +61,18 @@ insert into samples values
  ('admin_export_products', public.admin_export('products', '{}')),
  ('admin_list_import_jobs', public.admin_list_import_jobs()),
  ('admin_import_preview', public.admin_import_preview('sample.csv', '[{"sku": "SAMPLE-1", "productSlug": "sample-phone", "nameEn": "Sample", "nameAr": "عينة", "brand": "apple", "category": "phones", "price": "1000", "stock": "2"}, {"sku": ""}]'));
+-- Phase 07 Site Editor: one publish (versions 1 + 2), then an open draft with a section design.
+select public.site_editor_get_page('home') -> 'published' as home_layout \gset
+select public.site_editor_save_draft('home', :'home_layout'::jsonb, null) ->> 'ok' as d1 \gset
+select public.site_editor_publish('home', 'Sample publish', false) ->> 'ok' as p1 \gset
+select public.site_editor_save_draft('home', jsonb_set(:'home_layout'::jsonb, '{0,design}', '{"background": "muted"}'),
+  null) ->> 'ok' as d2 \gset
+insert into samples values
+ ('site_editor_overview', public.site_editor_overview()),
+ ('site_editor_get_page', public.site_editor_get_page('home')),
+ ('site_editor_versions', public.site_editor_versions('home', 5)),
+ ('site_editor_conflict', public.site_editor_save_draft('home', '[]'::jsonb, null)),
+ ('storefront_page_sections', public.storefront_page_sections('home'));
 insert into samples select 'admin_service_context', public.admin_service_context(id) from public.service_requests order by created_at limit 1;
 \pset tuples_only on
 \pset format unaligned

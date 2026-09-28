@@ -4,9 +4,9 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Build status:** Phase 06 (Admin Control Center) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
-> The Site Editor (07), SEO module (08) and Integrations (09) are routed and clearly marked as
-> scheduled; they are not faked.
+> **Build status:** Phase 07 (Visual Site Editor) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
+> The SEO module (08) and Integrations (09) are routed and clearly marked as scheduled; they are not
+> faked.
 
 **Stack:** React 19 · TypeScript (strict) · Vite 8 · React Router 8 · TanStack Query · Zod ·
 Supabase (Postgres, Auth, Storage) · self-hosted IBM Plex Sans Arabic + Manrope · Vitest ·
@@ -45,6 +45,14 @@ npm run dev                       # http://localhost:5173
   customers (private notes), service queues (SLA aging), settings (draft → publish → rollback),
   receipts, legal pages, analytics, CSV import / export, backups, demo data, roles, staff and the
   audit log. Try other roles to see what each may do. **Demo data → Reset the preview** starts over.
+
+- Visual site editor (demo): as Owner or Design editor open **Admin → Site editor**. Reorder, add,
+  duplicate, hide or remove sections of the Home, Apple and Offers pages (drag and drop, move buttons
+  or the keyboard), edit each section's content and design, change the theme, menus, footer and SEO,
+  and watch the **real storefront** update in the preview (mobile / tablet / desktop, Arabic /
+  English). Save a draft (the storefront does not change), publish, compare versions and roll back;
+  undo / redo with Ctrl+Z. **Preview sample store** shows the same design on the demo catalog,
+  marked DEMO CONTENT.
 
 A striped **"Demo mode"** banner is always visible in demo mode. Demo data is never used in live mode.
 

@@ -110,6 +110,7 @@ export const AUDIT_MODULES = [
   'settings',
   'access',
   'content',
+  'design',
   'customers',
   'data',
   'other',

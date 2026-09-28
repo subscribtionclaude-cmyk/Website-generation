@@ -1,5 +1,6 @@
 import { createSupabaseServiceRepositories } from './supabaseServices';
 import { SupabaseAdminRepository } from './supabaseAdmin';
+import { SupabaseSiteEditorRepository } from './supabaseSiteEditor';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RepositoryError } from './errors';
 import { z } from 'zod';
@@ -197,6 +198,7 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     ...createSupabaseCustomerRepositories(client),
     ...createSupabaseServiceRepositories(client),
     admin: new SupabaseAdminRepository(client),
+    siteEditor: new SupabaseSiteEditorRepository(client),
   };
 }
 

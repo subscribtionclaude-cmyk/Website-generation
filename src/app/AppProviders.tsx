@@ -8,7 +8,11 @@ import { createQueryClient } from './queryClient';
 
 /** Provider order: runtime (adapters) → query cache → published settings → auth session. */
 export function AppProviders({ runtime, children }: { runtime: AppRuntime; children: ReactNode }) {
-  const [queryClient] = useState(createQueryClient);
+  const [queryClient] = useState(() => {
+    const client = createQueryClient();
+    runtime.attachQueryClient?.(client);
+    return client;
+  });
   return (
     <RuntimeContext.Provider value={runtime}>
       <QueryClientProvider client={queryClient}>

@@ -23,7 +23,7 @@ reset role;
 -- ── get_my_access ──────────────────────────────────────────────────────────
 select tests.act_as((select owner_id from ids));
 select tests.assert((public.get_my_access() ->> 'grantsAll')::boolean, 'owner grantsAll');
-select tests.assert_equal(jsonb_array_length(public.get_my_access() -> 'permissions'), 43, 'owner effective permissions = all');
+select tests.assert_equal(jsonb_array_length(public.get_my_access() -> 'permissions'), 44, 'owner effective permissions = all');
 reset role;
 
 select tests.act_as((select sales_id from ids));

@@ -38,6 +38,24 @@ export interface SchemaFormContext {
   readOnly?: (key: string) => boolean;
   issues: Record<string, FieldIssue>;
   disabled?: boolean;
+  /**
+   * Reference picker: allowed values for a string field, or for each item of a string list
+   * (products, brands, categories, campaigns…). The schema still validates the result.
+   */
+  choices?: (key: string) => { value: string; label: string }[] | undefined;
+  /** Custom control for a field (media upload, safe route picker…); undefined = generated one. */
+  custom?: (key: string, field: CustomFieldProps) => ReactNode | undefined;
+}
+
+export interface CustomFieldProps {
+  value: unknown;
+  onChange: (value: unknown) => void;
+  label: string;
+  hint?: string;
+  error: string | null;
+  readOnly: boolean;
+  /** The schema allows null / undefined (an empty control clears the value). */
+  blankable: boolean;
 }
 
 /**
@@ -158,6 +176,36 @@ function Field(props: NodeProps) {
   const readOnly = ctx.disabled || ctx.readOnly?.(key);
   const blankable = u.nullable || u.optional;
   const empty = u.nullable ? null : undefined;
+  const custom = ctx.custom?.(key, {
+    value,
+    onChange,
+    label,
+    hint,
+    error,
+    readOnly: Boolean(readOnly),
+    blankable,
+  });
+  if (custom !== undefined) return <>{custom}</>;
+  const choices = kind === 'string' ? ctx.choices?.(key) : undefined;
+  if (choices) {
+    const current = typeof value === 'string' ? value : '';
+    const known = current === '' || choices.some((c) => c.value === current);
+    return (
+      <SelectField
+        label={label}
+        hint={hint}
+        error={error}
+        value={current}
+        disabled={readOnly}
+        onChange={(e) => onChange(e.target.value === '' ? empty : e.target.value)}
+        options={[
+          ...(blankable || current === '' ? [{ value: '', label: at('ui.none') }] : []),
+          ...(known ? [] : [{ value: current, label: current }]),
+          ...choices,
+        ]}
+      />
+    );
+  }
 
   switch (kind) {
     case 'localized': {
@@ -358,6 +406,37 @@ function ArrayField({
   const key = labelKey(labelPath);
   const error = issueText(ctx.issues[pathKey(path)]);
   const readOnly = ctx.disabled || ctx.readOnly?.(key);
+
+  // Reference multi-choice (brands, categories, offers…): checkboxes over the allowed values.
+  const refChoices = elementKind === 'string' ? ctx.choices?.(key) : undefined;
+  if (refChoices) {
+    const extra = list.filter(
+      (v): v is string => typeof v === 'string' && !refChoices.some((c) => c.value === v),
+    );
+    return (
+      <fieldset className={`${styles.group} ${styles.full}`} disabled={readOnly}>
+        <legend>{label}</legend>
+        {hint && <span className={styles.hint}>{hint}</span>}
+        <div className={styles.chips}>
+          {[...refChoices, ...extra.map((v) => ({ value: v, label: v }))].map((c) => (
+            <CheckboxField
+              key={c.value}
+              label={c.label}
+              checked={list.includes(c.value)}
+              onChange={(on) =>
+                onChange(on ? [...list, c.value] : list.filter((x) => x !== c.value))
+              }
+            />
+          ))}
+        </div>
+        {error && (
+          <span className={styles.error} role="alert">
+            {error}
+          </span>
+        )}
+      </fieldset>
+    );
+  }
 
   // Multi-choice: an array of enum values renders as checkboxes.
   if (elementKind === 'enum') {

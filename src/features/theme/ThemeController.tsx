@@ -20,6 +20,22 @@ export function ThemeController() {
     };
   }, [theme.tokens]);
 
+  // Structured scales (Site Editor): whitelisted enum values → data attributes (see tokens.css).
+  const { typeScale, headingWeight, spacing, radius } = theme;
+  useEffect(() => {
+    const root = document.documentElement;
+    const attrs = {
+      'data-type-scale': typeScale,
+      'data-heading-weight': headingWeight,
+      'data-spacing': spacing,
+      'data-radius': radius,
+    };
+    for (const [name, value] of Object.entries(attrs)) {
+      if (value && value !== 'default') root.setAttribute(name, value);
+      else root.removeAttribute(name);
+    }
+  }, [typeScale, headingWeight, spacing, radius]);
+
   useEffect(() => {
     const root = document.documentElement;
     if (root.dataset.motion || !shouldReduceMotion(navigator as never)) return;

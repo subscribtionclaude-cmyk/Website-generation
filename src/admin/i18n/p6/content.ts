@@ -161,7 +161,8 @@ export const contentAr = {
   sectionsAdmin: {
     subtitle: 'تعديل منظم لمحتوى الرئيسية وصفحة Apple وصفحة العروض.',
     phase7:
-      'هنا تعدّل النصوص والإعدادات وإظهار/إخفاء الأقسام. تغيير الترتيب والتصميم الحر يأتي مع محرر الموقع المرئي في المرحلة ٠٧.',
+      'هنا تعديل سريع للنصوص وإظهار/إخفاء الأقسام (يُنشر فورًا ويُسجل كنسخة). لإعادة الترتيب وإضافة أقسام والتصميم والمعاينة قبل النشر استخدم محرر الموقع.',
+    openEditor: 'فتح محرر الموقع',
     pages: 'الصفحات',
     page: { home: 'الرئيسية', apple: 'Apple', offers: 'العروض' },
     viewPage: 'عرض الصفحة',
@@ -191,6 +192,7 @@ export const contentAr = {
       trust_strip: 'شريط الثقة',
       trust_feature: 'شارة ثقة',
       branch_contact: 'بيانات الفرع',
+      media_banner: 'بانر بالصور',
     },
   },
   legalAdmin: {
@@ -524,7 +526,8 @@ export const contentEn: Widen<typeof contentAr> = {
   sectionsAdmin: {
     subtitle: 'Structured editing of the homepage, Apple page and offers page content.',
     phase7:
-      'Edit text, settings and section visibility here. Reordering and free-form design arrive with the visual Site Editor in Phase 07.',
+      'Quick edits to text and section visibility (published at once and recorded as a version). To reorder, add sections, change design and preview before publishing, use the Site Editor.',
+    openEditor: 'Open the Site Editor',
     pages: 'Pages',
     page: { home: 'Home', apple: 'Apple', offers: 'Offers' },
     viewPage: 'View page',
@@ -554,6 +557,7 @@ export const contentEn: Widen<typeof contentAr> = {
       trust_strip: 'Trust strip',
       trust_feature: 'Trust badge',
       branch_contact: 'Branch details',
+      media_banner: 'Image banner',
     },
   },
   legalAdmin: {

@@ -55,6 +55,8 @@ interface PageMeta {
   type?: 'website' | 'product' | 'article';
   /** Structured data (schema.org JSON-LD) for this page. */
   jsonLd?: object[];
+  /** Editable page whose per-page SEO (Site Editor → `page_seo`) overrides the defaults above. */
+  seoPage?: 'home' | 'apple' | 'offers';
 }
 
 /**
@@ -63,15 +65,22 @@ interface PageMeta {
  * Phase 08 adds prerendering of public pages and the sitemap (see docs/ARCHITECTURE.md, SEO).
  */
 export function usePageMeta({
-  title,
-  description,
+  title: pageTitle,
+  description: pageDescription,
   noIndex = false,
-  image,
+  image: pageImage,
   type = 'website',
   jsonLd,
+  seoPage,
 }: PageMeta) {
-  const { seo, brand } = useSettings();
+  const { seo, brand, page_seo: pageSeo } = useSettings();
   const { locale } = useI18n();
+  const pageOverride = seoPage ? pageSeo.pages[seoPage] : null;
+  const title = pageOverride?.title ? resolveLocalized(pageOverride.title, locale) : pageTitle;
+  const description = pageOverride?.description
+    ? resolveLocalized(pageOverride.description, locale)
+    : pageDescription;
+  const image = pageOverride?.ogImage ?? pageImage ?? seo.ogImage ?? undefined;
   const { config, mode } = useRuntime();
   // Demo deployments are previews: robots always noindex (canonical/hreflang still describe the page).
   const robotsNoIndex = noIndex || mode === 'demo';

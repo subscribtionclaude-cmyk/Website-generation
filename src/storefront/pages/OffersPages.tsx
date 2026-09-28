@@ -23,15 +23,16 @@ import { BidiText } from '@/components/text/BidiText';
 /** Offers page: header + jump links + section-driven offer groups (only non-empty groups show). */
 export function OffersPage() {
   const { t, locale } = useI18n();
-  usePageMeta({ title: t('offers.title'), description: t('offers.subtitle') });
+  usePageMeta({ title: t('offers.title'), description: t('offers.subtitle'), seoPage: 'offers' });
   const offers = useOffers();
   const sections = usePageSections('offers');
   const resolved = sections.data ? resolveSections(sections.data) : [];
-  const groups = resolved.flatMap((s) =>
-    s.type === 'offer_group' && filterOffers(offers.data ?? [], s.props.filter).length > 0
-      ? [s]
-      : [],
+  // Offer groups show only when they have offers; other sections (campaign banners, product rails,
+  // CTAs added in the Site Editor) render as laid out.
+  const visible = resolved.filter(
+    (s) => s.type !== 'offer_group' || filterOffers(offers.data ?? [], s.props.filter).length > 0,
   );
+  const groups = visible.filter((s) => s.type === 'offer_group');
   const loading = offers.isPending || sections.isPending;
 
   return (
@@ -66,7 +67,7 @@ export function OffersPage() {
         <div className="container">
           <StateMessage icon={<TicketPercent />} title={t('offers.loadError')} role="alert" />
         </div>
-      ) : groups.length === 0 ? (
+      ) : visible.length === 0 ? (
         <div className="container">
           <StateMessage
             icon={<TicketPercent />}
@@ -79,7 +80,7 @@ export function OffersPage() {
           />
         </div>
       ) : (
-        <RenderSections sections={groups} />
+        <RenderSections sections={visible} heroIsPageHeading={false} />
       )}
     </div>
   );

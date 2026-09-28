@@ -46,6 +46,11 @@ const SERVICE_VIEW = {
 export function auditModule(entityType: string, action: string): AuditModule {
   const starts = (...p: string[]) => p.some((x) => action.startsWith(x));
   if (
+    ['public.page_layout_drafts', 'public.page_layout_versions'].includes(entityType) ||
+    starts('site_editor.')
+  )
+    return 'design';
+  if (
     [
       'public.products',
       'public.product_variants',

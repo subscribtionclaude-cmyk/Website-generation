@@ -92,4 +92,6 @@ export interface PageSection {
   isVisible: boolean;
   /** Validated per section type by the storefront section registry. */
   props: unknown;
+  /** Structured presentation (background / spacing) set in the Site Editor. */
+  design?: unknown;
 }

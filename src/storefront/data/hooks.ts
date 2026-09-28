@@ -62,6 +62,21 @@ export function useProduct(slug: string) {
   });
 }
 
+/** Cards for specific product ids, in the given order (manual product rails). */
+export function useProductsByIds(ids: string[], enabled = true) {
+  const { repositories } = useRuntime();
+  return useQuery({
+    queryKey: ['public', 'products-by-id', ids],
+    queryFn: async () => {
+      const found = await repositories.catalog.getProductsByIds(ids);
+      const byId = new Map(found.map((p) => [p.id, p]));
+      return ids.flatMap((id) => byId.get(id) ?? []);
+    },
+    staleTime: STALE,
+    enabled: enabled && ids.length > 0,
+  });
+}
+
 export function usePageSections(pageKey: string) {
   const { repositories } = useRuntime();
   return useQuery({

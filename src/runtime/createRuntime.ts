@@ -6,6 +6,14 @@ import type { AppRuntime } from './types';
  * demo previews never download the Supabase SDK, and live builds never load demo adapters.
  */
 export async function createRuntime(config: AppConfig): Promise<AppRuntime> {
+  // Site Editor preview frame (named by the admin editor): its own lazy chunk, never loaded otherwise.
+  if (typeof window !== 'undefined' && window.name.startsWith('malek-preview')) {
+    const { createPreviewRuntime } = await import('@/preview/previewRuntime');
+    return createPreviewRuntime(
+      config,
+      window.name === 'malek-preview-sample' ? 'sample' : 'draft',
+    );
+  }
   if (config.dataMode === 'demo') {
     const { createDemoRuntime } = await import('./demoRuntime');
     return createDemoRuntime(config);

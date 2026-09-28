@@ -32,6 +32,7 @@ export const PERMISSION_KEYS = [
   'content.manage',
   'content.publish',
   'legal.manage',
+  'design.view',
   'design.edit',
   'design.publish',
   'analytics.view',

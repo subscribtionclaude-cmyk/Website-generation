@@ -25,6 +25,7 @@ import {
   legalSettingsSchema,
   loyaltySettingsSchema,
   serviceSlaSettingsSchema,
+  pageSeoSettingsSchema,
 } from './schemas';
 
 export type SettingScope = 'design' | 'settings' | 'content' | 'security';
@@ -62,6 +63,7 @@ export const SETTING_SCHEMAS = {
   legal: legalSettingsSchema,
   loyalty: loyaltySettingsSchema,
   service_sla: serviceSlaSettingsSchema,
+  page_seo: pageSeoSettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
 export type SettingKey = keyof typeof SETTING_SCHEMAS;

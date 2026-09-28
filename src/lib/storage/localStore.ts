@@ -5,7 +5,15 @@ import type { z } from 'zod';
  * Storage can be unavailable (private mode, blocked cookies) — every call degrades gracefully.
  * Never store secrets, tokens or authoritative commerce data here.
  */
-const PREFIX = 'malek:v1:';
+let PREFIX = 'malek:v1:';
+
+/**
+ * Isolate this page's storage under another namespace (the Site Editor's sample-store preview runs
+ * the demo engine in its own namespace so demo data never mixes with this browser's real state).
+ */
+export function setStorageNamespace(namespace: string) {
+  PREFIX = `malek:${namespace}:v1:`;
+}
 
 type StorageKind = 'local' | 'session';
 

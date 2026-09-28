@@ -161,6 +161,13 @@
       "isPublic": false,
       "editPermission": "settings.manage",
       "publishPermission": "settings.publish"
+    },
+    {
+      "key": "page_seo",
+      "scope": "design",
+      "isPublic": true,
+      "editPermission": "design.edit",
+      "publishPermission": "design.publish"
     }
   ]
 }

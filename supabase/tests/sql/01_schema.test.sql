@@ -8,7 +8,7 @@ select tests.assert_equal(
 select tests.assert_equal((select count(*)::int from public.roles where is_system), 8, '8 system roles seeded');
 select tests.assert_equal((select count(*)::int from public.roles where grants_all), 1, 'exactly one grants-all role');
 select tests.assert_equal((select key from public.roles where grants_all), 'owner', 'owner is the grants-all role');
-select tests.assert_equal((select count(*)::int from public.permissions), 43, '43 permissions seeded');
+select tests.assert_equal((select count(*)::int from public.permissions), 44, '44 permissions seeded (Phase 07 adds design.view)');
 select tests.assert_equal(
   (select count(*)::int from public.role_permissions rp join public.roles r on r.id = rp.role_id where r.key = 'super_admin'),
   (select count(*)::int from public.permissions), 'super admin holds every permission');
@@ -16,9 +16,9 @@ select tests.assert_equal(
   (select count(*)::int from public.role_permissions rp join public.roles r on r.id = rp.role_id where r.key = 'owner'), 0,
   'owner permissions are implicit (no explicit grants)');
 
-select tests.assert_equal((select count(*)::int from public.setting_definitions), 23, '23 setting definitions (Phase 06 adds shipping, receipt, legal, loyalty, service_sla)');
-select tests.assert_equal((select count(*)::int from public.site_settings), 23, 'base seed published 23 settings');
-select tests.assert_equal((select count(*)::int from public.site_settings_versions), 23, 'initial versions recorded');
+select tests.assert_equal((select count(*)::int from public.setting_definitions), 24, '24 setting definitions (Phase 06 adds shipping, receipt, legal, loyalty, service_sla; Phase 07 page_seo)');
+select tests.assert_equal((select count(*)::int from public.site_settings), 24, 'base seed published 24 settings');
+select tests.assert_equal((select count(*)::int from public.site_settings_versions), 24, 'initial versions recorded');
 select tests.assert_equal(
   (select value -> 'branches' -> 0 -> 'phones' ->> 0 from public.site_settings where key = 'store'), '01212004229',
   'store phone seeded from base settings');

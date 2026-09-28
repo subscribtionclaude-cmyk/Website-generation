@@ -1,0 +1,598 @@
+/* Visual Site Editor (Phase 07). Admin-only chunk; the storefront never loads this file. */
+
+.editor {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.muted {
+  color: var(--color-text-secondary);
+}
+
+/* ── Toolbar ─────────────────────────────── */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.status {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tabLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ── Workspace layout ────────────────────── */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 330px) minmax(0, 1fr) minmax(300px, 380px);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.workspaceSettings {
+  display: grid;
+  grid-template-columns: minmax(340px, 440px) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.narrow {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.paneSwitch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pane {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-elevated);
+}
+
+.workspace .pane:not(.panePreview),
+.workspaceSettings .pane:not(.panePreview) {
+  max-height: calc(100vh - 9rem);
+  overflow: auto;
+}
+
+.workspace .panePreview,
+.workspaceSettings .panePreview {
+  position: sticky;
+  top: 4.5rem;
+}
+
+.paneHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.paneTitle {
+  margin: 0;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+}
+
+.panelStack {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.pageStatus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.inlineSelect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-small);
+}
+
+/* ── Section tree ────────────────────────── */
+.tree {
+  min-width: 0;
+}
+
+.treeList {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treeItem {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.treeItemSelected {
+  border-color: var(--color-brand-primary);
+  box-shadow: inset 0 0 0 1px var(--color-brand-primary);
+}
+
+.treeItemHidden .treeTitle {
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+}
+
+.treeItemGrabbed {
+  outline: 2px dashed var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.treeItemDrop {
+  border-block-start: 3px solid var(--color-brand-primary);
+}
+
+.treeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.handle {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 36px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: grab;
+}
+
+.handle:hover,
+.handle[aria-pressed='true'] {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-elevated);
+}
+
+.handle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.treeSelect {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.treeSelect:hover {
+  background: var(--color-surface-sunken);
+}
+
+.treeTitle {
+  font-weight: var(--font-weight-semibold);
+  overflow-wrap: anywhere;
+}
+
+.treeIndex {
+  color: var(--color-text-secondary);
+  font-family: var(--font-numeric);
+}
+
+.treeMeta {
+  font-size: var(--font-size-caption);
+  color: var(--color-text-secondary);
+}
+
+.treeBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.treeActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  padding-inline-start: 36px;
+}
+
+.iconBtn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.iconBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.iconBtn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── Inspector & fields ──────────────────── */
+.inspector {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.inspectorHead {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.inspectorTitle {
+  margin: 0;
+  font-size: var(--font-size-h4);
+}
+
+.routeField {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.media {
+  display: grid;
+  grid-template-columns: minmax(0, 120px) minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.mediaPreview {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  font-size: var(--font-size-caption);
+  text-align: center;
+}
+
+.mediaPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pickedList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pickedList > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-elevated);
+}
+
+.pickedList > li > span:first-child {
+  flex: 1 1 10rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ── Design panel ────────────────────────── */
+.presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.presets > legend {
+  margin-block-end: var(--space-2);
+  font-weight: var(--font-weight-semibold);
+}
+
+.preset {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.preset:has(input:checked) {
+  border-color: var(--color-brand-primary);
+  box-shadow: inset 0 0 0 1px var(--color-brand-primary);
+}
+
+.preset > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+
+.presetSwatches {
+  display: grid;
+  grid-template-columns: repeat(3, 12px);
+  gap: 2px;
+  padding-block-start: 4px;
+}
+
+.presetSwatches > span {
+  width: 12px;
+  height: 24px;
+  border-radius: 3px;
+  outline: 1px solid var(--color-border);
+}
+
+.colors {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.colorRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px 7.5rem auto;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .colorRow {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .colorLabel {
+    grid-column: 1 / -1;
+  }
+}
+
+.colorLabel {
+  font-size: var(--font-size-small);
+}
+
+.colorInput {
+  width: 44px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-elevated);
+}
+
+.colorHex {
+  font-family: var(--font-numeric);
+}
+
+/* ── Preview ─────────────────────────────── */
+.preview {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.previewBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.previewTools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-inline-start: auto;
+}
+
+.segmented {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  min-width: 0;
+}
+
+.segment {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.segment:has(input:checked) {
+  background: var(--color-brand-ink);
+  color: var(--color-on-brand-ink);
+}
+
+.segment:has(input:focus-visible) {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.segment svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.sampleBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.previewBox {
+  /* The frame is laid out LTR so the scale maths is the same in both admin languages. */
+  direction: ltr;
+  height: min(78vh, 900px);
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+}
+
+.frameWrap {
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  background: #ffffff;
+}
+
+.frame {
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
+  background: #ffffff;
+}
+
+/* ── Dialogs ─────────────────────────────── */
+.typeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.typeGrid > legend {
+  margin-block-end: var(--space-2);
+  font-weight: var(--font-weight-semibold);
+}
+
+.typeOption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: start;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.typeOption:has(input:checked) {
+  border-color: var(--color-brand-primary);
+  box-shadow: inset 0 0 0 1px var(--color-brand-primary);
+}
+
+.typeOption > span {
+  display: grid;
+  gap: 2px;
+}
+
+.typeOptionOff {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.versionList {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.version {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.versionHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}

@@ -10,7 +10,7 @@ import styles from './contentPages.module.css';
 /** Apple landing page — section-driven (page key "apple"), editable in Phase 07. */
 export function ApplePage() {
   const { t } = useI18n();
-  usePageMeta({ title: t('apple.title'), description: t('apple.description') });
+  usePageMeta({ title: t('apple.title'), description: t('apple.description'), seoPage: 'apple' });
   return (
     <SectionPage
       pageKey="apple"

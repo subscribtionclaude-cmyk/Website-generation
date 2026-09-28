@@ -1,5 +1,6 @@
 import { DemoServiceOperationsRepository, DemoServiceRequestsRepository } from './demoServices';
 import { DemoAdminRepository } from './demoAdmin';
+import { DemoSiteEditorRepository } from './demoSiteEditor';
 import { z } from 'zod';
 import { NO_ACCESS, type AccessProfile } from '@/domain/access/access';
 import { PERMISSION_KEYS, type RoleDefinition } from '@/domain/access/permissions';
@@ -160,5 +161,6 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
     services: new DemoServiceRequestsRepository(store, auth),
     serviceOps: new DemoServiceOperationsRepository(store, auth),
     admin: new DemoAdminRepository(store, auth),
+    siteEditor: new DemoSiteEditorRepository(store, auth),
   };
 }

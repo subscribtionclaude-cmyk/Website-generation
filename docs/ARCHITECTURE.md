@@ -154,7 +154,7 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 
 | Item                                                | Phase 01 state                                                                      | Completed in                         |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------ |
-| Store details / site settings editing UI            | read-only admin view; DB draft→publish→rollback RPCs ready                          | ✅ 06 (§15), 07 (Design Studio)      |
+| Store details / site settings editing UI            | read-only admin view; DB draft→publish→rollback RPCs ready                          | ✅ 06 (§15), 07 (Site Editor §16)    |
 | Roles & users management UI                         | read-only matrix; `assign_role` / `revoke_role` / `set_role_permissions` RPCs ready | ✅ 06 (§15)                          |
 | Audit log viewer                                    | table + triggers + RPC events                                                       | ✅ 06 (§15)                          |
 | Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | ✅ 06 (admin), 08 (wizard)           |
@@ -594,8 +594,9 @@ Payments accept COD, InstaPay and Split only (strict schema); InstaPay details a
 that stays empty until the owner fills it. Loyalty is a foundation setting, off by default.
 
 **Structured page content.** `/admin/page-content` edits the Home / Apple / Offers rows of
-`page_sections`: visibility plus each section's fields, validated by `SECTION_PROP_SCHEMAS`. Order and
-layout are not editable here — that is the Phase 07 Site Editor, which will write the same rows.
+`page_sections`: visibility plus each section's fields, validated by `SECTION_PROP_SCHEMAS`, published
+at once. Since Phase 07 each such edit is also recorded as a layout version, and order / layout /
+design live in the Site Editor (§16), which writes the same rows.
 
 **Data tools.** Import is CSV only (Excel "CSV UTF-8"): parse locally (untrusted text, control
 characters stripped, 2 MB / 2,000 rows) → map columns → `admin_import_preview` validates every row on
@@ -615,3 +616,83 @@ deep-links with `?id=`, and shows a before / after diff with secret-looking keys
 **Analytics.** Aggregates computed in SQL from orders, carts and service requests for a date range;
 demo rows excluded unless included on purpose (then labelled). Charts show no customer names or
 contact details. Conversion is cart → order; there is no traffic tracking and no paid provider.
+
+## 16. Visual Site Editor (Phase 07)
+
+**What it edits.** The real storefront — no second website builder. Page layouts for Home, Apple and
+Offers are the same ordered `page_sections` rows the storefront renders through the section registry
+(`SECTION_COMPONENTS` + `SECTION_PROP_SCHEMAS`), plus a structured per-section `design`
+(`background`: default / muted / dark / brand tint, `spacing`: compact / default / relaxed — enum
+values only, rendered as `data-*` attributes; there is no free-form CSS anywhere). Design settings go
+through the existing settings workflow (§15): `theme` (preset, whitelisted colour tokens, type scale,
+heading weight, section spacing, corner radius), `brand`, `navigation` (header, mobile tab bar and the
+new optional `footer` block: extra links, services / social / hours toggles, note), `seo` (+ default
+share image) and the new `page_seo` setting (per-page title / description / share image for the
+three pages, Arabic + English, empty = defaults). The Apple authorized-reseller badge is a
+`trust_feature` section (hide / remove it in the layout) whose text and site-wide on/off switch are
+the `trust` setting, edited in place from the inspector.
+
+**Drafts, publish, versions.** `supabase/migrations/20261001100000_site_editor.sql` adds
+`page_layout_drafts` (one per page, with `base_version`) and append-only `page_layout_versions`.
+RPCs: `site_editor_overview / get_page / save_draft / discard_draft / publish / versions / rollback`
+(`design.view` to read, `design.edit` to draft, `design.publish` to publish or roll back; direct table
+writes are denied by RLS + immutability triggers). `app.validate_page_layout` checks structure (≤ 40
+sections, slug keys, unique keys, known types, object props ≤ 64 kB, closed design keys); the editor
+validates each section against its zod schema before saving. The first publish records the previous
+layout as version 1 ("Initial layout"), publish and rollback replace the live rows in one
+transaction and record a new version, and a Phase 06 live section edit is recorded as a version too.
+A draft whose base version is older than the live one is refused (`draft_conflict`) unless the
+publisher confirms "publish anyway". Every draft save, discard, publish and rollback is audited with
+before / after layouts under the audit module `design`.
+
+**Editor** (`/admin/site-editor`, lazy chunk, `src/admin/pages/siteEditor/`). Workspace tabs: Home,
+Apple, Offers, Design & brand, Menus & footer, SEO. Page tabs show the section list (select, show /
+hide, duplicate, remove with confirmation, move up / down, mouse drag and drop, and a keyboard
+"pick up" on each handle — Space / Enter, arrows, Space / Enter to drop, Escape to cancel — announced
+in a live region), an **Add section** dialog (only types the page supports; types needing references
+such as a campaign or brand are offered only when published data exists; new sections start with
+visible placeholder text) and the inspector: visibility, section design, then the section's fields
+generated by `SchemaForm` from `SECTION_PROP_SCHEMAS`, with reference pickers (`choices`: brands,
+categories, offers, campaigns, trust items from the public storefront data — no catalog permission
+needed) and custom controls (`custom`: safe route picker for every `href`, raster image upload for
+images and share images, ordered hand-picked products for `product_rail` `kind: 'manual'`). The whole
+document (three layouts + design settings) is one undo / redo history (Ctrl/⌘+Z, Ctrl+Shift+Z /
+Ctrl+Y; typing in one field coalesces). **Save draft** stores changed pages and settings as server
+drafts; **Publish…** lists what would go live (pages with drafts or changes, setting drafts), locks
+items the user may not publish, takes a version note and reports each result. **Versions** lists a
+page's history with a section-level compare against the live page and restore (a new version; an
+open draft for that page is discarded first). Layout adapts to the editor's own width: three panes
+(structure | preview | inspector), two (switchable panel + preview) or one (pane switch), with every
+pane kept mounted so the preview never reloads.
+
+**Preview = the real storefront.** The preview is a same-origin `<iframe name="malek-preview">` on
+the storefront URL (`/`, `/apple`, `/offers`, Arabic or `/en/…`). `createRuntime` sees the frame
+name and lazily loads `src/preview/previewRuntime.ts`, which builds the normal runtime and overrides
+exactly two reads with what the editor posts (`src/preview/protocol.ts`, zod-validated, origin and
+source checked): `content.listPageSections` (the working layout) and
+`settings.listPublishedSettings` (the working design settings). Routes, components, catalog data and
+the section registry are the storefront's own. The frame shows a "Preview — not published" banner;
+the preview URL on its own shows nothing unpublished (drafts only ever come from an authorised editor
+session). Devices are true CSS widths (390 / 820 / 1280 px) scaled to fit; the editor can open the
+same preview in a new window, and the preview scrolls to and outlines the selected section.
+
+**Sample store preview.** "Preview sample store" loads the same preview frame named
+`malek-preview-sample`: the demo engine in an isolated storage namespace (`malek:sample:v1:`), so the
+sample never mixes with the browser's real or demo state, with a "DEMO CONTENT" banner and an
+optional "apply my unpublished changes" switch. In live mode it is available only when the published
+`features.showDemoCatalog` setting is on, and the frame refuses it otherwise (and whenever it is not
+opened by the editor).
+
+**Storefront changes** (all small; the entry chunk is smaller than before Phase 07):
+`RenderSections` wraps a section in the design `data-*` wrapper only when a design is set; new
+`media_banner` section (1–4 images with localized alt text, internal / https / demo-upload URLs only;
+SVG and `javascript:` refused); `product_rail` `manual` source and `offer_group` / `offer_rail`
+`slugs`; the Offers page renders any section type (campaign banners, product rails, CTAs) and keeps
+its jump links for offer groups; `ThemeController` sets `data-type-scale / heading-weight / spacing /
+radius` from enum values (CSS in `tokens.css`); `SiteFooter` reads the optional footer block;
+`usePageMeta({ seoPage })` applies `page_seo` and the default share image. Admin and preview chunks
+no longer put their `modulepreload` lists in the storefront entry (`vite.config.ts`).
+
+**Media.** Uploads go to the existing public `site-media` bucket (insert needs `design.edit` in the
+storage policy); the editor accepts PNG / JPEG / WebP / AVIF up to 10 MB, compresses in the browser
+first and never uploads SVG. Demo mode keeps uploads inline in the browser.

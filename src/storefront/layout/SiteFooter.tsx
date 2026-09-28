@@ -22,7 +22,15 @@ const SOCIAL_KEYS = [
 export function SiteFooter() {
   const { brand, navigation, store, social, legal } = useSettings();
   const { t, locale } = useI18n();
-  const links = navigation.primary.filter((item) => item.visible && item.href !== '/');
+  // Footer presentation from the Site Editor (absent = the original footer).
+  const footer = navigation.footer;
+  const links = [
+    ...navigation.primary.filter((item) => item.visible && item.href !== '/'),
+    ...(footer?.links.filter((item) => item.visible) ?? []),
+  ];
+  const showServices = footer?.showServices ?? true;
+  const showHours = footer?.showHours ?? true;
+  const showSocial = footer?.showSocial ?? true;
   const socialLinks = SOCIAL_KEYS.flatMap((key) => {
     const url = social[key];
     return url ? [{ key, url }] : [];
@@ -55,16 +63,20 @@ export function SiteFooter() {
                   </LocaleLink>
                 </li>
               ))}
-              <li>
-                <LocaleLink to="/services" className={styles.link}>
-                  {t('footer.services')}
-                </LocaleLink>
-              </li>
-              <li>
-                <LocaleLink to="/after-sales" className={styles.link}>
-                  {t('footer.afterSales')}
-                </LocaleLink>
-              </li>
+              {showServices && (
+                <>
+                  <li>
+                    <LocaleLink to="/services" className={styles.link}>
+                      {t('footer.services')}
+                    </LocaleLink>
+                  </li>
+                  <li>
+                    <LocaleLink to="/after-sales" className={styles.link}>
+                      {t('footer.afterSales')}
+                    </LocaleLink>
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
 
@@ -80,11 +92,13 @@ export function SiteFooter() {
                   {branch.landmark && <span>{resolveLocalized(branch.landmark, locale)}</span>}
                   <span>{resolveLocalized(branch.city, locale)}</span>
                 </address>
-                <div className={styles.hours}>
-                  <OpenStatus rules={branch.openingHours} onDark />
-                  <OpeningHoursList rules={branch.openingHours} />
-                  <p className={styles.tzNote}>{t('store.timeZoneNote')}</p>
-                </div>
+                {showHours && (
+                  <div className={styles.hours}>
+                    <OpenStatus rules={branch.openingHours} onDark />
+                    <OpeningHoursList rules={branch.openingHours} />
+                    <p className={styles.tzNote}>{t('store.timeZoneNote')}</p>
+                  </div>
+                )}
               </div>
             ))}
           </section>
@@ -115,7 +129,7 @@ export function SiteFooter() {
               </ul>
             </section>
 
-            {socialLinks.length > 0 && (
+            {showSocial && socialLinks.length > 0 && (
               <section
                 aria-labelledby="footer-follow"
                 style={{ marginBlockStart: 'var(--space-8)' }}
@@ -140,6 +154,7 @@ export function SiteFooter() {
 
         <div className={styles.bottom}>
           <p>{t('footer.rights', { year, brand: isolate(brand.name) })}</p>
+          {footer?.note && <p>{resolveLocalized(footer.note, locale)}</p>}
           {policies.length > 0 && (
             <nav aria-label={t('footer.policies')}>
               <ul className={styles.policies}>

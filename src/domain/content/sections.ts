@@ -13,16 +13,35 @@ const lt = localizedTextSchema;
 const slug = z.string().regex(/^[a-z0-9-]{1,60}$/);
 
 const productSourceSchema = z.strictObject({
-  kind: z.enum(['new', 'featured', 'best_sellers', 'on_offer', 'coming_soon']),
+  kind: z.enum(['new', 'featured', 'best_sellers', 'on_offer', 'coming_soon', 'manual']),
   brands: z.array(slug).optional(),
   categories: z.array(slug).optional(),
+  /** kind 'manual': products picked in the Site Editor, shown in this order. */
+  productIds: z
+    .array(z.string().regex(/^[A-Za-z0-9-]{1,80}$/))
+    .max(12)
+    .optional(),
 });
 
 const offerFilterSchema = z.strictObject({
   kinds: z.array(z.enum(OFFER_KINDS)).optional(),
   brands: z.array(slug).optional(),
   categories: z.array(slug).optional(),
+  /** Specific offers picked in the Site Editor. */
+  slugs: z.array(slug).max(12).optional(),
 });
+
+/** Image URL a section may show: internal path, https, or an in-browser demo upload. */
+export const sectionImageUrlSchema = z
+  .string()
+  .max(400_000)
+  .refine(
+    (v) =>
+      (v.startsWith('/') && !v.startsWith('//')) ||
+      v.startsWith('https://') ||
+      /^data:image\/(png|jpeg|webp|avif);base64,/.test(v),
+    'Image must be an internal path, an https URL or an uploaded image',
+  );
 
 export const SECTION_PROP_SCHEMAS = {
   hero_campaign: z.strictObject({
@@ -98,7 +117,26 @@ export const SECTION_PROP_SCHEMAS = {
   trust_strip: z.strictObject({ title: lt.nullable(), itemIds: z.array(slug).nullable() }),
   trust_feature: z.strictObject({ itemId: slug, eyebrow: lt.nullable() }),
   branch_contact: z.strictObject({ title: lt, subtitle: lt.nullable() }),
+  media_banner: z.strictObject({
+    eyebrow: lt.nullable(),
+    title: lt,
+    body: lt.nullable(),
+    images: z
+      .array(z.strictObject({ url: sectionImageUrlSchema, alt: lt }))
+      .min(1)
+      .max(4),
+    layout: z.enum(['split', 'grid']),
+    tone: z.enum(['dark', 'brand', 'light']),
+    cta: ctaSchema.nullable(),
+  }),
 } as const;
+
+/** Structured per-section presentation (no free-form CSS). Mirrors app.validate_page_layout. */
+export const sectionDesignSchema = z.strictObject({
+  background: z.enum(['default', 'muted', 'dark', 'brand']).optional(),
+  spacing: z.enum(['compact', 'default', 'relaxed']).optional(),
+});
+export type SectionDesign = z.infer<typeof sectionDesignSchema>;
 
 export type SectionType = keyof typeof SECTION_PROP_SCHEMAS;
 export type SectionProps<T extends SectionType> = z.infer<(typeof SECTION_PROP_SCHEMAS)[T]>;
@@ -109,12 +147,19 @@ export function isSectionType(value: string): value is SectionType {
 }
 
 export type ResolvedSection = {
-  [T in SectionType]: { id: string; type: T; props: SectionProps<T> };
+  [T in SectionType]: { id: string; type: T; props: SectionProps<T>; design?: SectionDesign };
 }[SectionType];
 
 /** Validate raw section rows: unknown types / invalid props / hidden rows are dropped (reported). */
 export function resolveSections(
-  rows: { id: string; type: string; isVisible: boolean; sortOrder: number; props: unknown }[],
+  rows: {
+    id: string;
+    type: string;
+    isVisible: boolean;
+    sortOrder: number;
+    props: unknown;
+    design?: unknown;
+  }[],
   onInvalid?: (id: string, reason: string) => void,
 ): ResolvedSection[] {
   return [...rows]
@@ -130,7 +175,15 @@ export function resolveSections(
         onInvalid?.(row.id, parsed.error.issues[0]?.message ?? 'invalid props');
         return [];
       }
-      return [{ id: row.id, type: row.type, props: parsed.data } as ResolvedSection];
+      const design = sectionDesignSchema.safeParse(row.design ?? {});
+      return [
+        {
+          id: row.id,
+          type: row.type,
+          props: parsed.data,
+          design: design.success ? design.data : undefined,
+        } as ResolvedSection,
+      ];
     });
 }
 
@@ -155,5 +208,8 @@ export function productSourceQuery(
         availability: ['coming_soon', 'waitlist_only', 'pre_order'],
         sort: 'newest',
       };
+    case 'manual':
+      // Picked products are loaded by id (see ProductRail); this query is only a fallback.
+      return { ...base, sort: 'featured' };
   }
 }
