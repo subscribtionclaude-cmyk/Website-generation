@@ -23,6 +23,8 @@ import {
   PAYMENT_METHOD_LABEL,
 } from '@/storefront/commerce/labels';
 import { useAdminI18n, type AdminMessageKey } from '../../i18n/context';
+import { ConfirmDialog } from '../../ui/Dialog';
+import { SelectField } from '../../ui/fields';
 import { useAdminPageMeta } from '../../useAdminPageMeta';
 import adminStyles from '../../admin.module.css';
 import styles from './orders.module.css';
@@ -226,7 +228,12 @@ function OrderDetail({ order }: { order: StaffOrder }) {
             <h2 className={adminStyles.sectionTitle}>{at('orders.customerAndDelivery')}</h2>
             <dl className={adminStyles.dl}>
               <Row label={at('orders.customer')}>
-                {order.customer.name} · <bdi dir="ltr">{order.customer.phone}</bdi>
+                {can('customers.view') ? (
+                  <Link to={`/admin/customers/${order.customerId}`}>{order.customer.name}</Link>
+                ) : (
+                  order.customer.name
+                )}{' '}
+                · <bdi dir="ltr">{order.customer.phone}</bdi>
                 {order.customer.email && (
                   <>
                     {' · '}
@@ -339,6 +346,7 @@ function OrderDetail({ order }: { order: StaffOrder }) {
           {!closed && order.manualReview.status === 'pending' && can('payments.verify') && (
             <ReviewAction order={order} />
           )}
+          {can('orders.manage') && <AssignAction order={order} />}
           {!closed && can('orders.manage') && <StatusAction order={order} />}
           {!closed && order.fulfillment.method === 'delivery' && can('shipping.manage') && (
             <ShippingAction order={order} />
@@ -670,12 +678,26 @@ function CancelAction({ order }: { order: StaffOrder }) {
   const { at } = useAdminI18n();
   const { repositories } = useRuntime();
   const [reason, setReason] = useState('');
+  const [confirming, setConfirming] = useState(false);
   const { mutation, feedback } = useStaffAction(order.id, () =>
     repositories.orders.cancel(order.id, reason),
   );
   return (
     <ActionCard title={at('orders.cancelAction')} feedback={feedback}>
-      <form className={styles.actionBody} onSubmit={submit(() => mutation.mutate(undefined))}>
+      <ConfirmDialog
+        open={confirming}
+        options={{
+          title: at('ordersP6.cancelConfirmTitle', { number: order.orderNumber }),
+          body: at(order.stockCommitted ? 'orders.cancelHintCommitted' : 'orders.cancelHint'),
+          confirmLabel: at('orders.cancelOrder'),
+          tone: 'danger',
+          irreversible: true,
+        }}
+        pending={mutation.isPending}
+        onCancel={() => setConfirming(false)}
+        onConfirm={() => mutation.mutate(undefined, { onSettled: () => setConfirming(false) })}
+      />
+      <form className={styles.actionBody} onSubmit={submit(() => setConfirming(true))}>
         <p className={adminStyles.muted}>
           {at(order.stockCommitted ? 'orders.cancelHintCommitted' : 'orders.cancelHint')}
         </p>
@@ -722,6 +744,56 @@ function NoteAction({ order }: { order: StaffOrder }) {
           disabled={!note.trim()}
         >
           {at('orders.addNote')}
+        </Button>
+      </form>
+    </ActionCard>
+  );
+}
+
+/** Assign the order to a staff member who can manage orders (or leave it unassigned). */
+function AssignAction({ order }: { order: StaffOrder }) {
+  const { at } = useAdminI18n();
+  const { repositories } = useRuntime();
+  const queryClient = useQueryClient();
+  const assignees = useQuery({
+    queryKey: ['admin', 'order-assignees'],
+    queryFn: () => repositories.admin.orderAssignees(),
+  });
+  const [staffId, setStaffId] = useState(order.assignedStaffId ?? '');
+  const [feedback, setFeedback] = useState<Feedback>(null);
+  const mutation = useMutation({
+    mutationFn: () => repositories.admin.assignOrder(order.id, staffId || null),
+    onMutate: () => setFeedback(null),
+    onSuccess: (r) => {
+      void queryClient.invalidateQueries({ queryKey: ['admin-order'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      setFeedback(
+        r.ok
+          ? { tone: 'success', key: 'orders.saved' }
+          : { tone: 'danger', key: 'orders.actionFailed' },
+      );
+    },
+    onError: () => setFeedback({ tone: 'danger', key: 'orders.actionFailed' }),
+  });
+  return (
+    <ActionCard title={at('ordersP6.assignTitle')} feedback={feedback}>
+      <form className={styles.actionBody} onSubmit={submit(() => mutation.mutate())}>
+        <SelectField
+          label={at('ordersP6.assignee')}
+          value={staffId}
+          onChange={(e) => setStaffId(e.target.value)}
+          options={[
+            { value: '', label: at('ordersP6.unassigned') },
+            ...(assignees.data ?? []).map((a) => ({ value: a.id, label: a.name ?? a.id })),
+          ]}
+        />
+        <Button
+          type="submit"
+          variant="secondary"
+          loading={mutation.isPending}
+          disabled={staffId === (order.assignedStaffId ?? '')}
+        >
+          {at('ordersP6.assign')}
         </Button>
       </form>
     </ActionCard>

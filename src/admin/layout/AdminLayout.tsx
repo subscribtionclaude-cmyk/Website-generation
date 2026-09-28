@@ -1,4 +1,4 @@
-import { ExternalLink, Languages, LogOut, Menu, X } from 'lucide-react';
+import { Database, ExternalLink, FlaskConical, Languages, LogOut, Menu, X } from 'lucide-react';
 import { useId, useState } from 'react';
 import { Link, Outlet } from 'react-router';
 import { BrandLogo } from '@/components/brand/BrandLogo';
@@ -55,6 +55,17 @@ export function AdminLayout() {
             </span>
 
             <div className={styles.topActions}>
+              <span
+                className={`${styles.modeBadge} ${mode === 'demo' ? styles.modeDemo : styles.modeLive}`}
+                role="status"
+              >
+                {mode === 'demo' ? (
+                  <FlaskConical aria-hidden="true" />
+                ) : (
+                  <Database aria-hidden="true" />
+                )}
+                {mode === 'demo' ? at('ui.modeDemo') : at('ui.modeLive')}
+              </span>
               {mode === 'demo' && primaryRole && (
                 <Badge tone="warning">
                   {at('shell.demoRole', { role: resolveLocalized(primaryRole.name, locale) })}
@@ -106,7 +117,7 @@ export function AdminLayout() {
             <X aria-hidden="true" />
           </button>
         </div>
-        <AdminNav onNavigate={() => setNavOpen(false)} />
+        <AdminNav variant="drawer" onNavigate={() => setNavOpen(false)} />
       </Drawer>
     </div>
   );
@@ -117,7 +128,7 @@ function SidebarHead() {
   const { brand } = useSettings();
   return (
     <div className={styles.sideHead}>
-      <BrandLogo size="sm" decorative />
+      <BrandLogo size="sm" decorative tile />
       <div className={styles.sideTitle}>
         <strong>{brand.name}</strong>
         <span>{at('shell.title')}</span>

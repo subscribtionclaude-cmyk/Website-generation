@@ -513,6 +513,9 @@ export const inventoryRowSchema = z.object({
   backInStockAt: isoN,
   updatedAt: iso,
   isDemo: z.boolean(),
+  price: moneyN,
+  compareAtPrice: moneyN,
+  lastPriceChange: adminVariantSchema.shape.lastPriceChange,
 });
 export type InventoryRow = z.infer<typeof inventoryRowSchema>;
 export interface InventoryFilter {

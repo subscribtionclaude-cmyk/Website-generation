@@ -405,6 +405,9 @@ export interface StaffOrderSummary {
   stockCommitted: boolean;
   itemCount: number;
   isDemo: boolean;
+  /** Phase 06 admin list extras. */
+  assignedTo?: { id: string; name: string | null } | null;
+  customerId?: string | null;
 }
 
 export interface StaffOrderFilter {

@@ -81,6 +81,22 @@ applied to a real project) so that V1 payment methods are only `cod`, `instapay`
 Service tables are registered for `delete_all_demo_data()` (media → offers → requests). Seeded demo
 requests (`RP-/TI-/UD-/AS-2026-900001`) have `is_demo = true` and no owner.
 
+### Phase 06 migrations (admin control center)
+
+| File                                     | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `20260929100000_admin_foundation.sql`    | Staff suspension + last activity (`app.is_active_staff_user`; a suspended user loses every permission), paging / search helpers, `app.require_any_permission`, `app.redact_secrets`; settings overview / versions / stale-safe drafts (`draft_conflict`) with forced publish; audit list + detail with module mapping; staff list, account lookup, role change and suspension with escalation protection; roles with users               |
+| `20260929100100_admin_catalog.sql`       | `price_history` (every price change with reason and actor, written by `app.record_price_change`), catalog lookups, product list / detail / save (variants matrix, media, specs, warranty, relations; stale detection), bulk state changes, duplicate, delete, variant price, bulk variant edits, inventory (with price and last price change), stock adjustments → `stock_movements`, categories (cycle / depth checks, reorder), brands |
+| `20260929100200_admin_operations.sql`    | Order filters (payment method, fulfilment, assignee, dates, customer) and assignment; `customer_notes` (staff-only RLS, audited); customer list / detail; `cart_followups` + abandoned carts; service SLA helpers (`service_sla` setting, last change, state, views), service queue, priority, context; review, waitlist and notification-template admin, manual in-app sends, recipient search                                          |
+| `20260929100300_admin_content.sql`       | Offers (state, promo codes, products / categories, limits, schedule; delete archives when redeemed), content entries (publish needs `content.publish`), page-section list / save (visibility + props; structure is Phase 07)                                                                                                                                                                                                             |
+| `20260929100400_admin_insights_data.sql` | Dashboard and analytics aggregates (demo excluded unless requested, no PII), permission-aware exports, backup JSON (no secrets / customer data), `import_jobs` + `import_rows` with server-side row validation (formula-looking text rejected), all-or-nothing or valid-rows commit                                                                                                                                                      |
+
+Every admin RPC is `security definer`, checks its permission first, writes through the audit
+triggers (or `app.log_event`), and refuses business problems as `{ ok: false, code }`.
+`supabase/tests/10_admin.test.sql` (212 assertions) covers RBAC per role, escalation, stale edits,
+audit coverage (price change, stock adjustment, role change, payment verification, service update,
+settings publish), import validation and demo cleanup leaving live rows untouched.
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,

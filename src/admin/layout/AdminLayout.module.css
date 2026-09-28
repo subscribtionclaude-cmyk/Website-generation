@@ -27,8 +27,10 @@
   height: 100vh;
   height: 100dvh;
   overflow-y: auto;
-  background: var(--color-surface-elevated);
-  border-inline-end: 1px solid var(--color-border);
+  /* Control-center chrome: near-black rail with orange accents (content stays on light surfaces). */
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  scrollbar-color: rgb(255 255 255 / 0.2) transparent;
 }
 
 @media (min-width: 1024px) {
@@ -49,7 +51,7 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
-  border-block-end: 1px solid var(--color-border);
+  border-block-end: 1px solid rgb(255 255 255 / 0.1);
   min-height: 64px;
 }
 
@@ -68,7 +70,7 @@
 }
 
 .sideTitle span {
-  color: var(--color-text-secondary);
+  color: var(--color-text-inverse-secondary);
   font-size: var(--font-size-caption);
 }
 
@@ -81,7 +83,7 @@
 .groupTitle {
   padding-inline: var(--space-3);
   margin-block-end: var(--space-1);
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-secondary);
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-semibold);
 }
@@ -102,19 +104,24 @@
   min-height: 40px;
   padding-inline: var(--space-3);
   border-radius: var(--radius-sm);
-  color: var(--color-text-secondary);
+  color: #e4e4e8;
   font-weight: var(--font-weight-medium);
   text-decoration: none;
 }
 
 .link:hover {
-  background: var(--color-surface);
-  color: var(--color-text-primary);
+  background: rgb(255 255 255 / 0.08);
+  color: var(--color-text-inverse);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: -2px;
 }
 
 .link[aria-current='page'] {
-  background: var(--color-brand-primary-subtle);
-  color: var(--color-text-primary);
+  background: rgb(255 255 255 / 0.12);
+  color: var(--color-text-inverse);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -147,7 +154,7 @@
 }
 
 .phase {
-  color: var(--color-text-muted);
+  color: var(--color-text-inverse-secondary);
   font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
   white-space: nowrap;
@@ -270,4 +277,53 @@
 
 .drawerTitle {
   font-size: var(--font-size-h4);
+}
+
+/* The drawer (tablet / phone) reuses the nav on a light panel. */
+.drawerNav .groupTitle,
+.drawerNav .phase {
+  color: var(--color-text-muted);
+}
+
+.drawerNav .link {
+  color: var(--color-text-secondary);
+}
+
+.drawerNav .link:hover {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.drawerNav .link[aria-current='page'] {
+  background: var(--color-brand-primary-subtle);
+  color: var(--color-text-primary);
+}
+
+.modeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 28px;
+  padding-inline: var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.modeBadge svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.modeDemo {
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.modeLive {
+  background: var(--color-success-subtle);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
 }

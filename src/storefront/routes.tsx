@@ -45,6 +45,10 @@ const STOREFRONT_PAGES: RouteObject[] = [
     path: 'contact',
     lazy: () => import('./pages/ContactPage').then((m) => ({ Component: m.ContactPage })),
   },
+  {
+    path: 'legal/:page',
+    lazy: () => import('./pages/LegalPage').then((m) => ({ Component: m.LegalPage })),
+  },
 ];
 
 /** Phase 03 commerce pages. Auth is only required from checkout onwards. */

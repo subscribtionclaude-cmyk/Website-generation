@@ -20,7 +20,7 @@ const SOCIAL_KEYS = [
 ] as const satisfies readonly (keyof SocialSettings)[];
 
 export function SiteFooter() {
-  const { brand, navigation, store, social } = useSettings();
+  const { brand, navigation, store, social, legal } = useSettings();
   const { t, locale } = useI18n();
   const links = navigation.primary.filter((item) => item.visible && item.href !== '/');
   const socialLinks = SOCIAL_KEYS.flatMap((key) => {
@@ -28,6 +28,8 @@ export function SiteFooter() {
     return url ? [{ key, url }] : [];
   });
   const year = getZonedParts(new Date()).year;
+  // Only policies with a published body are linked (never an empty "terms" page).
+  const policies = Object.entries(legal.pages).filter(([, page]) => page.body);
 
   return (
     <footer className={`${styles.footer} print-hidden`}>
@@ -138,6 +140,19 @@ export function SiteFooter() {
 
         <div className={styles.bottom}>
           <p>{t('footer.rights', { year, brand: isolate(brand.name) })}</p>
+          {policies.length > 0 && (
+            <nav aria-label={t('footer.policies')}>
+              <ul className={styles.policies}>
+                {policies.map(([key, page]) => (
+                  <li key={key}>
+                    <LocaleLink to={`/legal/${key.replace(/_/g, '-')}`} className={styles.link}>
+                      {resolveLocalized(page.title, locale)}
+                    </LocaleLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
         </div>
       </div>
     </footer>

@@ -10,6 +10,7 @@ import {
   Globe,
   History,
   LayoutDashboard,
+  LayoutTemplate,
   Newspaper,
   Package,
   Palette,
@@ -26,6 +27,7 @@ import {
   TicketPercent,
   Truck,
   Upload,
+  UserCog,
   Users,
   Wrench,
   type LucideIcon,
@@ -55,8 +57,6 @@ export interface AdminModule {
   permission: PermissionKey;
   /** null = available now; otherwise the phase that delivers the module's screens. */
   plannedPhase: number | null;
-  /** Available now but read-only until its editing phase. */
-  readOnlyUntilPhase?: number;
 }
 
 /**
@@ -87,15 +87,15 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'operations',
     icon: Truck,
     permission: 'shipping.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'receipts',
     path: 'receipts',
     group: 'operations',
     icon: Receipt,
-    permission: 'settings.manage',
-    plannedPhase: 6,
+    permission: 'settings.view',
+    plannedPhase: null,
   },
   {
     id: 'repairs',
@@ -136,7 +136,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'catalog',
     icon: Package,
     permission: 'catalog.view',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'categories',
@@ -144,7 +144,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'catalog',
     icon: Tags,
     permission: 'catalog.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'brands',
@@ -152,7 +152,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'catalog',
     icon: Archive,
     permission: 'catalog.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'inventory',
@@ -160,7 +160,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'catalog',
     icon: Boxes,
     permission: 'inventory.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'offers',
@@ -168,7 +168,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'catalog',
     icon: TicketPercent,
     permission: 'marketing.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
 
   {
@@ -177,7 +177,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'customers',
     icon: Users,
     permission: 'customers.view',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'reviews',
@@ -201,7 +201,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'customers',
     icon: Bell,
     permission: 'waitlists.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'notifications',
@@ -209,7 +209,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'customers',
     icon: Bell,
     permission: 'notifications.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
 
   {
@@ -226,7 +226,15 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'content',
     icon: Newspaper,
     permission: 'content.view',
-    plannedPhase: 6,
+    plannedPhase: null,
+  },
+  {
+    id: 'page-content',
+    path: 'page-content',
+    group: 'content',
+    icon: LayoutTemplate,
+    permission: 'content.view',
+    plannedPhase: null,
   },
   {
     id: 'legal',
@@ -234,7 +242,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'content',
     icon: FileText,
     permission: 'legal.manage',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'seo',
@@ -251,7 +259,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'insights',
     icon: BarChart3,
     permission: 'analytics.view',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'import-export',
@@ -259,17 +267,16 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'insights',
     icon: Upload,
     permission: 'data.import',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
 
   {
     id: 'store-settings',
-    path: 'settings/store',
+    path: 'settings',
     group: 'system',
     icon: Store,
     permission: 'settings.view',
     plannedPhase: null,
-    readOnlyUntilPhase: 6,
   },
   {
     id: 'roles',
@@ -278,7 +285,14 @@ export const ADMIN_MODULES: AdminModule[] = [
     icon: ShieldCheck,
     permission: 'users.view',
     plannedPhase: null,
-    readOnlyUntilPhase: 6,
+  },
+  {
+    id: 'staff',
+    path: 'access/users',
+    group: 'system',
+    icon: UserCog,
+    permission: 'users.view',
+    plannedPhase: null,
   },
   {
     id: 'audit-log',
@@ -286,7 +300,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'system',
     icon: History,
     permission: 'audit.view',
-    plannedPhase: 6,
+    plannedPhase: null,
   },
   {
     id: 'integrations',
@@ -302,7 +316,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'system',
     icon: FlaskConical,
     permission: 'demo.manage',
-    plannedPhase: 8,
+    plannedPhase: null,
   },
   {
     id: 'backups',
@@ -310,7 +324,7 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'system',
     icon: DatabaseBackup,
     permission: 'data.backup',
-    plannedPhase: 10,
+    plannedPhase: null,
   },
 ];
 

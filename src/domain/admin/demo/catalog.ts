@@ -956,6 +956,9 @@ export class DemoAdminCatalog {
           backInStockAt: back,
           updatedAt: v.updatedAt ?? SEED_UPDATED_AT,
           isDemo: true,
+          price: v.price,
+          compareAtPrice: v.compareAtPrice,
+          lastPriceChange: this.lastPriceChange(v.id),
         });
       }
     }

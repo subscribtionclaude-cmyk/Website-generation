@@ -59,21 +59,21 @@ describe('admin shell', () => {
   });
 
   it('planned modules say which phase delivers them', async () => {
-    await previewAs('store_manager', '/admin/shipping');
+    await previewAs('owner', '/admin/site-editor');
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'الشحن والاستلام' }),
+      await screen.findByRole('heading', { level: 1, name: 'محرر الموقع' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('هذا القسم مجدول للمرحلة 06')).toBeInTheDocument();
+    expect(screen.getByText('هذا القسم مجدول للمرحلة 07')).toBeInTheDocument();
   });
 
-  it('store details page is read-only and shows the published values', async () => {
+  it('store details open in the settings workspace with the published version', async () => {
     await previewAs('store_manager', '/admin/settings/store');
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'بيانات المتجر' }),
+      await screen.findByRole('heading', { level: 1, name: 'بيانات المتجر والفروع' }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/العرض الحالي للقراءة فقط/)).toBeInTheDocument();
-    expect(screen.getAllByText('غير مُعد').length).toBeGreaterThan(0);
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    expect(screen.getByText('يظهر للعملاء')).toBeInTheDocument();
+    // WhatsApp stays empty until the owner provides a number — never invented.
+    expect(screen.getByRole('textbox', { name: 'رقم واتساب' })).toHaveValue('');
   });
 
   it('each admin user switches the dashboard language independently of the storefront', async () => {

@@ -48,6 +48,11 @@ export const en: Widen<typeof ar> = {
     },
     services: 'All services',
     afterSales: 'Exchange, returns & warranty',
+    policies: 'Policies',
+  },
+  legal: {
+    notPublished: 'This page has not been published yet. Contact us with any question.',
+    updated: 'Last updated: {date}',
   },
   dataMode: {
     demoBanner: 'Demo mode',

@@ -534,4 +534,15 @@ describe('demo admin engine', () => {
       store.admin.data.listAuditLogs(owner, { entityType: 'public.customer_notes' }).total,
     ).toBe(1);
   });
+
+  it('offers preview staff who can manage orders as assignees (never others)', async () => {
+    const owner = await as('owner');
+    const ids = store.admin.ops.orderAssignees(owner).map((a) => a.id);
+    expect(ids).toEqual(expect.arrayContaining(['demo-owner', 'demo-sales']));
+    expect(ids).not.toContain('demo-repairs_team');
+    expect(store.admin.ops.assignOrder(owner, 'missing-order', 'demo-repairs_team')).toEqual({
+      ok: false,
+      code: 'invalid_staff',
+    });
+  });
 });

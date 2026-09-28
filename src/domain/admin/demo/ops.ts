@@ -1,4 +1,5 @@
 import type { LocalizedText } from '@/domain/localized';
+import { roleFromDemoUser } from '../demoAccess';
 import {
   NOTIFICATION_TEMPLATES,
   setDemoTemplateOverrides,
@@ -66,13 +67,13 @@ export class DemoAdminOps {
     return this.ctx.access
       .staffIds()
       .filter((id) => !this.ctx.access.isSuspended(id))
-      .filter((id) => this.ctx.access.actor(id, null).can('orders.manage'))
+      .filter((id) => this.ctx.access.actor(id, roleFromDemoUser(id)).can('orders.manage'))
       .map((id) => ({ id, name: this.ctx.staffName(id) }));
   }
 
   assignOrder(actor: AdminActor, orderId: string, staffId: string | null): AdminResult {
     requireAny(actor, 'orders.manage');
-    if (staffId && !this.ctx.access.actor(staffId, null).can('orders.manage'))
+    if (staffId && !this.ctx.access.actor(staffId, roleFromDemoUser(staffId)).can('orders.manage'))
       return { ok: false, code: 'invalid_staff' };
     const result = this.ctx.commerce.assignOrder(actor, orderId, staffId);
     if (result.ok)

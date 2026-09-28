@@ -152,17 +152,17 @@ SSR-level SEO is not claimed.
 
 To avoid silently dropping requirements, items touched in Phase 01 but finished later:
 
-| Item                                                | Phase 01 state                                                                      | Completed in                      |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------- |
-| Store details / site settings editing UI            | read-only admin view; DB draft→publish→rollback RPCs ready                          | 06 (settings), 07 (Design Studio) |
-| Roles & users management UI                         | read-only matrix; `assign_role` / `revoke_role` / `set_role_permissions` RPCs ready | 06                                |
-| Audit log viewer                                    | table + triggers + RPC events                                                       | 06                                |
-| Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | 08 (wizard), 10 (cleanup)         |
-| Storage uploads UI & image compression              | buckets + policies                                                                  | ✅ 05 (service media, §14) / 06   |
-| Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                |
-| Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                |
-| PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                |
-| Integrations center                                 | none (everything optional)                                                          | 09                                |
+| Item                                                | Phase 01 state                                                                      | Completed in                         |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------ |
+| Store details / site settings editing UI            | read-only admin view; DB draft→publish→rollback RPCs ready                          | ✅ 06 (§15), 07 (Design Studio)      |
+| Roles & users management UI                         | read-only matrix; `assign_role` / `revoke_role` / `set_role_permissions` RPCs ready | ✅ 06 (§15)                          |
+| Audit log viewer                                    | table + triggers + RPC events                                                       | ✅ 06 (§15)                          |
+| Demo data admin controls (keep/replace/edit/delete) | DB registry + `delete_all_demo_data()`                                              | ✅ 06 (admin), 08 (wizard)           |
+| Storage uploads UI & image compression              | buckets + policies                                                                  | ✅ 05 (service media) / 06 (catalog) |
+| Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                   |
+| Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                   |
+| PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                   |
+| Integrations center                                 | none (everything optional)                                                          | 09                                   |
 
 ## 11. Storefront (Phase 02)
 
@@ -547,3 +547,71 @@ only the Supabase adapters and shows error states on failure; it never falls bac
 Its generation required a paid plan ("Requires basic plan or higher"), so per the rules it was not
 used and no credits were spent. All service artwork is local SVG (`ServiceArt.tsx`) and the 3D
 models are code-defined primitives; there is no Higgsfield SDK, key, asset or runtime dependency.
+
+## 15. Admin control center (Phase 06)
+
+**Shape.** `/admin/*` is loaded only by staff: `AdminRoot` (dictionary + per-user language) →
+`AdminShell` (sidebar / mobile drawer, persistent **Demo / Live** badge) → one lazy chunk per module
+(`moduleRoute(path, moduleId, load)` in `src/admin/routes.tsx`), each wrapped in `RequireModuleId`.
+The module registry (`src/admin/modules.ts`) drives the sidebar, route guards and the "planned"
+pages that remain for the Site Editor (07), SEO (08) and Integrations (09). Hiding a link is never
+the security boundary: every read and write is a `security definer` RPC that checks the permission
+again.
+
+**Port.** `AdminRepository` (`src/repositories/adminTypes.ts`) maps 1:1 to the admin RPCs in
+`supabase/migrations/20260929100000…100400_admin_*.sql`. Every response is parsed with the zod
+schemas in `src/domain/admin/schemas.ts`; `src/domain/admin/contracts.test.ts` parses samples
+captured from the real SQL (`__fixtures__/admin-samples.json`, refreshed with
+`UPDATE_CONTRACT_SAMPLES=1 npm run test:db`). The demo adapter runs the same rules in the browser
+(`src/domain/admin/demo/*`: permissions, validation codes, stale detection, audit) and a parity suite
+keeps the two aligned. Business refusals come back as `{ ok: false, code }` and are shown with the
+`problems.*` texts; permission refusals throw `forbidden`.
+
+**UI kit** (`src/admin/ui/`). `DataTable` (internal scroll, sticky header, labelled row selection),
+`BulkBar`, `Pagination`, WAI-ARIA `Tabs` + `TabPanel`, fields (bilingual `LocalizedField`),
+`Dialog` / `ConfirmDialog` on native `<dialog>` (affected-item list, optional / required reason for
+the audit log, type-to-confirm, irreversible warning — no `window.confirm`), `useDirtyGuard`
+(router blocker + `beforeunload`) with `DirtyBar`, `useAdminAction` (runs a write, turns refusal codes
+into text, refreshes `['admin']` and storefront `['public']` queries), `QueryState` (loading /
+empty / forbidden / unavailable / invalid-data states), `Charts` (dependency-free bars with a table
+equivalent), `DiffTable`, and **`SchemaForm`** — an editor generated from a zod schema (bilingual
+text, bounded numbers, enums, toggles, nullable groups, repeatable lists) used by the settings
+workspace and the page-section editor, so the admin validates with the exact schemas the storefront
+parses. Labels come from `fieldLabels` / `fieldHints` / `fieldOptions` in the admin dictionary.
+
+**Concurrency.** Mutable records carry `updatedAt` (settings drafts carry `draftUpdatedAt` and a base
+version). Saves send the value the editor loaded; the database refuses with `stale` /
+`draft_conflict` instead of overwriting a newer change, and the UI explains and offers a reload.
+Publishing a draft built on an older version needs an explicit "publish anyway" with a reason.
+
+**Settings workspace.** `SettingWorkspace` handles any key of `SETTING_SCHEMAS`: edit → validate →
+save draft → review the diff against the published value → publish (optional note) → version
+history → compare any version → restore (published as a new version). Dedicated screens reuse it:
+`/admin/shipping`, `/admin/receipts` (live preview on a fake order with the storefront's own
+`InvoiceSheet`, which now renders the published `receipt` setting) and `/admin/legal` (seven policy
+pages; `/legal/:page` on the storefront, linked from the footer only once a body is published).
+Payments accept COD, InstaPay and Split only (strict schema); InstaPay details are a nullable group
+that stays empty until the owner fills it. Loyalty is a foundation setting, off by default.
+
+**Structured page content.** `/admin/page-content` edits the Home / Apple / Offers rows of
+`page_sections`: visibility plus each section's fields, validated by `SECTION_PROP_SCHEMAS`. Order and
+layout are not editable here — that is the Phase 07 Site Editor, which will write the same rows.
+
+**Data tools.** Import is CSV only (Excel "CSV UTF-8"): parse locally (untrusted text, control
+characters stripped, 2 MB / 2,000 rows) → map columns → `admin_import_preview` validates every row on
+the server (formula-looking text rejected, duplicates, unknown brand / category, permissions,
+below-reserved stock) → commit all-or-nothing or valid rows only. Exports are CSV with formula
+neutralisation (`=`, `+`, `-`, `@`, tab, CR get a leading apostrophe) or JSON. The backup is a JSON copy
+of settings, catalog and content; it contains no secrets or customer data and does not replace the
+provider's backups. Demo cleanup deletes `is_demo` rows only.
+
+**Access and audit.** Roles and staff screens mirror the database's escalation rules (no editing a
+role at or above your rank, no granting permissions you do not hold, only the owner manages owners,
+the last owner cannot be removed or suspended). Staff are added by the e-mail of an existing account;
+no passwords are ever created. The audit viewer filters by actor, action, module, entity and dates,
+deep-links with `?id=`, and shows a before / after diff with secret-looking keys masked
+(`redactSecrets`, mirroring `app.redact_secrets`).
+
+**Analytics.** Aggregates computed in SQL from orders, carts and service requests for a date range;
+demo rows excluded unless included on purpose (then labelled). Charts show no customer names or
+contact details. Conversion is cart → order; there is no traffic tracking and no paid provider.

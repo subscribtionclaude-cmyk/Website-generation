@@ -177,11 +177,34 @@ _Last updated: Phase 02 — 2026-09-24._
 | Migrations from a clean DB, re-applied, contracts, assertions                                                                                                                                                       | ✅               | `npm run test:db` (605 assertions + concurrency)             |
 | Live Supabase project run-through (service storage policies with real sessions)                                                                                                                                     | ⏳ owner project | adapters + RPC contracts tested locally                      |
 
+## Phase 06 — Admin Control Center
+
+| Area                                                                                                                                            | Status           | Evidence                                                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ----------------------------------------------------------- |
+| Every module lazy-loaded behind its permission; storefront entry unchanged within the 400 kB budget                                             | ✅               | `npm run check:bundle`, `adminModules.test.tsx`             |
+| Demo / Live badge always visible; live mode never falls back to demo data                                                                       | ✅               | e2e L, `admin.test.tsx`                                     |
+| Dashboard date ranges; analytics from aggregates only, demo excluded unless included (and labelled), no PII in charts, CSV export               | ✅               | `10_admin.test.sql`, `admin.test.ts`, e2e M                 |
+| Products: create / edit (variants, media, specs, warranty, relations, SEO), bulk states, duplicate, delete; stale edits refused                 | ✅               | e2e A, `10_admin.test.sql`, `admin.test.ts`                 |
+| Price change with reason → price history; stock adjustment with reason → movement history; below-reserved refused; bulk variant edits reviewed  | ✅               | e2e B / K, `10_admin.test.sql`                              |
+| Categories (cycle / depth protection), brands                                                                                                   | ✅               | `10_admin.test.sql`, `adminModules.test.tsx`                |
+| Orders: server filters, assignment, CSV export; customer detail with private notes never shown to the customer                                  | ✅               | e2e C / D, `10_admin.test.sql`                              |
+| Service queues: views, filters, priority, SLA aging labelled as internal targets                                                                | ✅               | e2e E / F, `10_admin.test.sql`                              |
+| Offers + promo codes (validation shared with the server), news (publish needs `content.publish`), structured Home / Apple / Offers content      | ✅               | e2e G, `adminWorkflows.test.tsx`                            |
+| Settings: draft → publish → versions → compare → rollback; stale draft; permission denied; payments COD / InstaPay / Split only, InstaPay empty | ✅               | e2e H, `adminWorkflows.test.tsx`, `03_settings`, `10_admin` |
+| Receipt template preview + storefront invoice uses the published template; legal pages + honest `/legal/:page`                                  | ✅               | `adminModules.test.tsx`, visual review                      |
+| RBAC per role (owner, super admin, store manager, sales, customer service, repairs, content, design) and escalation protection                  | ✅               | e2e I, `10_admin.test.sql`, `adminWorkflows.test.tsx`       |
+| Staff: add by existing account (no passwords), change role, suspend / reactivate with reason, last activity                                     | ✅               | `10_admin.test.sql`, `adminWorkflows.test.tsx`              |
+| Import: preview, mapping, invalid row, duplicate, formula rejected, all-or-nothing vs valid rows; export CSV injection neutralised              | ✅               | e2e J, `csv` / `importMapping` tests, `10_admin.test.sql`   |
+| Audit: price, stock, role, payment verification, service update, settings publish recorded; immutable; redacted diff viewer                     | ✅               | e2e K, `10_admin.test.sql`, `adminWorkflows.test.tsx`       |
+| Demo data: summary, delete (demo rows only, type-to-confirm), preview reset; backup JSON without secrets, not a provider-backup replacement     | ✅               | `10_admin.test.sql`, `adminModules.test.tsx`                |
+| Dialogs instead of `confirm()`, dirty-state guard, keyboard tables / tabs / bulk selection, Arabic RTL + English LTR                            | ✅               | e2e A–M (axe + overflow, 4 projects)                        |
+| No paid analytics, notification, import or UI library                                                                                           | ✅               | `package.json`                                              |
+| Live Supabase project run-through                                                                                                               | ⏳ owner project | RPC contracts captured from real SQL                        |
+
 ## Later phases (tracked from the specification)
 
 | Area                                                                                           | Status | Phase |
 | ---------------------------------------------------------------------------------------------- | ------ | ----- |
-| Admin modules (products … audit viewer), import/export, analytics                              | ⏳     | 06    |
 | Visual site editor (drag/drop, draft/preview/publish, undo, rollback)                          | ⏳     | 07    |
 | SEO (sitemap, JSON-LD, prerender), PWA service worker, performance settings, onboarding wizard | ⏳     | 08    |
 | Integrations (all optional, disabled by default)                                               | ⏳     | 09    |

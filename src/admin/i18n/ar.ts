@@ -1,5 +1,22 @@
 /** Admin dashboard strings (Arabic). Loaded only with the admin chunk. Professional operational tone. */
+import { dashAr } from './p6/dashboard';
+import { catalogAr } from './p6/catalog';
+import { peopleAr } from './p6/people';
+import { svcAr } from './p6/services';
+import { contentAr } from './p6/content';
+import { fieldsAr } from './p6/fields';
+import { systemAr } from './p6/system';
+import { uiAr } from './p6/ui';
+
 export const adminAr = {
+  ...uiAr,
+  ...systemAr,
+  ...fieldsAr,
+  ...contentAr,
+  ...svcAr,
+  ...peopleAr,
+  ...catalogAr,
+  ...dashAr,
   shell: {
     title: 'لوحة التحكم',
     openNav: 'افتح قائمة الأقسام',
@@ -92,10 +109,15 @@ export const adminAr = {
       description: 'استيراد وتصدير CSV / Excel مع المعاينة والتحقق.',
     },
     'store-settings': {
-      title: 'بيانات المتجر',
-      description: 'الفروع، أرقام التليفون، المواعيد وروابط التواصل.',
+      title: 'إعدادات الموقع',
+      description: 'بيانات المتجر والتواصل والمدفوعات والشحن وكل إعدادات الموقع (مسودة ← نشر).',
     },
     roles: { title: 'الأدوار والصلاحيات', description: 'الأدوار وصلاحيات كل دور.' },
+    staff: { title: 'فريق العمل', description: 'حسابات الموظفين وأدوارهم وإيقاف الحسابات.' },
+    'page-content': {
+      title: 'محتوى الصفحات',
+      description: 'تعديل أقسام الصفحة الرئيسية وصفحة Apple والعروض (محتوى فقط، بدون تصميم).',
+    },
     'audit-log': { title: 'سجل التدقيق', description: 'من غيّر ماذا ومتى.' },
     integrations: {
       title: 'التكاملات والخدمات',
@@ -142,7 +164,8 @@ export const adminAr = {
   roles: {
     title: 'الأدوار والصلاحيات',
     subtitle: 'الصلاحيات مطبّقة في قاعدة البيانات (RLS). إخفاء زر في الواجهة ليس هو حد الأمان.',
-    readOnlyNote: 'العرض الحالي للقراءة فقط. إدارة الأدوار وتعيين المستخدمين متاحة في المرحلة 06.',
+    readOnlyNote:
+      'المالك يملك كل الصلاحيات ولا يُعدل. يمكنك تعديل الأدوار الأقل من مستواك فقط، ومنح الصلاحيات التي تملكها فقط. كل تغيير يُسجل في سجل التدقيق.',
     permission: 'الصلاحية',
     granted: 'ممنوحة',
     notGranted: 'غير ممنوحة',

@@ -1038,6 +1038,7 @@ declare
 begin
   with base as (
     select v.id, v.sku, v.product_id, v.stock_quantity, v.low_stock_threshold, v.is_active, v.is_demo, v.updated_at,
+           v.price, v.compare_at_price,
            p.name as product_name, p.slug as product_slug,
            app.variant_reserved_quantity(v.id, null) as reserved,
            app.variant_available_quantity(v.id) as available,
@@ -1070,7 +1071,14 @@ begin
              'lowStockThreshold', m.low_stock_threshold, 'isActive', m.is_active,
              'state', app.admin_stock_state(m.available, m.low_stock_threshold, m.is_active),
              'lastMovementAt', m.last_movement_at, 'backInStockAt', m.back_in_stock_at,
-             'updatedAt', m.updated_at, 'isDemo', m.is_demo)
+             'updatedAt', m.updated_at, 'isDemo', m.is_demo,
+             'price', m.price, 'compareAtPrice', m.compare_at_price,
+             'lastPriceChange', (select jsonb_build_object('at', ph.created_at, 'reason', ph.reason, 'source', ph.source,
+                                                           'oldPrice', ph.old_price,
+                                                           'by', (select coalesce(pr.full_name, pr.email) from public.profiles pr
+                                                                  where pr.id = ph.actor_id))
+                                 from public.price_history ph where ph.variant_id = m.id
+                                 order by ph.created_at desc, ph.id desc limit 1))
              order by m.available, m.sku)
            from (select * from matched order by available, sku limit v_limit offset v_offset) m), '[]'::jsonb)
     into v_total, v_items;

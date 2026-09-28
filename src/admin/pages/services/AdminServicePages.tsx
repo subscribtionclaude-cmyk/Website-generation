@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Search } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router';
 import { Alert } from '@/components/feedback/Alert';
@@ -9,11 +9,9 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { TextAreaField, TextField } from '@/components/ui/TextField';
 import type { PermissionKey } from '@/domain/access/permissions';
-import { resolveLocalized } from '@/domain/localized';
 import { limitsFromSettings, tradeInDifference } from '@/domain/services/media';
 import { isTerminal, staffStatusOptions } from '@/domain/services/status';
 import {
-  SERVICE_STATUSES,
   TAX_STATUSES,
   type ServiceActionResult,
   type ServiceKind,
@@ -32,6 +30,7 @@ import { KIND_LABEL, statusLabelKey } from '@/storefront/services/serviceLabels'
 import { StatusPill } from '@/storefront/services/ServiceParts';
 import { useAdminI18n, type AdminMessageKey } from '../../i18n/context';
 import { useAdminPageMeta } from '../../useAdminPageMeta';
+import { ServiceContextPanel, ServiceQueuePage } from './ServiceQueue';
 import adminStyles from '../../admin.module.css';
 import styles from '../orders/orders.module.css';
 
@@ -72,177 +71,9 @@ const RESULT_MESSAGE: Record<string, AdminMessageKey> = {
 type Feedback = { tone: 'success' | 'danger'; key: AdminMessageKey } | null;
 
 // ── List ────────────────────────────────────────────────────────────────────
+/** Phase 06: the queue with views, priority, SLA aging and per-kind filters. */
 export function AdminServiceListPage({ kind }: { kind: ServiceKind }) {
-  const { at } = useAdminI18n();
-  const { t, locale, format } = useI18n();
-  const { repositories } = useRuntime();
-  const session = useSession();
-  const title = at(`modules.${SERVICE_MODULE_PATH[kind]}.title` as AdminMessageKey);
-  useAdminPageMeta(title);
-  const [status, setStatus] = useState('open');
-  const [assigned, setAssigned] = useState<'' | 'me' | 'unassigned'>('');
-  const [q, setQ] = useState('');
-  const [search, setSearch] = useState('');
-  const list = useQuery({
-    queryKey: ['admin-services', session?.userId ?? null, kind, status, assigned, search],
-    queryFn: () =>
-      repositories.serviceOps.list(kind, {
-        status: status || null,
-        assigned: assigned || null,
-        q: search || null,
-        limit: 50,
-      }),
-  });
-  const base = `/admin/${SERVICE_MODULE_PATH[kind]}`;
-
-  return (
-    <>
-      <div className={adminStyles.pageHead}>
-        <h1 className={adminStyles.pageTitle}>{title}</h1>
-        <p className={adminStyles.pageSubtitle}>{at('servicesAdmin.subtitle')}</p>
-      </div>
-      <div className={adminStyles.stack}>
-        <form
-          className={styles.filters}
-          role="search"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setSearch(q.trim());
-          }}
-        >
-          <div className={styles.field}>
-            <label className={adminStyles.label} htmlFor="svc-q">
-              {at('servicesAdmin.search')}
-            </label>
-            <input
-              id="svc-q"
-              className={adminStyles.select}
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="RP-2026-000001 / 010…"
-              dir="ltr"
-            />
-          </div>
-          <div className={styles.field}>
-            <label className={adminStyles.label} htmlFor="svc-status">
-              {at('servicesAdmin.status')}
-            </label>
-            <select
-              id="svc-status"
-              className={adminStyles.select}
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="open">{at('servicesAdmin.openOnly')}</option>
-              <option value="">{at('servicesAdmin.allStatuses')}</option>
-              {SERVICE_STATUSES[kind].map((s) => (
-                <option key={s} value={s}>
-                  {t(statusLabelKey(s))}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className={styles.field}>
-            <label className={adminStyles.label} htmlFor="svc-assigned">
-              {at('servicesAdmin.assigned')}
-            </label>
-            <select
-              id="svc-assigned"
-              className={adminStyles.select}
-              value={assigned}
-              onChange={(e) => setAssigned(e.target.value as '' | 'me' | 'unassigned')}
-            >
-              <option value="">{at('servicesAdmin.assignedAny')}</option>
-              <option value="me">{at('servicesAdmin.assignedMe')}</option>
-              <option value="unassigned">{at('servicesAdmin.unassigned')}</option>
-            </select>
-          </div>
-          <Button type="submit" variant="primary" icon={<Search aria-hidden="true" />}>
-            {at('orders.apply')}
-          </Button>
-        </form>
-
-        {list.isPending && <Skeleton height="20rem" radius="var(--radius-lg)" />}
-        {list.isError && (
-          <Alert
-            tone="danger"
-            live
-            action={
-              <Button size="sm" variant="secondary" onClick={() => void list.refetch()}>
-                {t('common.retry')}
-              </Button>
-            }
-          >
-            {at('errors.loadFailed')}
-          </Alert>
-        )}
-        {list.data && list.data.items.length === 0 && (
-          <Alert tone="info">{at('servicesAdmin.empty')}</Alert>
-        )}
-        {list.data && list.data.items.length > 0 && (
-          <div
-            className={adminStyles.tableWrap}
-            role="region"
-            aria-label={title}
-            // eslint-disable-next-line jsx-a11y-x/no-noninteractive-tabindex
-            tabIndex={0}
-          >
-            <table className={`${adminStyles.table} ${styles.table}`}>
-              <caption className="visually-hidden">
-                {at('servicesAdmin.count', { count: list.data.total })}
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">{at('servicesAdmin.number')}</th>
-                  <th scope="col">{at('orders.date')}</th>
-                  <th scope="col">{at('orders.customer')}</th>
-                  <th scope="col">{t('services.device')}</th>
-                  <th scope="col">{at('servicesAdmin.status')}</th>
-                  <th scope="col">{at('servicesAdmin.assigned')}</th>
-                  <th scope="col">{at('orders.flags')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list.data.items.map((r) => (
-                  <tr key={r.id}>
-                    <th scope="row">
-                      <Link to={`${base}/${r.id}`} className={styles.orderLink}>
-                        <bdi dir="ltr">{r.number}</bdi>
-                      </Link>
-                    </th>
-                    <td>{format.dateTime(r.createdAt)}</td>
-                    <td>
-                      {r.contactName}
-                      <br />
-                      <bdi dir="ltr" className={adminStyles.muted}>
-                        {r.contactPhone}
-                      </bdi>
-                    </td>
-                    <td>{resolveLocalized(r.title, locale)}</td>
-                    <td>
-                      <StatusPill status={r.status} />
-                    </td>
-                    <td>{r.assignedTo?.name ?? at('servicesAdmin.unassigned')}</td>
-                    <td>
-                      <span className={styles.flags}>
-                        {r.awaitingCustomer && (
-                          <Badge tone="info">{at('servicesAdmin.flagAwaiting')}</Badge>
-                        )}
-                        {r.openOffer && (
-                          <Badge tone="warning">{at('servicesAdmin.flagOffer')}</Badge>
-                        )}
-                        {r.isDemo && <Badge>{at('orders.flagDemo')}</Badge>}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-    </>
-  );
+  return <ServiceQueuePage kind={kind} />;
 }
 
 // ── Detail ──────────────────────────────────────────────────────────────────
@@ -493,6 +324,7 @@ function ServiceDetail({ request }: { request: StaffServiceRequest }) {
         </div>
 
         <div className={adminStyles.stack}>
+          <ServiceContextPanel request={request} />
           {!manage && <Alert tone="info">{at('servicesAdmin.readOnly')}</Alert>}
           {manage && closed && <Alert tone="info">{at('servicesAdmin.closedNote')}</Alert>}
           {manage && <AssignAction request={request} />}

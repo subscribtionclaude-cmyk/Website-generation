@@ -1,7 +1,7 @@
 {
   "get_my_access": {
     "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
-    "userId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+    "userId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
     "grantsAll": true,
     "suspended": false,
     "permissions": [
@@ -51,145 +51,160 @@
     ]
   },
   "admin_analytics": {
-    "byDay": [],
+    "byDay": [{ "day": "2026-09-28", "orders": 2, "revenue": 14900.0 }],
     "range": {
-      "to": "2026-09-26T15:25:23.884409+00:00",
-      "from": "2026-08-27T15:25:23.884409+00:00"
+      "to": "2026-09-28T09:55:27.252781+00:00",
+      "from": "2026-08-29T09:55:27.252781+00:00"
     },
-    "stock": { "low": 9, "out": 10 },
+    "stock": { "low": 8, "out": 11 },
     "totals": {
-      "paid": 0,
-      "orders": 0,
-      "revenue": 0,
+      "paid": 0.0,
+      "orders": 2,
+      "revenue": 14900.0,
       "cancelled": 0,
-      "customers": 0,
-      "itemsSold": 0,
+      "customers": 2,
+      "itemsSold": 2,
       "conversion": null,
       "activeCarts": 0,
-      "averageOrderValue": 0
+      "averageOrderValue": 7450.0
     },
-    "byStatus": {},
+    "byStatus": { "new": 2 },
     "services": {
       "used": { "open": 1, "created": 1, "completed": 0 },
       "repair": { "open": 1, "created": 1, "completed": 0 },
       "trade_in": { "open": 1, "created": 1, "completed": 0 },
       "after_sales": { "open": 1, "created": 1, "completed": 0 }
     },
-    "byPayment": {},
-    "bestSellers": [],
+    "byPayment": { "cod": 2 },
+    "bestSellers": [
+      {
+        "name": { "ar": "Redmi Note 15 Pro", "en": "Redmi Note 15 Pro" },
+        "slug": "redmi-note-15-pro",
+        "revenue": 14000.0,
+        "quantity": 1,
+        "productId": "35f5055e-82f6-b8a8-ed6f-a994dc430bb8"
+      },
+      {
+        "name": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
+        "slug": "usb-c-cable",
+        "revenue": 900.0,
+        "quantity": 1,
+        "productId": "294da053-2649-8cab-0f4e-f2295b7ebe47"
+      }
+    ],
     "includeDemo": true,
     "abandonedCarts": 0,
-    "repeatCustomers": { "customers": 0, "ofCustomers": 0 }
+    "repeatCustomers": { "customers": 0, "ofCustomers": 2 }
   },
   "admin_dashboard": {
     "carts": { "abandoned": 0 },
     "range": {
-      "to": "2026-09-26T15:25:23.884409+00:00",
-      "from": "2026-08-27T15:25:23.884409+00:00"
+      "to": "2026-09-28T09:55:27.252781+00:00",
+      "from": "2026-08-29T09:55:27.252781+00:00"
     },
-    "stock": { "low": 9, "out": 10 },
+    "stock": { "low": 8, "out": 11 },
     "orders": {
-      "open": 1,
-      "paid": 0,
-      "count": 0,
-      "revenue": 0,
+      "open": 3,
+      "paid": 0.0,
+      "count": 2,
+      "revenue": 14900.0,
       "cancelled": 0,
       "demoExcluded": 0,
-      "manualReview": 1,
-      "averageOrderValue": 0,
+      "manualReview": 0,
+      "averageOrderValue": 7450.0,
       "pendingVerification": 0
     },
     "reviews": { "pending": 0 },
     "activity": [
       {
-        "id": 450,
+        "id": 1379,
         "action": "stock.adjusted",
         "module": "catalog",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 449,
+        "id": 1378,
         "action": "update",
         "module": "catalog",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 448,
+        "id": 1377,
         "action": "insert",
         "module": "customers",
-        "entityId": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "entityId": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
         "actorName": "owner.sample@test.local",
         "entityType": "public.customer_notes",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 447,
+        "id": 1376,
         "action": "order.created",
         "module": "orders",
-        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "actorName": "Sample Customer",
         "entityType": "order",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 446,
+        "id": 1375,
         "action": "insert",
         "module": "orders",
-        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "actorName": "Sample Customer",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 445,
+        "id": 1374,
         "action": "insert",
         "module": "access",
-        "entityId": "582e448f-6b1c-4da8-811d-95078d289bf1:e08cdbe5-1b5a-48dd-a54f-f84391b8279f",
+        "entityId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd:2a29f49b-5c91-425c-9660-8ba8c29333ce",
         "actorName": null,
         "entityType": "public.user_roles",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00"
       },
       {
-        "id": 444,
-        "action": "update",
-        "module": "settings",
-        "entityId": "features",
-        "actorName": null,
-        "entityType": "public.site_settings",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00"
+        "id": 1373,
+        "action": "order.created",
+        "module": "orders",
+        "entityId": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "actorName": "Test Customer",
+        "entityType": "order",
+        "occurredAt": "2026-09-28T09:55:23.651186+00:00"
       },
       {
-        "id": 443,
+        "id": 1372,
         "action": "insert",
-        "module": "content",
-        "entityId": "repairs-consultation",
-        "actorName": null,
-        "entityType": "public.content_entries",
-        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+        "module": "orders",
+        "entityId": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "actorName": "Test Customer",
+        "entityType": "public.orders",
+        "occurredAt": "2026-09-28T09:55:23.651186+00:00"
       },
       {
-        "id": 442,
-        "action": "insert",
-        "module": "content",
-        "entityId": "trade-in-at-malek",
-        "actorName": null,
-        "entityType": "public.content_entries",
-        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+        "id": 1371,
+        "action": "order.created",
+        "module": "orders",
+        "entityId": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "actorName": "Test Customer",
+        "entityType": "order",
+        "occurredAt": "2026-09-28T09:55:23.142312+00:00"
       },
       {
-        "id": 441,
+        "id": 1370,
         "action": "insert",
-        "module": "content",
-        "entityId": "accessories-price-update",
-        "actorName": null,
-        "entityType": "public.content_entries",
-        "occurredAt": "2026-09-26T15:24:54.308911+00:00"
+        "module": "orders",
+        "entityId": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "actorName": "Test Customer",
+        "entityType": "public.orders",
+        "occurredAt": "2026-09-28T09:55:23.142312+00:00"
       }
     ],
     "requests": { "notify": 0, "waitlist": 0 },
@@ -238,8 +253,8 @@
     },
     "expiresAt": null,
     "mediaKind": "image",
-    "publishAt": "2026-09-14T15:24:54.308911+00:00",
-    "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+    "publishAt": "2026-09-16T09:52:33.836543+00:00",
+    "updatedAt": "2026-09-28T09:52:33.836543+00:00",
     "isFeatured": true,
     "releaseDate": null,
     "mediaPosterUrl": null,
@@ -254,7 +269,7 @@
     "badge": { "ar": "عرض محدود", "en": "Limited offer" },
     "state": "active",
     "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
-    "endsAt": "2026-10-02T15:24:54.308911+00:00",
+    "endsAt": "2026-10-04T09:52:33.836543+00:00",
     "isDemo": true,
     "status": "published",
     "ctaHref": "/product/airpods-pro-3",
@@ -272,7 +287,7 @@
       }
     ],
     "seoTitle": null,
-    "startsAt": "2026-09-24T15:24:54.308911+00:00",
+    "startsAt": "2026-09-26T09:52:33.836543+00:00",
     "subtitle": {
       "ar": "عرض لفترة محدودة — لحد ما الكمية تخلص",
       "en": "Limited time — while stock lasts"
@@ -280,7 +295,7 @@
     "mediaKind": null,
     "promoCode": null,
     "sortOrder": 1,
-    "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+    "updatedAt": "2026-09-28T09:52:33.836543+00:00",
     "bundlePrice": null,
     "buyQuantity": null,
     "categoryIds": [],
@@ -303,7 +318,7 @@
       "rank": 100,
       "users": [
         {
-          "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+          "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
           "name": null,
           "email": "owner.sample@test.local",
           "suspended": false
@@ -505,13 +520,13 @@
   ],
   "admin_list_staff": [
     {
-      "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+      "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
       "name": null,
       "rank": 100,
       "email": "owner.sample@test.local",
       "roles": [{ "key": "owner", "name": { "ar": "المالك", "en": "Owner" }, "rank": 100 }],
       "status": "active",
-      "createdAt": "2026-09-26T15:25:23.884409+00:00",
+      "createdAt": "2026-09-28T09:55:27.252781+00:00",
       "suspendedAt": null,
       "lastActiveAt": null,
       "suspensionReason": null
@@ -686,11 +701,11 @@
         "warranty": null,
         "available": 10,
         "isDefault": true,
-        "updatedAt": "2026-09-26T15:25:23.931976+00:00",
+        "updatedAt": "2026-09-28T09:55:27.308396+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -710,11 +725,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -734,11 +749,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -758,11 +773,11 @@
         "warranty": null,
         "available": 3,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -782,11 +797,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -806,11 +821,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -830,11 +845,11 @@
         "warranty": null,
         "available": 9,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -854,11 +869,11 @@
         "warranty": null,
         "available": 3,
         "isDefault": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "warrantyKind": null,
         "compareAtPrice": null,
         "lastPriceChange": {
-          "at": "2026-09-26T15:24:54.308911+00:00",
+          "at": "2026-09-28T09:52:33.836543+00:00",
           "by": null,
           "reason": null,
           "source": "system",
@@ -868,7 +883,7 @@
       }
     ],
     "warranty": { "ar": "ضمان وكيل", "en": "Authorized distributor warranty" },
-    "createdAt": "2026-09-26T15:24:54.308911+00:00",
+    "createdAt": "2026-09-28T09:52:33.836543+00:00",
     "isVisible": true,
     "relations": [
       {
@@ -896,7 +911,7 @@
         "productId": "3396cc45-6527-7366-7e53-5f1fd21c5ede"
       }
     ],
-    "updatedAt": "2026-09-26T15:24:54.366383+00:00",
+    "updatedAt": "2026-09-28T09:52:33.899327+00:00",
     "categories": [{ "id": "d535a58b-7510-1240-a26d-b9a9c0564525", "isPrimary": true }],
     "hasHistory": true,
     "isFeatured": false,
@@ -972,7 +987,7 @@
       "ar": "iPhone 17 بمساحتين وأكتر من لون.",
       "en": "iPhone 17 in two storage sizes and several colours."
     },
-    "releaseDate": "2025-09-11",
+    "releaseDate": "2025-09-13",
     "warrantyKind": null,
     "seoDescription": null,
     "availabilityState": "available"
@@ -987,7 +1002,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 1,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1015,7 +1030,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 2,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1037,7 +1052,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 3,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": [
         "d535a58b-7510-1240-a26d-b9a9c0564525",
@@ -1057,7 +1072,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 4,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
       "description": null,
@@ -1074,7 +1089,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 5,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": ["d535a58b-7510-1240-a26d-b9a9c0564525"],
       "description": null,
@@ -1091,7 +1106,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 6,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": [
         "853c6b33-6241-6459-662a-cbbb796a003f",
@@ -1112,7 +1127,7 @@
       "seoTitle": null,
       "isVisible": true,
       "sortOrder": 7,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "isFeatured": false,
       "categoryIds": ["2876b3da-9883-1302-4655-4410335901d1"],
       "description": null,
@@ -1129,13 +1144,13 @@
         "slug": "airpods-pro-3-limited",
         "state": "active",
         "title": { "ar": "AirPods Pro 3 بسعر خاص", "en": "AirPods Pro 3 at a special price" },
-        "endsAt": "2026-10-02T15:24:54.308911+00:00",
+        "endsAt": "2026-10-04T09:52:33.836543+00:00",
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-24T15:24:54.308911+00:00",
+        "startsAt": "2026-09-26T09:52:33.836543+00:00",
         "promoCode": null,
         "sortOrder": 1,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "redemptions": 0,
         "productCount": 1,
         "discountAmount": null,
@@ -1151,13 +1166,13 @@
           "ar": "باقة AirPods 4 + Apple Watch Series 11",
           "en": "AirPods 4 + Apple Watch Series 11 bundle"
         },
-        "endsAt": "2026-10-16T15:24:54.308911+00:00",
+        "endsAt": "2026-10-18T09:52:33.836543+00:00",
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-21T15:24:54.308911+00:00",
+        "startsAt": "2026-09-23T09:52:33.836543+00:00",
         "promoCode": null,
         "sortOrder": 2,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "redemptions": 0,
         "productCount": 2,
         "discountAmount": null,
@@ -1173,10 +1188,10 @@
         "endsAt": null,
         "isDemo": true,
         "status": "published",
-        "startsAt": "2026-09-16T15:24:54.308911+00:00",
+        "startsAt": "2026-09-18T09:52:33.836543+00:00",
         "promoCode": null,
         "sortOrder": 3,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "redemptions": 0,
         "productCount": 1,
         "discountAmount": null,
@@ -1189,47 +1204,91 @@
   "staff_list_orders": {
     "items": [
       {
-        "id": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "id": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "total": 48000.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "createdAt": "2026-09-28T09:55:27.252781+00:00",
         "itemCount": 1,
         "assignedTo": null,
-        "customerId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "customerId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
         "paidAmount": 0.0,
-        "orderNumber": "MS-2026-000001",
+        "orderNumber": "MS-2026-000022",
         "customerName": "Test Customer",
         "customerPhone": "+201012345678",
         "paymentMethod": "cod",
         "paymentStatus": "cod_pending",
-        "reviewPending": true,
+        "reviewPending": false,
         "stockCommitted": false,
         "remainingAmount": 48000.0,
         "fulfillmentMethod": "pickup",
         "shippingFeeStatus": "not_required",
-        "reservationExpiresAt": "2026-09-26T15:55:23.884409+00:00"
+        "reservationExpiresAt": "2026-09-28T10:25:27.252781+00:00"
+      },
+      {
+        "id": "32c84710-3c58-41ec-bff1-eb6b98abeda3",
+        "total": 900.0,
+        "isDemo": true,
+        "status": "new",
+        "createdAt": "2026-09-28T09:55:23.651186+00:00",
+        "itemCount": 1,
+        "assignedTo": null,
+        "customerId": "d5fc6a60-8c61-4669-ad1f-0328df0727e7",
+        "paidAmount": 0.0,
+        "orderNumber": "MS-2026-000021",
+        "customerName": "Test Customer",
+        "customerPhone": "+201012345678",
+        "paymentMethod": "cod",
+        "paymentStatus": "cod_pending",
+        "reviewPending": false,
+        "stockCommitted": false,
+        "remainingAmount": 900.0,
+        "fulfillmentMethod": "pickup",
+        "shippingFeeStatus": "not_required",
+        "reservationExpiresAt": "2026-09-28T10:25:23.651186+00:00"
+      },
+      {
+        "id": "9f9c92b8-39ea-406e-812d-627b4afb15e2",
+        "total": 14000.0,
+        "isDemo": true,
+        "status": "new",
+        "createdAt": "2026-09-28T09:55:23.142312+00:00",
+        "itemCount": 1,
+        "assignedTo": null,
+        "customerId": "68900f2b-b272-48e7-b581-62317bf20704",
+        "paidAmount": 0.0,
+        "orderNumber": "MS-2026-000020",
+        "customerName": "Test Customer",
+        "customerPhone": "+201012345678",
+        "paymentMethod": "cod",
+        "paymentStatus": "cod_pending",
+        "reviewPending": false,
+        "stockCommitted": false,
+        "remainingAmount": 14000.0,
+        "fulfillmentMethod": "pickup",
+        "shippingFeeStatus": "not_required",
+        "reservationExpiresAt": "2026-09-28T10:25:23.142312+00:00"
       }
     ],
-    "total": 1
+    "total": 3
   },
   "admin_get_customer": {
-    "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+    "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
     "name": "Sample Customer",
     "email": "cust.sample@test.local",
     "notes": [
       {
-        "id": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "id": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
         "body": "Prefers WhatsApp",
         "isPinned": false,
-        "createdAt": "2026-09-26T15:25:23.884409+00:00",
-        "updatedAt": "2026-09-26T15:25:23.884409+00:00",
+        "createdAt": "2026-09-28T09:55:27.252781+00:00",
+        "updatedAt": "2026-09-28T09:55:27.252781+00:00",
         "authorName": "owner.sample@test.local"
       }
     ],
     "phone": "+201000000001",
     "stats": {
-      "lastOrderAt": "2026-09-26T15:25:23.884409+00:00",
+      "lastOrderAt": "2026-09-28T09:55:27.252781+00:00",
       "ordersCount": 1,
       "openRequests": 0,
       "lifetimeValue": 0.0,
@@ -1237,19 +1296,19 @@
     },
     "orders": [
       {
-        "id": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "id": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "total": 48000.0,
         "isDemo": true,
         "status": "new",
-        "createdAt": "2026-09-26T15:25:23.884409+00:00",
-        "orderNumber": "MS-2026-000001",
+        "createdAt": "2026-09-28T09:55:27.252781+00:00",
+        "orderNumber": "MS-2026-000022",
         "paymentStatus": "cod_pending"
       }
     ],
     "isStaff": false,
     "reviews": [],
     "activity": { "followUp": null, "cartItems": 0, "recentlyViewed": 0 },
-    "joinedAt": "2026-09-26T15:25:23.884409+00:00",
+    "joinedAt": "2026-09-28T09:55:27.252781+00:00",
     "addresses": [],
     "lastSignInAt": null,
     "notifications": [],
@@ -1268,8 +1327,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/phone-front-black.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-22T15:24:54.308911+00:00",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "publishAt": "2026-09-24T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "isFeatured": true
       },
       {
@@ -1282,8 +1341,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/case-white.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-22T15:24:54.308911+00:00",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "publishAt": "2026-09-24T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "isFeatured": true
       },
       {
@@ -1296,8 +1355,8 @@
         "status": "published",
         "mediaUrl": "/demo/media/phone-front-blue.svg",
         "expiresAt": null,
-        "publishAt": "2026-09-18T15:24:54.308911+00:00",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "publishAt": "2026-09-20T09:52:33.836543+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "isFeatured": true
       }
     ],
@@ -1316,10 +1375,10 @@
         "product": { "name": { "ar": "AirPods 4", "en": "AirPods 4" }, "slug": "airpods-4" },
         "eligible": false,
         "rejected": false,
-        "createdAt": "2026-09-23T15:24:54.308911+00:00",
+        "createdAt": "2026-09-25T09:52:33.836543+00:00",
         "imagePath": null,
         "productId": "fd61b83a-a426-7839-f0d0-e316a89e0de2",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "authorName": "Demo",
         "moderatedAt": null,
         "orderNumber": null,
@@ -1340,10 +1399,10 @@
         },
         "eligible": false,
         "rejected": false,
-        "createdAt": "2026-09-20T15:24:54.308911+00:00",
+        "createdAt": "2026-09-22T09:52:33.836543+00:00",
         "imagePath": null,
         "productId": "94ac2f34-3962-e505-c56b-421bc5a99fc0",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "authorName": "Demo",
         "moderatedAt": null,
         "orderNumber": null,
@@ -1354,19 +1413,19 @@
     "total": 2
   },
   "admin_get_audit_log": {
-    "id": 450,
+    "id": 1379,
     "after": { "quantity": 11 },
     "action": "stock.adjusted",
     "before": { "quantity": 9 },
     "module": "catalog",
-    "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+    "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
     "entityId": "IP17-256GB-BLACK",
     "metadata": { "type": "addition", "reason": "Sample restock" },
     "actorName": "owner.sample@test.local",
     "actorRole": "authenticated",
     "actorEmail": "owner.sample@test.local",
     "entityType": "public.product_variants",
-    "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+    "occurredAt": "2026-09-28T09:55:27.252781+00:00",
     "changedFields": ["quantity"]
   },
   "admin_list_products": {
@@ -1394,7 +1453,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-26T15:24:54.383507+00:00",
+        "updatedAt": "2026-09-28T09:52:33.916252+00:00",
         "isFeatured": false,
         "variantCount": 2,
         "startingPrice": 2100.0,
@@ -1411,7 +1470,7 @@
         "image": "/demo/media/cable-white.svg",
         "isNew": false,
         "model": "USB-C Charge Cable",
-        "stock": { "low": 0, "out": 0, "total": 50, "available": 50 },
+        "stock": { "low": 0, "out": 0, "total": 50, "available": 49 },
         "isDemo": true,
         "status": "published",
         "category": {
@@ -1420,7 +1479,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-26T15:24:54.382741+00:00",
+        "updatedAt": "2026-09-28T09:52:33.915633+00:00",
         "isFeatured": false,
         "variantCount": 2,
         "startingPrice": 900.0,
@@ -1449,7 +1508,7 @@
         },
         "hasOffer": true,
         "isVisible": true,
-        "updatedAt": "2026-09-26T15:24:54.382128+00:00",
+        "updatedAt": "2026-09-28T09:52:33.915104+00:00",
         "isFeatured": false,
         "variantCount": 1,
         "startingPrice": 2400.0,
@@ -1468,8 +1527,8 @@
           "color": null,
           "price": 1000,
           "stock": 2,
-          "nameAr": null,
-          "nameEn": null,
+          "nameAr": "عينة",
+          "nameEn": "Sample",
           "brandId": "3d0ceac3-52c0-179d-cbeb-fecdd8cda571",
           "storage": null,
           "colorHex": null,
@@ -1485,8 +1544,8 @@
           "lowStockThreshold": null
         },
         "rowNo": 1,
-        "action": "error",
-        "errors": ["name_required"]
+        "action": "create_product",
+        "errors": []
       },
       {
         "data": {
@@ -1522,18 +1581,44 @@
         ]
       }
     ],
-    "jobId": "a7200316-26e4-482a-abd6-7f3e1c3bc186",
-    "summary": { "total": 2, "errors": 2, "update": 0, "createProduct": 0, "createVariant": 0 }
+    "jobId": "90917570-8903-4b8f-a117-fa014c7cf4be",
+    "summary": { "total": 2, "errors": 1, "update": 0, "createProduct": 1, "createVariant": 0 }
   },
   "admin_list_customers": {
     "items": [
       {
-        "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+        "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
         "name": "Sample Customer",
         "email": "cust.sample@test.local",
         "phone": "+201000000001",
-        "joinedAt": "2026-09-26T15:25:23.884409+00:00",
-        "lastOrderAt": "2026-09-26T15:25:23.884409+00:00",
+        "joinedAt": "2026-09-28T09:55:27.252781+00:00",
+        "lastOrderAt": "2026-09-28T09:55:27.252781+00:00",
+        "ordersCount": 1,
+        "openRequests": 0,
+        "lifetimeValue": 0.0,
+        "wishlistCount": 0,
+        "preferredLocale": "ar"
+      },
+      {
+        "id": "25e59bd6-e239-42b5-93dc-1cbfbbed1bdd",
+        "name": null,
+        "email": "w@race.local",
+        "phone": null,
+        "joinedAt": "2026-09-28T09:55:23.129593+00:00",
+        "lastOrderAt": null,
+        "ordersCount": 0,
+        "openRequests": 0,
+        "lifetimeValue": 0,
+        "wishlistCount": 2,
+        "preferredLocale": "ar"
+      },
+      {
+        "id": "d5fc6a60-8c61-4669-ad1f-0328df0727e7",
+        "name": "Test Customer",
+        "email": "c@race.local",
+        "phone": "+201012345678",
+        "joinedAt": "2026-09-28T09:55:23.129021+00:00",
+        "lastOrderAt": "2026-09-28T09:55:23.651186+00:00",
         "ordersCount": 1,
         "openRequests": 0,
         "lifetimeValue": 0.0,
@@ -1541,12 +1626,13 @@
         "preferredLocale": "ar"
       }
     ],
-    "total": 1
+    "total": 5
   },
   "admin_list_inventory": {
     "items": [
       {
         "sku": "AWS11-46MM-ROSE-GOLD",
+        "price": 24500.0,
         "state": "out",
         "isDemo": true,
         "isActive": true,
@@ -1554,7 +1640,7 @@
         "reserved": 0,
         "available": 0,
         "productId": "28579a2d-0436-d285-aeda-9d602c0c1881",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "variantId": "fb6b8dda-5940-b644-2143-757c217bdafe",
         "productName": { "ar": "Apple Watch Series 11", "en": "Apple Watch Series 11" },
         "productSlug": "apple-watch-series-11",
@@ -1563,11 +1649,20 @@
           { "ar": "روز جولد", "en": "Rose Gold" }
         ],
         "backInStockAt": null,
+        "compareAtPrice": null,
         "lastMovementAt": null,
+        "lastPriceChange": {
+          "at": "2026-09-28T09:52:33.836543+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
         "lowStockThreshold": 2
       },
       {
         "sku": "AWU3-BLACK",
+        "price": 42000.0,
         "state": "out",
         "isDemo": true,
         "isActive": true,
@@ -1575,17 +1670,26 @@
         "reserved": 0,
         "available": 0,
         "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "variantId": "6f45a1f8-d49d-1e08-1192-ccd1361d7e3e",
         "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
         "productSlug": "apple-watch-ultra-3",
         "variantLabel": [{ "ar": "أسود", "en": "Black" }],
         "backInStockAt": null,
+        "compareAtPrice": null,
         "lastMovementAt": null,
+        "lastPriceChange": {
+          "at": "2026-09-28T09:52:33.836543+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
         "lowStockThreshold": 2
       },
       {
         "sku": "AWU3-TITANIUM",
+        "price": 42000.0,
         "state": "out",
         "isDemo": true,
         "isActive": true,
@@ -1593,20 +1697,28 @@
         "reserved": 0,
         "available": 0,
         "productId": "b540e3de-2f66-c3a1-2adc-8615d180f8cc",
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "variantId": "2dd2ce3d-a33e-86f1-1628-0e44561f4d13",
         "productName": { "ar": "Apple Watch Ultra 3", "en": "Apple Watch Ultra 3" },
         "productSlug": "apple-watch-ultra-3",
         "variantLabel": [{ "ar": "تيتانيوم طبيعي", "en": "Natural Titanium" }],
         "backInStockAt": null,
+        "compareAtPrice": null,
         "lastMovementAt": null,
+        "lastPriceChange": {
+          "at": "2026-09-28T09:52:33.836543+00:00",
+          "by": null,
+          "reason": null,
+          "source": "system",
+          "oldPrice": null
+        },
         "lowStockThreshold": 2
       }
     ],
     "total": 116
   },
   "admin_lookup_account": {
-    "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+    "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
     "name": "Sample Customer",
     "email": "cust.sample@test.local",
     "found": true,
@@ -1743,7 +1855,7 @@
         "visible": true,
         "category": "audio",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.375003+00:00",
+        "updated_at": "2026-09-28T09:52:33.908339+00:00",
         "availability": "available"
       },
       {
@@ -1756,7 +1868,7 @@
         "visible": true,
         "category": "audio",
         "variants": 1,
-        "updated_at": "2026-09-26T15:24:54.374483+00:00",
+        "updated_at": "2026-09-28T09:52:33.907695+00:00",
         "availability": "available"
       },
       {
@@ -1769,7 +1881,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.383507+00:00",
+        "updated_at": "2026-09-28T09:52:33.916252+00:00",
         "availability": "available"
       },
       {
@@ -1782,7 +1894,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 1,
-        "updated_at": "2026-09-26T15:24:54.381496+00:00",
+        "updated_at": "2026-09-28T09:52:33.914528+00:00",
         "availability": "available"
       },
       {
@@ -1795,7 +1907,7 @@
         "visible": true,
         "category": "watches",
         "variants": 6,
-        "updated_at": "2026-09-26T15:24:54.372595+00:00",
+        "updated_at": "2026-09-28T09:52:33.905897+00:00",
         "availability": "available"
       },
       {
@@ -1808,7 +1920,7 @@
         "visible": true,
         "category": "watches",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.373246+00:00",
+        "updated_at": "2026-09-28T09:52:33.906544+00:00",
         "availability": "available"
       },
       {
@@ -1821,7 +1933,7 @@
         "visible": true,
         "category": "gaming",
         "variants": 3,
-        "updated_at": "2026-09-26T15:24:54.380376+00:00",
+        "updated_at": "2026-09-28T09:52:33.913448+00:00",
         "availability": "available"
       },
       {
@@ -1834,7 +1946,7 @@
         "visible": true,
         "category": "phones",
         "variants": 4,
-        "updated_at": "2026-09-26T15:24:54.368294+00:00",
+        "updated_at": "2026-09-28T09:52:33.901396+00:00",
         "availability": "available"
       },
       {
@@ -1847,7 +1959,7 @@
         "visible": true,
         "category": "audio",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.375584+00:00",
+        "updated_at": "2026-09-28T09:52:33.908849+00:00",
         "availability": "available"
       },
       {
@@ -1860,7 +1972,7 @@
         "visible": true,
         "category": "phones",
         "variants": 6,
-        "updated_at": "2026-09-26T15:24:54.36768+00:00",
+        "updated_at": "2026-09-28T09:52:33.900785+00:00",
         "availability": "available"
       },
       {
@@ -1873,7 +1985,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 4,
-        "updated_at": "2026-09-26T15:24:54.371939+00:00",
+        "updated_at": "2026-09-28T09:52:33.905309+00:00",
         "availability": "available"
       },
       {
@@ -1886,7 +1998,7 @@
         "visible": true,
         "category": "watches",
         "variants": 4,
-        "updated_at": "2026-09-26T15:24:54.373891+00:00",
+        "updated_at": "2026-09-28T09:52:33.907138+00:00",
         "availability": "available"
       },
       {
@@ -1899,7 +2011,7 @@
         "visible": true,
         "category": "phones",
         "variants": 4,
-        "updated_at": "2026-09-26T15:24:54.369499+00:00",
+        "updated_at": "2026-09-28T09:52:33.902791+00:00",
         "availability": "available"
       },
       {
@@ -1912,7 +2024,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 8,
-        "updated_at": "2026-09-26T15:24:54.371405+00:00",
+        "updated_at": "2026-09-28T09:52:33.904753+00:00",
         "availability": "available"
       },
       {
@@ -1925,7 +2037,7 @@
         "visible": true,
         "category": "tablets",
         "variants": 6,
-        "updated_at": "2026-09-26T15:24:54.370811+00:00",
+        "updated_at": "2026-09-28T09:52:33.904215+00:00",
         "availability": "available"
       },
       {
@@ -1938,7 +2050,7 @@
         "visible": true,
         "category": "phones",
         "variants": 6,
-        "updated_at": "2026-09-26T15:24:54.367006+00:00",
+        "updated_at": "2026-09-28T09:52:33.900135+00:00",
         "availability": "available"
       },
       {
@@ -1951,7 +2063,7 @@
         "visible": true,
         "category": "phones",
         "variants": 8,
-        "updated_at": "2026-09-26T15:24:54.366383+00:00",
+        "updated_at": "2026-09-28T09:52:33.899327+00:00",
         "availability": "available"
       },
       {
@@ -1964,7 +2076,7 @@
         "visible": true,
         "category": "phones",
         "variants": 12,
-        "updated_at": "2026-09-26T15:24:54.363626+00:00",
+        "updated_at": "2026-09-28T09:52:33.894917+00:00",
         "availability": "available"
       },
       {
@@ -1977,7 +2089,7 @@
         "visible": true,
         "category": "phones",
         "variants": 12,
-        "updated_at": "2026-09-26T15:24:54.364864+00:00",
+        "updated_at": "2026-09-28T09:52:33.896022+00:00",
         "availability": "available"
       },
       {
@@ -1990,7 +2102,7 @@
         "visible": true,
         "category": "phones",
         "variants": 0,
-        "updated_at": "2026-09-26T15:24:54.365597+00:00",
+        "updated_at": "2026-09-28T09:52:33.896702+00:00",
         "availability": "coming_soon"
       },
       {
@@ -2003,7 +2115,7 @@
         "visible": true,
         "category": "macbook",
         "variants": 8,
-        "updated_at": "2026-09-26T15:24:54.376824+00:00",
+        "updated_at": "2026-09-28T09:52:33.910127+00:00",
         "availability": "available"
       },
       {
@@ -2016,7 +2128,7 @@
         "visible": true,
         "category": "macbook",
         "variants": 4,
-        "updated_at": "2026-09-26T15:24:54.377996+00:00",
+        "updated_at": "2026-09-28T09:52:33.911212+00:00",
         "availability": "available"
       },
       {
@@ -2029,7 +2141,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 1,
-        "updated_at": "2026-09-26T15:24:54.382128+00:00",
+        "updated_at": "2026-09-28T09:52:33.915104+00:00",
         "availability": "available"
       },
       {
@@ -2042,7 +2154,7 @@
         "visible": true,
         "category": "phones",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.37025+00:00",
+        "updated_at": "2026-09-28T09:52:33.903547+00:00",
         "availability": "available"
       },
       {
@@ -2055,7 +2167,7 @@
         "visible": true,
         "category": "playstation-5",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.379243+00:00",
+        "updated_at": "2026-09-28T09:52:33.912353+00:00",
         "availability": "available"
       },
       {
@@ -2068,7 +2180,7 @@
         "visible": true,
         "category": "phones",
         "variants": 3,
-        "updated_at": "2026-09-26T15:24:54.368913+00:00",
+        "updated_at": "2026-09-28T09:52:33.902122+00:00",
         "availability": "available"
       },
       {
@@ -2081,7 +2193,7 @@
         "visible": true,
         "category": "accessories",
         "variants": 2,
-        "updated_at": "2026-09-26T15:24:54.382741+00:00",
+        "updated_at": "2026-09-28T09:52:33.915633+00:00",
         "availability": "available"
       },
       {
@@ -2094,51 +2206,51 @@
         "visible": true,
         "category": "scooters",
         "variants": 1,
-        "updated_at": "2026-09-26T15:24:54.380843+00:00",
+        "updated_at": "2026-09-28T09:52:33.913905+00:00",
         "availability": "available"
       }
     ],
-    "generatedAt": "2026-09-26T15:25:23.884409+00:00"
+    "generatedAt": "2026-09-28T09:55:27.252781+00:00"
   },
   "admin_list_audit_logs": {
     "items": [
       {
-        "id": 450,
+        "id": 1379,
         "action": "stock.adjusted",
         "module": "catalog",
-        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
         "changedFields": ["quantity"]
       },
       {
-        "id": 449,
+        "id": 1378,
         "action": "update",
         "module": "catalog",
-        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
+        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
         "entityId": "IP17-256GB-BLACK",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.product_variants",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
         "changedFields": ["stock_quantity", "updated_at"]
       },
       {
-        "id": 448,
+        "id": 1377,
         "action": "insert",
         "module": "customers",
-        "actorId": "582e448f-6b1c-4da8-811d-95078d289bf1",
-        "entityId": "b450bb08-b76c-4dbf-a434-3b2751b8cd4c",
+        "actorId": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
+        "entityId": "74a4fb91-b140-4c11-8638-9eb9fff15e7f",
         "actorName": "owner.sample@test.local",
         "actorRole": "authenticated",
         "actorEmail": "owner.sample@test.local",
         "entityType": "public.customer_notes",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
         "changedFields": [
           "author_id",
           "body",
@@ -2151,29 +2263,29 @@
         ]
       },
       {
-        "id": 447,
+        "id": 1376,
         "action": "order.created",
         "module": "orders",
-        "actorId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
-        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "actorName": "Sample Customer",
         "actorRole": "authenticated",
         "actorEmail": "cust.sample@test.local",
         "entityType": "order",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
         "changedFields": ["fulfillment", "manualReview", "orderNumber", "paymentMethod", "total"]
       },
       {
-        "id": 446,
+        "id": 1375,
         "action": "insert",
         "module": "orders",
-        "actorId": "8ac56130-3105-41cf-a31f-1ce75adfb050",
-        "entityId": "9dd08a2b-12d0-4eca-aa03-aaabef2aec09",
+        "actorId": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
+        "entityId": "83db8f9f-6501-4380-aee1-0b6ef444193b",
         "actorName": "Sample Customer",
         "actorRole": "authenticated",
         "actorEmail": "cust.sample@test.local",
         "entityType": "public.orders",
-        "occurredAt": "2026-09-26T15:25:23.884409+00:00",
+        "occurredAt": "2026-09-28T09:55:27.252781+00:00",
         "changedFields": [
           "assigned_staff_id",
           "cancel_reason",
@@ -2225,7 +2337,7 @@
         ]
       }
     ],
-    "total": 450
+    "total": 456
   },
   "admin_list_categories": [
     {
@@ -2240,7 +2352,7 @@
       "isVisible": true,
       "showInNav": false,
       "sortOrder": 1,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": false,
@@ -2261,7 +2373,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 1,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2282,7 +2394,7 @@
       "isVisible": true,
       "showInNav": false,
       "sortOrder": 1,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": false,
@@ -2303,7 +2415,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 2,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2324,7 +2436,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 3,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 1,
       "showInShop": true,
       "showOnHome": true,
@@ -2345,7 +2457,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 4,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2366,7 +2478,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 5,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2387,7 +2499,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 6,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 1,
       "showInShop": true,
       "showOnHome": true,
@@ -2408,7 +2520,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 7,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2429,7 +2541,7 @@
       "isVisible": true,
       "showInNav": true,
       "sortOrder": 8,
-      "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+      "updatedAt": "2026-09-28T09:52:33.836543+00:00",
       "childCount": 0,
       "showInShop": true,
       "showOnHome": true,
@@ -2440,13 +2552,13 @@
     }
   ],
   "admin_order_assignees": [
-    { "id": "582e448f-6b1c-4da8-811d-95078d289bf1", "name": "owner.sample@test.local" }
+    { "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd", "name": "owner.sample@test.local" }
   ],
   "admin_service_context": {
     "sla": "approaching",
     "priority": "normal",
     "slaHours": { "warnHours": 48, "overdueHours": 120 },
-    "lastChangeAt": "2026-09-23T15:24:54.308911+00:00",
+    "lastChangeAt": "2026-09-25T09:52:33.836543+00:00",
     "notifications": []
   },
   "admin_list_import_jobs": [],
@@ -2474,18 +2586,18 @@
         "whatsappNumber": null
       },
       "version": 1,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null
     }
   ],
   "admin_search_recipients": [
     {
-      "id": "8ac56130-3105-41cf-a31f-1ce75adfb050",
+      "id": "c1499fca-bf8a-4e2d-9eca-d70ccefcea7b",
       "name": "Sample Customer",
       "email": "cust.sample@test.local"
     },
     {
-      "id": "582e448f-6b1c-4da8-811d-95078d289bf1",
+      "id": "e72ae741-79a7-4fc9-91e9-f74f4d6624bd",
       "name": null,
       "email": "owner.sample@test.local"
     }
@@ -2501,7 +2613,7 @@
       "isPublic": false,
       "published": { "enabled": true, "followUp": "in_app", "thresholdHours": 48 },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2526,7 +2638,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2551,7 +2663,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2573,7 +2685,7 @@
         "maxOpenOrdersPerCustomer": 3
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2599,7 +2711,7 @@
         "recommendations": { "limit": 8, "minCustomers": 2 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2614,7 +2726,7 @@
       "isPublic": true,
       "published": { "loyalty": false, "promoCodes": false, "showDemoCatalog": true },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:25:23.884409+00:00",
+      "publishedAt": "2026-09-28T09:55:23.115972+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2667,7 +2779,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2687,7 +2799,7 @@
         "weekStartsOn": 6
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2708,7 +2820,7 @@
         "expiryMonths": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2848,7 +2960,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2869,7 +2981,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2880,19 +2992,19 @@
       "scope": "settings",
       "canEdit": true,
       "draftBy": null,
-      "version": 1,
+      "version": 2,
       "isPublic": false,
       "published": {
-        "preset": "default",
-        "velocity": { "enabled": true, "maxOrders": 3, "windowHours": 1 },
-        "highValue": { "enabled": true, "threshold": 100000 },
-        "newCustomer": { "enabled": true, "minTotal": 30000 },
-        "splitPayment": { "enabled": true },
-        "unfinishedOrders": { "enabled": true, "maxCount": 2, "windowDays": 7 },
-        "multipleExpensive": { "enabled": true, "minUnits": 2, "unitPrice": 20000 }
+        "preset": "custom",
+        "velocity": { "enabled": false, "maxOrders": 3, "windowHours": 1 },
+        "highValue": { "enabled": false, "threshold": 100000 },
+        "newCustomer": { "enabled": false, "minTotal": 30000 },
+        "splitPayment": { "enabled": false },
+        "unfinishedOrders": { "enabled": false, "maxCount": 2, "windowDays": 7 },
+        "multipleExpensive": { "enabled": false, "minUnits": 2, "unitPrice": 20000 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:55:23.121881+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -2927,7 +3039,7 @@
         "showLogo": true
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3524,7 +3636,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3539,7 +3651,7 @@
       "isPublic": false,
       "published": { "adminMfaRequired": false },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3565,7 +3677,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3585,7 +3697,7 @@
         "after_sales": { "warnHours": 24, "overdueHours": 72 }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3631,7 +3743,7 @@
         }
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3658,7 +3770,7 @@
         "deliveryNotes": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3673,7 +3785,7 @@
       "isPublic": true,
       "published": { "tiktok": null, "facebook": null, "telegram": null, "instagram": null },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3707,7 +3819,7 @@
         "whatsappNumber": null
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3722,7 +3834,7 @@
       "isPublic": true,
       "published": { "tokens": {} },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3803,7 +3915,7 @@
         ]
       },
       "canPublish": true,
-      "publishedAt": "2026-09-26T15:24:54.268872+00:00",
+      "publishedAt": "2026-09-28T09:52:33.79674+00:00",
       "publishedBy": null,
       "draftUpdatedAt": null,
       "draftBaseVersion": null
@@ -3811,7 +3923,7 @@
   ],
   "admin_list_page_sections": [
     {
-      "id": "666829c0-8ee7-46bc-bd7f-3202435e1a34",
+      "id": "ad7b1b2c-d7f7-4a34-ad1e-4622395dbae0",
       "key": "home-hero",
       "type": "hero_campaign",
       "props": {
@@ -3822,11 +3934,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 10,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "df153300-94f0-4b79-b589-5a88d06b604a",
+      "id": "5e808e48-9ef3-4615-bfbe-da7e2e414247",
       "key": "home-new-releases",
       "type": "product_rail",
       "props": {
@@ -3847,11 +3959,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 20,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "224206d4-9c0a-49aa-8d79-f489964dce71",
+      "id": "a10b2c32-72ec-4c0e-a2c5-57283303d180",
       "key": "home-offers",
       "type": "offer_rail",
       "props": {
@@ -3866,11 +3978,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 30,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "a79f61ac-7c5d-45d9-9284-4508da613c40",
+      "id": "485f81b2-98af-4cdd-ae76-9439ee3a217c",
       "key": "home-categories",
       "type": "category_grid",
       "props": {
@@ -3881,11 +3993,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 40,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "490b15e4-399e-4d9f-b385-25aa439542e5",
+      "id": "9394d63c-b361-42a2-a8d9-820b107136ff",
       "key": "home-apple",
       "type": "brand_lines",
       "props": {
@@ -3921,11 +4033,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 50,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "023a5c06-8db1-43ea-89d2-9fb7ce8e94ac",
+      "id": "3deb8d23-ed60-43b1-bf62-f87951767b11",
       "key": "home-best-sellers",
       "type": "product_rail",
       "props": {
@@ -3946,11 +4058,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 60,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "1f7cec41-dba7-4668-aa72-927757ec1c7d",
+      "id": "83970e87-8760-43e1-ad39-15606498427d",
       "key": "home-budget",
       "type": "budget_search",
       "props": {
@@ -3963,11 +4075,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 70,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "1c504112-889f-4aa3-b8f5-3dfb94a88511",
+      "id": "6e964b96-343e-4939-aa32-a3d075f56705",
       "key": "home-trade-in",
       "type": "promo_banner",
       "props": {
@@ -3992,11 +4104,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 80,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "09e5e576-6729-49b4-b116-9136c321e056",
+      "id": "2f2516f9-afd0-4820-9bea-ce110a329148",
       "key": "home-repairs",
       "type": "promo_banner",
       "props": {
@@ -4021,11 +4133,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 90,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "3ba8b28d-a8b1-4b66-bfd0-e3e108abe6bd",
+      "id": "26a65adc-3759-401c-a94e-40182eda8b29",
       "key": "home-coming-soon",
       "type": "coming_soon",
       "props": {
@@ -4039,11 +4151,11 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 100,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "ebce1502-8ce1-40ad-9503-3b454bb93429",
+      "id": "033e6e26-3e1c-4541-a37f-c21a3ed810c4",
       "key": "home-news",
       "type": "content_rail",
       "props": {
@@ -4056,22 +4168,22 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 110,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "7e237573-7d2a-4154-b6ff-8620612923b6",
+      "id": "82b44f5f-347e-4446-81c9-7b4e319c93d0",
       "key": "home-trust",
       "type": "trust_strip",
       "props": { "title": null, "itemIds": null },
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 120,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     },
     {
-      "id": "0d6a3da8-cc93-4b4d-b09f-63e9963f451d",
+      "id": "ea35f09e-1e70-4c9f-8ed2-8ea58b08e586",
       "key": "home-branch",
       "type": "branch_contact",
       "props": {
@@ -4084,7 +4196,7 @@
       "pageKey": "home",
       "isVisible": true,
       "sortOrder": 130,
-      "updatedAt": "2026-09-26T15:24:54.288946+00:00",
+      "updatedAt": "2026-09-28T09:52:33.81392+00:00",
       "updatedBy": null
     }
   ],
@@ -4099,7 +4211,7 @@
         "newPrice": 2100.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "createdAt": "2026-09-28T09:52:33.836543+00:00",
         "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
         "variantId": "423d1d93-56a8-fce6-c941-b75816a277ba",
         "productName": {
@@ -4120,7 +4232,7 @@
         "newPrice": 2100.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "createdAt": "2026-09-28T09:52:33.836543+00:00",
         "productId": "dd086237-9294-ec4a-c059-bfb0c68daac7",
         "variantId": "43a0abe7-be22-5584-9c66-271232fee3bb",
         "productName": {
@@ -4141,7 +4253,7 @@
         "newPrice": 1200.0,
         "oldPrice": null,
         "actorName": null,
-        "createdAt": "2026-09-26T15:24:54.308911+00:00",
+        "createdAt": "2026-09-28T09:52:33.836543+00:00",
         "productId": "294da053-2649-8cab-0f4e-f2295b7ebe47",
         "variantId": "8fafb55c-7e8b-bc87-df55-e3538a4a5b58",
         "productName": { "ar": "كابل شحن USB-C", "en": "USB-C Charge Cable" },
@@ -4164,14 +4276,14 @@
   "admin_list_stock_movements": {
     "items": [
       {
-        "id": 1,
+        "id": 20,
         "sku": "IP17-256GB-BLACK",
         "type": "addition",
         "change": 2,
         "isDemo": true,
         "reason": "Sample restock",
         "actorName": "owner.sample@test.local",
-        "createdAt": "2026-09-26T15:25:23.884409+00:00",
+        "createdAt": "2026-09-28T09:55:27.252781+00:00",
         "variantId": "dde0660a-c0a3-44b7-4fff-8c56fd241d63",
         "orderNumber": null,
         "productName": { "ar": "iPhone 17", "en": "iPhone 17" },
@@ -4201,13 +4313,13 @@
         "product": null,
         "ageHours": 48,
         "priority": "normal",
-        "createdAt": "2026-09-24T15:24:54.308911+00:00",
+        "createdAt": "2026-09-26T09:52:33.836543+00:00",
         "openOffer": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "assignedTo": null,
         "contactName": "عميل تجريبي (Demo)",
         "contactPhone": "+201000000000",
-        "lastChangeAt": "2026-09-24T15:24:54.308911+00:00",
+        "lastChangeAt": "2026-09-26T09:52:33.836543+00:00",
         "taxPreference": null,
         "afterSalesType": null,
         "deviceCategory": "smartphone",
@@ -4243,13 +4355,13 @@
         "product": null,
         "ageHours": 72,
         "priority": "normal",
-        "createdAt": "2026-09-23T15:24:54.308911+00:00",
+        "createdAt": "2026-09-25T09:52:33.836543+00:00",
         "openOffer": false,
-        "updatedAt": "2026-09-26T15:24:54.308911+00:00",
+        "updatedAt": "2026-09-28T09:52:33.836543+00:00",
         "assignedTo": null,
         "contactName": "عميل تجريبي (Demo)",
         "contactPhone": "+201000000000",
-        "lastChangeAt": "2026-09-23T15:24:54.308911+00:00",
+        "lastChangeAt": "2026-09-25T09:52:33.836543+00:00",
         "taxPreference": "tax_paid",
         "afterSalesType": null,
         "deviceCategory": "smartphone",
@@ -4285,7 +4397,7 @@
         "sent30d": 0,
         "category": "back_in_stock",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "cart.abandoned",
@@ -4297,7 +4409,7 @@
         "sent30d": 0,
         "category": "cart",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.cancelled",
@@ -4309,7 +4421,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.completed",
@@ -4321,7 +4433,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.confirmed",
@@ -4333,7 +4445,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.delivered",
@@ -4345,7 +4457,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.out_for_delivery",
@@ -4357,7 +4469,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.preparing",
@@ -4369,7 +4481,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "order.ready_for_pickup",
@@ -4381,7 +4493,7 @@
         "sent30d": 0,
         "category": "order",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "price.drop",
@@ -4393,7 +4505,7 @@
         "sent30d": 0,
         "category": "price_drop",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "review.approved",
@@ -4405,7 +4517,7 @@
         "sent30d": 0,
         "category": "review",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "review.rejected",
@@ -4417,7 +4529,7 @@
         "sent30d": 0,
         "category": "review",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "service.after_sales.approved",
@@ -4429,7 +4541,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.after_sales.completed",
@@ -4441,7 +4553,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.after_sales.inspection",
@@ -4453,7 +4565,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.after_sales.rejected",
@@ -4465,7 +4577,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.cancelled",
@@ -4477,7 +4589,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.info_needed",
@@ -4489,7 +4601,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.repair.quote_ready",
@@ -4501,7 +4613,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.repair.ready",
@@ -4513,7 +4625,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.trade_in.inspection",
@@ -4525,7 +4637,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.trade_in.offer_ready",
@@ -4537,7 +4649,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.trade_in.rejected",
@@ -4549,7 +4661,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.updated",
@@ -4561,7 +4673,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.used.not_available",
@@ -4573,7 +4685,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.used.offer_sent",
@@ -4585,7 +4697,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "service.used.option_found",
@@ -4597,7 +4709,7 @@
         "sent30d": 0,
         "category": "service",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.931912+00:00"
+        "updatedAt": "2026-09-28T09:52:33.457847+00:00"
       },
       {
         "key": "waitlist.available",
@@ -4609,7 +4721,7 @@
         "sent30d": 0,
         "category": "waitlist",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       },
       {
         "key": "waitlist.pre_order",
@@ -4621,7 +4733,7 @@
         "sent30d": 0,
         "category": "waitlist",
         "isActive": true,
-        "updatedAt": "2026-09-26T15:24:53.737119+00:00"
+        "updatedAt": "2026-09-28T09:52:33.242564+00:00"
       }
     ]
   }

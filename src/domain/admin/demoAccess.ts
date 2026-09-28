@@ -45,7 +45,7 @@ export interface DemoStaffUser {
 
 /** Synthetic preview accounts: one per system role (`demo-<role>`, `<role>@demo.invalid`). */
 export const demoStaffUserId = (roleKey: string) => `demo-${roleKey}`;
-const roleFromDemoUser = (userId: string) =>
+export const roleFromDemoUser = (userId: string) =>
   SYSTEM_ROLES.find((r) => demoStaffUserId(r.key) === userId)?.key ?? null;
 
 export interface DemoAccessActor {

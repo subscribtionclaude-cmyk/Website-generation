@@ -1,8 +1,24 @@
 import type { Widen } from '@/i18n/types';
 import type { adminAr } from './ar';
+import { dashEn } from './p6/dashboard';
+import { catalogEn } from './p6/catalog';
+import { peopleEn } from './p6/people';
+import { svcEn } from './p6/services';
+import { contentEn } from './p6/content';
+import { fieldsEn } from './p6/fields';
+import { systemEn } from './p6/system';
+import { uiEn } from './p6/ui';
 
 /** Admin dashboard strings (English). */
 export const adminEn: Widen<typeof adminAr> = {
+  ...uiEn,
+  ...systemEn,
+  ...fieldsEn,
+  ...contentEn,
+  ...svcEn,
+  ...peopleEn,
+  ...catalogEn,
+  ...dashEn,
   shell: {
     title: 'Admin',
     openNav: 'Open sections menu',
@@ -101,10 +117,15 @@ export const adminEn: Widen<typeof adminAr> = {
       description: 'CSV / Excel import and export with preview and validation.',
     },
     'store-settings': {
-      title: 'Store details',
-      description: 'Branches, phone numbers, hours and social links.',
+      title: 'Site settings',
+      description: 'Store, contact, payments, shipping and every site setting (draft → publish).',
     },
     roles: { title: 'Roles & permissions', description: 'Roles and what each one can do.' },
+    staff: { title: 'Staff', description: 'Staff accounts, their roles and suspensions.' },
+    'page-content': {
+      title: 'Page content',
+      description: 'Edit homepage, Apple and offers page sections (content only, no layout).',
+    },
     'audit-log': { title: 'Audit log', description: 'Who changed what, and when.' },
     integrations: {
       title: 'Integrations & services',
@@ -146,7 +167,8 @@ export const adminEn: Widen<typeof adminAr> = {
     title: 'Roles & permissions',
     subtitle:
       'Permissions are enforced in the database (RLS). Hiding a button is never the security boundary.',
-    readOnlyNote: 'Read-only for now. Managing roles and assigning users arrives in Phase 06.',
+    readOnlyNote:
+      'The Owner holds every permission and cannot be edited. You can only edit roles below your own level and grant permissions you hold. Every change is recorded in the audit log.',
     permission: 'Permission',
     granted: 'Granted',
     notGranted: 'Not granted',

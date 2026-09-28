@@ -50,6 +50,11 @@ export const ar = {
     },
     services: 'كل الخدمات',
     afterSales: 'الاستبدال والاسترجاع والضمان',
+    policies: 'السياسات',
+  },
+  legal: {
+    notPublished: 'لم تُنشر هذه الصفحة بعد. لأي استفسار تواصل معنا.',
+    updated: 'آخر تحديث: {date}',
   },
   dataMode: {
     demoBanner: 'وضع العرض التجريبي',

@@ -2,6 +2,9 @@ import type { PermissionKey } from '@/domain/access/permissions';
 import { SETTING_DEFINITIONS, SETTING_SCHEMAS, type SettingKey } from '@/domain/settings/registry';
 import type { AdminResult, SettingOverview, SettingVersion } from './schemas';
 
+/** Seed time of the bundled base configuration (same stamp as the demo seed rows). */
+const BASE_PUBLISHED_AT = '2026-01-01T00:00:00.000Z';
+
 /**
  * DEMO MODE ONLY — the site_settings draft → publish → version → rollback workflow in this
  * browser (same rules as supabase/migrations/*_site_settings.sql + admin_foundation):
@@ -77,7 +80,7 @@ export class DemoSettings {
             version: 1,
             value: base,
             note: 'Base configuration',
-            publishedAt: '',
+            publishedAt: BASE_PUBLISHED_AT,
             publishedBy: null,
           },
         ]

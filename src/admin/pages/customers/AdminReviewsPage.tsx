@@ -5,13 +5,16 @@ import { Alert } from '@/components/feedback/Alert';
 import { Skeleton } from '@/components/feedback/Skeleton';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import type { ReviewStatus, StaffReview } from '@/domain/customer/types';
+import type { AdminReview } from '@/domain/admin/schemas';
+import type { ReviewStatus } from '@/domain/customer/types';
 import { resolveLocalized } from '@/domain/localized';
 import { useSession } from '@/features/auth/context';
 import { useI18n } from '@/i18n/context';
 import { useRuntime } from '@/runtime/context';
 import { useAdminI18n, type AdminMessageKey } from '../../i18n/context';
+import { InputField, SelectField } from '../../ui/fields';
 import { useAdminPageMeta } from '../../useAdminPageMeta';
+import ui from '../../ui/adminUi.module.css';
 import adminStyles from '../../admin.module.css';
 import orderStyles from '../orders/orders.module.css';
 import styles from './customers.module.css';
@@ -30,10 +33,23 @@ export function AdminReviewsPage() {
   const session = useSession();
   useAdminPageMeta(at('reviewsAdmin.title'));
   const [status, setStatus] = useState<ReviewStatus | ''>('pending');
+  const [rating, setRating] = useState('');
+  const [q, setQ] = useState('');
+  const [term, setTerm] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
 
   const list = useQuery({
-    queryKey: ['admin-reviews', session?.userId ?? null, status],
-    queryFn: () => repositories.customerOps.listReviews(status || null),
+    queryKey: ['admin-reviews', session?.userId ?? null, status, rating, term, from, to],
+    queryFn: () =>
+      repositories.admin.listReviews({
+        status: status || null,
+        rating: rating ? Number(rating) : null,
+        q: term || null,
+        from: from ? new Date(`${from}T00:00:00`).toISOString() : null,
+        to: to ? new Date(new Date(`${to}T00:00:00`).getTime() + 86_400_000).toISOString() : null,
+        limit: 100,
+      }),
   });
   const paths = (list.data?.items ?? []).flatMap((r) => (r.imagePath ? [r.imagePath] : []));
   const images = useQuery({
@@ -49,26 +65,60 @@ export function AdminReviewsPage() {
         <p className={adminStyles.pageSubtitle}>{at('reviewsAdmin.subtitle')}</p>
       </div>
       <div className={adminStyles.stack}>
-        <div className={orderStyles.filters}>
-          <div className={orderStyles.field}>
-            <label className={adminStyles.label} htmlFor="reviews-status">
-              {at('reviewsAdmin.filter')}
-            </label>
-            <select
-              id="reviews-status"
-              className={adminStyles.select}
-              value={status}
-              onChange={(e) => setStatus(e.target.value as ReviewStatus | '')}
-            >
-              <option value="">{at('reviewsAdmin.all')}</option>
-              {(['pending', 'approved', 'rejected'] as const).map((s) => (
-                <option key={s} value={s}>
-                  {at(STATUS_LABEL[s])}
-                </option>
-              ))}
-            </select>
+        <form
+          className={ui.filters}
+          role="search"
+          aria-label={at('reviewsP6.filters')}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setTerm(q.trim());
+          }}
+        >
+          <SelectField
+            label={at('reviewsAdmin.filter')}
+            value={status}
+            onChange={(e) => setStatus(e.target.value as ReviewStatus | '')}
+            options={[
+              { value: '', label: at('reviewsAdmin.all') },
+              ...(['pending', 'approved', 'rejected'] as const).map((s) => ({
+                value: s,
+                label: at(STATUS_LABEL[s]),
+              })),
+            ]}
+          />
+          <SelectField
+            label={at('reviewsAdmin.rating')}
+            value={rating}
+            onChange={(e) => setRating(e.target.value)}
+            options={[
+              { value: '', label: at('ui.all') },
+              ...[5, 4, 3, 2, 1].map((n) => ({ value: String(n), label: '★'.repeat(n) })),
+            ]}
+          />
+          <InputField
+            label={at('reviewsP6.search')}
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          <InputField
+            type="date"
+            label={at('ui.from')}
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+          />
+          <InputField
+            type="date"
+            label={at('ui.to')}
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+          />
+          <div className={ui.filterActions}>
+            <Button type="submit" variant="secondary">
+              {at('ui.apply')}
+            </Button>
           </div>
-        </div>
+        </form>
 
         {list.isPending && <Skeleton height="16rem" radius="var(--radius-lg)" />}
         {list.isError && (
@@ -108,7 +158,7 @@ export function AdminReviewsPage() {
   );
 }
 
-function ReviewCard({ review, imageUrl }: { review: StaffReview; imageUrl: string | undefined }) {
+function ReviewCard({ review, imageUrl }: { review: AdminReview; imageUrl: string | undefined }) {
   const { at } = useAdminI18n();
   const { format, locale } = useI18n();
   const { repositories } = useRuntime();
@@ -135,6 +185,7 @@ function ReviewCard({ review, imageUrl }: { review: StaffReview; imageUrl: strin
         key: decision === 'approved' ? 'reviewsAdmin.approvedDone' : 'reviewsAdmin.rejectedDone',
       });
       void queryClient.invalidateQueries({ queryKey: ['admin-reviews'] });
+      void queryClient.invalidateQueries({ queryKey: ['admin'] });
     },
     onError: () => setMessage({ tone: 'danger', key: 'reviewsAdmin.failed' }),
   });
@@ -157,6 +208,7 @@ function ReviewCard({ review, imageUrl }: { review: StaffReview; imageUrl: strin
         {review.isDemo && (
           <Badge icon={<FlaskConical aria-hidden="true" />}>{at('reviewsAdmin.demo')}</Badge>
         )}
+        {!review.eligible && <Badge tone="warning">{at('reviewsP6.notEligible')}</Badge>}
       </div>
       <div className={styles.meta}>
         <span>
@@ -168,7 +220,7 @@ function ReviewCard({ review, imageUrl }: { review: StaffReview; imageUrl: strin
             {at('reviewsAdmin.order')}: <bdi dir="ltr">{review.orderNumber}</bdi>
           </span>
         )}
-        <time dateTime={review.updatedAt}>{format.dateTime(review.updatedAt)}</time>
+        <time dateTime={review.createdAt}>{format.dateTime(review.createdAt)}</time>
         {review.moderatedAt && (
           <span>{at('reviewsAdmin.moderated', { date: format.dateTime(review.moderatedAt) })}</span>
         )}
@@ -227,6 +279,22 @@ function ReviewCard({ review, imageUrl }: { review: StaffReview; imageUrl: strin
         <Alert tone={message.tone} live>
           {at(message.key)}
         </Alert>
+      )}
+      {review.history.length > 0 && (
+        <details>
+          <summary>{at('reviewsP6.history', { count: review.history.length })}</summary>
+          <ul className={ui.small}>
+            {review.history.map((h, i) => (
+              <li key={`${h.at}-${i}`}>
+                {format.dateTime(h.at)} ·{' '}
+                {h.status && h.status in STATUS_LABEL
+                  ? at(STATUS_LABEL[h.status as ReviewStatus])
+                  : h.action}{' '}
+                · {h.by ?? '—'}
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
     </li>
   );

@@ -5,12 +5,21 @@ import { ADMIN_MODULES, ADMIN_NAV_GROUPS, adminHref } from '../modules';
 import styles from './AdminLayout.module.css';
 
 /** Sidebar navigation: only modules the user's role can open are listed. */
-export function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
+export function AdminNav({
+  onNavigate,
+  variant = 'rail',
+}: {
+  onNavigate?: () => void;
+  variant?: 'rail' | 'drawer';
+}) {
   const { at } = useAdminI18n();
   const { can } = useAccess();
 
   return (
-    <nav className={styles.nav} aria-label={at('shell.navLabel')}>
+    <nav
+      className={[styles.nav, variant === 'drawer' && styles.drawerNav].filter(Boolean).join(' ')}
+      aria-label={at('shell.navLabel')}
+    >
       {ADMIN_NAV_GROUPS.map((group) => {
         const modules = ADMIN_MODULES.filter(
           (module) => module.group === group && can(module.permission),

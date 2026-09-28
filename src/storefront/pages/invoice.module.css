@@ -210,3 +210,19 @@
     max-width: none;
   }
 }
+
+/* Receipt template options (Admin → Receipts) */
+.compact {
+  gap: var(--space-4);
+  padding: clamp(1rem, 0.8rem + 1.5vw, 1.75rem);
+  font-size: 0.84rem;
+}
+
+.accentBrand .top,
+.accentBrand .grand {
+  border-color: var(--color-brand-primary);
+}
+
+.accentBrand .docTitle {
+  color: var(--color-brand-text);
+}

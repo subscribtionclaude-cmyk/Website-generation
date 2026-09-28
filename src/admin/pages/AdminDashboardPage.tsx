@@ -1,12 +1,29 @@
+import { useQuery } from '@tanstack/react-query';
 import {
+  AlertTriangle,
+  Bell,
+  Boxes,
   CircleCheck,
   CircleDashed,
+  ClipboardList,
+  CreditCard,
   Database,
   FlaskConical,
+  History,
   KeyRound,
   ListChecks,
+  PackageX,
+  ShieldAlert,
+  ShoppingCart,
+  Star,
   Store,
+  Wallet,
+  Wrench,
 } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router';
+import { presetRange } from '@/domain/admin/dateRange';
+import type { Dashboard } from '@/domain/admin/schemas';
 import { Alert } from '@/components/feedback/Alert';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -18,7 +35,12 @@ import { OpenStatus } from '@/features/store-info/OpenStatus';
 import { useI18n } from '@/i18n/context';
 import { isolate } from '@/i18n/translator';
 import { useRuntime } from '@/runtime/context';
-import { useAdminI18n } from '../i18n/context';
+import { useAdminI18n, type AdminMessageKey } from '../i18n/context';
+import { DateRangePicker } from '../ui/DateRangePicker';
+import { Panel, StatTile } from '../ui/PageHeader';
+import { QueryState } from '../ui/QueryState';
+import { useAdminRepo } from '../ui/useAdminAction';
+import ui from '../ui/adminUi.module.css';
 import { useAdminPageMeta } from '../useAdminPageMeta';
 import styles from '../admin.module.css';
 
@@ -30,6 +52,14 @@ export function AdminDashboardPage() {
   const { access } = useAccess();
   const { settings, sources, loadFailed } = useSettingsContext();
   useAdminPageMeta(at('dashboard.title'));
+  const repo = useAdminRepo();
+  const [range, setRange] = useState(() => presetRange('today'));
+  // Demo previews only have demo data; live dashboards exclude it unless asked.
+  const [includeDemo, setIncludeDemo] = useState(mode === 'demo');
+  const dashboard = useQuery({
+    queryKey: ['admin', 'dashboard', range.from, range.to, includeDemo],
+    queryFn: () => repo.dashboard(range.from, range.to, includeDemo),
+  });
 
   const publishedCount = PUBLIC_SETTING_KEYS.filter((key) => sources[key] === 'backend').length;
   const branch = settings.store.branches[0];
@@ -60,6 +90,20 @@ export function AdminDashboardPage() {
         </h1>
         <p className={styles.pageSubtitle}>{at('dashboard.subtitle')}</p>
       </div>
+
+      <div className={ui.stack} style={{ marginBlockEnd: 'var(--space-6)' }}>
+        <DateRangePicker
+          value={range}
+          onChange={setRange}
+          includeDemo={includeDemo}
+          onIncludeDemoChange={setIncludeDemo}
+        />
+        <QueryState query={dashboard}>{(data) => <DashboardWidgets data={data} />}</QueryState>
+      </div>
+
+      <h2 className={ui.panelTitle} style={{ marginBlockEnd: 'var(--space-3)' }}>
+        {at('dash.statusTitle')}
+      </h2>
 
       <div className={styles.grid}>
         <Card>
@@ -144,7 +188,9 @@ export function AdminDashboardPage() {
               </li>
             ))}
           </ul>
-          <Alert tone="info">{at('dashboard.setupHint')}</Alert>
+          <Alert tone="info">
+            {at('dash.setupHint')} <Link to="/admin/settings/store">{at('dash.openSettings')}</Link>
+          </Alert>
         </Card>
 
         {branch && (
@@ -167,5 +213,160 @@ export function AdminDashboardPage() {
         )}
       </div>
     </>
+  );
+}
+
+const SERVICE_PATHS: Record<string, string> = {
+  repair: 'repairs',
+  trade_in: 'trade-in',
+  used: 'used-requests',
+  after_sales: 'after-sales',
+};
+
+/** Permission-gated blocks: the server returns null for areas the viewer may not see. */
+function DashboardWidgets({ data }: { data: Dashboard }) {
+  const { at } = useAdminI18n();
+  const { format } = useI18n();
+  const money = (n: number) => format.money(n, { fractionDigits: 0 });
+  const o = data.orders;
+  return (
+    <div className={ui.stack}>
+      {o &&
+        (data.includeDemo ? (
+          <Alert tone="warning">{at('dash.demoIncluded')}</Alert>
+        ) : o.demoExcluded > 0 ? (
+          <Alert tone="info">{at('dash.demoExcluded', { count: o.demoExcluded })}</Alert>
+        ) : null)}
+      {o && (
+        <Panel title={at('dash.kpis')} icon={<ClipboardList aria-hidden="true" />}>
+          <div className={ui.tiles}>
+            <StatTile
+              label={at('dash.ordersToday')}
+              value={format.number(o.count)}
+              hint={at('dash.cancelled', { count: o.cancelled })}
+              icon={<ClipboardList aria-hidden="true" />}
+              to="/admin/orders"
+            />
+            <StatTile
+              label={at('dash.revenue')}
+              value={money(o.revenue)}
+              icon={<Wallet aria-hidden="true" />}
+            />
+            <StatTile
+              label={at('dash.paid')}
+              value={money(o.paid)}
+              icon={<CreditCard aria-hidden="true" />}
+            />
+            <StatTile label={at('dash.aov')} value={money(o.averageOrderValue)} />
+            <StatTile
+              label={at('dash.pendingVerification')}
+              value={format.number(o.pendingVerification)}
+              icon={<ShieldAlert aria-hidden="true" />}
+              to="/admin/orders?payment=verification_pending"
+              tone={o.pendingVerification > 0 ? 'warn' : undefined}
+            />
+            <StatTile
+              label={at('dash.manualReview')}
+              value={format.number(o.manualReview)}
+              icon={<AlertTriangle aria-hidden="true" />}
+              to="/admin/orders?review=1"
+              tone={o.manualReview > 0 ? 'warn' : undefined}
+            />
+            <StatTile label={at('dash.openOrders')} value={format.number(o.open)} />
+          </div>
+        </Panel>
+      )}
+      <div className={ui.tiles}>
+        {data.stock && (
+          <>
+            <StatTile
+              label={at('dash.lowStock')}
+              value={format.number(data.stock.low)}
+              icon={<Boxes aria-hidden="true" />}
+              to="/admin/inventory?view=low"
+              tone={data.stock.low > 0 ? 'warn' : undefined}
+            />
+            <StatTile
+              label={at('dash.outOfStock')}
+              value={format.number(data.stock.out)}
+              icon={<PackageX aria-hidden="true" />}
+              to="/admin/inventory?view=out"
+              tone={data.stock.out > 0 ? 'danger' : undefined}
+            />
+          </>
+        )}
+        {data.services &&
+          Object.entries(data.services).map(([kind, s]) => (
+            <StatTile
+              key={kind}
+              label={at(`modules.${SERVICE_PATHS[kind]}.title` as AdminMessageKey)}
+              value={at('dash.serviceOpen', { count: format.number(s.open) })}
+              hint={`${at('dash.serviceOverdue', { count: s.overdue })} · ${at('dash.serviceCreated', { count: s.created })}`}
+              icon={<Wrench aria-hidden="true" />}
+              to={`/admin/${SERVICE_PATHS[kind]}`}
+              tone={s.overdue > 0 ? 'danger' : undefined}
+            />
+          ))}
+        {data.reviews && (
+          <StatTile
+            label={at('dash.pendingReviews')}
+            value={format.number(data.reviews.pending)}
+            icon={<Star aria-hidden="true" />}
+            to="/admin/reviews"
+          />
+        )}
+        {data.requests && (
+          <>
+            <StatTile
+              label={at('dash.notify')}
+              value={format.number(data.requests.notify)}
+              icon={<Bell aria-hidden="true" />}
+              to="/admin/waitlists"
+            />
+            <StatTile
+              label={at('dash.waitlist')}
+              value={format.number(data.requests.waitlist)}
+              icon={<Bell aria-hidden="true" />}
+              to="/admin/waitlists"
+            />
+          </>
+        )}
+        {data.carts && (
+          <StatTile
+            label={at('dash.abandoned')}
+            value={format.number(data.carts.abandoned)}
+            icon={<ShoppingCart aria-hidden="true" />}
+            to="/admin/abandoned-carts"
+          />
+        )}
+      </div>
+      {data.activity && (
+        <Panel
+          title={at('dash.activity')}
+          icon={<History aria-hidden="true" />}
+          actions={<Link to="/admin/audit-log">{at('modules.audit-log.title')}</Link>}
+        >
+          {data.activity.length === 0 ? (
+            <p className={ui.muted}>{at('dash.noActivity')}</p>
+          ) : (
+            <ul
+              className={ui.stack}
+              style={{ gap: 'var(--space-2)', listStyle: 'none', margin: 0, padding: 0 }}
+            >
+              {data.activity.map((a) => (
+                <li key={a.id} className={ui.small}>
+                  <Link to={`/admin/audit-log?id=${a.id}`}>
+                    <bdi className={ui.mono}>{a.action}</bdi>
+                  </Link>{' '}
+                  <span className={ui.muted}>
+                    · {a.actorName ?? '—'} · {format.dateTime(a.occurredAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+      )}
+    </div>
   );
 }

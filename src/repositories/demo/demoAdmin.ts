@@ -85,7 +85,7 @@ export class DemoAdminRepository implements AdminRepository {
   async publishSetting(key: string, note: string | null, force = false) {
     const result = await this.settingsCall((a) => this.store.settings.publish(a, key, note, force));
     if (result.ok)
-      await this.auditSetting('setting.published', key, { version: result.version, note });
+      await this.auditSetting('setting.publish', key, { version: result.version, note });
     return result;
   }
   async rollbackSetting(key: string, version: number, note: string | null) {
@@ -93,7 +93,7 @@ export class DemoAdminRepository implements AdminRepository {
       this.store.settings.rollback(a, key, version, note),
     );
     if (result.ok)
-      await this.auditSetting('setting.rolled_back', key, {
+      await this.auditSetting('setting.rollback', key, {
         toVersion: version,
         version: result.version,
       });

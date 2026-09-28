@@ -7,8 +7,8 @@
 | 03    | Commerce                     | ✅ COMPLETE (2026-09-25) |
 | 04    | Customer Features            | ✅ COMPLETE (2026-09-25) |
 | 05    | Service Experiences          | ✅ COMPLETE (2026-09-26) |
-| 06    | Admin Control Center         | ⚪ NOT STARTED — next    |
-| 07    | Visual Site Editor           | ⚪ NOT STARTED           |
+| 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
+| 07    | Visual Site Editor           | ⚪ NOT STARTED — next    |
 | 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED           |
 | 09    | Integrations Layer           | ⚪ NOT STARTED           |
 | 10    | QA / Staging / Launch        | ⚪ NOT STARTED           |
@@ -384,12 +384,75 @@
 - Demo-mode requests and media live in the browser that created them (media previews within a size
   budget) and are badged "Demo".
 
-## Phase 06 — Admin Control Center
+## Phase 06 — Admin Control Center ✅
 
-Products, categories, brands, variants, prices + price history, stock + movement history, orders, customers,
-repairs, trade-in, used requests, reviews, offers/promo codes/loyalty, news, waitlists, shipping, receipt
-templates, legal pages, **store details & site settings editing**, analytics, import/export, roles, users &
-permissions management, audit log viewer.
+### Delivered
+
+- [x] **Admin shell** — dense near-black / orange / neutral UI kit (`src/admin/ui/`: tables with
+      keyboard row selection and bulk bar, filters, tabs, accessible `<dialog>` confirmations with
+      affected-item lists / reason / type-to-confirm, dirty-state guard + sticky save bar, stale and
+      deleted-elsewhere states, pagination), persistent **Demo / Live** badge, drawer navigation on
+      mobile, every module a lazy chunk behind its permission gate (`moduleRoute`).
+- [x] **Dashboard** — date ranges (today / 7 / 30 days / custom, Cairo days), permission-gated widgets
+      computed from real data only; demo data excluded unless switched on (and labelled when it is).
+- [x] **Catalog** — products list (server filters, bulk publish / hide / archive / restore), product
+      editor (details, variants matrix, media, specs, warranty, relations, SEO), categories with cycle
+      and depth protection, brands, **inventory** (adjustments with reason → stock movements,
+      correction counts, below-reserved guard), **prices** with reason → price history, bulk variant
+      edits with review step; optimistic concurrency (`stale`) everywhere.
+- [x] **Orders & customers** — URL-driven filters (status, payment status / method, fulfilment,
+      assignee, dates, customer), assignment, CSV export; customer list / detail (orders, requests,
+      addresses, reviews, notifications, activity) with **private CRM notes** (never shown to the
+      customer, audited); reviews moderation, abandoned carts with follow-up, waitlists with
+      readiness, notification templates + manual in-app sends.
+- [x] **Service queues** — repairs / trade-in / used / after-sales views (new, awaiting, in progress,
+      ready, completed, open, all), per-kind filters, priority, **SLA aging** from the `service_sla`
+      setting (internal targets only, labelled as such), context panel.
+- [x] **Content** — offers of every kind incl. **promo codes** (schedule, countdown, homepage flag,
+      products / categories, redemption limits), news / launches / coming-soon / campaigns (publish
+      needs `content.publish`), **structured page content** for Home / Apple / Offers (section
+      visibility + fields validated by the storefront's own section schemas; reorder / layout are
+      Phase 07), legal pages.
+- [x] **Settings** — one schema-driven workspace over **draft → publish → version history → compare →
+      rollback** (force-publish over a newer version needs a reason) for general, store, payments
+      (**COD / InstaPay / Split only**; InstaPay details stay empty until the owner enters them),
+      shipping (manual fees), receipt template (live preview on a fake sample order; the storefront
+      invoice now renders the published template), order review, customers (engagement, abandoned
+      carts, **loyalty foundation — off by default**), services + SLA + repair catalog, catalog, trust
+      (Apple authorized-reseller text: editable, hideable via its section), notifications (external
+      channels off; no paid provider), SEO, security. Storefront `/legal/:page` shows published
+      policies and says honestly when one is not written.
+- [x] **Insights & data** — analytics from aggregates only (no customer PII in charts) with CSV
+      export; CSV **import** (column mapping → server-validated preview → all-or-nothing or valid-rows
+      commit; formulas never executed and rejected in text fields; duplicates flagged); exports (CSV
+      with formula neutralisation / JSON); **backup** JSON (settings, catalog, content — clearly not a
+      replacement for provider backups, no secrets or customer data); **demo data** summary, delete
+      (demo rows only, type-to-confirm), preview reset.
+- [x] **Access** — roles matrix + permission editing with **escalation protection** (cannot edit
+      roles at / above your level or grant permissions you do not hold), staff list, add by existing
+      account e-mail (**no passwords created**), change role, suspend (reason) / reactivate, last
+      activity; **audit log** with filters, deep link and redacted before / after diff.
+- [x] Site Editor, SEO module and Integrations stay planned (their pages say Phase 07 / 08 / 09).
+
+### Validation
+
+| Check                                                                                    | Result                                                                                                         |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck` / `npm run lint` / `npm run format:check` / `npm run seed:check`     | ✅ 0 errors, 0 warnings                                                                                        |
+| `npm test` (Vitest)                                                                      | ✅ 281 / 281 tests, 24 files (admin engine parity, 39 RPC contract samples, module smoke, admin workflows)     |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ 856 / 856 SQL assertions (212 in `10_admin`: RBAC, escalation, audit, stale edits, import, demo cleanup)    |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ E2E_RESULT                                                                                                  |
+| `npm run build` + `npm run check:bundle`                                                 | ✅ storefront entry 397.5 kB of the 400 kB budget; admin modules are separate lazy chunks                      |
+| Visual review (Arabic + English; desktop, tablet, mobile)                                | ✅ tables, filters, forms, dialogs, drawer, sticky bars, long Arabic text, no page overflow                    |
+| Security review                                                                          | ✅ every write is a permission-checked, audited RPC; demo cleanup touches `is_demo` rows only; no paid service |
+
+### Known limits / not blocking
+
+- Not yet run against a hosted Supabase project; RPCs and RLS are validated locally with PostgreSQL 16.
+- Import accepts CSV (Excel "CSV UTF-8"); native XLSX parsing would need a library and is not included.
+- Conversion is cart → order (site traffic is not tracked without an analytics provider).
+- Staff removal is by suspension (the history stays); roles cannot be revoked to "none".
+- Section reordering, layout and design editing are deliberately left to the Phase 07 Site Editor.
 
 ## Phase 07 — Visual Site Editor
 

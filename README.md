@@ -4,9 +4,9 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Build status:** Phase 04 (Customer Features) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
-> Service flows (05) and admin modules for later phases are routed and clearly marked as scheduled;
-> they are not faked.
+> **Build status:** Phase 06 (Admin Control Center) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
+> The Site Editor (07), SEO module (08) and Integrations (09) are routed and clearly marked as
+> scheduled; they are not faked.
 
 **Stack:** React 19 · TypeScript (strict) · Vite 8 · React Router 8 · TanStack Query · Zod ·
 Supabase (Postgres, Auth, Storage) · self-hosted IBM Plex Sans Arabic + Manrope · Vitest ·
@@ -39,6 +39,12 @@ npm run dev                       # http://localhost:5173
   after-sales request, track it under **Account → Requests**, then preview the admin as Owner →
   **Repairs / Trade-In / Used requests / After-sales** to send quotes, valuations and proposals.
   Uploaded photos stay in this browser. No price or valuation is ever calculated automatically.
+
+- Admin control center (demo): as Owner, manage products, variants, prices (with history), stock
+  (with movements), categories, brands, offers and promo codes, news, Home / Apple / Offers content,
+  customers (private notes), service queues (SLA aging), settings (draft → publish → rollback),
+  receipts, legal pages, analytics, CSV import / export, backups, demo data, roles, staff and the
+  audit log. Try other roles to see what each may do. **Demo data → Reset the preview** starts over.
 
 A striped **"Demo mode"** banner is always visible in demo mode. Demo data is never used in live mode.
 
@@ -92,8 +98,8 @@ Never put a service-role key, database password or any secret in the frontend or
      _Magic Link_ email template to include `{{ .Token }}`.
    - The built-in email sender is rate-limited; for production volume configure your own SMTP
      (optional; many providers have free tiers).
-5. **Commerce settings** (published site settings — editing UI arrives in Phase 06; until then use
-   `save_setting_draft` + `publish_setting` or the base seed JSON):
+5. **Commerce settings** (edit them in **Admin → Settings**: save a draft, review, publish; every
+   version can be compared and restored):
    - `store.whatsappNumber` — the store's real WhatsApp number (the order hand-off shows an honest
      "not available" notice while it is empty; nothing is invented).
    - `commerce.instapay` — your real InstaPay address, account name and instructions (while empty,
@@ -129,8 +135,20 @@ There are **no default admin credentials**. Full details: [`docs/ADMIN_BOOTSTRAP
    ```
 
 3. Reload `/admin`. The function refuses to run once any Owner exists, so it cannot be used for
-   privilege escalation later. Further staff roles are assigned by the Owner (role-management UI
-   arrives in Phase 06; the audited `assign_role` RPC already exists).
+   privilege escalation later. Further staff sign in once with their own account, then the Owner
+   grants them a role in **Admin → Staff** (no passwords are created; roles above your own level and
+   permissions you do not hold can never be granted).
+
+## 5a. Admin data tools
+
+- **Import**: Admin → Import & export → upload a CSV (Excel "Save as CSV UTF-8"), map columns,
+  review the server-validated preview, then apply all rows or only the valid ones. Cells are data
+  only: formulas are never executed and formula-looking text is rejected.
+- **Export**: CSV (cells starting with `=`, `+`, `-`, `@` are neutralised) or JSON.
+- **Backup**: a JSON copy of settings, catalog and content. It is a convenience copy — keep your
+  database provider's backups (e.g. Supabase daily backups / PITR) enabled; restores happen there.
+- **Demo data**: delete removes rows flagged `is_demo` only; live data is never touched. To replace
+  demo data on a staging project, delete it and load `supabase/seed/demo.sql` again.
 
 ## 6. Project structure
 
