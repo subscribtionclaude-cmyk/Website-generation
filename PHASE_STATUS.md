@@ -436,15 +436,15 @@
 
 ### Validation
 
-| Check                                                                                    | Result                                                                                                         |
-| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `npm run typecheck` / `npm run lint` / `npm run format:check` / `npm run seed:check`     | ✅ 0 errors, 0 warnings                                                                                        |
-| `npm test` (Vitest)                                                                      | ✅ 281 / 281 tests, 24 files (admin engine parity, 39 RPC contract samples, module smoke, admin workflows)     |
-| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ 856 / 856 SQL assertions (212 in `10_admin`: RBAC, escalation, audit, stale edits, import, demo cleanup)    |
-| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ E2E_RESULT                                                                                                  |
-| `npm run build` + `npm run check:bundle`                                                 | ✅ storefront entry 397.5 kB of the 400 kB budget; admin modules are separate lazy chunks                      |
-| Visual review (Arabic + English; desktop, tablet, mobile)                                | ✅ tables, filters, forms, dialogs, drawer, sticky bars, long Arabic text, no page overflow                    |
-| Security review                                                                          | ✅ every write is a permission-checked, audited RPC; demo cleanup touches `is_demo` rows only; no paid service |
+| Check                                                                                    | Result                                                                                                                                      |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run typecheck` / `npm run lint` / `npm run format:check` / `npm run seed:check`     | ✅ 0 errors, 0 warnings                                                                                                                     |
+| `npm test` (Vitest)                                                                      | ✅ 282 / 282 tests, 24 files (admin engine parity, 39 RPC contract samples, module smoke, admin workflows)                                  |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ 856 / 856 SQL assertions (212 in `10_admin`: RBAC, escalation, audit, stale edits, import, demo cleanup)                                 |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 276 passed, 12 skipped by design (admin-heavy editors on mobile, viewport-only checks), 0 failed; admin scenarios A–M on all 4 viewports |     |
+| `npm run build` + `npm run check:bundle`                                                 | ✅ storefront entry 397.5 kB of the 400 kB budget; admin modules are separate lazy chunks                                                   |
+| Visual review (Arabic + English; desktop, tablet, mobile)                                | ✅ tables, filters, forms, dialogs, drawer, sticky bars, long Arabic text, no page overflow                                                 |
+| Security review                                                                          | ✅ every write is a permission-checked, audited RPC; demo cleanup touches `is_demo` rows only; no paid service                              |
 
 ### Known limits / not blocking
 

@@ -158,6 +158,7 @@ export function AdminReceiptsPage() {
   return (
     <SettingWorkspace
       settingKey="receipt"
+      asidePlacement="below"
       title={at('modules.receipts.title')}
       subtitle={at('settingsAdmin.about.receipt')}
       crumbs={[]}
@@ -172,7 +173,11 @@ export function AdminReceiptsPage() {
             // eslint-disable-next-line jsx-a11y-x/no-noninteractive-tabindex
             tabIndex={0}
           >
-            <InvoiceSheet order={SAMPLE_RECEIPT_ORDER} template={value as ReceiptSettings} />
+            <InvoiceSheet
+              order={SAMPLE_RECEIPT_ORDER}
+              template={value as ReceiptSettings}
+              headingLevel={3}
+            />
           </div>
         </Panel>
       )}

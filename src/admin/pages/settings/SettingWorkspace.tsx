@@ -42,6 +42,7 @@ export function SettingWorkspace({
   crumbs,
   renderForm,
   aside,
+  asidePlacement,
 }: {
   settingKey: SettingKey;
   title?: string;
@@ -49,6 +50,8 @@ export function SettingWorkspace({
   crumbs?: { label: string; to: string }[];
   renderForm?: (args: SettingFormArgs) => ReactNode;
   aside?: (value: unknown) => ReactNode;
+  /** 'side' (default) puts the aside next to the form on wide screens; 'below' gives it full width. */
+  asidePlacement?: 'side' | 'below';
 }) {
   const { at } = useAdminI18n();
   const repo = useAdminRepo();
@@ -80,6 +83,7 @@ export function SettingWorkspace({
             crumbs={crumbs}
             renderForm={renderForm}
             aside={aside}
+            asidePlacement={asidePlacement}
             onServerChange={() => setGeneration((g) => g + 1)}
           />
         );
@@ -104,6 +108,7 @@ function SettingEditor({
   crumbs,
   renderForm,
   aside,
+  asidePlacement,
   onServerChange,
 }: {
   row: SettingOverview;
@@ -113,6 +118,8 @@ function SettingEditor({
   crumbs?: { label: string; to: string }[];
   renderForm?: (args: SettingFormArgs) => ReactNode;
   aside?: (value: unknown) => ReactNode;
+  /** 'side' (default) puts the aside next to the form on wide screens; 'below' gives it full width. */
+  asidePlacement?: 'side' | 'below';
   onServerChange: () => void;
 }) {
   const { at } = useAdminI18n();
@@ -337,7 +344,7 @@ function SettingEditor({
             {at('schemaForm.fixErrors', { count: Object.keys(issues).length })}
           </Alert>
         )}
-        <div className={aside ? styles.split : styles.stack}>
+        <div className={aside && asidePlacement !== 'below' ? styles.split : styles.stack}>
           <form
             className={styles.stack}
             onSubmit={(e) => {

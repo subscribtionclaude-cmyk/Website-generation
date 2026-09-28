@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { BidiText } from '@/components/text/BidiText';
 import { deliveryPlace } from '@/domain/commerce/governorates';
 import type { InvoiceTemplate } from '@/domain/commerce/invoiceTemplate';
@@ -22,11 +23,16 @@ export type InvoiceSheetTemplate = InvoiceTemplate & {
 export function InvoiceSheet({
   order,
   template,
+  headingLevel = 1,
 }: {
   order: Order;
   template: InvoiceSheetTemplate;
+  /** 1 on the invoice page; lower when the sheet is embedded (e.g. the admin preview). */
+  headingLevel?: 1 | 3;
 }) {
   const { t, locale, format } = useI18n();
+  const titleId = useId();
+  const Title = headingLevel === 1 ? 'h1' : 'h3';
   const { brand, store } = useSettings();
   const branch = store.branches[0];
   const money = (amount: number) => format.money(amount, { fractionDigits: 2 });
@@ -39,7 +45,7 @@ export function InvoiceSheet({
     .join(' ');
 
   return (
-    <article className={className} aria-labelledby="invoice-title">
+    <article className={className} aria-labelledby={titleId}>
       <header className={styles.top}>
         <div className={styles.brand}>
           {template.showLogo && (
@@ -75,9 +81,9 @@ export function InvoiceSheet({
           </div>
         </div>
         <div className={styles.docMeta}>
-          <h1 id="invoice-title" className={styles.docTitle}>
+          <Title id={titleId} className={styles.docTitle}>
             {resolveLocalized(template.title, locale)}
-          </h1>
+          </Title>
           <p>
             {t('invoice.number')}: <bdi className={styles.mono}>{order.orderNumber}</bdi>
           </p>

@@ -260,6 +260,18 @@ function Field(props: NodeProps) {
       );
     }
     case 'literal':
+      // Fixed values: a schema version is internal; a fixed flag is shown as a locked checkbox.
+      if (String(labelPath.at(-1)) === 'version') return null;
+      if (typeof value === 'boolean')
+        return (
+          <CheckboxField
+            label={label}
+            hint={hint}
+            checked={value}
+            disabled
+            onChange={() => onChange(value)}
+          />
+        );
       return (
         <InputField label={label} hint={hint} value={String(value ?? '')} readOnly disabled ltr />
       );

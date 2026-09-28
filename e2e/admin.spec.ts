@@ -337,7 +337,13 @@ test.describe('admin control center', () => {
     await staff(page, 'owner');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(page.getByText('وضع تجريبي').first()).toBeVisible();
-    for (const path of ['/admin', '/admin/orders', '/admin/customers', '/admin/settings']) {
+    for (const path of [
+      '/admin',
+      '/admin/orders',
+      '/admin/customers',
+      '/admin/settings',
+      '/admin/receipts',
+    ]) {
       await page.goto(path);
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
       await checkPage(page);
