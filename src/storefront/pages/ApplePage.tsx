@@ -4,13 +4,20 @@ import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n } from '@/i18n/context';
 import { Breadcrumbs } from '../components/Breadcrumbs';
+import { usePageSections } from '../data/hooks';
 import { SectionPage } from '../sections/SectionRenderer';
 import styles from './contentPages.module.css';
 
 /** Apple landing page — section-driven (page key "apple"), editable in Phase 07. */
 export function ApplePage() {
   const { t } = useI18n();
-  usePageMeta({ title: t('apple.title'), description: t('apple.description'), seoPage: 'apple' });
+  const sections = usePageSections('apple');
+  usePageMeta({
+    title: t('apple.title'),
+    description: t('apple.description'),
+    seoPage: 'apple',
+    sections: sections.data,
+  });
   return (
     <SectionPage
       pageKey="apple"

@@ -485,20 +485,25 @@
       permission-locked items, stale-draft "publish anyway"); version history, compare and rollback;
       Phase 06 live section edits recorded as versions; every draft / discard / publish / rollback
       audited (module "design").
+- [x] **SEO integration** — one resolver (`src/domain/seo/pageSeo.ts`) for the storefront and the
+      editor over the existing `seo` / `page_seo` settings and the page's sections (share image from
+      an image banner); SEO preview per page and language (search snippet with length checks, social
+      card, canonical / hreflang / robots, value sources, published-now comparison); the preview
+      frame's real title matches. No separate SEO store.
 - [x] **Media** — raster uploads (PNG / JPEG / WebP / AVIF ≤ 10 MB, compressed in the browser) to the
       existing `site-media` storage (insert needs `design.edit`); SVG and unsafe URLs refused.
 - [x] **Performance** — editor and preview runtime are separate lazy chunks; the storefront entry is
-      **smaller** than before Phase 07 (401,989 B vs 407,011 B; budget 409,600 B).
+      **smaller** than before Phase 07 (402,002 B vs 407,011 B; budget 409,600 B).
 
 ### Validation
 
 | Check                                                                                    | Result                                                                                                                                                                                 |
 | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run typecheck` / `lint` / `format:check` / `seed:check`                             | ✅ 0 errors, 0 warnings                                                                                                                                                                |
-| `npm test` (Vitest)                                                                      | ✅ 314 / 314 tests, 25 files (site-editor domain, validation parity with SQL, history, defaults, protocol, preset contrast, demo engine parity, 45 RPC contract samples, editor smoke) |
+| `npm test` (Vitest)                                                                      | ✅ 318 / 318 tests, 26 files (site-editor domain, validation parity with SQL, history, defaults, protocol, preset contrast, demo engine parity, 45 RPC contract samples, editor smoke) |
 | `npm run test:db` (PostgreSQL 16, clean cluster)                                         | ✅ 909 / 909 SQL assertions (47 in `11_site_editor`: permissions, validation, draft isolation, conflicts, publish / versions, stale draft, rollback, direct-table denial, audit)       |
-| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 324 passed, 12 skipped by design, 0 failed; site editor A–K + sample store + design presets on all 4 viewports                                                                      |
-| `npm run build` + `npm run check:bundle`                                                 | ✅ entry 401,989 B of the 409,600 B budget; no editor code in the storefront                                                                                                           |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe WCAG 2.1 A/AA; overflow) | ✅ 328 passed, 12 skipped by design, 0 failed; site editor A–L (L = SEO preview) + sample store + design presets on all 4 viewports                                                    |
+| `npm run build` + `npm run check:bundle`                                                 | ✅ entry 402,002 B of the 409,600 B budget; no editor code in the storefront                                                                                                           |
 | Visual review                                                                            | ✅ Arabic + English editor; desktop / tablet / mobile previews; sample store; dialogs; no overflow, no console errors                                                                  |
 
 ### Known limits / not blocking

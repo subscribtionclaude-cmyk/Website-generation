@@ -23,9 +23,14 @@ import { BidiText } from '@/components/text/BidiText';
 /** Offers page: header + jump links + section-driven offer groups (only non-empty groups show). */
 export function OffersPage() {
   const { t, locale } = useI18n();
-  usePageMeta({ title: t('offers.title'), description: t('offers.subtitle'), seoPage: 'offers' });
   const offers = useOffers();
   const sections = usePageSections('offers');
+  usePageMeta({
+    title: t('offers.title'),
+    description: t('offers.subtitle'),
+    seoPage: 'offers',
+    sections: sections.data,
+  });
   const resolved = sections.data ? resolveSections(sections.data) : [];
   // Offer groups show only when they have offers; other sections (campaign banners, product rails,
   // CTAs added in the Site Editor) render as laid out.

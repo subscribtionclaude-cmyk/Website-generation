@@ -1,11 +1,11 @@
-import { History, Plus, Redo2, Rocket, Save, Trash2, Undo2 } from 'lucide-react';
+import { History, Plus, Redo2, Rocket, Save, Search, Trash2, Undo2 } from 'lucide-react';
 import { useCallback, useEffect, useEffectEvent, useMemo, useState } from 'react';
 import { Alert } from '@/components/feedback/Alert';
 import { Skeleton } from '@/components/feedback/Skeleton';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import type { LocalizedText } from '@/domain/localized';
-import type { TrustItem } from '@/domain/settings/schemas';
+import type { PageSeoSettings, SeoSettings, TrustItem } from '@/domain/settings/schemas';
 import { newSection } from '@/domain/siteEditor/defaults';
 import { insertSection, uniqueKey } from '@/domain/siteEditor/layout';
 import {
@@ -40,6 +40,7 @@ import {
 import { PreviewPane } from './PreviewPane';
 import { SectionInspector } from './SectionInspector';
 import { SectionTree } from './SectionTree';
+import { SeoPreview } from './SeoPreview';
 import { DesignPanel, NavigationPanel, SeoPanel } from './SettingsPanels';
 import {
   useEditorData,
@@ -106,12 +107,17 @@ export function AdminSiteEditorPage() {
 }
 
 type Pane = 'structure' | 'preview' | 'inspector';
+interface SeoValues {
+  seo?: SeoSettings;
+  page_seo?: PageSeoSettings;
+}
 
 function SiteEditor({ initial }: { initial: EditorData }) {
   const { at } = useAdminI18n();
   const loc = useLocalized();
   const { mode } = useRuntime();
-  const { features } = useSettings();
+  const publicSettings = useSettings();
+  const { features } = publicSettings;
   const [layoutMode, measureLayout] = useLayoutMode();
   const wide = layoutMode === 'three';
   const session = useSiteEditor(initial);
@@ -288,6 +294,20 @@ function SiteEditor({ initial }: { initial: EditorData }) {
             : undefined
         }
       />
+      <div>
+        <Button
+          size="sm"
+          variant="ghost"
+          icon={<Search aria-hidden="true" />}
+          onClick={() => {
+            setPreviewPage(page);
+            setTab('seo');
+            setPane('structure');
+          }}
+        >
+          {at('siteEditor.seoPreview.open')}
+        </Button>
+      </div>
       {page === 'apple' && <Alert tone="info">{at('siteEditor.appleNote')}</Alert>}
       <SectionTree
         label={at('siteEditor.structure', { page: pageLabel(page) })}
@@ -326,7 +346,30 @@ function SiteEditor({ initial }: { initial: EditorData }) {
         <NavigationPanel values={doc.settings} canEdit={canEditSetting} onChange={setSetting} />
       )}
       {tab === 'seo' && (
-        <SeoPanel values={doc.settings} canEdit={canEditSetting} onChange={setSetting} />
+        <SeoPanel
+          values={doc.settings}
+          canEdit={canEditSetting}
+          onChange={setSetting}
+          preview={
+            <SeoPreview
+              page={previewPage}
+              // `seo` is content-scoped: without access to its draft, the published public value.
+              working={{
+                seo: (doc.settings as SeoValues).seo ?? publicSettings.seo,
+                page_seo: (doc.settings as SeoValues).page_seo ?? publicSettings.page_seo,
+              }}
+              workingLayout={doc.layouts[previewPage]}
+              published={{
+                seo:
+                  (session.settingMeta('seo')?.published as SeoValues['seo']) ?? publicSettings.seo,
+                page_seo:
+                  (session.settingMeta('page_seo')?.published as SeoValues['page_seo']) ??
+                  publicSettings.page_seo,
+              }}
+              publishedLayout={session.pageMeta(previewPage)?.published ?? []}
+            />
+          }
+        />
       )}
     </section>
   );

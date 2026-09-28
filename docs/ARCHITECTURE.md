@@ -693,6 +693,21 @@ radius` from enum values (CSS in `tokens.css`); `SiteFooter` reads the optional 
 `usePageMeta({ seoPage })` applies `page_seo` and the default share image. Admin and preview chunks
 no longer put their `modulepreload` lists in the storefront entry (`vite.config.ts`).
 
+**SEO integration (no separate SEO system).** Page metadata for Home / Apple / Offers is resolved by
+one pure function, `resolveSeo` (`src/domain/seo/pageSeo.ts`), used by both the storefront
+(`usePageMeta`) and the editor: `page_seo` override → the page's own default title / description →
+the site `seo` defaults, with the title template applied; the share image comes from `page_seo`, then
+the page's first visible image banner (`sectionShareImage`, store paths / https only), then
+`seo.ogImage`, then the bundled default. Canonical + hreflang (`seoUrls`, Arabic as x-default) and
+robots (`robotsContent`; demo deployments never indexed) are shared the same way. The SEO tab (and a
+"Search & sharing for this page" shortcut on each page tab) shows an **SEO preview** per page and
+language: a search-result snippet with length checks, a social share card, canonical / hreflang /
+robots, the source of each value, warnings (long / short text, missing English, default image) and
+what is published now. It is computed from the working drafts of the existing `seo` / `page_seo`
+settings and the working page layout; the preview frame applies the same drafts, so its real
+`document.title` and meta tags match (checked end-to-end). Staff without access to the
+content-scoped `seo` setting see its published public values.
+
 **Media.** Uploads go to the existing public `site-media` bucket (insert needs `design.edit` in the
 storage policy); the editor accepts PNG / JPEG / WebP / AVIF up to 10 MB, compresses in the browser
 first and never uploads SVG. Demo mode keeps uploads inline in the browser.

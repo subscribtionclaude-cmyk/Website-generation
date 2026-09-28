@@ -290,4 +290,39 @@ test.describe('visual site editor', () => {
     await expectNoHorizontalOverflow(page);
     await expectNoSeriousA11yViolations(page);
   });
+  test('L. SEO preview: page SEO drafts, preview frame title, Arabic / English, canonical', async ({
+    page,
+  }) => {
+    await openEditor(page);
+    await page.getByRole('tab', { name: 'Apple' }).click();
+    await showPane(page, 'الأقسام');
+    await page.getByRole('button', { name: 'البحث والمشاركة لهذه الصفحة' }).click();
+    await expect(page.getByRole('tab', { name: 'الظهور في البحث' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    const preview = page.getByRole('region', { name: 'معاينة الظهور: Apple' });
+    const serp = preview.getByTestId('seo-serp');
+    await expect(serp).toContainText('Apple في MALEK STORE | MALEK STORE');
+    await expect(preview.getByTestId('seo-urls')).toContainText('/apple');
+
+    // Editing page SEO (existing page_seo setting) updates the preview and the real preview frame.
+    const apple = page.getByRole('group', { name: 'صفحة Apple' });
+    await apple.getByRole('textbox', { name: /^العنوان \(العربية\)/ }).fill('آبل الأصلية');
+    await expect(serp).toContainText('آبل الأصلية | MALEK STORE');
+    await expect(preview.getByText('من إعداد الصفحة').first()).toBeVisible();
+    await expect(preview.getByText('المنشور الآن:')).toBeVisible();
+    await expect
+      .poll(() => page.frame({ name: 'malek-preview' })?.title())
+      .toBe('آبل الأصلية | MALEK STORE');
+
+    await preview.getByRole('radio', { name: 'English' }).check({ force: true });
+    await expect(preview.getByTestId('seo-urls')).toContainText('/en/apple');
+    await expect(preview.getByText(/لا يوجد عنوان إنجليزي/)).toBeVisible();
+    await apple.getByRole('textbox', { name: /^العنوان \(English\)/ }).fill('Apple originals');
+    await expect(serp).toContainText('Apple originals | MALEK STORE');
+    await expect(preview.getByTestId('seo-share')).toContainText('Apple originals');
+    await expectNoHorizontalOverflow(page);
+    await expectNoSeriousA11yViolations(page);
+  });
 });

@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react';
-import { useId } from 'react';
+import { useId, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { Alert } from '@/components/feedback/Alert';
 import { Button } from '@/components/ui/Button';
@@ -317,13 +317,19 @@ export function NavigationPanel({ values, canEdit, onChange }: PanelProps) {
 }
 
 /** Site-wide SEO defaults and per-page titles, descriptions and share images (Arabic + English). */
-export function SeoPanel({ values, canEdit, onChange }: PanelProps) {
+export function SeoPanel({
+  values,
+  canEdit,
+  onChange,
+  preview,
+}: PanelProps & { preview: ReactNode }) {
   const { at } = useAdminI18n();
   const fieldText = useFieldText();
   const seoIssues = useIssues('seo', values.seo);
   const pageIssues = useIssues('page_seo', values.page_seo);
   return (
     <div className={styles.panelStack}>
+      {preview}
       <section className={ui.group}>
         <h3 className={styles.panelTitle}>{at('siteEditor.seo.pages')}</h3>
         <p className={ui.hint}>{at('siteEditor.seo.pagesHint')}</p>

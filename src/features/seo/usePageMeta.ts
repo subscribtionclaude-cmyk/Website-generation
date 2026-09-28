@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { resolveLocalized } from '@/domain/localized';
+import type { PageSection } from '@/domain/content/types';
+import { resolveSeo, robotsContent, sectionShareImage, seoUrls } from '@/domain/seo/pageSeo';
 import { useSettings } from '@/features/settings/context';
-import { LOCALE_META, LOCALES } from '@/i18n/config';
+import { LOCALE_META, LOCALES, type Locale } from '@/i18n/config';
 import { useI18n } from '@/i18n/context';
 import { localizePath, parseLocalePath } from '@/i18n/paths';
 import { useRuntime } from '@/runtime/context';
@@ -33,6 +34,10 @@ function upsertLink(rel: string, href: string, hreflang?: string) {
 
 const JSON_LD_ID = 'page-json-ld';
 
+export const HTML_LANG = Object.fromEntries(
+  LOCALES.map((l) => [l, LOCALE_META[l].htmlLang]),
+) as Record<Locale, string>;
+
 function setJsonLd(data: object[] | undefined) {
   document.getElementById(JSON_LD_ID)?.remove();
   if (!data || data.length === 0) return;
@@ -57,6 +62,8 @@ interface PageMeta {
   jsonLd?: object[];
   /** Editable page whose per-page SEO (Site Editor → `page_seo`) overrides the defaults above. */
   seoPage?: 'home' | 'apple' | 'offers';
+  /** The page's sections: an image banner can supply the share image (see `sectionShareImage`). */
+  sections?: readonly PageSection[];
 }
 
 /**
@@ -72,15 +79,21 @@ export function usePageMeta({
   type = 'website',
   jsonLd,
   seoPage,
+  sections,
 }: PageMeta) {
   const { seo, brand, page_seo: pageSeo } = useSettings();
   const { locale } = useI18n();
-  const pageOverride = seoPage ? pageSeo.pages[seoPage] : null;
-  const title = pageOverride?.title ? resolveLocalized(pageOverride.title, locale) : pageTitle;
-  const description = pageOverride?.description
-    ? resolveLocalized(pageOverride.description, locale)
-    : pageDescription;
-  const image = pageOverride?.ogImage ?? pageImage ?? seo.ogImage ?? undefined;
+  // Same resolver as the Site Editor's SEO preview (src/domain/seo/pageSeo.ts).
+  const resolved = resolveSeo({
+    locale,
+    seo,
+    override: seoPage ? pageSeo.pages[seoPage] : null,
+    title: pageTitle,
+    description: pageDescription,
+    image: pageImage,
+    sectionImage: sectionShareImage(sections),
+  });
+  const { title: fullTitle, description: metaDescription, image } = resolved;
   const { config, mode } = useRuntime();
   // Demo deployments are previews: robots always noindex (canonical/hreflang still describe the page).
   const robotsNoIndex = noIndex || mode === 'demo';
@@ -88,31 +101,19 @@ export function usePageMeta({
   const location = useLocation();
 
   useEffect(() => {
-    const fullTitle = title
-      ? resolveLocalized(seo.titleTemplate, locale).replace('%s', title)
-      : resolveLocalized(seo.defaultTitle, locale);
-    const metaDescription = description ?? resolveLocalized(seo.defaultDescription, locale);
     const origin = config.siteUrl ?? window.location.origin;
     const { path } = parseLocalePath(location.pathname);
 
     document.title = fullTitle;
     upsertMeta('name', 'description', metaDescription);
-    upsertMeta(
-      'name',
-      'robots',
-      robotsNoIndex || !seo.allowIndexing ? 'noindex, nofollow' : 'index, follow',
-    );
+    upsertMeta('name', 'robots', robotsContent(robotsNoIndex, seo.allowIndexing));
     upsertMeta('property', 'og:title', fullTitle);
     upsertMeta('property', 'og:description', metaDescription);
     upsertMeta('property', 'og:site_name', brand.name);
     upsertMeta('property', 'og:locale', locale === 'ar' ? 'ar_EG' : 'en_US');
     upsertMeta('property', 'og:type', type);
     upsertMeta('property', 'og:url', `${origin}${localizePath(path, locale)}`);
-    upsertMeta(
-      'property',
-      'og:image',
-      new URL(image ?? '/brand/og-default.png', `${origin}/`).toString(),
-    );
+    upsertMeta('property', 'og:image', new URL(image, `${origin}/`).toString());
     setJsonLd(jsonLdKey ? (JSON.parse(jsonLdKey) as object[]) : undefined);
     if (noIndex) {
       // Non-indexable pages (account, admin, placeholders) advertise no canonical/alternate URLs.
@@ -123,18 +124,13 @@ export function usePageMeta({
       }
       return;
     }
-    upsertLink('canonical', `${origin}${localizePath(path, locale)}`);
-    for (const alternate of LOCALES) {
-      upsertLink(
-        'alternate',
-        `${origin}${localizePath(path, alternate)}`,
-        LOCALE_META[alternate].htmlLang,
-      );
-    }
-    upsertLink('alternate', `${origin}${localizePath(path, 'ar')}`, 'x-default');
+    const urls = seoUrls(origin, path, locale, localizePath, HTML_LANG);
+    upsertLink('canonical', urls.canonical);
+    for (const alternate of urls.alternates)
+      upsertLink('alternate', alternate.href, alternate.hreflang);
   }, [
-    title,
-    description,
+    fullTitle,
+    metaDescription,
     noIndex,
     robotsNoIndex,
     image,

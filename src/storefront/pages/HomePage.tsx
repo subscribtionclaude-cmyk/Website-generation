@@ -3,6 +3,7 @@ import { resolveLocalized } from '@/domain/localized';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
+import { usePageSections } from '../data/hooks';
 import { SectionPage } from '../sections/SectionRenderer';
 import { BranchCard } from '../sections/InfoSections';
 import styles from './HomePage.module.css';
@@ -12,7 +13,8 @@ import styles from './HomePage.module.css';
  * rendered through the section registry. Phase 07's Site Editor edits the same rows.
  */
 export function HomePage() {
-  usePageMeta({ seoPage: 'home' });
+  const sections = usePageSections('home');
+  usePageMeta({ seoPage: 'home', sections: sections.data });
   return <SectionPage pageKey="home" fallback={<BrandFallback />} header={<BrandHeading />} />;
 }
 
