@@ -1,5 +1,11 @@
 import type { Session, SupabaseClient } from '@supabase/supabase-js';
-import { AuthError, type AuthService, type AuthSession, type RequestCodeOptions } from './types';
+import {
+  AuthError,
+  type AuthService,
+  type AuthSession,
+  type RequestCodeOptions,
+  type SocialProvider,
+} from './types';
 
 function toSession(session: Session | null): AuthSession | null {
   if (!session) return null;
@@ -60,6 +66,11 @@ export class SupabaseAuthService implements AuthService {
         data: { locale: options.locale },
       },
     });
+    if (error) throw toAuthError(error);
+  }
+
+  async signInWithProvider(provider: SocialProvider, redirectTo: string): Promise<void> {
+    const { error } = await this.client.auth.signInWithOAuth({ provider, options: { redirectTo } });
     if (error) throw toAuthError(error);
   }
 

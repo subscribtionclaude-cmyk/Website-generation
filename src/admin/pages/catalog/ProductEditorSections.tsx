@@ -24,6 +24,7 @@ import { useErrorText } from '../../ui/useAdminText';
 import styles from '../../ui/adminUi.module.css';
 import { useLocalized } from './catalogHooks';
 import { ImageUpload } from './catalogParts';
+import { AiSeoSuggestion } from './AiSeoSuggestion';
 import {
   changedPrices,
   emptyVariant,
@@ -1338,6 +1339,7 @@ export function SeoSection({ draft, set }: SectionProps) {
           maxLength={170}
           onChange={(seoDescription) => set((d) => ({ ...d, seoDescription }))}
         />
+        <AiSeoSuggestion draft={draft} set={set} />
         <div
           className={styles.previewFrame}
           aria-label={at('catalog.editor.searchPreview')}

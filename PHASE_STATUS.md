@@ -10,8 +10,8 @@
 | 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
 | 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28) |
 | 08    | Content / SEO / PWA / Polish | ✅ COMPLETE (2026-10-02) |
-| 09    | Integrations Layer           | ⚪ NOT STARTED — next    |
-| 10    | QA / Staging / Launch        | ⚪ NOT STARTED           |
+| 09    | Integrations Layer           | 🟡 FINAL VALIDATION      |
+| 10    | QA / Staging / Launch        | ⚪ NOT STARTED — next    |
 
 ---
 
@@ -589,10 +589,89 @@
 - ShipStatic's handling of `<path>.html` pages and the `404.html` rewrite could not be verified from
   this environment (see `docs/DEPLOYMENT.md`).
 
-## Phase 09 — Integrations Layer
+## Phase 09 — Integrations Layer (final validation in progress)
 
-Adapter contracts + settings UI (all optional, disabled by default): Odoo, POS, WhatsApp Business, SMS,
-email, Google Analytics, courier, AI provider, external storage, search, backups, social auth.
+Every integration is optional, disabled by default, removable and replaceable; secrets are
+server-side only; everything is permission-controlled, audited and tested. **The platform works with
+no external paid service** — each integration has a free / manual fallback that stays in charge until
+the provider is configured, enabled and confirmed working.
+
+### Delivered
+
+- [x] **Integrations & services center** (`/admin/integrations`, `/admin/integrations/:key`) — health
+      overview (Connected / Disabled / Error / Needs setup), 12 cards grouped by purpose with state
+      (Not configured, Disabled, Configured — not tested, Connected, Connection error), Optional,
+      Requires / May require subscription, Manual fallback active, DEMO / MOCK, circuit paused;
+      purpose, last check + safe error, fallback, data received, Test connection, Enable / Disable
+      (confirmed, reason, audited), Configure. Detail tabs: Overview (data categories, fallback,
+      adapter status, capabilities, server secret names), Configuration, Connection (history), Sync
+      center (dry run, sync now — disabled until configured / enabled — recent syncs, per-item
+      details, conflicts-only filter), Messages (routing per event, delivery log with manual retry,
+      dispatch, webhook events). Arabic + English.
+- [x] **Registry + adapters** — `integration-catalog.json` mirrored by `app.integration_catalog()`
+      (contract-checked); adapter interfaces for notifications, ERP / POS, courier, AI, search,
+      storage, backup, social sign-in; health codes (connected, auth failed, permission problem,
+      unreachable, timeout, configuration incomplete, unsupported, rate limited, provider error,
+      runtime unavailable); finite timeouts, redaction, circuit breaker, retry policy, idempotency.
+- [x] **Implemented adapters** (stub-tested, not live-verified): WhatsApp Cloud API (template
+      messages, delivery receipts, webhook), Odoo External API (read-only products / prices / stock /
+      customers), GA4 Measurement ID check, Supabase Auth provider check. All other providers:
+      interface + deterministic MOCK; live mode reports `unsupported` instead of pretending.
+- [x] **Server runtime** — Supabase Edge Functions `integrations` (test / sync / dispatch; the caller's
+      JWT is authorized by the database first) and `integration-webhook` (HMAC signature, event-ID
+      dedupe), thin Deno wrappers over the tested core; SSRF guard on admin-entered endpoints.
+- [x] **Secrets** — never in the database, frontend, `VITE_*`, browser storage, repository, audit log
+      or errors: refused as settings, redacted from messages, build-time `VITE_*` guard, and
+      `npm run check:secrets` (env names / values, `dist/` credential patterns + server-only values,
+      tracked files) in `npm run check`. The admin shows variable names only.
+- [x] **Messaging** — WhatsApp manual deep link stays the default; automatic messages only when the
+      provider is configured + enabled, the channel is on, the event is mapped to a provider template,
+      the customer opted in and the data is not demo. In-app always works. Statuses Pending / Sent /
+      Delivered / Failed / Skipped / Disabled; retries 1 / 5 min then manual (max 5). Providers get
+      only rendered customer-facing text + the one contact field. SMS / email are optional adapters;
+      Supabase Auth email unaffected.
+- [x] **ERP / POS** — import only (two-way refused), mappings keep external IDs, ownership per domain
+      (Malek / external with conflict review / external wins), exact SKU / email matching (never
+      fuzzy), new records listed for review, dry run, idempotent jobs, sync log; **stock never below
+      reservations** (planned conflict + re-checked under row lock); price changes write price history
+      (source `integration`) + audit; stock changes write `external_sync` movements + audit; order
+      export from authoritative snapshots. CSV import unchanged.
+- [x] **Courier** optional; "Shipping fee to be confirmed" kept; checkout never blocked.
+- [x] **Google Analytics** — off by default; consent first (equal Accept / Reject, footer Cookie
+      settings); never on admin, account, sign-in, cart, checkout, orders, wishlist, compare or
+      service request forms; never in demo; path-only page views, whitelisted PII-filtered params;
+      lazy chunk (no SDK in the entry).
+- [x] **AI** — draft-only SEO description suggestion in the product editor (Generate → Review →
+      Edit → Approve (save) → Publish), public fields only, no access to prices / stock / orders /
+      payments / valuations; MOCK in demo; no live adapter ships.
+- [x] **Search / storage / backup** — built-in search and Supabase Storage stay the defaults with
+      fallbacks; private media only via expiring URLs; manual exports documented as not backups.
+- [x] **Social sign-in** — Google / Apple buttons on the customer sign-in page when enabled; Supabase
+      OAuth (PKCE); identity linking left to Supabase; demo says simulated.
+- [x] **Database** — `20261003100000_integrations.sql`: 3 permissions, 6 tables (RLS, read via
+      `integrations.view`, no direct writes), delivery queue extension, price / stock source values,
+      staff / service-role / public RPCs, routing in `app.notify`, audit of configure / enable /
+      disable / test / provider change / remove / sync start / complete / fail / retry.
+- [x] **Docs** — ARCHITECTURE §18, DATABASE (Phase 09 migration + RPCs), DEPLOYMENT (optional
+      integrations), QA checklist, README, `.env.example` (public vs server-only names).
+
+### Validation
+
+Final validation in progress (full E2E on the final build); results are recorded here when it
+completes.
+
+### Known limits / not blocking
+
+- No real provider account was connected (by design): WhatsApp Cloud, Odoo, GA4 and Google / Apple
+  OAuth adapters are verified against stubbed HTTP and mocks only, and the Edge Functions were not
+  deployed or run under Deno here (their logic is the unit-tested `server/handler.ts`).
+- SMS, email, POS, courier, AI, search, storage and backup ship as interfaces + mocks; a concrete
+  adapter is added when the owner chooses a provider (live mode says "not supported" until then).
+- Message dispatch runs on demand from the admin; scheduling it (cron calling the function) is a
+  deployment step.
+- The setting-pattern checks (e.g. WhatsApp phone-number ID format) run in the form; the database
+  enforces types, https URLs, known keys and secret refusal.
+- Storefront entry grew by ~1.7 kB (406,201 B of the 409,600 B budget) — little headroom remains.
 
 ## Phase 10 — QA / Staging / Launch
 

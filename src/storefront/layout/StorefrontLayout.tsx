@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { DemoModeBanner } from '@/features/data-mode/DemoModeBanner';
 import { CartProvider } from '@/features/cart/CartProvider';
 import { CustomerListsProvider } from '@/features/customer/CustomerListsProvider';
+import { IntegrationsBridge } from '@/features/integrations/IntegrationsBridge';
 import { useSettingsContext } from '@/features/settings/context';
 import { WhatsAppMessageContext } from '@/features/whatsapp/context';
 import { WhatsAppFab } from '@/features/whatsapp/WhatsAppFab';
@@ -65,6 +66,7 @@ function StorefrontShell() {
             <MobileTabBar />
             <CompareTray />
             <WhatsAppFab />
+            <IntegrationsBridge />
           </div>
         </WhatsAppMessageContext>
       </CustomerListsProvider>

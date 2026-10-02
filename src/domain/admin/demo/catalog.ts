@@ -370,7 +370,7 @@ export class DemoAdminCatalog {
     variant: RawVariant,
     before: { price: number | null; compareAt: number | null },
     reason: string | null,
-    source: 'admin' | 'bulk' | 'import' | 'system',
+    source: 'admin' | 'bulk' | 'import' | 'system' | 'integration',
   ) {
     if (before.price === variant.price && before.compareAt === variant.compareAtPrice) return;
     this.ctx.state.seq += 1;
@@ -1024,6 +1024,90 @@ export class DemoAdminCatalog {
       available: after - reserved,
       updatedAt: found.variant.updatedAt,
     };
+  }
+
+  // ── Phase 09: ERP / POS sync (demo mirror of integration_record_sync_result) ──
+  /** Variants as the sync planner sees them (on hand, active reservations, last local edit). */
+  integrationVariants() {
+    return this.liveProducts().flatMap((p) =>
+      p.variants
+        .filter((v) => !v.retiredAt && v.sku)
+        .map((v) => ({
+          id: v.id,
+          sku: v.sku,
+          price: v.price,
+          compareAtPrice: v.compareAtPrice,
+          stock: this.onHand(v.id),
+          reserved: this.reserved(v.id),
+          updatedAt: v.updatedAt ?? SEED_UPDATED_AT,
+        })),
+    );
+  }
+
+  /**
+   * Apply one planned external change. Prices write price history (source "integration") and an
+   * audit entry; stock is re-checked against reservations at apply time (never below reserved) and
+   * recorded as an external_sync movement. Called only by the demo integrations engine.
+   */
+  applyIntegrationChange(
+    actor: AdminActor,
+    change: {
+      domain: 'prices' | 'stock';
+      variantId: string;
+      after: number;
+      compareAt?: number | null;
+      key: string;
+      jobId: string;
+    },
+  ): { ok: true } | { ok: false; code: 'not_found' | 'below_reserved' } {
+    const found = this.variantById(change.variantId);
+    if (!found) return { ok: false, code: 'not_found' };
+    const { product, variant } = found;
+    const metadata = { source: `integration:${change.key}`, jobId: change.jobId };
+    if (change.domain === 'prices') {
+      const before = { price: variant.price, compareAt: variant.compareAtPrice };
+      variant.price = change.after;
+      if (change.compareAt !== undefined && change.compareAt !== null)
+        variant.compareAtPrice = change.compareAt;
+      variant.updatedAt = this.ctx.stamp();
+      this.recordPrice(
+        actor,
+        product,
+        variant,
+        before,
+        `Integration sync: ${change.key}`,
+        'integration',
+      );
+      this.ctx.audit(
+        actor,
+        'price.changed',
+        'public.product_variants',
+        variant.sku,
+        { price: before.price },
+        { price: variant.price },
+        metadata,
+      );
+    } else {
+      const before = this.onHand(variant.id);
+      if (change.after < this.reserved(variant.id)) return { ok: false, code: 'below_reserved' };
+      this.ctx.commerce.applyStockChange(variant.id, change.after - before, {
+        reason: 'external_sync',
+        note: `Integration sync: ${change.key}`,
+        actorName: actor.name,
+      });
+      variant.updatedAt = this.ctx.stamp();
+      this.ctx.audit(
+        actor,
+        'stock.adjusted',
+        'public.product_variants',
+        variant.sku,
+        { quantity: before },
+        { quantity: change.after },
+        { type: 'external_sync', ...metadata },
+      );
+    }
+    this.ctx.catalogChanged();
+    return { ok: true };
   }
 
   listStockMovements(actor: AdminActor, filter: MovementFilter): Page<MovementRow> {

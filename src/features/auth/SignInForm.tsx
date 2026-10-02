@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useState, type FormEvent } from 'react';
 import { Alert } from '@/components/feedback/Alert';
 import { Button } from '@/components/ui/Button';
 import { TextField } from '@/components/ui/TextField';
@@ -7,10 +7,15 @@ import { isolate } from '@/i18n/translator';
 import { toLatinDigits } from '@/lib/phone';
 import { useRuntime } from '@/runtime/context';
 import { AuthError, EMAIL_PATTERN, OTP_PATTERN, type AuthSession } from '@/services/auth/types';
+import { useStorefrontIntegrations } from '@/features/integrations/useStorefrontIntegrations';
 import { useAuth } from './context';
 import styles from './SignInForm.module.css';
 
 const RESEND_COOLDOWN_SECONDS = 60;
+
+const SocialSignIn = lazy(() =>
+  import('./SocialSignIn').then((m) => ({ default: m.SocialSignIn })),
+);
 
 const ERROR_KEYS: Record<AuthError['code'], CoreMessageKey> = {
   invalid_email: 'auth.errors.invalidEmail',
@@ -25,13 +30,20 @@ interface SignInFormProps {
   returnPath: string;
   onSignedIn: (session: AuthSession) => void;
   headingLevel?: 1 | 2;
+  /** Offer the optional Google / Apple buttons when the owner enabled them (customers only). */
+  social?: boolean;
 }
 
 /**
  * Passwordless sign-in (free-first): Supabase emails a 6-digit code + magic link.
  * Phone number stays required later for checkout/contact; paid SMS OTP is an optional integration.
  */
-export function SignInForm({ returnPath, onSignedIn, headingLevel = 1 }: SignInFormProps) {
+export function SignInForm({
+  returnPath,
+  onSignedIn,
+  headingLevel = 1,
+  social = false,
+}: SignInFormProps) {
   const { t, locale } = useI18n();
   const { service } = useAuth();
   const { mode, config } = useRuntime();
@@ -42,6 +54,8 @@ export function SignInForm({ returnPath, onSignedIn, headingLevel = 1 }: SignInF
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const flags = useStorefrontIntegrations().data?.socialAuth;
+  const providers = social && flags ? (['google', 'apple'] as const).filter((p) => flags[p]) : [];
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -158,6 +172,12 @@ export function SignInForm({ returnPath, onSignedIn, headingLevel = 1 }: SignInF
             ? t('auth.verifying')
             : t('auth.verify')}
       </Button>
+
+      {step === 'email' && providers.length > 0 && (
+        <Suspense fallback={null}>
+          <SocialSignIn providers={providers} returnPath={returnPath} />
+        </Suspense>
+      )}
 
       {step === 'code' && (
         <div className={styles.row}>

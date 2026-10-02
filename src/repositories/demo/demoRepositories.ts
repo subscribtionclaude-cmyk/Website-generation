@@ -1,3 +1,4 @@
+import { DemoIntegrationsRepository } from './demoIntegrations';
 import { DemoServiceOperationsRepository, DemoServiceRequestsRepository } from './demoServices';
 import { DemoAdminRepository } from './demoAdmin';
 import { DemoSiteEditorRepository } from './demoSiteEditor';
@@ -162,5 +163,6 @@ export function createDemoRepositories(auth: DemoAuthService): Repositories {
     serviceOps: new DemoServiceOperationsRepository(store, auth),
     admin: new DemoAdminRepository(store, auth),
     siteEditor: new DemoSiteEditorRepository(store, auth),
+    integrations: new DemoIntegrationsRepository(store, auth),
   };
 }

@@ -131,6 +131,27 @@ export class DemoAdmin {
     this.ctx.audit(actor, action, entityType, entityId, null, after ?? null);
   }
 
+  /** Audit entry with before / after / metadata (Phase 09 integrations engine). */
+  record(
+    actor: AdminActor,
+    action: string,
+    entityType: string,
+    entityId: string | null,
+    before: unknown,
+    after: unknown,
+    metadata: unknown,
+  ) {
+    this.ctx.audit(actor, action, entityType, entityId, before, after, metadata);
+  }
+
+  /** Demo customers that could be linked by exact sign-in email (never fuzzy names). */
+  customerEmails(): { id: string; email: string }[] {
+    return Object.keys(this.ctx.customer.adminState().profiles).flatMap((id) => {
+      const email = id.startsWith('demo-customer-') ? id.slice('demo-customer-'.length) : '';
+      return email.includes('@') ? [{ id, email }] : [];
+    });
+  }
+
   /** Phase 07 Site Editor layouts (drafts, versions, publish, rollback). */
   get layouts() {
     return this.content.layouts;

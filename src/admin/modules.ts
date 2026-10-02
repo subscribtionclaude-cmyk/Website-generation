@@ -319,8 +319,8 @@ export const ADMIN_MODULES: AdminModule[] = [
     path: 'integrations',
     group: 'system',
     icon: Plug,
-    permission: 'integrations.manage',
-    plannedPhase: 9,
+    permission: 'integrations.view',
+    plannedPhase: null,
   },
   {
     id: 'demo-data',

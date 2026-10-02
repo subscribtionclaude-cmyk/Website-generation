@@ -8,7 +8,7 @@ select tests.assert_equal(
 select tests.assert_equal((select count(*)::int from public.roles where is_system), 8, '8 system roles seeded');
 select tests.assert_equal((select count(*)::int from public.roles where grants_all), 1, 'exactly one grants-all role');
 select tests.assert_equal((select key from public.roles where grants_all), 'owner', 'owner is the grants-all role');
-select tests.assert_equal((select count(*)::int from public.permissions), 44, '44 permissions seeded (Phase 07 adds design.view)');
+select tests.assert_equal((select count(*)::int from public.permissions), 47, '47 permissions seeded (Phase 09 adds integrations.view / test / sync)');
 select tests.assert_equal(
   (select count(*)::int from public.role_permissions rp join public.roles r on r.id = rp.role_id where r.key = 'super_admin'),
   (select count(*)::int from public.permissions), 'super admin holds every permission');

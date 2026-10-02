@@ -80,6 +80,44 @@ insert into samples values
  ('seo_public_index', public.seo_public_index()),
  ('admin_complete_setup_invalid', public.admin_complete_setup('nope', null)),
  ('admin_complete_setup', public.admin_complete_setup('keep', 'Sample setup'));
+-- Phase 09: integrations — configuration, a client check, a dry-run sync recorded by the server
+-- runtime (service role), one failed delivery and one webhook event.
+select sku as tpv_sku from public.product_variants where id = :'tpv' \gset
+select public.admin_save_integration('odoo', 'odoo_jsonrpc',
+  '{"baseUrl": "https://erp.example.test", "database": "malek", "username": "sync"}', '{"prices": "external_wins"}') ->> 'ok' as i1 \gset
+select public.admin_save_integration('google_analytics', 'ga4', '{"measurementId": "G-SAMPLE123"}') ->> 'ok' as i2 \gset
+select public.admin_set_integration_enabled('google_analytics', true) ->> 'ok' as i3 \gset
+select public.admin_record_client_check('google_analytics', 'connected', 'connected', 'format_verified', null) ->> 'ok' as i4 \gset
+select public.admin_start_integration_sync('odoo', 'prices', true, '00000000-0000-4000-8000-0000000000a1') ->> 'jobId' as job_id \gset
+reset role;
+select set_config('request.jwt.claims', '{"role": "service_role"}', true) as claims \gset
+set local role service_role;
+select public.integration_record_sync_result(:'job_id', jsonb_build_array(
+  jsonb_build_object('externalId', 'ODOO-1', 'sku', :'tpv_sku', 'price', 1100, 'updatedAt', now()),
+  jsonb_build_object('externalId', 'bad id'),
+  jsonb_build_object('externalId', 'ODOO-404', 'sku', 'NO-SUCH-SKU', 'price', 10))) ->> 'ok' as r1 \gset
+reset role;
+with n as (
+  insert into public.notifications (user_id, category, template_key, title, body, data, dedupe_key)
+  values (:'cust', 'order', 'order.confirmed', '{"ar": "تم تأكيد طلبك", "en": "Your order is confirmed"}',
+          '{"ar": "الطلب MS-1 اتأكد.", "en": "Order MS-1 is confirmed."}', '{"orderNumber": "MS-1"}', 'sample:delivery')
+  returning id)
+insert into public.notification_deliveries (notification_id, channel, status, attempts, error_code)
+select id, 'whatsapp', 'failed', 3, 'provider_error' from n;
+insert into public.integration_webhook_events (key, provider_event_id, event_type, signature_valid, status)
+values ('whatsapp', 'wamid.SAMPLE:delivered', 'status.delivered', true, 'accepted');
+select tests.act_as(:'owner');
+insert into samples values
+ ('admin_integrations_overview', public.admin_integrations_overview()),
+ ('admin_list_integration_checks', public.admin_list_integration_checks('google_analytics', 5)),
+ ('admin_list_sync_jobs', public.admin_list_sync_jobs('odoo', 5)),
+ ('admin_get_sync_job', public.admin_get_sync_job(:'job_id')),
+ ('admin_list_deliveries', public.admin_list_deliveries(null, null, 5)),
+ ('admin_list_webhook_events', public.admin_list_webhook_events('whatsapp', 5)),
+ ('admin_integration_features', public.admin_integration_features()),
+ ('admin_save_integration_refused', public.admin_save_integration('odoo', 'odoo_jsonrpc',
+   '{"baseUrl": "https://erp.example.test", "database": "malek", "username": "sk-live1234567890abcdef"}')),
+ ('storefront_integrations', public.storefront_integrations());
 \pset tuples_only on
 \pset format unaligned
 \o :out

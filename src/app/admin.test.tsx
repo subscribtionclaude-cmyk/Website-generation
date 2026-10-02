@@ -1,6 +1,7 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
+import { ADMIN_MODULES } from '@/admin/modules';
 import { renderApp } from '@/test/renderApp';
 
 async function previewAs(role: string, path = '/admin') {
@@ -58,12 +59,15 @@ describe('admin shell', () => {
     ).toBeInTheDocument();
   });
 
-  it('planned modules say which phase delivers them', async () => {
+  it('every module is delivered — the integrations center replaces the last placeholder', async () => {
+    expect(ADMIN_MODULES.filter((m) => m.plannedPhase !== null)).toEqual([]);
     await previewAs('owner', '/admin/integrations');
     expect(
       await screen.findByRole('heading', { level: 1, name: 'التكاملات والخدمات' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('هذا القسم مجدول للمرحلة 09')).toBeInTheDocument();
+    expect(await screen.findByTestId('integrations-health')).toBeInTheDocument();
+    expect(screen.getByText(/وضع العرض: كل مزوّد هنا محاكاة/)).toBeInTheDocument();
+    expect(screen.queryByText('هذا القسم مجدول للمرحلة 09')).not.toBeInTheDocument();
   });
 
   it('opens the visual site editor with the page structure and a live preview frame', async () => {

@@ -13,6 +13,7 @@
     "erasableSyntaxOnly": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
 

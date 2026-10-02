@@ -7,6 +7,16 @@ import { pageSectionSchema } from '@/domain/content/schemas';
 import { resolveSections } from '@/domain/content/sections';
 import { seoOverviewSchema } from '@/domain/seo/overview';
 import { seoPublicIndexSchema } from '@/domain/seo/publicIndex';
+import {
+  deliverySchema,
+  healthCheckSchema,
+  integrationFeaturesSchema,
+  integrationsOverviewSchema,
+  storefrontIntegrationsSchema,
+  syncJobDetailSchema,
+  syncJobSchema,
+  webhookEventSchema,
+} from '@/domain/integrations/schemas';
 import { DEMO_CHOICES } from '@/domain/setup/wizard';
 import {
   editorPageSchema,
@@ -74,6 +84,15 @@ const cases: [keyof typeof samples, z.ZodType][] = [
   ['site_editor_versions', layoutVersionSchema.array()],
   ['site_editor_conflict', s.adminProblemSchema],
   ['storefront_page_sections', pageSectionSchema.array()],
+  ['admin_integrations_overview', integrationsOverviewSchema],
+  ['admin_list_integration_checks', healthCheckSchema.array()],
+  ['admin_list_sync_jobs', syncJobSchema.array()],
+  ['admin_get_sync_job', syncJobDetailSchema],
+  ['admin_list_deliveries', deliverySchema.array()],
+  ['admin_list_webhook_events', webhookEventSchema.array()],
+  ['admin_integration_features', integrationFeaturesSchema],
+  ['admin_save_integration_refused', s.adminProblemSchema],
+  ['storefront_integrations', storefrontIntegrationsSchema],
 ];
 
 describe('admin RPC contracts (captured SQL samples)', () => {
@@ -95,6 +114,33 @@ describe('admin RPC contracts (captured SQL samples)', () => {
     // The published layout renders: every section resolves through the storefront registry.
     const rows = pageSectionSchema.array().parse(samples.storefront_page_sections);
     expect(resolveSections(rows)).toHaveLength(rows.length);
+  });
+
+  it('integration samples: every catalog key, a dry-run plan and public flags only', () => {
+    const overview = integrationsOverviewSchema.parse(samples.admin_integrations_overview);
+    expect(overview.integrations).toHaveLength(12);
+    expect(overview.integrations.find((i) => i.key === 'odoo')).toMatchObject({
+      provider: 'odoo_jsonrpc',
+      enabled: false,
+      complete: true,
+    });
+    const job = syncJobDetailSchema.parse(samples.admin_get_sync_job);
+    expect(job).toMatchObject({ dryRun: true, status: 'partial', inspected: 3, updated: 1 });
+    expect(job.items.map((i) => i.action)).toEqual(['update', 'invalid', 'skip']);
+    expect(job.items.every((i) => !i.applied)).toBe(true);
+    expect(samples.admin_save_integration_refused).toMatchObject({
+      code: 'secret_not_allowed',
+      field: 'username',
+    });
+    expect(deliverySchema.array().parse(samples.admin_list_deliveries)[0]).toMatchObject({
+      channel: 'whatsapp',
+      status: 'failed',
+      reference: 'MS-1',
+    });
+    expect(samples.storefront_integrations).toEqual({
+      analytics: { provider: 'ga4', measurementId: 'G-SAMPLE123' },
+      socialAuth: { google: false, apple: false },
+    });
   });
 
   it('the fixture covers every contract case', () => {

@@ -78,8 +78,36 @@ function fontPreload(): Plugin {
   };
 }
 
+/**
+ * Build-time secret guard: every VITE_* variable is embedded in the public bundle, so a
+ * secret-looking name or value stops dev/build immediately. Provider secrets belong in the server
+ * runtime's environment (Supabase Edge Function secrets) — see .env.example.
+ * (scripts/check-secrets.mjs re-checks the environment and scans the built output.)
+ */
+const SECRET_ENV_NAME =
+  /(SECRET|TOKEN|PASSWORD|PASSWD|PRIVATE|SERVICE_ROLE|CREDENTIAL|API_KEY|ACCESS_KEY)/;
+const SECRET_ENV_VALUE =
+  /^(sb_secret_|sk-|sk_live_|rk_live_|EAA[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_|xox[abprs]-|-----BEGIN)/;
+
+function envGuard(): Plugin {
+  return {
+    name: 'malek-env-guard',
+    configResolved(config) {
+      for (const [name, value] of Object.entries(config.env)) {
+        if (!name.startsWith('VITE_')) continue;
+        const badName = name !== 'VITE_SUPABASE_ANON_KEY' && SECRET_ENV_NAME.test(name);
+        if (badName || (typeof value === 'string' && SECRET_ENV_VALUE.test(value)))
+          throw new Error(
+            `${name} looks like a secret. VITE_* variables are public (embedded in the browser bundle); ` +
+              'keep provider secrets in the server runtime environment (Supabase Edge Function secrets).',
+          );
+      }
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), spaFallback(), previewShell(), fontPreload()],
+  plugins: [envGuard(), react(), spaFallback(), previewShell(), fontPreload()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -981,7 +981,7 @@ function PriceHistoryTab() {
           onChange={(e) => setFilter((f) => ({ ...f, source: e.target.value, offset: 0 }))}
           options={[
             { value: '', label: at('ui.all') },
-            ...(['admin', 'bulk', 'import', 'system'] as const).map((s) => ({
+            ...(['admin', 'bulk', 'import', 'system', 'integration'] as const).map((s) => ({
               value: s,
               label: at(`inventory.source.${s}`),
             })),

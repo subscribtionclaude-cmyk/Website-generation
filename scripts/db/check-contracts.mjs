@@ -1,6 +1,7 @@
 // Verifies that the migrated database matches the JSON contracts the frontend uses:
 //   src/domain/access/access-catalog.json      → permissions, roles, role grants
 //   src/domain/settings/setting-definitions.json → setting_definitions
+//   src/domain/integrations/integration-catalog.json → app.integration_catalog(), integration_configs
 // Usage: node scripts/db/check-contracts.mjs <psql connection args...>
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -75,6 +76,45 @@ compare(
     `select json_agg(json_build_object('key', key, 'scope', scope, 'isPublic', is_public, 'editPermission', edit_permission, 'publishPermission', publish_permission) order by key) from public.setting_definitions`,
   ),
   [...definitions].sort((a, b) => a.key.localeCompare(b.key)),
+);
+
+// Integrations catalog (Phase 09): providers, public setting fields, sync domains, check kind.
+const integrationCatalog = readJson(
+  'src/domain/integrations/integration-catalog.json',
+).integrations;
+const expectedIntegrations = Object.fromEntries(
+  integrationCatalog.map((i) => [
+    i.key,
+    {
+      providers: i.providers.map((p) => p.key),
+      settings: Object.fromEntries(
+        i.settings.map((s) => [s.key, { type: s.type, required: s.required }]),
+      ),
+      syncDomains: i.syncDomains,
+      check: i.check,
+      channel: i.channel ?? null,
+    },
+  ]),
+);
+const sortDeep = (value) =>
+  Array.isArray(value)
+    ? value.map(sortDeep)
+    : value && typeof value === 'object'
+      ? Object.fromEntries(
+          Object.keys(value)
+            .sort()
+            .map((k) => [k, sortDeep(value[k])]),
+        )
+      : value;
+compare(
+  'integration catalog matches integration-catalog.json',
+  sortDeep(query(`select app.integration_catalog()`)),
+  sortDeep(expectedIntegrations),
+);
+compare(
+  'one integration_configs row per catalog key',
+  query(`select json_agg(key order by key) from public.integration_configs`),
+  Object.keys(expectedIntegrations).sort(),
 );
 
 if (failures > 0) {

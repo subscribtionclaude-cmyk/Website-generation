@@ -19,3 +19,24 @@ additional_redirect_urls = ["http://localhost:5173/**", "http://localhost:4173/*
 [auth.email]
 enable_signup = true
 otp_length = 6
+
+# Optional social sign-in (Phase 09). Disabled by default. OAuth client secrets are read from the
+# environment of the machine running `supabase start` — never committed. Hosted projects configure
+# these in Dashboard → Authentication → Providers.
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"
+
+[auth.external.apple]
+enabled = false
+client_id = "env(SUPABASE_AUTH_APPLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_APPLE_SECRET)"
+
+# Integrations server runtime (Phase 09). Admin calls carry the staff JWT.
+[functions.integrations]
+verify_jwt = true
+
+# Provider webhooks cannot send a Supabase JWT; each request is verified by its HMAC signature.
+[functions.integration-webhook]
+verify_jwt = false

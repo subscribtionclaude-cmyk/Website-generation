@@ -76,7 +76,8 @@ export interface DemoMovement {
     | 'return'
     | 'correction'
     | 'import'
-    | 'initial';
+    | 'initial'
+    | 'external_sync';
   orderId: string | null;
   at: string;
   quantityBefore?: number;

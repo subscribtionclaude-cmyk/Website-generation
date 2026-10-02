@@ -21,7 +21,7 @@ export function SignInPage() {
   return (
     <div className={`container ${styles.authLayout}`}>
       <div className={styles.authCard}>
-        <SignInForm returnPath={next} onSignedIn={() => navigate(next, { replace: true })} />
+        <SignInForm social returnPath={next} onSignedIn={() => navigate(next, { replace: true })} />
       </div>
       <aside className={styles.aside}>
         <h2 className={styles.asideTitle}>

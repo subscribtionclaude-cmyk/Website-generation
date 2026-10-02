@@ -1,6 +1,8 @@
 import { createSupabaseServiceRepositories } from './supabaseServices';
 import { SupabaseAdminRepository } from './supabaseAdmin';
 import { SupabaseSiteEditorRepository } from './supabaseSiteEditor';
+import { SupabaseIntegrationsRepository } from './supabaseIntegrations';
+import type { SupabaseConfig } from '@/config/env';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RepositoryError } from './errors';
 import { z } from 'zod';
@@ -185,7 +187,10 @@ class SupabaseProfileRepository implements ProfileRepository {
   }
 }
 
-export function createSupabaseRepositories(client: SupabaseClient): Repositories {
+export function createSupabaseRepositories(
+  client: SupabaseClient,
+  supabase: SupabaseConfig | null = null,
+): Repositories {
   return {
     settings: new SupabaseSettingsRepository(client),
     access: new SupabaseAccessRepository(client),
@@ -199,6 +204,7 @@ export function createSupabaseRepositories(client: SupabaseClient): Repositories
     ...createSupabaseServiceRepositories(client),
     admin: new SupabaseAdminRepository(client),
     siteEditor: new SupabaseSiteEditorRepository(client),
+    integrations: new SupabaseIntegrationsRepository(client, supabase),
   };
 }
 

@@ -48,6 +48,7 @@ export const MOVEMENT_TYPES = [
   'correction',
   'import',
   'initial',
+  'external_sync',
 ] as const;
 export type MovementType = (typeof MOVEMENT_TYPES)[number];
 export const RELATION_KINDS = ['accessory', 'similar', 'recommended', 'compatible'] as const;
@@ -480,7 +481,7 @@ export const priceHistoryRowSchema = z.object({
   oldCompareAt: moneyN,
   newCompareAt: moneyN,
   reason: z.string().nullable(),
-  source: z.enum(['admin', 'bulk', 'import', 'system']),
+  source: z.enum(['admin', 'bulk', 'import', 'system', 'integration']),
   actorName: z.string().nullable(),
   isDemo: z.boolean(),
 });

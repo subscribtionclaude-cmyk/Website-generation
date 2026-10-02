@@ -215,6 +215,16 @@ export const adminRoutes: RouteObject = {
             moduleRoute('setup', 'setup', () =>
               import('./pages/setup/AdminSetupPage').then((m) => m.AdminSetupPage),
             ),
+            moduleRoute('integrations', 'integrations', () =>
+              import('./pages/integrations/AdminIntegrationsPage').then(
+                (m) => m.AdminIntegrationsPage,
+              ),
+            ),
+            moduleRoute('integrations/:key', 'integrations', () =>
+              import('./pages/integrations/AdminIntegrationsPage').then(
+                (m) => m.AdminIntegrationDetailPage,
+              ),
+            ),
             moduleRoute('demo-data', 'demo-data', () =>
               import('./pages/data/AdminBackupDemoPages').then((m) => m.AdminDemoDataPage),
             ),

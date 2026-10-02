@@ -72,7 +72,8 @@ A striped **"Demo mode"** banner is always visible in demo mode. Demo data is ne
 | `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                                                                                                                                |
 | `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                                                                                                                                   |
 | `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB and three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                                                                           |
-| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget                                                                                                                                                                                                                                                                              |
+| `npm run check:secrets`                | Secret guard: no secret-looking `VITE_*` variable, no credential patterns or server-only values in `dist/`, no credentials in tracked files                                                                                                                                                                                                              |
+| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget + secret guard                                                                                                                                                                                                                                                               |
 
 ## 3. Environment variables
 
@@ -86,6 +87,15 @@ Copy `.env.example` → `.env.local`. **Everything prefixed `VITE_` ends up in t
 | `VITE_SITE_URL`          | live SEO | Public https origin for canonical URLs, the sitemap and auth email redirects. Without it the app uses the current origin and a live build is **not indexable** (no sitemap).                |
 
 Never put a service-role key, database password or any secret in the frontend or in git.
+`vite build` stops when a `VITE_*` variable looks like a secret, and `npm run check:secrets` scans the
+built files and the repository.
+
+**Optional integrations (Phase 09)** — WhatsApp, SMS, email, Odoo, POS, courier, AI, search,
+storage, backup, Google Analytics and Google / Apple sign-in are all **off by default** and configured
+in **Admin → Integrations & services**. Their secrets are **server-side only** (Supabase Edge Function
+secrets, e.g. `supabase secrets set WHATSAPP_ACCESS_TOKEN=…`); the admin lists the variable names.
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md#optional-integrations-phase-09) and
+`docs/ARCHITECTURE.md` §18. The store needs none of them.
 
 ## 4. Going live with Supabase (free tier)
 

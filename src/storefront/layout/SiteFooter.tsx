@@ -170,6 +170,8 @@ export function SiteFooter() {
               </ul>
             </nav>
           )}
+          {/* "Cookie settings" appears here only when optional analytics is enabled. */}
+          <div id="footer-cookie-settings" className={styles.cookieSlot} />
         </div>
       </div>
     </footer>

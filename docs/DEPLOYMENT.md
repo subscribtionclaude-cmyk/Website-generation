@@ -66,6 +66,38 @@ In _Authentication → URL Configuration_:
 - **Redirect URLs**: `https://<domain>/**` (and any preview domains). The email sign-in link returns to
   the page the user came from (`/account`, `/admin`, …), so the wildcard is required.
 
+## Optional integrations (Phase 09)
+
+Nothing here is required: with no integration configured the store runs on its free / manual
+fallbacks (wa.me WhatsApp, in-app notifications, manual shipping fee, built-in search and analytics,
+Supabase Storage, manual exports, email sign-in).
+
+1. **Server runtime** — deploy the two Edge Functions (free tier is enough to start):
+   `supabase functions deploy integrations` and
+   `supabase functions deploy integration-webhook --no-verify-jwt` (`supabase/config.toml` already
+   sets `verify_jwt = false` for the webhook, which instead checks the provider's HMAC signature).
+   Without them, Test connection / sync / dispatch report "Server runtime unavailable".
+2. **Secrets** — set provider secrets on the server only, by the names listed in Admin →
+   Integrations (e.g. `supabase secrets set WHATSAPP_ACCESS_TOKEN=…`, `ODOO_API_KEY=…`). Never put
+   them in `VITE_*` variables, the repository, the database or the admin forms — the build refuses
+   secret-looking `VITE_*` variables and `npm run check:secrets` scans the built files.
+3. **Configure in the admin** — public settings (IDs, URLs, template names, source-of-truth per data
+   type), then **Test connection**, then **Enable**. The manual fallback stays active until a test
+   passes. Disabling or removing an integration restores the fallback immediately.
+4. **Webhooks** (WhatsApp delivery receipts) — callback URL
+   `https://<project>.supabase.co/functions/v1/integration-webhook`, verify token =
+   `WHATSAPP_VERIFY_TOKEN`, app secret = `WHATSAPP_WEBHOOK_SECRET`.
+5. **Message dispatch** — "Send due messages now" in the admin, or schedule a call to the
+   `integrations` function (`{"action":"dispatch","channel":"whatsapp"}`) with a staff JWT.
+6. **Social sign-in** — enable Google / Apple in Supabase → Authentication → Providers (OAuth client
+   secrets live there), add the site to the redirect URLs, then enable "Sign in with Google & Apple"
+   in the admin.
+7. **Google Analytics** — enter the Measurement ID and enable; GA loads only after a visitor accepts
+   analytics cookies, never on private pages. Review your privacy policy text in Admin → Legal.
+
+Service-worker and hosting caches must not cache `/functions/v1/*`, analytics or auth endpoints (the
+shipped service worker never does).
+
 ## Domains
 
 The site can stay on the host's free subdomain, or a custom domain can be connected later — nothing in

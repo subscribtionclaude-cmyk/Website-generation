@@ -13,6 +13,6 @@ export function createLiveRuntime(config: AppConfig): AppRuntime {
     config,
     mode: 'live',
     auth: new SupabaseAuthService(client),
-    repositories: createSupabaseRepositories(client),
+    repositories: createSupabaseRepositories(client, config.supabase),
   };
 }

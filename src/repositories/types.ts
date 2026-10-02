@@ -67,8 +67,10 @@ import type { RoleDefinition } from '@/domain/access/permissions';
 import type { SettingRecord } from '@/domain/settings/resolve';
 import type { Locale } from '@/i18n/config';
 import type { AdminRepository, SiteEditorRepository } from './adminTypes';
+import type { IntegrationsRepository } from './integrationsTypes';
 
 export type { AdminRepository, Page, SiteEditorRepository } from './adminTypes';
+export type { IntegrationsRepository } from './integrationsTypes';
 
 /**
  * Repository ports. UI and features depend only on these interfaces; the concrete adapter
@@ -402,4 +404,6 @@ export interface Repositories {
   admin: AdminRepository;
   /** Phase 07 visual site editor (page layouts; design settings use the settings workflow). */
   siteEditor: SiteEditorRepository;
+  /** Phase 09 optional integrations (WhatsApp, Odoo/POS, analytics, AI…), all off by default. */
+  integrations: IntegrationsRepository;
 }

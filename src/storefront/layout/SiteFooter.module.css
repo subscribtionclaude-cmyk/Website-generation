@@ -114,6 +114,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-3);
+  /* Keep the last links clear of the floating WhatsApp button (56px, inline-end corner). */
+  padding-inline-end: calc(56px + var(--space-4));
   margin-block-start: var(--space-10);
   padding-block-start: var(--space-6);
   border-block-start: 1px solid rgb(255 255 255 / 0.12);
@@ -128,4 +130,9 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Filled only when optional analytics is enabled (the consent chunk portals into it). */
+.cookieSlot:empty {
+  display: none;
 }

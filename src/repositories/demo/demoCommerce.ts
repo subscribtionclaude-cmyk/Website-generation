@@ -7,6 +7,10 @@ import type { DemoAdminState } from '@/domain/admin/demo/context';
 import { DemoAccessControl, type DemoAccessState } from '@/domain/admin/demoAccess';
 import { DemoSettings, type DemoSettingsState } from '@/domain/admin/demoSettings';
 import type { CatalogEngine } from '@/domain/catalog/engine';
+import {
+  DemoIntegrations,
+  type DemoIntegrationsState,
+} from '@/domain/integrations/demoIntegrations';
 import { rawCatalogSchema, type RawCatalog } from '@/domain/catalog/raw';
 import type { PageSection } from '@/domain/content/types';
 import {
@@ -32,6 +36,7 @@ import {
   commerceSettingsSchema,
   engagementSettingsSchema,
   featuresSettingsSchema,
+  notificationSettingsSchema,
   orderReviewSettingsSchema,
   repairCatalogSettingsSchema,
   servicesSettingsSchema,
@@ -109,6 +114,7 @@ const SETTINGS_STORAGE_KEY = 'demo-settings';
 const ACCESS_STORAGE_KEY = 'demo-access';
 const ADMIN_STORAGE_KEY = 'demo-admin';
 const MEDIA_STORAGE_KEY = 'demo-service-media';
+const INTEGRATIONS_STORAGE_KEY = 'demo-integrations';
 /** Every browser key the demo stores use (reset / delete demo data). */
 export const DEMO_STORAGE_KEYS = [
   STORAGE_KEY,
@@ -119,6 +125,7 @@ export const DEMO_STORAGE_KEYS = [
   ACCESS_STORAGE_KEY,
   ADMIN_STORAGE_KEY,
   MEDIA_STORAGE_KEY,
+  INTEGRATIONS_STORAGE_KEY,
 ];
 
 /** Changes whenever the shipped demo seed changes, so stale edited copies are discarded. */
@@ -195,6 +202,8 @@ export class DemoCommerceStore {
   readonly settings: DemoSettings;
   readonly access: DemoAccessControl;
   readonly admin: DemoAdmin;
+  /** Phase 09 integrations: configuration, health, sync — MOCK providers only, no network. */
+  readonly integrations: DemoIntegrations;
   readonly raw: RawCatalog;
   private version = 0;
   private cached: { engine: CatalogEngine; version: number; builtAt: number } | null = null;
@@ -269,6 +278,32 @@ export class DemoCommerceStore {
       },
       engine: () => this.engine(),
     });
+    this.integrations = new DemoIntegrations({
+      storage: {
+        load: () => readStored(INTEGRATIONS_STORAGE_KEY, anyState<DemoIntegrationsState>()),
+        save: (state) => writeStored(INTEGRATIONS_STORAGE_KEY, state),
+      },
+      audit: (actor, action, entityType, entityId, before, after, metadata) =>
+        this.admin.record(
+          actor as AdminActor,
+          action,
+          entityType,
+          entityId,
+          before,
+          after,
+          metadata,
+        ),
+      notificationChannels: () => {
+        const parsed = notificationSettingsSchema.safeParse(
+          this.settings.published('notifications'),
+        );
+        return parsed.success ? parsed.data.channels : null;
+      },
+      variants: () => this.admin.catalog.integrationVariants(),
+      customers: () => this.admin.customerEmails(),
+      applyChange: (actor, change) =>
+        this.admin.catalog.applyIntegrationChange(actor as AdminActor, change),
+    });
   }
 
   /** Remove every demo store from this browser (the next load starts from the seed). */
@@ -278,7 +313,7 @@ export class DemoCommerceStore {
    */
   static resetBrowserData(options: { emptyCatalog?: boolean; keepConfiguration?: boolean } = {}) {
     const keep = options.keepConfiguration
-      ? [SETTINGS_STORAGE_KEY, ACCESS_STORAGE_KEY, ADMIN_STORAGE_KEY]
+      ? [SETTINGS_STORAGE_KEY, ACCESS_STORAGE_KEY, ADMIN_STORAGE_KEY, INTEGRATIONS_STORAGE_KEY]
       : [];
     for (const key of DEMO_STORAGE_KEYS) if (!keep.includes(key)) removeStored(key);
     if (options.emptyCatalog) {

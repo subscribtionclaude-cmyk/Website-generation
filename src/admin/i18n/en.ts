@@ -9,11 +9,13 @@ import { fieldsEn } from './p6/fields';
 import { systemEn } from './p6/system';
 import { siteEditorEn } from './p6/siteEditor';
 import { phase08En } from './p6/phase08';
+import { phase09En } from './p6/phase09';
 import { uiEn } from './p6/ui';
 
 /** Admin dashboard strings (English). */
 export const adminEn: Widen<typeof adminAr> = {
   ...uiEn,
+  ...phase09En,
   ...phase08En,
   ...siteEditorEn,
   ...systemEn,
@@ -590,6 +592,9 @@ export const adminEn: Widen<typeof adminAr> = {
     'settings.manage': 'Edit settings (draft)',
     'settings.publish': 'Publish settings',
     'integrations.manage': 'Manage integrations',
+    'integrations.view': 'View integrations and their logs',
+    'integrations.test': 'Test integration connections',
+    'integrations.sync': 'Run integration syncs (ERP / POS)',
     'security.manage': 'Security settings',
     'users.view': 'View users & roles',
     'users.manage': 'Manage users',

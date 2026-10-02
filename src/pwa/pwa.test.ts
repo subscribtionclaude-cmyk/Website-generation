@@ -62,6 +62,26 @@ describe('service worker cache rules', () => {
       expect(cachePolicy(sub(path, ''), ORIGIN, null)).toBe('bypass');
   });
 
+  it('never caches optional integrations: analytics, Edge Functions, webhooks, health or sync', () => {
+    const api = 'https://proj.supabase.co';
+    for (const [url, destination] of [
+      ['https://www.googletagmanager.com/gtag/js?id=G-TEST1234', 'script'],
+      ['https://www.google-analytics.com/g/collect?v=2&tid=G-TEST1234', ''],
+      ['https://region1.google-analytics.com/g/collect', ''],
+      [`${api}/functions/v1/integrations`, ''],
+      [`${api}/functions/v1/integration-webhook`, ''],
+      [`${api}/rest/v1/rpc/admin_integrations_overview`, ''],
+      [`${api}/rest/v1/rpc/storefront_integrations`, ''],
+      [`${api}/auth/v1/settings`, ''],
+      [`${api}/auth/v1/authorize?provider=google`, ''],
+    ] as const)
+      expect(cachePolicy(sub(url, destination), ORIGIN, null), url).toBe('bypass');
+    expect(cachePolicy(nav('/admin/integrations'), ORIGIN, null)).toBe('private-page');
+    expect(cachePolicy(nav('/admin/integrations/odoo?tab=sync'), ORIGIN, null)).toBe(
+      'private-page',
+    );
+  });
+
   it('caches public static files: build assets, brand images, public storage images', () => {
     expect(cachePolicy(sub('/assets/index-abc.js'), ORIGIN, `${ORIGIN}/store`)).toBe('asset');
     expect(cachePolicy(sub('/brand/og.png', 'image'), ORIGIN, `${ORIGIN}/`)).toBe('static');

@@ -20,6 +20,8 @@ export class AuthError extends Error {
   }
 }
 
+export type SocialProvider = 'google' | 'apple';
+
 export interface RequestCodeOptions {
   /** Absolute URL the magic link in the email returns to. */
   redirectTo: string;
@@ -38,6 +40,12 @@ export interface AuthService {
   requestEmailCode(email: string, options: RequestCodeOptions): Promise<void>;
   verifyEmailCode(email: string, code: string): Promise<AuthSession>;
   signOut(): Promise<void>;
+  /**
+   * Optional social sign-in (Phase 09) through Supabase Auth OAuth — redirects away and back to
+   * `redirectTo`. Account linking is Supabase's (verified identities); the app never merges
+   * accounts itself. Absent in demo mode (no network, no real provider).
+   */
+  signInWithProvider?(provider: SocialProvider, redirectTo: string): Promise<void>;
   /** Demo-only capability: preview the admin as a given system role. Absent in live mode. */
   readonly demo?: DemoAuthCapabilities;
 }

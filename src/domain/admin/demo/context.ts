@@ -38,7 +38,7 @@ export interface DemoPriceRow {
   oldCompareAt: number | null;
   newCompareAt: number | null;
   reason: string | null;
-  source: 'admin' | 'bulk' | 'import' | 'system';
+  source: 'admin' | 'bulk' | 'import' | 'system' | 'integration';
   actorName: string | null;
 }
 

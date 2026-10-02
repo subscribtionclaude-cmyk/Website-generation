@@ -165,7 +165,7 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 | Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                   |
 | Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                   |
 | PWA service worker                                  | manifest + icons only (no service worker yet)                                       | ✅ 08 (§17)                          |
-| Integrations center                                 | none (everything optional)                                                          | 09                                   |
+| Integrations center                                 | none (everything optional)                                                          | ✅ 09 (§18)                          |
 
 ## 11. Storefront (Phase 02)
 
@@ -855,3 +855,140 @@ grid no longer overflows on narrow English screens.
   the public catalog). Rebuild after publishing content you want crawlers without JavaScript to see.
 - Keep `public/_redirects` (or an equivalent rewrite to `/404.html`) and serve `sw.js` without long
   caching.
+
+## 18. Integrations layer (Phase 09)
+
+Every integration is **optional, off by default, removable and replaceable**. The store works fully
+without any external or paid service: each integration has a free or manual fallback that stays in
+charge until the provider is configured, enabled **and** confirmed working.
+
+### Shape
+
+```
+Admin → Integrations & services (/admin/integrations, /admin/integrations/:key)
+        │  repositories.integrations (port)
+        ├─ live:  SECURITY DEFINER RPCs ──────────────► Postgres (config, logs, audit, RBAC, sync apply)
+        │         supabase.functions.invoke('integrations') ─► Edge Function (secrets) ─► provider API
+        └─ demo:  DemoIntegrations (browser) ──► deterministic MOCK adapters (no network)
+
+Provider ─► Edge Function `integration-webhook` (HMAC + event-ID dedupe) ─► service-role RPCs
+Storefront ─► storefront_integrations() (public flags only) ─► consent banner / social buttons
+```
+
+- **Registry** — `src/domain/integrations/integration-catalog.json` (12 integrations: WhatsApp, SMS,
+  email, Google Analytics, Odoo, POS, courier, AI, search, storage, backup, social sign-in) is the
+  single contract: providers (`implemented` adapter vs `contract` = interface + mock), capabilities,
+  **public** settings with types / patterns, the **names** of server-only secrets, sync domains, the
+  data categories each integration receives and its fallback. The database mirrors it in
+  `app.integration_catalog()`; `scripts/db/check-contracts.mjs` fails on drift.
+- **Adapters** (`adapters.ts`) — `NotificationProvider`, `ErpProvider` / `PosProvider`,
+  `CourierProvider` (optional methods = capability detection), `AiProvider`, `SearchProvider`,
+  `StorageProvider` (private objects only via expiring URLs), `BackupProvider`, social sign-in status.
+  Business code depends on these interfaces and the services in `services.ts` (search / courier /
+  storage / AI with fallbacks), never on a vendor.
+- **Implemented adapters** — `providers/whatsappCloud.ts` (Meta Cloud API: template messages,
+  delivery receipts), `providers/odooJsonRpc.ts` (Odoo External API, **read-only**: products, prices,
+  stock, customers), `providers/clientChecks.ts` (GA4 Measurement ID format check — Google has no
+  keyless connection test; Supabase Auth's public `/auth/v1/settings` for enabled social providers).
+  These are contracts against documented APIs, **not verified against live accounts**. Every other
+  provider ships as an interface + mock; live mode reports `unsupported` for it instead of pretending.
+- **HTTP safety** (`http.ts`) — injected `fetch`, finite timeouts (8 s), status → health code mapping
+  (`connected`, `auth_failed`, `permission_denied`, `unreachable`, `timeout`, `config_incomplete`,
+  `unsupported`, `rate_limited`, `provider_error`, `runtime_unavailable`), redaction of tokens /
+  long secrets from any provider text, a lightweight circuit breaker (3 failures → 5 min pause) and
+  the conservative retry policy (1 / 5 min, final after 3 attempts; manual retry up to 5).
+- **Status is derived** (`status.ts`): not configured → disabled → configured-not-tested → connected
+  / error. Saved settings never mean "connected"; the fallback stays active until a check passes.
+
+### Secrets
+
+Provider secrets live **only** in the server runtime's environment (Supabase Edge Function secrets),
+read by name at call time. They are never in the database, React code, `VITE_*` variables, browser
+storage, the repository, the audit log or error messages:
+
+- the database refuses secret-looking setting names / values (`app.integration_secret_like`,
+  mirrored by `isSecretLike` in the form) and redacts health / sync messages;
+- `vite.config.ts` stops dev / build when a `VITE_*` variable looks like a secret, and
+  `scripts/check-secrets.mjs` (part of `npm run check`) rejects secret-like `VITE_*` names / values,
+  scans `dist/` for credential patterns and for the values of every server-only variable present,
+  and scans tracked files;
+- the admin shows only the variable **names** (`supabase secrets set NAME=…`), never inputs.
+
+### Server runtime (Supabase Edge Functions)
+
+`supabase/functions/integrations` (JWT verified) and `supabase/functions/integration-webhook` (no JWT
+— providers cannot send one; every POST is HMAC-verified) are thin Deno entry points over the tested,
+dependency-injected core `src/domain/integrations/server/handler.ts` (imports use explicit `.ts`
+paths, no aliases, no JSON — shared by Deno and Vite). Flow: the function first calls
+`admin_integration_authorize(action)` **with the caller's JWT** (the database decides who may test /
+sync / dispatch), then uses the service role only for the service-only RPCs:
+
+| Action     | What happens                                                                                                                                                     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `test`     | build the adapter from `integration_runtime_config` + env secrets → `testConnection()` → `integration_record_check` (redacted, audited, circuit breaker)         |
+| `sync`     | job created by `admin_start_integration_sync` (idempotency key) → `fetchRecords(domain)` → `integration_record_sync_result` (DB plans + applies) or `_fail_sync` |
+| `dispatch` | `integration_claim_deliveries` (skip-locked, channel contact only) → `send()` per delivery → `integration_record_delivery` (retry backoff)                       |
+| webhook    | verify `X-Hub-Signature-256` → `integration_record_webhook` (event ID once) → `integration_record_delivery_status`                                               |
+
+When the functions are not deployed, server actions return `runtime_unavailable`, a started sync is
+cancelled, and nothing is marked connected.
+
+### Notification routing
+
+`domain event → notification template → in-app (always) → per external channel`: queue a delivery
+only when the provider is configured **and** enabled, the channel is on in Settings → Notifications,
+the event is **mapped to a provider template** (`template_map`), the customer opted in, and the
+notification is not demo data (`app.notify`, mirrored by `router.ts`). Delivery statuses: queued
+(Pending), sending, sent, delivered, failed, skipped, disabled. WhatsApp stays manual (wa.me) by
+default; automatic messages need approved templates with one `{{1}}` body variable carrying the
+customer-facing text. Claimed deliveries carry only the rendered title / body in the customer's
+language and the one contact field for the channel — never staff notes, payment details or private
+media. Disabling or removing a provider skips queued deliveries; logs are kept. Supabase Auth email
+is separate and unaffected.
+
+### ERP / POS sync
+
+Import only (two-way is refused until conflict handling for writes exists). Matching: external-ID
+mapping first, then the exact SKU (variants) or exact sign-in email (customers) — never fuzzy names;
+new products / customers are listed for review, never created. Ownership per domain:
+`malek` (default — external values ignored), `external` (local edits since the last sync → conflict),
+`external_wins`. **Stock is never set below active reservations** — planned as a conflict and
+re-checked under the row lock at apply time. Applied prices write price history with source
+`integration` and an audited `price.changed` (`source: integration:<key>`); applied stock writes an
+`external_sync` stock movement and an audited `stock.adjusted`. Dry runs plan without writing;
+repeated idempotency keys return the same job; mappings keep the external IDs. Order export reads
+authoritative snapshots (`integration_order_snapshot`) and records the external ID idempotently.
+
+### Analytics, AI, search, storage, backup, social sign-in
+
+- **Google Analytics 4** — off by default. `IntegrationsBridge` (tiny, in the storefront shell)
+  renders nothing unless enabled; the consent banner + loader are a lazy chunk. Accept / Reject have
+  equal weight; "Cookie settings" in the footer reopens the choice. GA loads only after Accept, only
+  on public pages (never admin, account, sign-in, cart, checkout, orders, wishlist, compare or
+  service request forms), never in demo mode; ads features / Google signals off; page views carry
+  the path without query string; parameters are whitelisted and PII-filtered. Reject sets GA's
+  opt-out flag and removes `_ga` cookies.
+- **AI** — "Suggest a description with AI (draft)" in the product editor's SEO tab, shown only when
+  AI is enabled with a usable adapter (MOCK in demo; no live adapter ships). It sends public product
+  fields only and fills the unsaved draft; saving is the approval. The interface has no method that
+  could touch prices, stock, orders, payments, trade-in valuations or repair pricing.
+- **Search / storage / backup** — built-in search and Supabase Storage remain the defaults
+  (`searchWithFallback`, `safeObjectUrl` refuses non-expiring URLs for private objects). Manual
+  CSV / JSON exports are documented as data extracts, **not** database backups.
+- **Social sign-in** — Google / Apple buttons on the customer sign-in page when enabled; OAuth via
+  `AuthService.signInWithProvider` (Supabase `signInWithOAuth`, PKCE). OAuth secrets live in
+  Supabase Auth; identity linking is Supabase's — the app never merges accounts. Demo mode says the
+  buttons are simulated.
+
+### Demo vs live
+
+Demo mode uses `DemoIntegrations` with deterministic MOCK adapters (`mock.ts`: success, auth
+failure, timeout, rate limit, provider error), labelled **DEMO / MOCK**, no network. Demo sync
+applies through the demo catalog with the same rules (price history source `integration`,
+`external_sync` movements, reservations respected). Live mode never falls back to a mock.
+
+### Performance and caching
+
+No provider SDK ships to the browser; the storefront entry gained ~1.7 kB (flags hook + lazy
+references). The service worker never caches GA, Edge Functions, webhooks, auth, RPCs or admin
+pages (`src/pwa/pwa.test.ts`).

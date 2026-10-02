@@ -1,0 +1,60 @@
+/* Non-blocking consent panel: never covers the whole page, never hides Reject. */
+.banner {
+  position: fixed;
+  inset-inline: var(--space-3);
+  inset-block-end: calc(var(--tabbar-height) + var(--space-3) + env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-overlay);
+  display: grid;
+  gap: var(--space-2);
+  max-width: 34rem;
+  max-height: calc(100dvh - var(--header-height) - var(--tabbar-height) - var(--space-8, 3rem));
+  overflow: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 768px) {
+  .banner {
+    inset-block-end: var(--space-4);
+    inset-inline-start: var(--space-4);
+    inset-inline-end: auto;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-body, 1rem);
+}
+
+.body,
+.note {
+  margin: 0;
+  font-size: var(--font-size-caption, 0.875rem);
+}
+
+.note {
+  color: var(--color-text-secondary);
+}
+
+/* Accept and Reject: same size, same style — no nudging. */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.manage {
+  min-height: var(--touch-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}

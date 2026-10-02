@@ -8,10 +8,12 @@ import { fieldsAr } from './p6/fields';
 import { systemAr } from './p6/system';
 import { siteEditorAr } from './p6/siteEditor';
 import { phase08Ar } from './p6/phase08';
+import { phase09Ar } from './p6/phase09';
 import { uiAr } from './p6/ui';
 
 export const adminAr = {
   ...uiAr,
+  ...phase09Ar,
   ...phase08Ar,
   ...siteEditorAr,
   ...systemAr,
@@ -583,6 +585,9 @@ export const adminAr = {
     'settings.manage': 'تحرير الإعدادات (مسودة)',
     'settings.publish': 'نشر الإعدادات',
     'integrations.manage': 'إدارة التكاملات',
+    'integrations.view': 'عرض التكاملات وسجلاتها',
+    'integrations.test': 'اختبار اتصال التكاملات',
+    'integrations.sync': 'تشغيل مزامنة التكاملات (ERP / نقاط البيع)',
     'security.manage': 'إعدادات الأمان',
     'users.view': 'عرض المستخدمين والأدوار',
     'users.manage': 'إدارة المستخدمين',

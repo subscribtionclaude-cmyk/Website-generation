@@ -5,6 +5,8 @@ import { ar } from './messages/ar';
 import { en } from './messages/en';
 import { servicesAr } from './messages/services.ar';
 import { servicesEn } from './messages/services.en';
+import { integrationsAr } from './messages/integrations.ar';
+import { integrationsEn } from './messages/integrations.en';
 import { localizePath, parseLocalePath, switchLocalePath } from './paths';
 import { createTranslator, interpolate, isolate } from './translator';
 
@@ -20,6 +22,7 @@ describe('dictionaries', () => {
   it.each([
     ['storefront', ar, en],
     ['services', servicesAr, servicesEn],
+    ['integrations', integrationsAr, integrationsEn],
     ['admin', adminAr, adminEn],
   ])(
     '%s: Arabic and English have identical keys and no empty strings',
@@ -40,14 +43,14 @@ describe('dictionaries', () => {
   it('keeps placeholders consistent between languages', () => {
     const placeholders = (value: string) =>
       [...value.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort();
-    const english = new Map([...leaves(en), ...leaves(servicesEn)]);
-    for (const [key, value] of [...leaves(ar), ...leaves(servicesAr)]) {
+    const english = new Map([...leaves(en), ...leaves(servicesEn), ...leaves(integrationsEn)]);
+    for (const [key, value] of [...leaves(ar), ...leaves(servicesAr), ...leaves(integrationsAr)]) {
       expect(placeholders(english.get(key) ?? ''), key).toEqual(placeholders(value));
     }
   });
 
   it('lazily registered service namespaces never shadow core namespaces', () => {
-    for (const namespace of Object.keys(servicesAr))
+    for (const namespace of [...Object.keys(servicesAr), ...Object.keys(integrationsAr)])
       expect(Object.keys(ar)).not.toContain(namespace);
   });
 });
