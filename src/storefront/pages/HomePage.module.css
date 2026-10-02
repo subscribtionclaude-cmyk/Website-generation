@@ -110,3 +110,8 @@
 .sectionTitle {
   font-size: var(--font-size-h2);
 }
+
+:global([data-campaign-effects='off']) .hero::before,
+:global([data-motion='reduced']) .hero::before {
+  animation: none;
+}

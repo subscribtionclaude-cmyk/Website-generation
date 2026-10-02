@@ -155,7 +155,7 @@ function HeaderSearch() {
     setValue('');
   };
   return (
-    <form role="search" className={styles.search} onSubmit={submit}>
+    <form role="search" aria-label={t('search.label')} className={styles.search} onSubmit={submit}>
       <label htmlFor={id} className="visually-hidden">
         {t('search.label')}
       </label>

@@ -56,6 +56,9 @@ export const ar = {
     notPublished: 'لم تُنشر هذه الصفحة بعد. لأي استفسار تواصل معنا.',
     updated: 'آخر تحديث: {date}',
   },
+  pwa: {
+    install: 'ثبّت التطبيق',
+  },
   dataMode: {
     demoBanner: 'وضع العرض التجريبي',
     demoBannerDetail: 'البيانات المعروضة للتجربة فقط وليست بيانات حقيقية.',
@@ -200,6 +203,7 @@ export const ar = {
     showMoreOrders: 'عرض المزيد من الطلبات',
   },
   search: {
+    catalogLabel: 'البحث في المنتجات',
     label: 'ابحث في المتجر',
     placeholder: 'ابحث عن جهاز، ماركة أو موديل…',
     submit: 'بحث',

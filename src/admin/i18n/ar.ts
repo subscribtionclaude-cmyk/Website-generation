@@ -7,10 +7,12 @@ import { contentAr } from './p6/content';
 import { fieldsAr } from './p6/fields';
 import { systemAr } from './p6/system';
 import { siteEditorAr } from './p6/siteEditor';
+import { phase08Ar } from './p6/phase08';
 import { uiAr } from './p6/ui';
 
 export const adminAr = {
   ...uiAr,
+  ...phase08Ar,
   ...siteEditorAr,
   ...systemAr,
   ...fieldsAr,
@@ -105,6 +107,10 @@ export const adminAr = {
     },
     legal: { title: 'السياسات والشروط', description: 'صفحات السياسات مع سجل الإصدارات.' },
     seo: { title: 'تحسين محركات البحث', description: 'العناوين والوصف وخريطة الموقع والفهرسة.' },
+    setup: {
+      title: 'إعداد المتجر',
+      description: 'معالج الإعداد لأول مرة: البيانات والهوية وبيانات العرض.',
+    },
     analytics: { title: 'التحليلات', description: 'الزيارات، المبيعات، التحويل والأكثر مبيعًا.' },
     'import-export': {
       title: 'الاستيراد والتصدير',

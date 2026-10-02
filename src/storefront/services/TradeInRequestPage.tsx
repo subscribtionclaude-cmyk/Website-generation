@@ -726,7 +726,11 @@ function TargetPicker({
                 onChange(target, null);
               }}
             >
-              {p.image ? <img src={p.image.url} alt="" /> : <PackageSearch aria-hidden="true" />}
+              {p.image ? (
+                <img src={p.image.url} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <PackageSearch aria-hidden="true" />
+              )}
               <span>
                 <strong>{resolveLocalized(p.name, locale)}</strong>
                 <br />
@@ -775,7 +779,7 @@ function TargetPicker({
           ))}
           {selected && (
             <div className={styles.targetCard} role="status">
-              {product.image ? <img src={product.image.url} alt="" /> : <span />}
+              {product.image ? <img src={product.image.url} alt="" decoding="async" /> : <span />}
               <div>
                 <p>
                   <strong>{resolveLocalized(product.name, locale)}</strong>

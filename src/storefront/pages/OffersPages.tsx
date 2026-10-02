@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/Button';
 import { filterOffers } from '@/domain/content/offers';
 import { resolveSections } from '@/domain/content/sections';
 import { resolveLocalized } from '@/domain/localized';
+import { offerMeta } from '@/domain/seo/entityMeta';
+import { breadcrumbJsonLd, promotionJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useI18n } from '@/i18n/context';
-import { useIsDemoMode } from '@/runtime/context';
+import { useIsDemoMode, useRuntime } from '@/runtime/context';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Countdown } from '../components/Countdown';
 import { Price } from '../components/Price';
@@ -98,11 +100,28 @@ export function OfferDetailPage() {
   const { data: offer, isPending, isError } = useOffer(slug);
   const [copied, setCopied] = useState(false);
   const title = offer ? resolveLocalized(offer.title, locale) : t('offers.notFoundTitle');
+  const { config, mode } = useRuntime();
+  const origin = config.siteUrl ?? window.location.origin;
+  const meta = offer ? offerMeta(offer, locale) : { title };
+  const promoLd = offer ? promotionJsonLd(offer, { origin, locale, mode }) : null;
   usePageMeta({
-    title,
-    description: offer?.subtitle ? resolveLocalized(offer.subtitle, locale) : undefined,
+    title: meta.title,
+    description: meta.description,
     noIndex: !offer,
-    image: offer?.products[0]?.image?.url,
+    image: meta.image,
+    jsonLd: offer
+      ? [
+          breadcrumbJsonLd(
+            [
+              { label: t('common.home'), href: '/' },
+              { label: t('offers.title'), href: '/offers' },
+              { label: meta.title },
+            ],
+            { origin, locale },
+          ),
+          ...(promoLd ? [promoLd] : []),
+        ]
+      : undefined,
   });
 
   if (isPending) {

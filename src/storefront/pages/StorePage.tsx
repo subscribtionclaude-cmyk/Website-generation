@@ -12,10 +12,12 @@ import {
 } from '@/domain/catalog/queryParams';
 import type { CatalogFacets, CatalogQuery, CatalogSort } from '@/domain/catalog/types';
 import { resolveLocalized } from '@/domain/localized';
+import { breadcrumbJsonLd, itemListJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useSettings } from '@/features/settings/context';
 import { useI18n, type CoreMessageKey } from '@/i18n/context';
 import { localizePath } from '@/i18n/paths';
+import { useRuntime } from '@/runtime/context';
 import { Breadcrumbs, type Crumb } from '../components/Breadcrumbs';
 import { BudgetSearch } from '../components/BudgetSearch';
 import { FeaturedProductGrid, ProductGrid, ProductGridSkeleton } from '../components/ProductGrid';
@@ -91,10 +93,27 @@ function CatalogListing({
     showFeatured && isUnfiltered,
   );
 
+  const indexable = !(noIndex || filters > 0 || Boolean(query.q));
+  const { config } = useRuntime();
+  const { locale } = useI18n();
+  const origin = config.siteUrl ?? window.location.origin;
+  // Structured data for indexable listings: breadcrumbs + the products shown (never demo rows).
+  const listLd = indexable
+    ? itemListJsonLd(
+        title,
+        items
+          .filter((p) => !p.isDemo)
+          .map((p) => ({ name: resolveLocalized(p.name, locale), path: `/product/${p.slug}` })),
+        { origin, locale },
+      )
+    : null;
   usePageMeta({
     title,
     description: subtitle ?? undefined,
-    noIndex: noIndex || filters > 0 || Boolean(query.q),
+    noIndex: !indexable,
+    jsonLd: indexable
+      ? [breadcrumbJsonLd(crumbs, { origin, locale }), ...(listLd ? [listLd] : [])]
+      : undefined,
   });
 
   const update = (patch: Partial<CatalogQuery>) => {
@@ -135,6 +154,13 @@ function CatalogListing({
         emptyIntro
       ) : (
         <>
+          {showFeatured && isUnfiltered && featured.isPending && (
+            // Same footprint as the featured strip, so the listing doesn't jump when it arrives.
+            <div
+              className={`${styles.featuredStrip} ${styles.featuredPending}`}
+              aria-hidden="true"
+            />
+          )}
           {showFeatured && isUnfiltered && featured.data && featured.data.items.length > 0 && (
             <section className={styles.featuredStrip} aria-labelledby={`${resultsId}-featured`}>
               <SectionHeading id={`${resultsId}-featured`} title={t('catalog.featuredTitle')} />
@@ -406,7 +432,12 @@ export function SearchForm({ initial }: { initial: string }) {
     void navigate(localizePath(q ? `/search?q=${encodeURIComponent(q)}` : '/store', locale));
   };
   return (
-    <form role="search" className={styles.search} onSubmit={submit}>
+    <form
+      role="search"
+      aria-label={t('search.catalogLabel')}
+      className={styles.search}
+      onSubmit={submit}
+    >
       <label htmlFor={id} className="visually-hidden">
         {t('search.label')}
       </label>

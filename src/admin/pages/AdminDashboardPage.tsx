@@ -28,7 +28,10 @@ import { Alert } from '@/components/feedback/Alert';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { resolveLocalized } from '@/domain/localized';
+import { hasPermission } from '@/domain/access/access';
 import { PUBLIC_SETTING_KEYS } from '@/domain/settings/registry';
+import { setupSettingsSchema } from '@/domain/settings/schemas';
+import { setupNeeded } from '@/domain/setup/wizard';
 import { useAccess, useSession } from '@/features/auth/context';
 import { useSettingsContext } from '@/features/settings/context';
 import { OpenStatus } from '@/features/store-info/OpenStatus';
@@ -53,6 +56,18 @@ export function AdminDashboardPage() {
   const { settings, sources, loadFailed } = useSettingsContext();
   useAdminPageMeta(at('dashboard.title'));
   const repo = useAdminRepo();
+  // First-run setup (private `setup` setting): prompt staff who can complete it.
+  const canSetup = hasPermission(access, 'settings.manage');
+  const settingsRows = useQuery({
+    queryKey: ['admin', 'settings'],
+    queryFn: () => repo.settingsOverview(),
+    enabled: canSetup,
+  });
+  const setupValue = setupSettingsSchema.safeParse(
+    settingsRows.data?.find((r) => r.key === 'setup')?.published,
+  );
+  const setupPending =
+    canSetup && settingsRows.isSuccess && (!setupValue.success || setupNeeded(setupValue.data));
   const [range, setRange] = useState(() => presetRange('today'));
   // Demo previews only have demo data; live dashboards exclude it unless asked.
   const [includeDemo, setIncludeDemo] = useState(mode === 'demo');
@@ -188,9 +203,17 @@ export function AdminDashboardPage() {
               </li>
             ))}
           </ul>
-          <Alert tone="info">
-            {at('dash.setupHint')} <Link to="/admin/settings/store">{at('dash.openSettings')}</Link>
-          </Alert>
+          {setupPending ? (
+            <Alert tone="warning">
+              <strong>{at('dash.wizardTitle')}</strong> {at('dash.wizardBody')}{' '}
+              <Link to="/admin/setup">{at('dash.wizardOpen')}</Link>
+            </Alert>
+          ) : (
+            <Alert tone="info">
+              {at('dash.setupHint')}{' '}
+              <Link to="/admin/settings/store">{at('dash.openSettings')}</Link>
+            </Alert>
+          )}
         </Card>
 
         {branch && (

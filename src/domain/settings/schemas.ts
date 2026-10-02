@@ -381,6 +381,21 @@ const pageSeoSchema = z.strictObject({
   description: localizedTextSchema.nullable(),
   ogImage: httpsOrPathSchema.nullable(),
 });
+// ── performance (Phase 08) ─────────────────────────────
+/** Storefront motion and effects. "auto" follows the visitor's OS preference and device. */
+export const performanceSettingsSchema = z.strictObject({
+  motion: z.enum(['auto', 'reduced']),
+  /** Decorative campaign animations (hero glow, entrance effects). */
+  campaignEffects: z.boolean(),
+});
+
+// ── first-run setup (Phase 08, private) ────────────────
+export const setupSettingsSchema = z.strictObject({
+  completedAt: z.string().nullable(),
+  completedBy: z.string().nullable(),
+  demoChoice: z.enum(['keep', 'replace', 'delete']).nullable(),
+});
+
 export const PAGE_SEO_KEYS = ['home', 'apple', 'offers'] as const;
 export const pageSeoSettingsSchema = z.strictObject({
   pages: z.strictObject({ home: pageSeoSchema, apple: pageSeoSchema, offers: pageSeoSchema }),
@@ -498,6 +513,8 @@ export type LocalizationSettings = z.infer<typeof localizationSettingsSchema>;
 export type FeaturesSettings = z.infer<typeof featuresSettingsSchema>;
 export type SeoSettings = z.infer<typeof seoSettingsSchema>;
 export type PageSeoSettings = z.infer<typeof pageSeoSettingsSchema>;
+export type PerformanceSettings = z.infer<typeof performanceSettingsSchema>;
+export type SetupSettings = z.infer<typeof setupSettingsSchema>;
 export type FooterSettings = z.infer<typeof footerSettingsSchema>;
 export type SecuritySettings = z.infer<typeof securitySettingsSchema>;
 export type TrustItem = z.infer<typeof trustItemSchema>;

@@ -19,6 +19,7 @@ import {
   RefreshCcw,
   Recycle,
   RotateCcw,
+  Rocket,
   ShieldCheck,
   ShoppingCart,
   Star,
@@ -70,6 +71,15 @@ export const ADMIN_MODULES: AdminModule[] = [
     group: 'overview',
     icon: LayoutDashboard,
     permission: 'dashboard.view',
+    plannedPhase: null,
+  },
+  {
+    id: 'setup',
+    path: 'setup',
+    group: 'overview',
+    icon: Rocket,
+    // Editing drafts needs settings.manage; finishing needs settings.publish (checked by the RPC).
+    permission: 'settings.manage',
     plannedPhase: null,
   },
 
@@ -249,8 +259,10 @@ export const ADMIN_MODULES: AdminModule[] = [
     path: 'seo',
     group: 'content',
     icon: Globe,
-    permission: 'content.manage',
-    plannedPhase: 8,
+    // Read-only overview (admin_seo_overview needs content.view); editing stays in Settings and
+    // the Site Editor, each behind its own permissions.
+    permission: 'content.view',
+    plannedPhase: null,
   },
 
   {

@@ -8,11 +8,13 @@ import { contentEn } from './p6/content';
 import { fieldsEn } from './p6/fields';
 import { systemEn } from './p6/system';
 import { siteEditorEn } from './p6/siteEditor';
+import { phase08En } from './p6/phase08';
 import { uiEn } from './p6/ui';
 
 /** Admin dashboard strings (English). */
 export const adminEn: Widen<typeof adminAr> = {
   ...uiEn,
+  ...phase08En,
   ...siteEditorEn,
   ...systemEn,
   ...fieldsEn,
@@ -113,6 +115,10 @@ export const adminEn: Widen<typeof adminAr> = {
     news: { title: 'News & releases', description: 'News, new releases and coming-soon products.' },
     legal: { title: 'Policies & terms', description: 'Policy pages with version history.' },
     seo: { title: 'SEO', description: 'Titles, descriptions, sitemap and indexing.' },
+    setup: {
+      title: 'Store setup',
+      description: 'First-run wizard: details, branding and demo content.',
+    },
     analytics: { title: 'Analytics', description: 'Visits, sales, conversion and best sellers.' },
     'import-export': {
       title: 'Import & export',

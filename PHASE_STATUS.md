@@ -9,8 +9,8 @@
 | 05    | Service Experiences          | ✅ COMPLETE (2026-09-26) |
 | 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
 | 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28) |
-| 08    | Content / SEO / PWA / Polish | ⚪ NOT STARTED — next    |
-| 09    | Integrations Layer           | ⚪ NOT STARTED           |
+| 08    | Content / SEO / PWA / Polish | ✅ COMPLETE (2026-10-02) |
+| 09    | Integrations Layer           | ⚪ NOT STARTED — next    |
 | 10    | QA / Staging / Launch        | ⚪ NOT STARTED           |
 
 ---
@@ -515,11 +515,79 @@
   which accepts `/brand/` assets or https only.
 - Section design is intentionally limited to background and spacing presets.
 
-## Phase 08 — Content / SEO / PWA / Polish
+## Phase 08 — Content / SEO / PWA / Polish ✅
 
-SEO controls, JSON-LD, sitemap, prerendering of public pages, PWA service worker (no caching of private
-data), performance settings, accessibility pass, motion & campaign polish, first-run setup wizard
-(incl. demo keep/replace/delete).
+### Delivered
+
+- [x] **One SEO system** — the existing `seo` / `page_seo` settings and `src/domain/seo/pageSeo.ts`,
+      extended with shared entity titles (`entityMeta.ts`), one head builder (`pageHead.ts`) used by
+      the running app and the prerenderer, site rules (`site.ts`) and structured data
+      (`structuredData.ts`). The storefront, the Site Editor preview, the prerendered pages, the
+      sitemap and Admin → SEO all read the same source.
+- [x] **Metadata** — title, description, canonical, hreflang (ar-EG / en / x-default), robots, Open
+      Graph on every public page, live and prerendered.
+- [x] **JSON-LD** — Organization, ElectronicsStore per branch (address, opening hours, map),
+      WebSite + site search, Product with per-variant EGP Offers, Offer promotions, NewsArticle,
+      BreadcrumbList, ItemList; validated (`validateJsonLd`), never demo data, never private fields;
+      invalid markup fails the build.
+- [x] **sitemap.xml / robots.txt** generated at build time: published non-demo pages only (live data
+      from the new `seo_public_index()`), Arabic + English URLs with alternates, private areas /
+      search / filtered views excluded. Demo deployments, live builds without `VITE_SITE_URL` and
+      live sites with indexing switched off are never indexed (`Disallow: /`, empty sitemap).
+- [x] **Prerendering** — Arabic and English HTML for Home, static routes, products, categories,
+      brands, news, offers and legal pages (146 files in the demo build) with the real head and a
+      readable body for crawlers without JavaScript; the SPA, routing, editor preview and auth are
+      unchanged (React replaces `#root`; hosting rewrites unknown paths to the plain shell `404.html`).
+- [x] **PWA** — manifest (id, shortcuts), install button shown only when the browser offers
+      installation, service worker built from TypeScript with unit-tested cache rules, bilingual
+      offline page. Public assets, images and visited public pages only; admin, account, orders /
+      invoices, checkout, cart, wishlist, compare, search, API / auth calls, signed uploads,
+      notifications and payments are never cached, and nothing requested by a private page is
+      intercepted. A test walks the real route table so a new private route can't become cacheable.
+- [x] **Performance** — entry 404,474 B within the existing 409,600 B budget; layout-stability work
+      (first screen reserved, loading placeholders sized like content, fixed 16:10 news media, Arabic
+      400 / 700 font preloads): CLS ≤ 0.004 on key pages at 4 widths (was up to 0.83 on Home);
+      lazy images with dimensions; new `performance` setting.
+- [x] **Motion** — Settings → Performance & motion (reduced motion for everyone, campaign effects
+      off); OS reduced-motion always respected; no animation library.
+- [x] **Accessibility pass** — axe WCAG 2.2 AA + best practices on 28 routes × 2 widths, no-JS pages
+      and the offline page: demo banner is now a labelled landmark, search landmarks are named,
+      English contact page overflow fixed; regression tests added.
+- [x] **First-run setup wizard** (`/admin/setup`) — store details, branding (theme presets), demo
+      content keep / replace / delete, review with required vs recommended checklist; drafts through
+      the settings workflow (each key's own permission), finish via `admin_complete_setup`
+      (`settings.publish`, `demo.manage` to delete demo rows), audited `setup.completed`, bilingual,
+      mobile, focus moves per step; dashboard reminder until done.
+- [x] **Admin → SEO** (`/admin/seo`, `content.view`) — indexing status checks, sitemap / robots
+      links, per-page SEO table with the existing Site Editor SEO preview, metadata gaps from
+      `admin_seo_overview()` (real rows only), demo counts; no duplicate editing.
+- [x] **Docs** — ARCHITECTURE §9 / §17, DATABASE (Phase 08 migration), DEPLOYMENT (routing with
+      prerendered pages, search engines), QA checklist, README.
+
+### Validation
+
+| Check                                                                                                   | Result                                                                                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run check` (typecheck, lint, format, seed check, unit tests, build + generate-site, bundle budget) | ✅ 0 errors, 0 warnings                                                                                                                                                                                                                                              |
+| `npm test` (Vitest)                                                                                     | ✅ 368 / 368 tests, 32 files (JSON-LD, sitemap, robots, page head, generator in demo + simulated live mode, PWA cache rules, route coverage, wizard logic, SEO checks, 49 RPC contract samples, admin SEO + wizard flows, a11y regressions)                          |
+| `npm run test:db` (PostgreSQL 16, clean cluster)                                                        | ✅ 949 / 949 SQL assertions (36 in `12_seo_setup`), concurrency checks, 49 contract samples parsed                                                                                                                                                                   |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                              | ⏳ final run in progress — previous full run: 371 passed, 12 skipped by design, 1 failed (site editor D on tablet: the test read the storefront before the hero finished loading; helper fixed to wait for loading). Phase 08 spec alone: 44 / 44 on all 4 viewports |
+| `npm run build` + `npm run check:bundle`                                                                | ✅ entry 404,474 B of the 409,600 B budget; 144 prerendered pages + sitemap, robots, sw.js (3.6 kB)                                                                                                                                                                  |
+| Visual review                                                                                           | ✅ Arabic + English, mobile + desktop: storefront, news, contact, footer install button, offline page, no-JS prerendered pages, admin dashboard, Admin → SEO, every wizard step; no overflow, no console errors                                                      |
+
+### Known limits / not blocking
+
+- Prerendered pages and `sitemap.xml` reflect published content **at build time**; rebuild after
+  publishing to update what crawlers without JavaScript see (the running app is always current).
+- Not yet built against a hosted Supabase project: live mode of the generator is covered by unit
+  tests with simulated live data and by `seo_public_index` contract samples from real SQL.
+- Offline support covers visited public pages and public assets; ordering, account and admin need a
+  connection by design.
+- Headless Chromium never fires `beforeinstallprompt` by itself, so E2E simulates the prompt; real
+  installation was not exercised on a device.
+- Desktop category pages keep a small layout shift (CLS ≈ 0.08) while filter facets arrive.
+- ShipStatic's handling of `<path>.html` pages and the `404.html` rewrite could not be verified from
+  this environment (see `docs/DEPLOYMENT.md`).
 
 ## Phase 09 — Integrations Layer
 

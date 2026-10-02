@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import type { z } from 'zod';
+import { z } from 'zod';
 import fixture from './__fixtures__/admin-samples.json';
 import * as s from './schemas';
 import { staffOrderSummarySchema } from '@/domain/commerce/schemas';
 import { pageSectionSchema } from '@/domain/content/schemas';
 import { resolveSections } from '@/domain/content/sections';
+import { seoOverviewSchema } from '@/domain/seo/overview';
+import { seoPublicIndexSchema } from '@/domain/seo/publicIndex';
+import { DEMO_CHOICES } from '@/domain/setup/wizard';
 import {
   editorPageSchema,
   editorPageSummarySchema,
@@ -22,6 +25,13 @@ const samples: typeof fixture = fromDb
   : fixture;
 const cases: [keyof typeof samples, z.ZodType][] = [
   ['admin_settings_overview', s.settingOverviewSchema.array()],
+  ['admin_seo_overview', seoOverviewSchema],
+  ['seo_public_index', seoPublicIndexSchema],
+  ['admin_complete_setup_invalid', s.adminProblemSchema],
+  [
+    'admin_complete_setup',
+    s.okSchema.extend({ demoChoice: z.enum(DEMO_CHOICES), deleted: z.null() }),
+  ],
   ['admin_setting_versions', s.settingVersionSchema.array()],
   ['admin_list_audit_logs', s.pageSchema(s.auditRowSchema)],
   ['admin_get_audit_log', s.auditDetailSchema],

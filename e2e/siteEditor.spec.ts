@@ -50,6 +50,8 @@ async function storefrontFirstSection(page: Page) {
   await shop.goto('/');
   const first = shop.locator('main section[aria-labelledby]').first();
   await expect(first).toBeVisible();
+  // The hero is labelled only once its campaign has loaded: wait for every placeholder to resolve.
+  await expect(shop.locator('main [aria-busy="true"]')).toHaveCount(0);
   const id = await first.getAttribute('aria-labelledby');
   await shop.close();
   return id;

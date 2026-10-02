@@ -20,3 +20,14 @@ export function createSupabaseBrowserClient(config: SupabaseConfig): SupabaseCli
     },
   });
 }
+
+/**
+ * Build-time client (scripts/generate-site.mjs): the same public anon key, but no session — it
+ * reads exactly what an anonymous visitor can read (published, visible rows via RLS / public RPCs).
+ */
+export function createSupabaseBuildClient(config: SupabaseConfig): SupabaseClient {
+  return createClient(config.url, config.anonKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    global: { headers: { 'x-client-info': 'malek-store-build' } },
+  });
+}

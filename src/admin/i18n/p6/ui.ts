@@ -97,6 +97,8 @@ export const uiAr = {
   problems: {
     generic: 'تعذر الحفظ. راجع البيانات وحاول مرة أخرى.',
     forbidden: 'ليس لديك صلاحية لهذا الإجراء.',
+    invalid_choice: 'اختيار غير صالح لبيانات العرض.',
+    demo_forbidden: 'حذف بيانات العرض يحتاج صلاحية «إدارة بيانات العرض».',
     stale: 'تم تعديل هذا العنصر في مكان آخر بعد فتحه. أعد التحميل ثم احفظ مرة أخرى.',
     stale_variant: 'تم تعديل أحد الإصدارات (السعر أو المخزون) من شاشة أخرى. أعد تحميل المنتج.',
     not_found: 'العنصر غير موجود — ربما حُذف في مكان آخر.',
@@ -305,6 +307,8 @@ export const uiEn: Widen<typeof uiAr> = {
   problems: {
     generic: 'Could not save. Check the details and try again.',
     forbidden: 'You do not have permission for this action.',
+    invalid_choice: 'Invalid demo-content choice.',
+    demo_forbidden: 'Deleting demo content needs “Manage demo data”.',
     stale: 'This item was changed elsewhere after you opened it. Reload, then save again.',
     stale_variant:
       'A variant (price or stock) was changed from another screen. Reload the product.',

@@ -73,7 +73,7 @@ export function auditModule(entityType: string, action: string): AuditModule {
     starts('service.')
   )
     return 'services';
-  if (entityType === 'public.site_settings' || starts('setting.')) return 'settings';
+  if (entityType === 'public.site_settings' || starts('setting.', 'setup.')) return 'settings';
   if (
     ['public.roles', 'public.role_permissions', 'public.user_roles', 'public.profiles'].includes(
       entityType,

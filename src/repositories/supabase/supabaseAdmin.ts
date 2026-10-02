@@ -5,6 +5,8 @@ import type { AdminResult } from '@/domain/admin/schemas';
 import { RepositoryError } from './errors';
 import { rpc } from './rpc';
 import type { AdminRepository } from '../adminTypes';
+import { seoOverviewSchema } from '@/domain/seo/overview';
+import { DEMO_CHOICES, type DemoChoice } from '@/domain/setup/wizard';
 
 /**
  * Phase 06 admin port over the SECURITY DEFINER RPCs in supabase/migrations/20260929*_admin_*.sql.
@@ -160,6 +162,23 @@ export class SupabaseAdminRepository implements AdminRepository {
   }
   deleteDemoData() {
     return this.call('delete_all_demo_data', {}, z.record(z.string(), intSchema));
+  }
+  seoOverview() {
+    return this.call('admin_seo_overview', {}, seoOverviewSchema);
+  }
+  completeSetup(demoChoice: DemoChoice, note: string | null) {
+    return this.call(
+      'admin_complete_setup',
+      { p_demo_choice: demoChoice, p_note: note },
+      z.union([
+        z.object({
+          ok: z.literal(true),
+          demoChoice: z.enum(DEMO_CHOICES),
+          deleted: z.record(z.string(), intSchema).nullable(),
+        }),
+        s.adminProblemSchema,
+      ]),
+    );
   }
 
   // ── Catalog ──────────────────────────────────────────────────────────────

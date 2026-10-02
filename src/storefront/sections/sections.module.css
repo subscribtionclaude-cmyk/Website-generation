@@ -160,6 +160,11 @@
   animation: none !important;
 }
 
+/* Admin → Performance: campaign effects off keeps the entrance but stops ambient motion. */
+:global([data-campaign-effects='off']) .heroVisual img {
+  animation: none !important;
+}
+
 .teaser {
   display: flex;
   align-items: center;
@@ -671,4 +676,36 @@
   --color-brand-text: var(--brand-orange-300);
   background: var(--color-background);
   color: var(--color-text-primary);
+}
+
+/* Section page still loading: reserve the viewport so content below never shifts into view. */
+.pending {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/*
+ * Hero placeholder while its campaign loads: about the loaded hero's height at each breakpoint,
+ * so the sections below don't jump when it arrives (layout stability / CLS).
+ */
+.heroPending {
+  min-height: 820px;
+}
+
+@media (min-width: 768px) {
+  .heroPending {
+    min-height: 940px;
+  }
+}
+
+@media (min-width: 900px) {
+  .heroPending {
+    min-height: 760px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .heroPending {
+    min-height: 830px;
+  }
 }

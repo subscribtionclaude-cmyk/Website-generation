@@ -58,21 +58,21 @@ A striped **"Demo mode"** banner is always visible in demo mode. Demo data is ne
 
 ## 2. Scripts
 
-| Command                                | What it does                                                                                                                                                                                                                                                                                                                                   |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                          | Vite dev server                                                                                                                                                                                                                                                                                                                                |
-| `npm run build`                        | Type-check + production build to `dist/` (also writes `dist/404.html` SPA fallback)                                                                                                                                                                                                                                                            |
-| `npm run preview`                      | Serve the production build locally (port 4173)                                                                                                                                                                                                                                                                                                 |
-| `npm run typecheck`                    | TypeScript project build (strict)                                                                                                                                                                                                                                                                                                              |
-| `npm run lint`                         | ESLint (typescript-eslint strict, react-hooks, jsx-a11y) — zero warnings allowed                                                                                                                                                                                                                                                               |
-| `npm run format` / `format:check`      | Prettier                                                                                                                                                                                                                                                                                                                                       |
-| `npm test`                             | Vitest unit + integration tests (jsdom)                                                                                                                                                                                                                                                                                                        |
-| `npm run test:db`                      | Applies all migrations + seeds to a throwaway local PostgreSQL (then re-applies them), runs the SQL test suites (RLS, RBAC, settings, storage, audit, catalog/search parity, request intake, commerce) and parallel-session concurrency checks (last unit, double submit). Needs PostgreSQL 15+ server binaries; no Supabase account or Docker |
-| `npm run test:e2e`                     | Playwright tests on mobile, tablet, desktop and large desktop: every storefront page, key interactions, cart → checkout → order journeys (Arabic + English), admin orders, invoice print, overflow checks and axe-core WCAG 2.1 A/AA scans (builds + previews the app)                                                                         |
-| `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                                                                                                                      |
-| `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                                                                                                                         |
-| `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB and three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                                                                 |
-| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget                                                                                                                                                                                                                                                                    |
+| Command                                | What it does                                                                                                                                                                                                                                                                                                                                             |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                          | Vite dev server                                                                                                                                                                                                                                                                                                                                          |
+| `npm run build`                        | Type-check + production build to `dist/`, then `scripts/generate-site.mjs`: prerendered Arabic / English public pages, `sitemap.xml`, `robots.txt` and the service worker (`sw.js`). Demo builds are never indexable; live builds read the public catalog with the anon key                                                                              |
+| `npm run preview`                      | Serve the production build locally (port 4173)                                                                                                                                                                                                                                                                                                           |
+| `npm run typecheck`                    | TypeScript project build (strict)                                                                                                                                                                                                                                                                                                                        |
+| `npm run lint`                         | ESLint (typescript-eslint strict, react-hooks, jsx-a11y) — zero warnings allowed                                                                                                                                                                                                                                                                         |
+| `npm run format` / `format:check`      | Prettier                                                                                                                                                                                                                                                                                                                                                 |
+| `npm test`                             | Vitest unit + integration tests (jsdom)                                                                                                                                                                                                                                                                                                                  |
+| `npm run test:db`                      | Applies all migrations + seeds to a throwaway local PostgreSQL (then re-applies them), runs the SQL test suites (RLS, RBAC, settings, storage, audit, catalog/search parity, request intake, commerce) and parallel-session concurrency checks (last unit, double submit). Needs PostgreSQL 15+ server binaries; no Supabase account or Docker           |
+| `npm run test:e2e`                     | Playwright tests on mobile, tablet, desktop and large desktop: every storefront page, key interactions, cart → checkout → order journeys (Arabic + English), admin, Site Editor, SEO (prerendered pages, metadata, sitemap, robots), PWA (install, offline, cache boundaries), CLS / LCP, overflow checks and axe-core scans (builds + previews the app) |
+| `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                                                                                                                                |
+| `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                                                                                                                                   |
+| `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB and three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                                                                           |
+| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget                                                                                                                                                                                                                                                                              |
 
 ## 3. Environment variables
 
@@ -83,7 +83,7 @@ Copy `.env.example` → `.env.local`. **Everything prefixed `VITE_` ends up in t
 | `VITE_DATA_MODE`         | no       | `demo` or `live`. Empty → `live` if Supabase vars are set, otherwise `demo`. `live` without Supabase config shows a configuration error screen — it never silently falls back to demo data. |
 | `VITE_SUPABASE_URL`      | live     | `https://<project>.supabase.co`                                                                                                                                                             |
 | `VITE_SUPABASE_ANON_KEY` | live     | The **public** anon key or `sb_publishable_…` key. The app refuses to start if a service-role/secret key is supplied.                                                                       |
-| `VITE_SITE_URL`          | no       | Public origin for canonical URLs and auth email redirects. Defaults to the current origin.                                                                                                  |
+| `VITE_SITE_URL`          | live SEO | Public https origin for canonical URLs, the sitemap and auth email redirects. Without it the app uses the current origin and a live build is **not indexable** (no sitemap).                |
 
 Never put a service-role key, database password or any secret in the frontend or in git.
 
@@ -157,6 +157,12 @@ There are **no default admin credentials**. Full details: [`docs/ADMIN_BOOTSTRAP
   database provider's backups (e.g. Supabase daily backups / PITR) enabled; restores happen there.
 - **Demo data**: delete removes rows flagged `is_demo` only; live data is never touched. To replace
   demo data on a staging project, delete it and load `supabase/seed/demo.sql` again.
+- **First-run setup** (Admin → Store setup, `/admin/setup`): store details, branding, the demo-content
+  decision (keep / replace / delete) and a final review; publishes through the normal settings
+  workflow and is recorded in the audit log. The dashboard reminds owners until it is finished.
+- **SEO** (Admin → Search engines, `/admin/seo`): indexing status, sitemap / robots links, per-page
+  SEO preview and pages missing a description. Edit SEO in Settings → Search engines and in the Site
+  Editor.
 
 ## 6. Project structure
 
@@ -171,6 +177,8 @@ src/
                   commerce (money, pricing, cart, status, review, WhatsApp text, invoice template, demo engine),
                   customer features, services (statuses, validation, media rules, demo engine)
   features/       Cross-cutting features: auth, settings, theme, SEO meta, store info, WhatsApp, demo banner, cart
+  build/          Build-time site generator (prerendered pages, sitemap, robots) — runs after vite build
+  pwa/            Service worker, cache rules, install prompt
   i18n/           Locales, typed dictionaries (ar/en), translator, locale-aware paths
   lib/            Money (EGP), Cairo time & opening hours, phone, WhatsApp links, storage, colour
   components/     Shared UI (buttons, feedback states, drawer, fields, brand logo, navigation)
@@ -185,15 +193,24 @@ supabase/
 public/brand/     Source-of-truth logo + optimized derivatives; public/icons: favicons & PWA icons
 public/demo/      Generated demo device illustrations (demo mode only)
 docs/             Architecture, database, bootstrap, deployment, QA checklist
-e2e/              Playwright + axe tests (smoke, storefront pages/interactions, commerce journeys)
+e2e/              Playwright + axe tests (smoke, storefront, commerce, customer, services, admin, site editor, Phase 08 SEO / PWA)
 ```
 
 ## 7. Deployment
 
 `npm run build` produces a static `dist/` that runs on any static host (ShipStatic, Netlify,
-Cloudflare Pages, GitHub Pages, S3/CloudFront, Nginx…). SPA deep links work through
-`dist/_redirects` or the `dist/404.html` fallback. Custom domain is optional.
-Details and host-specific notes: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+Cloudflare Pages, GitHub Pages, S3/CloudFront, Nginx…). Public pages are prerendered as
+`dist/<path>.html`; every other route gets the SPA shell through `dist/_redirects` or the
+`dist/404.html` fallback. Custom domain is optional.
+
+SEO and PWA notes:
+
+- Set `VITE_SITE_URL` and turn on Settings → Search engines → "Allow indexing" to be indexed; rebuild
+  after publishing content so crawlers without JavaScript (and `sitemap.xml`) see it.
+- The service worker (`/sw.js`) caches public files and visited public pages only — never admin,
+  account, orders, checkout, cart, payments, notifications or private uploads. Serve `sw.js` without
+  long caching (`dist/_headers` does this on Netlify / Cloudflare Pages).
+  Details and host-specific notes: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## 8. Further reading
 

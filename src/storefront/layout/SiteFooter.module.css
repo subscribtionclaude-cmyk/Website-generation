@@ -40,6 +40,10 @@
   max-width: 36ch;
 }
 
+.install {
+  justify-self: start;
+}
+
 .colTitle {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);

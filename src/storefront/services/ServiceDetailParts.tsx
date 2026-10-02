@@ -145,7 +145,7 @@ export function MediaGallery({ items }: { items: ServiceMediaItem[] }) {
                 {m.mediaType === 'video' ? (
                   <Film aria-hidden="true" />
                 ) : (
-                  <img src={url} alt={name} loading="lazy" />
+                  <img src={url} alt={name} loading="lazy" decoding="async" />
                 )}
                 {m.mediaType === 'video' && <span className="visually-hidden">{name}</span>}
               </a>

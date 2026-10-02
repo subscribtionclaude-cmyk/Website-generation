@@ -4,7 +4,7 @@ import { createCatalogEngine } from '@/domain/catalog/engine';
 import { rawCatalogSchema } from '@/domain/catalog/raw';
 import { shouldReduceMotion } from '@/features/theme/adaptiveMotion';
 import { splitBidiRuns } from '@/lib/bidi';
-import { breadcrumbJsonLd, productJsonLd } from './structuredData';
+import { breadcrumbJsonLd, productJsonLd } from '@/domain/seo/structuredData';
 
 const engine = createCatalogEngine(
   rawCatalogSchema.parse(demoCatalogJson),

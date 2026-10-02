@@ -1,3 +1,5 @@
-# SPA fallback for hosts that support Netlify-style rules (Netlify, Cloudflare Pages, many others).
-# Hosts without rewrite support fall back to dist/404.html (a copy of index.html).
-/*    /index.html   200
+# Prerendered public pages (dist/<path>.html, Home = dist/index.html) are served as they are.
+# Every other route gets the plain SPA shell (dist/404.html, a copy of the built index.html) for
+# hosts that support Netlify-style rules (Netlify, Cloudflare Pages, many others). Hosts without
+# rewrite support serve dist/404.html for unknown paths anyway.
+/*    /404.html   200

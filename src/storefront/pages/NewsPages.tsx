@@ -5,12 +5,14 @@ import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
 import { CONTENT_TYPES, type ContentType } from '@/domain/content/types';
 import { resolveLocalized } from '@/domain/localized';
-import { breadcrumbJsonLd } from '@/features/seo/structuredData';
+import { entryMeta } from '@/domain/seo/entityMeta';
+import { articleJsonLd, breadcrumbJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
+import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
 import { useIsDemoMode, useRuntime } from '@/runtime/context';
 import { Breadcrumbs } from '../components/Breadcrumbs';
-import { EntryCard } from '../components/EntryCard';
+import { EntryCard, EntryCardSkeleton } from '../components/EntryCard';
 import { CONTENT_TYPE_LABEL } from '../components/links';
 import { ProductGrid, ProductGridSkeleton } from '../components/ProductGrid';
 import { SectionHeading } from '../components/SectionHeading';
@@ -66,7 +68,13 @@ export function NewsPage() {
       </nav>
       <div className={styles.section}>
         {isPending ? (
-          <ProductGridSkeleton count={6} columns={3} />
+          <ul className={styles.grid} aria-busy="true" aria-label={t('common.loading')}>
+            {Array.from({ length: 6 }, (_, i) => (
+              <li key={i}>
+                <EntryCardSkeleton />
+              </li>
+            ))}
+          </ul>
         ) : isError ? (
           <StateMessage icon={<Newspaper />} title={t('content.loadError')} role="alert" />
         ) : data.length === 0 ? (
@@ -88,7 +96,8 @@ export function NewsPage() {
 export function EntryPage() {
   const { slug = '' } = useParams();
   const { t, locale, format } = useI18n();
-  const { config } = useRuntime();
+  const { config, mode } = useRuntime();
+  const { brand } = useSettings();
   const isDemo = useIsDemoMode();
   const { data: entry, isPending, isError } = useEntry(slug);
   const title = entry ? resolveLocalized(entry.title, locale) : t('content.notFoundTitle');
@@ -97,27 +106,17 @@ export function EntryPage() {
     { label: t('content.newsTitle'), href: '/news' },
     { label: title },
   ];
+  const origin = config.siteUrl ?? window.location.origin;
+  const meta = entry ? entryMeta(entry, locale) : { title };
+  const articleLd = entry ? articleJsonLd(entry, { origin, locale, mode, publisher: brand }) : null;
   usePageMeta({
-    title: entry?.seo.title ? resolveLocalized(entry.seo.title, locale) : title,
-    description: entry?.seo.description
-      ? resolveLocalized(entry.seo.description, locale)
-      : entry?.excerpt
-        ? resolveLocalized(entry.excerpt, locale)
-        : undefined,
+    title: meta.title,
+    description: meta.description,
     noIndex: !entry,
     type: 'article',
-    image: entry?.media?.kind === 'image' ? entry.media.url : undefined,
+    image: meta.image,
     jsonLd: entry
-      ? [
-          breadcrumbJsonLd(crumbs, { origin: config.siteUrl ?? window.location.origin, locale }),
-          {
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: title,
-            datePublished: entry.publishAt,
-            ...(entry.expiresAt ? { expires: entry.expiresAt } : {}),
-          },
-        ]
+      ? [breadcrumbJsonLd(crumbs, { origin, locale }), ...(articleLd ? [articleLd] : [])]
       : undefined,
   });
 

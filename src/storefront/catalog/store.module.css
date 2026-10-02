@@ -338,3 +338,20 @@
 .iconButton:hover {
   background: var(--color-surface);
 }
+
+/* Featured strip placeholder: its loaded height at each breakpoint (cards scale with width). */
+.featuredPending {
+  min-height: calc(312px + 58.2vw);
+}
+
+@media (min-width: 768px) {
+  .featuredPending {
+    min-height: calc(473px + 83.1vw);
+  }
+}
+
+@media (min-width: 1100px) {
+  .featuredPending {
+    min-height: min(calc(395px + 12.8vw), 570px);
+  }
+}

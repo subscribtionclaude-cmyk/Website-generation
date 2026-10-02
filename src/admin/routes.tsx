@@ -209,6 +209,12 @@ export const adminRoutes: RouteObject = {
             moduleRoute('backups', 'backups', () =>
               import('./pages/data/AdminBackupDemoPages').then((m) => m.AdminBackupsPage),
             ),
+            moduleRoute('seo', 'seo', () =>
+              import('./pages/seo/AdminSeoPage').then((m) => m.AdminSeoPage),
+            ),
+            moduleRoute('setup', 'setup', () =>
+              import('./pages/setup/AdminSetupPage').then((m) => m.AdminSetupPage),
+            ),
             moduleRoute('demo-data', 'demo-data', () =>
               import('./pages/data/AdminBackupDemoPages').then((m) => m.AdminDemoDataPage),
             ),

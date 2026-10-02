@@ -31,7 +31,9 @@ insert into public.site_settings (key, value) values
   ('legal', '{"pages":{"privacy":{"title":{"ar":"سياسة الخصوصية","en":"Privacy policy"},"body":null,"updatedAt":null},"terms":{"title":{"ar":"الشروط والأحكام","en":"Terms and conditions"},"body":null,"updatedAt":null},"returns":{"title":{"ar":"سياسة الاسترجاع والاستبدال","en":"Return and exchange policy"},"body":null,"updatedAt":null},"warranty":{"title":{"ar":"سياسة الضمان","en":"Warranty policy"},"body":null,"updatedAt":null},"shipping":{"title":{"ar":"سياسة الشحن والتوصيل","en":"Shipping policy"},"body":null,"updatedAt":null},"repairs":{"title":{"ar":"شروط الصيانة","en":"Repair terms"},"body":null,"updatedAt":null},"trade_in":{"title":{"ar":"شروط الاستبدال (Trade-In)","en":"Trade-in terms"},"body":null,"updatedAt":null}}}'::jsonb),
   ('loyalty', '{"enabled":false,"earn":{"points":1,"perAmount":100},"redeem":{"points":100,"value":10},"expiryMonths":null,"note":null}'::jsonb),
   ('service_sla', '{"repair":{"warnHours":24,"overdueHours":48},"trade_in":{"warnHours":24,"overdueHours":72},"used":{"warnHours":48,"overdueHours":120},"after_sales":{"warnHours":24,"overdueHours":72}}'::jsonb),
-  ('page_seo', '{"pages":{"home":{"title":null,"description":null,"ogImage":null},"apple":{"title":null,"description":null,"ogImage":null},"offers":{"title":null,"description":null,"ogImage":null}}}'::jsonb)
+  ('page_seo', '{"pages":{"home":{"title":null,"description":null,"ogImage":null},"apple":{"title":null,"description":null,"ogImage":null},"offers":{"title":null,"description":null,"ogImage":null}}}'::jsonb),
+  ('performance', '{"motion":"auto","campaignEffects":true}'::jsonb),
+  ('setup', '{"completedAt":null,"completedBy":null,"demoChoice":null}'::jsonb)
 on conflict (key) do nothing;
 
 insert into public.page_sections (page_key, key, type, sort_order, is_visible, props) values

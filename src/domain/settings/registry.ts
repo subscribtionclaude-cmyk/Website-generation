@@ -26,6 +26,8 @@ import {
   loyaltySettingsSchema,
   serviceSlaSettingsSchema,
   pageSeoSettingsSchema,
+  performanceSettingsSchema,
+  setupSettingsSchema,
 } from './schemas';
 
 export type SettingScope = 'design' | 'settings' | 'content' | 'security';
@@ -64,6 +66,8 @@ export const SETTING_SCHEMAS = {
   loyalty: loyaltySettingsSchema,
   service_sla: serviceSlaSettingsSchema,
   page_seo: pageSeoSettingsSchema,
+  performance: performanceSettingsSchema,
+  setup: setupSettingsSchema,
 } as const satisfies Record<string, z.ZodType>;
 
 export type SettingKey = keyof typeof SETTING_SCHEMAS;
@@ -77,7 +81,7 @@ export const PUBLIC_SETTING_KEYS = SETTING_DEFINITIONS.filter((d) => d.isPublic)
 
 export type PublicSettingKey = Exclude<
   SettingKey,
-  'security' | 'order_review' | 'abandoned_cart' | 'notifications'
+  'security' | 'order_review' | 'abandoned_cart' | 'notifications' | 'setup'
 >;
 
 export type PublicSettings = { [K in PublicSettingKey]: SettingValue<K> };

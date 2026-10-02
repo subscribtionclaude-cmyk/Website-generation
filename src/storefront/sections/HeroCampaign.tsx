@@ -33,9 +33,7 @@ export function HeroCampaign({
   const entry = campaign.data;
 
   if (campaign.isPending) {
-    return (
-      <section className={`${styles.hero} ${tone}`} aria-busy="true" style={{ minHeight: 420 }} />
-    );
+    return <section className={`${styles.hero} ${tone} ${styles.heroPending}`} aria-busy="true" />;
   }
 
   const prices =

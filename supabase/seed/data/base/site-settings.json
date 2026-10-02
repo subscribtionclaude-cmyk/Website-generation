@@ -1840,6 +1840,15 @@
           "ogImage": null
         }
       }
+    },
+    "performance": {
+      "motion": "auto",
+      "campaignEffects": true
+    },
+    "setup": {
+      "completedAt": null,
+      "completedBy": null,
+      "demoChoice": null
     }
   }
 }

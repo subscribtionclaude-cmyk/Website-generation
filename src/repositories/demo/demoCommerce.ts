@@ -272,8 +272,15 @@ export class DemoCommerceStore {
   }
 
   /** Remove every demo store from this browser (the next load starts from the seed). */
-  static resetBrowserData(options: { emptyCatalog?: boolean } = {}) {
-    for (const key of DEMO_STORAGE_KEYS) removeStored(key);
+  /**
+   * `keepConfiguration` (first-run setup): keep settings, staff roles and the audit log — like
+   * the database's delete_all_demo_data, which removes demo-flagged rows only.
+   */
+  static resetBrowserData(options: { emptyCatalog?: boolean; keepConfiguration?: boolean } = {}) {
+    const keep = options.keepConfiguration
+      ? [SETTINGS_STORAGE_KEY, ACCESS_STORAGE_KEY, ADMIN_STORAGE_KEY]
+      : [];
+    for (const key of DEMO_STORAGE_KEYS) if (!keep.includes(key)) removeStored(key);
     if (options.emptyCatalog) {
       const empty = rawCatalogSchema.parse(demoCatalogJson);
       empty.products = [];

@@ -11,6 +11,7 @@ import { isolate } from '@/i18n/translator';
 import { toTelHref } from '@/lib/phone';
 import { getZonedParts } from '@/lib/time/zoned';
 import styles from './SiteFooter.module.css';
+import { InstallAppButton } from '@/pwa/InstallAppButton';
 
 const SOCIAL_KEYS = [
   'instagram',
@@ -49,6 +50,7 @@ export function SiteFooter() {
               {brand.name}
             </p>
             <p className={styles.tagline}>{resolveLocalized(brand.tagline, locale)}</p>
+            <InstallAppButton className={styles.install} />
           </div>
 
           <nav aria-labelledby="footer-explore">

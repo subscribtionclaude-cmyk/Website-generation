@@ -139,14 +139,17 @@ Open Graph (title, description, type, url, image), canonical and hreflang altern
 
 - **Product** schema (per-variant `Offer` in EGP with stock availability) — emitted **only for
   non-demo products in live mode**; upcoming products carry no offer (no price commitments).
-- **BreadcrumbList** on product/entry pages, **Article** on news entries.
+- **BreadcrumbList** on product / category / brand / offer / entry pages, **NewsArticle** on news
+  entries, **Organization + WebSite (site search) + ElectronicsStore** per branch on Home and
+  Contact, **ItemList** on indexable listings, **Offer** promotions (Phase 08).
 - **Index rules:** filtered/sorted listings, `/search`, `/budget`, news type tabs, not-found states,
   account and admin pages are `noindex`; filtered URLs canonicalise to the unfiltered path (the
   canonical never carries a query string). A demo-mode deployment is always `noindex`.
 
-Crawlers that do not execute JavaScript only see `index.html` defaults. Phase 08 adds build-time
-prerendering of public pages and sitemap generation — still with no paid infrastructure. Perfect
-SSR-level SEO is not claimed.
+Since Phase 08 every public page is also **prerendered at build time** with the same head and a
+readable static body, and the build writes `sitemap.xml` and `robots.txt` (§17). This is static
+prerendering of published content, not server-side rendering: content published after a build
+reaches crawlers that don't run JavaScript on the next build (the SPA always shows it immediately).
 
 ## 10. Phase mapping of deferred items
 
@@ -161,7 +164,7 @@ To avoid silently dropping requirements, items touched in Phase 01 but finished 
 | Storage uploads UI & image compression              | buckets + policies                                                                  | ✅ 05 (service media) / 06 (catalog) |
 | Contact page, Apple landing, catalog, offers, news  | ✅ delivered in Phase 02 (see §11)                                                  | 02                                   |
 | Cart / checkout / orders / receipts                 | ✅ delivered in Phase 03 (see §12)                                                  | 03                                   |
-| PWA service worker                                  | manifest + icons only (no service worker yet)                                       | 08                                   |
+| PWA service worker                                  | manifest + icons only (no service worker yet)                                       | ✅ 08 (§17)                          |
 | Integrations center                                 | none (everything optional)                                                          | 09                                   |
 
 ## 11. Storefront (Phase 02)
@@ -711,3 +714,144 @@ content-scoped `seo` setting see its published public values.
 **Media.** Uploads go to the existing public `site-media` bucket (insert needs `design.edit` in the
 storage policy); the editor accepts PNG / JPEG / WebP / AVIF up to 10 MB, compresses in the browser
 first and never uploads SVG. Demo mode keeps uploads inline in the browser.
+
+## 17. Content, SEO, PWA and polish (Phase 08)
+
+### SEO: one source of truth
+
+There is no second SEO system. Every place that describes a page uses the same pieces:
+
+| Piece           | File                                                                                                                                                                                                                                                                | Used by                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Settings        | `seo` (title template, defaults, `allowIndexing`, share image) and `page_seo` (Home / Apple / Offers overrides)                                                                                                                                                     | everything below                                          |
+| Resolver        | `src/domain/seo/pageSeo.ts` — `resolveSeo`, `seoUrls`, `robotsContent`, `sectionShareImage`                                                                                                                                                                         | storefront, Site Editor preview, prerenderer, Admin → SEO |
+| Entity titles   | `src/domain/seo/entityMeta.ts` — product / entry / offer / category / brand title, description, image                                                                                                                                                               | storefront pages, prerenderer                             |
+| Head tags       | `src/domain/seo/pageHead.ts` — `buildPageHead` (one list of meta / canonical / alternates / JSON-LD)                                                                                                                                                                | `usePageMeta` (live DOM), prerenderer (static HTML)       |
+| Structured data | `src/domain/seo/structuredData.ts` — Organization, ElectronicsStore (address, opening hours, map), WebSite + SearchAction, Product + per-variant Offers, Offer promotions, NewsArticle, BreadcrumbList, ItemList; `validateJsonLd`; `serializeJsonLd` (escapes `<`) | storefront pages, prerenderer, tests                      |
+| Site rules      | `src/domain/seo/site.ts` — `STATIC_ROUTES`, `PRIVATE_PATH_PREFIXES`, `buildSitemap`, `buildRobots`                                                                                                                                                                  | prerenderer, service worker, tests                        |
+
+Structured data never contains demo rows (Product / Offer / NewsArticle builders return null for
+demo data or in demo mode, and listings filter demo items) or private fields (`validateJsonLd`
+rejects keys such as cost, stock quantity, notes, customer or order data, relative URLs, empty
+required values and offers without a numeric EGP price).
+
+### Build-time generator (`npm run build` → `scripts/generate-site.mjs`)
+
+After `vite build`, `scripts/generate-site.mjs` runs `src/build/run.ts` through Vite's module runner
+(so it uses the app's own TypeScript, repositories and SEO code) and writes:
+
+- **Prerendered pages** — `dist/<path>.html` for Home (`dist/index.html`), the static routes
+  (`STATIC_ROUTES`), every product, category, brand, news entry, active offer and published legal
+  page, in Arabic and English (`/en/...`). Each page has the head `buildPageHead` produces (title,
+  description, robots, Open Graph, canonical + hreflang, validated JSON-LD) and a static body:
+  header navigation, breadcrumbs, `h1`, description / specifications / prices / product links and the
+  branch footer. An inline script adds `class="js"` before paint, so JavaScript visitors never see
+  that body (they see the boot splash, then React replaces `#root`; the SPA is unchanged). Pages
+  without JavaScript hide the splash instead.
+- **`sitemap.xml`** — one `<url>` per page and language with `xhtml:link` alternates (`ar-EG`, `en`,
+  `x-default` → Arabic), `lastmod` from the database, change frequency and priority; never private,
+  search, filtered or `noindex` pages.
+- **`robots.txt`** — indexable: `Allow: /`, `Disallow` for the private areas (both languages) and
+  `/search`, plus the `Sitemap:` line. Not indexable: `Disallow: /`.
+- **`sw.js`** — the service worker (below).
+
+Data comes from the same repositories the storefront uses. **Demo builds** read the demo
+repositories, and are never indexable: every page says `noindex, nofollow`, robots.txt disallows
+everything and the sitemap is empty (with a comment saying why). **Live builds** read Supabase with
+the public anon key and no session (`createSupabaseBuildClient`), and only what
+`public.seo_public_index()` lists: published, visible, **non-demo** products, categories, brands,
+entries, active offers and written legal pages — demo rows are excluded even when the staging switch
+`features.showDemoCatalog` shows them on the storefront. A live build is indexable only when
+`VITE_SITE_URL` is set (sitemaps need absolute URLs) **and** `seo.allowIndexing` is on. The build
+fails on invalid structured data, an unknown dictionary key or a failed database read — it never
+publishes a robots.txt or sitemap that disagrees with the store.
+
+**Hosting.** Static hosts serve `/en/store` from `dist/en/store.html`. `public/_redirects` sends
+every other route to the plain SPA shell `dist/404.html` (hosts without rewrites serve `404.html`
+for unknown paths anyway); `vite preview` does the same (`previewShell` in `vite.config.ts`).
+`public/_headers` keeps `sw.js` and `offline.html` revalidated and hashed assets immutable on hosts
+that read it.
+
+### PWA
+
+- **Manifest** (`public/manifest.webmanifest`): standalone, `id` / `start_url` / `scope` `/`, Arabic
+  RTL, 192 / 512 / maskable icons, shortcuts (Store, Offers, Repairs, My orders).
+- **Install**: `src/pwa/install.ts` keeps the browser's `beforeinstallprompt`; the footer shows
+  "Install the app" only while the browser offers it.
+- **Service worker** (`src/pwa/sw.ts`, rules in `src/pwa/cacheRules.ts`, built to `dist/sw.js`,
+  registered on `load` in production only — never in development, inside the Site Editor preview
+  frame or any other frame).
+
+| Request                                                                                                                                    | Strategy                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| Hashed build assets (`/assets/…`)                                                                                                          | cache first (kept across releases for pages still open)       |
+| Brand, icons, demo images, `offline.html`                                                                                                  | stale-while-revalidate                                        |
+| Public images in Supabase Storage **public** buckets                                                                                       | stale-while-revalidate                                        |
+| Public page navigation (no query string)                                                                                                   | network first; cached copy, then `offline.html`, when offline |
+| Private navigation (`/admin`, `/account`, `/checkout`, `/cart`, `/order`, `/wishlist`, `/compare`, `/search`, any URL with a query string) | network only (not cached); `offline.html` when offline        |
+| Every request made **by** a private page                                                                                                   | not intercepted                                               |
+| Supabase REST / RPC / auth, signed (private) storage URLs, notifications, payments, any non-GET, other origins                             | not intercepted                                               |
+
+Only complete `200` responses without `no-store` / `private` / `Set-Cookie` are stored; caches are
+size-limited and the page caches are versioned per release (the version hashes the precache list and
+the offline page; old caches are deleted on activate). The private-area list is the same
+`PRIVATE_PATH_PREFIXES` robots.txt uses, and a test walks the real route table so a new private route
+can't silently become cacheable (`src/pwa/routeCoverage.test.ts`). Offline, the store shows what was
+already visited; orders, account and admin need a connection (the offline page says so in Arabic and
+English).
+
+### Performance and motion
+
+- **Budget**: storefront entry 404,474 B of 409,600 B; initial HTML + entry + preloads + CSS
+  ≈ 213 kB gzip; service worker 3.6 kB. Admin, editor and preview code stay out of the entry.
+- **Layout stability**: `main` reserves the first screen (footer below the fold until content
+  arrives); the section page, hero and store "featured" strip have loading placeholders sized like
+  the loaded content; news cards use a fixed 16:10 media frame; the Arabic 400 / 700 faces are
+  preloaded (English prerendered pages drop the hint). Measured CLS ≤ 0.004 on Home, Apple, product,
+  store, offers, news and service pages at 412 / 820 / 1366 / 1920 px (0.08 on desktop category
+  pages while filter facets arrive). E2E checks CLS < 0.1 and LCP < 4 s on Home and a product page.
+- **Images**: width / height on every image, `loading="lazy"` + `decoding="async"` below the fold,
+  `fetchpriority="high"` for hero and product gallery covers.
+- **Motion**: the new public `performance` setting (Settings → Performance & motion) — `motion`
+  `auto` / `reduced` and `campaignEffects` on / off. `ThemeController` sets
+  `data-motion="reduced"` (also on constrained devices: data saver, ≤ 2 cores, ≤ 2 GB) and
+  `data-campaign-effects="off"`; CSS stops campaign animations (entrance, floating product images,
+  hero glow). The OS `prefers-reduced-motion` setting always wins. No animation library.
+
+### Accessibility pass
+
+axe (WCAG 2.2 AA + best practices) over 28 storefront routes at 390 and 1366 px, the prerendered
+no-JavaScript pages and `offline.html`. Fixed: the demo banner is now a labelled landmark
+(`<aside aria-label>`), the header and catalog search landmarks have distinct names, and the contact
+grid no longer overflows on narrow English screens.
+
+### Setup wizard (`/admin/setup`) and Admin → SEO (`/admin/seo`)
+
+- **Setup wizard** (module `setup`, needs `settings.manage`; finishing needs `settings.publish`):
+  1. store details — the `brand` and `store` settings through the same schema form as Settings
+     (name, logo, branches, phones, address, opening hours, WhatsApp, e-mail);
+  2. branding — the Site Editor's theme presets (`theme` setting);
+  3. demo content — keep / replace / delete (replace and delete need `demo.manage`; only demo-flagged
+     rows are removed; settings, roles and the audit log stay);
+  4. review — summary and checklist (required vs recommended items; "Finish" stays disabled while a
+     required item is missing).
+     Each step saves drafts through the settings workflow (each key's own permission); "Finish"
+     publishes them with the note "First-run store setup" and calls `admin_complete_setup`, which
+     records the private `setup` setting (completed at / by / demo choice, versioned) and the audit event
+     `setup.completed` (module "settings"). Steps are a labelled step list with `aria-current="step"`;
+     focus moves to each step heading. The dashboard shows "Finish setting up the store" until setup is
+     complete.
+- **Admin → SEO** (module `seo`, needs `content.view`; read-only): indexing status checks
+  (`seoChecks`: demo deployment, public URL, `allowIndexing`, missing descriptions / images, demo rows
+  shown live), links to the generated `sitemap.xml` / `robots.txt`, per-page SEO table with the
+  Phase 07 **SEO preview** (published values), content metadata counts and the pages that need a
+  description (from `admin_seo_overview`, real rows only), and demo counts. Editing stays in
+  Settings → Search engines and the Site Editor.
+
+### Deployment requirements
+
+- Set `VITE_SITE_URL` (absolute https) for live builds; without it the site is not indexable.
+- Live builds need `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` at build time (the generator reads
+  the public catalog). Rebuild after publishing content you want crawlers without JavaScript to see.
+- Keep `public/_redirects` (or an equivalent rewrite to `/404.html`) and serve `sw.js` without long
+  caching.

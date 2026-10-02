@@ -1,3 +1,4 @@
+import { Skeleton } from '@/components/feedback/Skeleton';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
 import type { ContentEntry } from '@/domain/content/types';
 import { resolveLocalized } from '@/domain/localized';
@@ -48,5 +49,21 @@ export function EntryCard({
         )}
       </div>
     </article>
+  );
+}
+
+/** Loading placeholder with an entry card's shape (16:10 media + meta, title, excerpt). */
+export function EntryCardSkeleton() {
+  return (
+    <div className={styles.entry} aria-hidden="true">
+      <div className={styles.entryMedia} />
+      <div className={styles.entryBody}>
+        <Skeleton width="45%" height="0.8rem" />
+        <Skeleton width="90%" height="1.25rem" />
+        <Skeleton width="70%" height="1.25rem" />
+        <Skeleton width="100%" height="0.9rem" />
+        <Skeleton width="80%" height="0.9rem" />
+      </div>
+    </div>
   );
 }

@@ -2,11 +2,12 @@ import { Mail, MessageCircle, Settings2 } from 'lucide-react';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
 import { buttonClassName } from '@/components/ui/buttonStyles';
 import { useAccess } from '@/features/auth/context';
+import { storeJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useSettings } from '@/features/settings/context';
 import { useI18n, type CoreMessageKey } from '@/i18n/context';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
-import { useIsDemoMode } from '@/runtime/context';
+import { useIsDemoMode, useRuntime } from '@/runtime/context';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { TrustList } from '../components/TrustList';
 import { BranchCard } from '../sections/InfoSections';
@@ -19,11 +20,18 @@ const SOCIAL_KEYS = ['instagram', 'facebook', 'tiktok', 'telegram'] as const;
  * social) are simply absent for customers; staff and demo previews see what is left to configure.
  */
 export function ContactPage() {
-  const { t } = useI18n();
-  const { store, social, trust } = useSettings();
+  const { t, locale } = useI18n();
+  const { store, social, trust, brand } = useSettings();
+  const { config } = useRuntime();
   const { isStaff } = useAccess();
   const isDemo = useIsDemoMode();
-  usePageMeta({ title: t('contact.title'), description: t('contact.subtitle') });
+  const origin = config.siteUrl ?? window.location.origin;
+  usePageMeta({
+    title: t('contact.title'),
+    description: t('contact.subtitle'),
+    // Each branch is a LocalBusiness with its published address, phones and opening hours.
+    jsonLd: store.branches.map((b) => storeJsonLd(b, brand, { origin, locale })),
+  });
 
   const whatsapp = buildWhatsAppLink(store.whatsappNumber, t('whatsapp.generalMessage'));
   const socials = SOCIAL_KEYS.flatMap((key) => (social[key] ? [{ key, url: social[key] }] : []));

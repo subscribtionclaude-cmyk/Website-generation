@@ -59,11 +59,11 @@ describe('admin shell', () => {
   });
 
   it('planned modules say which phase delivers them', async () => {
-    await previewAs('owner', '/admin/seo');
+    await previewAs('owner', '/admin/integrations');
     expect(
-      await screen.findByRole('heading', { level: 1, name: 'تحسين محركات البحث' }),
+      await screen.findByRole('heading', { level: 1, name: 'التكاملات والخدمات' }),
     ).toBeInTheDocument();
-    expect(screen.getByText('هذا القسم مجدول للمرحلة 08')).toBeInTheDocument();
+    expect(screen.getByText('هذا القسم مجدول للمرحلة 09')).toBeInTheDocument();
   });
 
   it('opens the visual site editor with the page structure and a live preview frame', async () => {

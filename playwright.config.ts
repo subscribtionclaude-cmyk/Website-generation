@@ -7,6 +7,9 @@ import { defineConfig, devices } from '@playwright/test';
  * otherwise Playwright's own browser (`npx playwright install chromium`).
  */
 const chromiumPath = process.env.PLAYWRIGHT_CHROMIUM_PATH;
+// Lets e2e/pwa offline tests route (abort) the service worker's own network requests; specs that
+// don't opt in to service workers are unaffected.
+process.env.PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS ??= '1';
 const launchOptions =
   chromiumPath && existsSync(chromiumPath) ? { executablePath: chromiumPath } : {};
 
@@ -21,6 +24,9 @@ export default defineConfig({
     baseURL: 'http://localhost:4173',
     trace: 'retain-on-failure',
     launchOptions,
+    // Specs run without the service worker (network mocks and fresh data per test); e2e/pwa.spec.ts
+    // opts back in to test offline support.
+    serviceWorkers: 'block',
   },
   projects: [
     { name: 'mobile', use: { ...devices['Pixel 7'] } },

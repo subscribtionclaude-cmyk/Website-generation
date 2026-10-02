@@ -74,6 +74,8 @@ import type {
   LayoutSection,
   LayoutVersion,
 } from '@/domain/siteEditor/schemas';
+import type { SeoOverview } from '@/domain/seo/overview';
+import type { DemoChoice } from '@/domain/setup/wizard';
 
 /**
  * Phase 07 Visual Site Editor: page layout drafts, publish, versions and rollback
@@ -160,6 +162,16 @@ export interface AdminRepository {
   deleteDemoData(): Promise<Record<string, number>>;
   /** Demo mode only: discard this browser's demo changes and start again from the seed. */
   resetDemoData?(): Promise<void>;
+  /** Phase 08: SEO status (content.view) — real rows only; demo rows are counted apart. */
+  seoOverview(): Promise<SeoOverview>;
+  /**
+   * Phase 08: finish the first-run wizard (settings.publish). `replace` / `delete` remove every
+   * demo-flagged row (demo.manage; live rows are never touched). Audited as `setup.completed`.
+   */
+  completeSetup(
+    demoChoice: DemoChoice,
+    note: string | null,
+  ): Promise<AdminResult<{ demoChoice: DemoChoice; deleted: Record<string, number> | null }>>;
 
   // ── Catalog ──────────────────────────────────────────────────────────────
   catalogLookups(): Promise<CatalogLookups>;

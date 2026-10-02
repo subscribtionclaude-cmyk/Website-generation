@@ -2,7 +2,9 @@ import type { AdminActor } from '@/domain/admin/demo/demoAdmin';
 import type { ImportField } from '@/domain/admin/importMapping';
 import type * as s from '@/domain/admin/schemas';
 import type { LocalizedText } from '@/domain/localized';
+import type { SeoOverview } from '@/domain/seo/overview';
 import type { ServiceKind } from '@/domain/services/types';
+import { DEMO_CHOICES, type DemoChoice } from '@/domain/setup/wizard';
 import type { DemoAuthService } from '@/services/auth/demoAuthService';
 import { RepositoryError } from '../supabase/errors';
 import type { AdminRepository } from '../adminTypes';
@@ -198,6 +200,64 @@ export class DemoAdminRepository implements AdminRepository {
     Store.resetBrowserData({ emptyCatalog: true });
     return summary;
   }
+  async seoOverview(): Promise<SeoOverview> {
+    return this.run((a) => {
+      if (!a.can('content.view')) throw forbidden();
+      const seo = this.store.settings.published('seo') as { allowIndexing?: boolean } | null;
+      const pageSeo = this.store.settings.published('page_seo') as {
+        pages?: Record<string, unknown>;
+      } | null;
+      // The browser preview holds demo rows only: nothing here is ever indexable.
+      return {
+        allowIndexing: seo?.allowIndexing ?? false,
+        pageSeo: pageSeo?.pages ?? null,
+        products: { published: 0, missingTitle: 0, missingDescription: 0, missingImage: 0 },
+        entries: { published: 0, missingTitle: 0, missingDescription: 0 },
+        offers: { published: 0, missingDescription: 0 },
+        categories: { visible: 0, missingDescription: 0 },
+        brands: { visible: 0, missingDescription: 0 },
+        demoPublished: this.admin.demoPublished(),
+        demoCatalogShown: true,
+        missing: [],
+      };
+    });
+  }
+
+  async completeSetup(demoChoice: DemoChoice, note: string | null) {
+    type Result = Awaited<ReturnType<AdminRepository['completeSetup']>>;
+    const result = await this.run((a): Result => {
+      if (!a.can('settings.publish')) throw forbidden();
+      if (!(DEMO_CHOICES as readonly string[]).includes(demoChoice))
+        return { ok: false, code: 'invalid_choice' };
+      let deleted: Record<string, number> | null = null;
+      if (demoChoice !== 'keep') {
+        if (!a.can('demo.manage')) return { ok: false, code: 'demo_forbidden' };
+        deleted = this.admin.demoSummary();
+        this.admin.audit(a, 'demo.delete_all', 'demo_data', null, { deleted });
+      }
+      const value = { completedAt: new Date().toISOString(), completedBy: a.userId, demoChoice };
+      const draft = this.store.settings.saveDraft(a, 'setup', value, null);
+      if (draft === 'forbidden') throw forbidden();
+      const published = this.store.settings.publish(
+        a,
+        'setup',
+        note ?? 'First-run setup completed',
+        true,
+      );
+      if (published === 'forbidden') throw forbidden();
+      this.admin.audit(a, 'setup.completed', 'public.site_settings', 'setup', {
+        demoChoice,
+        deleted,
+      });
+      return { ok: true, demoChoice, deleted };
+    });
+    // Demo rows go; settings (including what the wizard just published), roles and the audit
+    // log stay. The page reloads to start from the emptied catalog.
+    if (result.ok && demoChoice !== 'keep')
+      Store.resetBrowserData({ emptyCatalog: true, keepConfiguration: true });
+    return result;
+  }
+
   /** Demo only: forget every change made in this browser and start again from the seed. */
   async resetDemoData() {
     await this.run((a) => {

@@ -153,15 +153,17 @@
 }
 
 .entryMedia {
-  display: grid;
-  place-items: center;
+  position: relative;
   aspect-ratio: 16 / 10;
   background: var(--color-surface);
 }
 
+/* A definite box: the 16:10 frame never grows when the image loads (layout stability). */
 .entryMedia img {
+  position: absolute;
+  inset: 7%;
+  width: 86%;
   height: 86%;
-  width: auto;
   object-fit: contain;
 }
 

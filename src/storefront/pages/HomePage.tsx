@@ -1,8 +1,10 @@
 import { ButtonLink } from '@/components/navigation/ButtonLink';
 import { resolveLocalized } from '@/domain/localized';
+import { organizationJsonLd, storeJsonLd, websiteJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useSettings } from '@/features/settings/context';
 import { useI18n } from '@/i18n/context';
+import { useRuntime } from '@/runtime/context';
 import { usePageSections } from '../data/hooks';
 import { SectionPage } from '../sections/SectionRenderer';
 import { BranchCard } from '../sections/InfoSections';
@@ -14,7 +16,19 @@ import styles from './HomePage.module.css';
  */
 export function HomePage() {
   const sections = usePageSections('home');
-  usePageMeta({ seoPage: 'home', sections: sections.data });
+  const { brand, social, store } = useSettings();
+  const { locale } = useI18n();
+  const { config } = useRuntime();
+  const ctx = { origin: config.siteUrl ?? window.location.origin, locale };
+  usePageMeta({
+    seoPage: 'home',
+    sections: sections.data,
+    jsonLd: [
+      organizationJsonLd({ brand, social, store }, ctx),
+      websiteJsonLd(brand.name, ctx),
+      ...store.branches.map((b) => storeJsonLd(b, brand, ctx)),
+    ],
+  });
   return <SectionPage pageKey="home" fallback={<BrandFallback />} header={<BrandHeading />} />;
 }
 

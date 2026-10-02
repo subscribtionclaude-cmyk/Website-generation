@@ -142,6 +142,16 @@ export class DemoAdmin {
   }
 
   /** Demo data summary (rows per area) — everything in demo mode is demo data. */
+  /** Published demo rows (Admin → SEO): every row of the in-browser catalog is demo data. */
+  demoPublished(): { products: number; offers: number; entries: number } {
+    const raw = this.ctx.raw;
+    return {
+      products: raw.products.filter((p) => p.status === 'published' && !p.deletedAt).length,
+      offers: raw.offers.filter((o) => o.status === 'published').length,
+      entries: raw.entries.filter((e) => e.status === 'published').length,
+    };
+  }
+
   demoSummary(): Record<string, number> {
     const raw = this.ctx.raw;
     return {

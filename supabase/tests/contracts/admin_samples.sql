@@ -74,6 +74,12 @@ insert into samples values
  ('site_editor_conflict', public.site_editor_save_draft('home', '[]'::jsonb, null)),
  ('storefront_page_sections', public.storefront_page_sections('home'));
 insert into samples select 'admin_service_context', public.admin_service_context(id) from public.service_requests order by created_at limit 1;
+-- Phase 08: SEO overview / public index (sitemap source) and first-run setup completion.
+insert into samples values
+ ('admin_seo_overview', public.admin_seo_overview()),
+ ('seo_public_index', public.seo_public_index()),
+ ('admin_complete_setup_invalid', public.admin_complete_setup('nope', null)),
+ ('admin_complete_setup', public.admin_complete_setup('keep', 'Sample setup'));
 \pset tuples_only on
 \pset format unaligned
 \o :out

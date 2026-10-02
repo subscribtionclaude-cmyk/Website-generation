@@ -46,6 +46,8 @@ export const fieldsAr = {
     'seo.defaultTitle': 'العنوان الافتراضي',
     'seo.defaultDescription': 'الوصف الافتراضي',
     'seo.allowIndexing': 'السماح بالأرشفة في محركات البحث',
+    'performance.motion': 'مستوى الحركة',
+    'performance.campaignEffects': 'تأثيرات الحملات المتحركة',
 
     'store.branches': 'الفروع',
     'store.branches.address': 'العنوان',
@@ -254,6 +256,7 @@ export const fieldsAr = {
   fieldOptions: {
     any: { true: 'نعم', false: 'لا' },
     numerals: { latn: 'أرقام إنجليزية (123)', arab: 'أرقام عربية (١٢٣)' },
+    motion: { auto: 'تلقائي (كامل، أو مخفّض حسب جهاز الزائر)', reduced: 'مخفّض لكل الزوار' },
     weekStartsOn: {
       '0': 'الأحد',
       '1': 'الاثنين',
@@ -375,6 +378,8 @@ export const fieldsEn: Widen<typeof fieldsAr> = {
     'seo.defaultTitle': 'Default title',
     'seo.defaultDescription': 'Default description',
     'seo.allowIndexing': 'Allow search-engine indexing',
+    'performance.motion': 'Motion level',
+    'performance.campaignEffects': 'Animated campaign effects',
 
     'store.branches': 'Branches',
     'store.branches.address': 'Address',
@@ -585,6 +590,10 @@ export const fieldsEn: Widen<typeof fieldsAr> = {
   fieldOptions: {
     any: { true: 'Yes', false: 'No' },
     numerals: { latn: 'Western digits (123)', arab: 'Arabic-Indic digits (١٢٣)' },
+    motion: {
+      auto: 'Automatic (full, or reduced per visitor device)',
+      reduced: 'Reduced for every visitor',
+    },
     weekStartsOn: {
       '0': 'Sunday',
       '1': 'Monday',

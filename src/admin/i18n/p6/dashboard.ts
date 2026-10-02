@@ -29,6 +29,10 @@ export const dashAr = {
     statusTitle: 'حالة النظام',
     setupHint: 'عدّل بيانات المتجر والتواصل من «إعدادات الموقع» ثم انشر التعديل.',
     openSettings: 'فتح إعدادات الموقع',
+    wizardTitle: 'أكمل إعداد المتجر',
+    wizardBody:
+      'معالج من أربع خطوات: بيانات المتجر، الهوية، قرار بيانات العرض، ثم المراجعة والنشر.',
+    wizardOpen: 'بدء الإعداد',
   },
 } as const;
 
@@ -61,5 +65,9 @@ export const dashEn: Widen<typeof dashAr> = {
     statusTitle: 'System status',
     setupHint: 'Edit store and contact details in Site settings, then publish.',
     openSettings: 'Open site settings',
+    wizardTitle: 'Finish setting up the store',
+    wizardBody:
+      'A four-step wizard: store details, branding, the demo-content decision, then review and publish.',
+    wizardOpen: 'Start setup',
   },
 };

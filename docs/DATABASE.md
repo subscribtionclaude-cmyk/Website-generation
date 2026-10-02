@@ -121,6 +121,26 @@ validated by the app with the storefront's zod schemas before saving. `supabase/
 editor conflicts, publish → versions, a stale draft after a live Phase 06 edit, forced publish,
 rollback, direct-table denial and the audit trail.
 
+### Phase 08 migrations (SEO, PWA, setup)
+
+| File                               | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `20261002100000_seo_pwa_setup.sql` | `performance` setting (settings scope, **public**: motion level, campaign effects); `setup` setting (settings scope, **private**: completed at / by, demo choice); `seo_public_index()`, `admin_seo_overview()`, `admin_complete_setup()`; audit module `settings` for `setup.%` events. SEO metadata keeps living in the existing `seo` / `page_seo` settings and the existing `seo_title` / `seo_description` columns — nothing new stores page metadata |
+
+| RPC                                       | Who                                                           | Notes                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `seo_public_index()`                      | anon + authenticated                                          | what a live build may prerender / list in `sitemap.xml`: published, visible, **non-demo** products (with a visible non-demo brand), categories, brands, live entries, active offers (slug + `updatedAt`), legal pages with a written body, and `seo.allowIndexing`. Demo rows are excluded even when `features.showDemoCatalog` shows them on the storefront. Public data only |
+| `admin_seo_overview()`                    | `content.view`                                                | indexing switch, `page_seo` pages, published / missing title / missing description / missing image counts for real products, entries, offers, categories, brands; published demo counts; whether demo rows are shown live; up to 20 + 20 pages missing a description                                                                                                           |
+| `admin_complete_setup(demo_choice, note)` | `settings.publish` (+ `demo.manage` for `replace` / `delete`) | `invalid_choice`, `demo_forbidden`; `replace` / `delete` call `delete_all_demo_data()` (demo rows only, audited `demo.delete_all`); upserts the `setup` setting (versioned, publish note, default "First-run setup completed"); audited `setup.completed`                                                                                                                      |
+
+`supabase/tests/sql/12_seo_setup.test.sql` (36 assertions) covers setting visibility (anon reads
+`performance`, never `setup`), the public index matching live rows only, demo / live separation with
+the demo catalog shown, a live product entering and leaving the index, the `allowIndexing` draft vs
+publish behaviour, overview permissions and content, setup permissions per role, invalid choices,
+keep vs delete (demo rows removed, live rows kept), versioning and the audit trail. Contract samples
+for the three RPCs are captured from SQL and parsed by the zod schemas
+(`src/domain/admin/contracts.test.ts`).
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,
@@ -225,7 +245,7 @@ when `security.adminMfaRequired` is enabled.
    `auth.uid()`, `storage.*`, and Supabase's default grants — so RLS must be the real guard),
 3. applies all migrations, the base and demo seeds, then **re-applies all migrations** (idempotency),
 4. checks the contracts above, and
-5. runs `supabase/tests/sql/*.test.sql` (349 assertions after Phase 03 — pricing windows, quotes,
+5. runs `supabase/tests/sql/*.test.sql` (949 assertions after Phase 08; first written in Phase 03 — pricing windows, quotes,
    promo rules, validation, price-change rollback, idempotency, reservation expiry, stock commit /
    restock, payments, split, shipping, review, order privacy, snapshots, cart merge; catalog/search
    parity with the in-memory engine, demo gating, windows, request intake; Phase 01's RLS on every

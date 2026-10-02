@@ -1,0 +1,38 @@
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.grow {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.newTab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.newTab svg {
+  flex: none;
+}
+
+/* The Site Editor's SEO preview, at the width it was designed for. */
+.preview {
+  max-width: 44rem;
+}

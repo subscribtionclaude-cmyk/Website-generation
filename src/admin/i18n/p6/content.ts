@@ -332,6 +332,7 @@ export const contentAr = {
       legal: 'صفحات السياسات',
       loyalty: 'برنامج الولاء (أساس)',
       service_sla: 'أهداف زمن الخدمة',
+      performance: 'الأداء والحركة',
     },
     about: {
       brand: 'اسم المتجر وشعاره والعبارة التعريفية.',
@@ -352,6 +353,8 @@ export const contentAr = {
       security: 'إعدادات أمان لوحة التحكم.',
       services: 'تفعيل الخدمات وحدود الملفات وسياسات ما بعد البيع.',
       service_sla: 'أهداف داخلية للفريق لمتابعة الطلبات — ليست وعدًا للعميل.',
+      performance:
+        'تقليل الحركة لكل الزوار وإيقاف تأثيرات الحملات المتحركة. تفضيل «تقليل الحركة» في جهاز الزائر يُحترم دائمًا.',
       repair_catalog: 'أنواع الأجهزة والأجزاء والأعطال في نموذج طلب الصيانة.',
       shipping: 'رسالة الشحن للعملاء وطريقة الاستلام الافتراضية. الرسوم تُحدد يدويًا.',
       receipt: 'ما يظهر في فاتورة الطلب المطبوعة: الشعار والحقول والتذييل والشروط.',
@@ -703,6 +706,7 @@ export const contentEn: Widen<typeof contentAr> = {
       legal: 'Policy pages',
       loyalty: 'Loyalty (foundation)',
       service_sla: 'Service time targets',
+      performance: 'Performance & motion',
     },
     about: {
       brand: 'Store name, logo and tagline.',
@@ -724,6 +728,8 @@ export const contentEn: Widen<typeof contentAr> = {
       security: 'Admin dashboard security settings.',
       services: 'Service toggles, upload limits and after-sales policies.',
       service_sla: 'Internal team targets for following up requests — not a promise to customers.',
+      performance:
+        'Reduce motion for every visitor and stop animated campaign effects. A visitor’s own reduced-motion preference is always respected.',
       repair_catalog: 'Device types, components and symptoms in the repair request form.',
       shipping:
         'The shipping message customers see and the default fulfilment. Fees are set manually.',

@@ -168,6 +168,20 @@
       "isPublic": true,
       "editPermission": "design.edit",
       "publishPermission": "design.publish"
+    },
+    {
+      "key": "performance",
+      "scope": "settings",
+      "isPublic": true,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
+    },
+    {
+      "key": "setup",
+      "scope": "settings",
+      "isPublic": false,
+      "editPermission": "settings.manage",
+      "publishPermission": "settings.publish"
     }
   ]
 }

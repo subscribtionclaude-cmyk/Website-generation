@@ -54,6 +54,9 @@ export const en: Widen<typeof ar> = {
     notPublished: 'This page has not been published yet. Contact us with any question.',
     updated: 'Last updated: {date}',
   },
+  pwa: {
+    install: 'Install the app',
+  },
   dataMode: {
     demoBanner: 'Demo mode',
     demoBannerDetail: 'Everything shown is sample data for preview only.',
@@ -199,6 +202,7 @@ export const en: Widen<typeof ar> = {
     showMoreOrders: 'Show more orders',
   },
   search: {
+    catalogLabel: 'Search products',
     label: 'Search the store',
     placeholder: 'Search devices, brands or models…',
     submit: 'Search',

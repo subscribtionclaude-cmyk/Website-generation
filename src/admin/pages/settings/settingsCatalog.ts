@@ -18,7 +18,7 @@ export type SettingGroup =
  * workflow. `theme` and `navigation` are design settings owned by the Phase 07 Site Editor.
  */
 export const SETTING_GROUPS: { id: SettingGroup; keys: SettingKey[] }[] = [
-  { id: 'general', keys: ['brand', 'localization', 'features', 'social', 'seo'] },
+  { id: 'general', keys: ['brand', 'localization', 'features', 'social', 'seo', 'performance'] },
   { id: 'store', keys: ['store'] },
   { id: 'payments', keys: ['commerce'] },
   { id: 'shipping', keys: ['shipping', 'receipt'] },

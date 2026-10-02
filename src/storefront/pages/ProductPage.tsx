@@ -15,7 +15,8 @@ import {
   type Selection,
 } from '@/domain/catalog/variants';
 import { resolveLocalized } from '@/domain/localized';
-import { breadcrumbJsonLd, productJsonLd } from '@/features/seo/structuredData';
+import { productMeta } from '@/domain/seo/entityMeta';
+import { breadcrumbJsonLd, productJsonLd } from '@/domain/seo/structuredData';
 import { usePageMeta } from '@/features/seo/usePageMeta';
 import { useWhatsAppMessage } from '@/features/whatsapp/context';
 import { useI18n } from '@/i18n/context';
@@ -154,14 +155,11 @@ function ProductView({ product }: { product: ProductDetail }) {
   ];
   const origin = config.siteUrl ?? window.location.origin;
   const productLd = productJsonLd(product, { origin, locale, mode });
+  const meta = productMeta(product, locale);
   usePageMeta({
-    title: product.seo.title ? resolveLocalized(product.seo.title, locale) : name,
-    description: product.seo.description
-      ? resolveLocalized(product.seo.description, locale)
-      : product.subtitle
-        ? resolveLocalized(product.subtitle, locale)
-        : undefined,
-    image: product.image?.url,
+    title: meta.title,
+    description: meta.description,
+    image: meta.image,
     type: 'product',
     jsonLd: [breadcrumbJsonLd(crumbs, { origin, locale }), ...(productLd ? [productLd] : [])],
   });

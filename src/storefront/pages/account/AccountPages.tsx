@@ -903,7 +903,13 @@ export function AccountRequests() {
                   {requests.data.notify.map((r) => (
                     <li key={r.id} className={styles.row}>
                       {r.product.image ? (
-                        <img className={styles.thumb} src={r.product.image.url} alt="" />
+                        <img
+                          className={styles.thumb}
+                          src={r.product.image.url}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
                       ) : (
                         <span className={styles.thumb} />
                       )}
@@ -966,7 +972,13 @@ export function AccountRequests() {
                   {requests.data.waitlist.map((r) => (
                     <li key={r.id} className={styles.row}>
                       {r.product.image ? (
-                        <img className={styles.thumb} src={r.product.image.url} alt="" />
+                        <img
+                          className={styles.thumb}
+                          src={r.product.image.url}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
                       ) : (
                         <span className={styles.thumb} />
                       )}

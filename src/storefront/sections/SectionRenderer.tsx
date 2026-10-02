@@ -104,7 +104,14 @@ export function SectionPage({
   const { t } = useI18n();
   const { data, isPending, isError } = usePageSections(pageKey);
   if (isPending)
-    return <div className={styles.section} aria-busy="true" aria-label={t('common.loading')} />;
+    // Holds the page open while sections load so the footer doesn't jump into view and back (CLS).
+    return (
+      <div
+        className={`${styles.section} ${styles.pending}`}
+        aria-busy="true"
+        aria-label={t('common.loading')}
+      />
+    );
   if (isError) return <>{fallback}</>;
   const sections = resolveSections(data, reportInvalid);
   if (sections.length === 0) return <>{fallback}</>;

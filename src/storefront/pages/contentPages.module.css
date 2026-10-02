@@ -197,6 +197,8 @@
 /* ── Contact ────────────────────────────────── */
 .contactGrid {
   display: grid;
+  /* minmax(0, …): a long unbroken word (English address, e-mail) must wrap, never widen the page. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
 }
 

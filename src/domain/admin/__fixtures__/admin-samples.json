@@ -6282,5 +6282,32 @@
         "updatedAt": "2026-09-28T16:06:52.66555+00:00"
       }
     ]
-  }
+  },
+  "admin_seo_overview": {
+    "brands": { "visible": 0, "missingDescription": 0 },
+    "offers": { "published": 0, "missingDescription": 0 },
+    "entries": { "published": 0, "missingTitle": 0, "missingDescription": 0 },
+    "missing": [],
+    "pageSeo": {
+      "home": { "title": null, "ogImage": null, "description": null },
+      "apple": { "title": null, "ogImage": null, "description": null },
+      "offers": { "title": null, "ogImage": null, "description": null }
+    },
+    "products": { "published": 0, "missingImage": 0, "missingTitle": 0, "missingDescription": 0 },
+    "categories": { "visible": 0, "missingDescription": 0 },
+    "allowIndexing": true,
+    "demoPublished": { "offers": 7, "entries": 7, "products": 28 },
+    "demoCatalogShown": true
+  },
+  "seo_public_index": {
+    "legal": [],
+    "brands": [],
+    "offers": [],
+    "entries": [],
+    "products": [],
+    "categories": [],
+    "allowIndexing": true
+  },
+  "admin_complete_setup_invalid": { "ok": false, "code": "invalid_choice" },
+  "admin_complete_setup": { "ok": true, "deleted": null, "demoChoice": "keep" }
 }
