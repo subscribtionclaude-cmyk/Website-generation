@@ -10,7 +10,7 @@
 | 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
 | 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28) |
 | 08    | Content / SEO / PWA / Polish | ✅ COMPLETE (2026-10-02) |
-| 09    | Integrations Layer           | 🟡 FINAL VALIDATION      |
+| 09    | Integrations Layer           | ✅ COMPLETE (2026-10-02) |
 | 10    | QA / Staging / Launch        | ⚪ NOT STARTED — next    |
 
 ---
@@ -589,7 +589,7 @@
 - ShipStatic's handling of `<path>.html` pages and the `404.html` rewrite could not be verified from
   this environment (see `docs/DEPLOYMENT.md`).
 
-## Phase 09 — Integrations Layer (final validation in progress)
+## Phase 09 — Integrations Layer ✅
 
 Every integration is optional, disabled by default, removable and replaceable; secrets are
 server-side only; everything is permission-controlled, audited and tested. **The platform works with
@@ -657,8 +657,16 @@ the provider is configured, enabled and confirmed working.
 
 ### Validation
 
-Final validation in progress (full E2E on the final build); results are recorded here when it
-completes.
+| Check                                                                                                                 | Result                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run check` (typecheck, lint, format, seed check, unit tests, build + generate-site, bundle budget, secret guard) | ✅ 0 errors, 0 warnings                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `npm test` (Vitest)                                                                                                   | ✅ 441 / 441 tests, 34 files (was 368): registry, status, HTTP safety, circuit breaker, retry, webhook HMAC / replay, routing + private-data filter, sync planner, mocks (success, auth failure, timeout, rate limit, provider error), WhatsApp + Odoo adapters on stubbed HTTP, client checks, server handler (authorization, test, sync, dispatch, webhooks), SSRF guard, fallback services, analytics sanitizer, PWA bypass, 59 RPC contract samples |
+| `npm run test:db` (PostgreSQL, clean cluster)                                                                         | ✅ 1,095 / 1,095 SQL assertions (was 949; 136 in `13_integrations`), concurrency checks, 59 contract samples parsed (9 new)                                                                                                                                                                                                                                                                                                                             |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                                            | ✅ 425 passed, 15 skipped by design, 0 failed (18.2 min, final production build); includes the Phase 09 spec (53 / 53 + 3 mobile skips: center, fallback, mock success / failure, enable / disable, permissions, dry run, conflicts, WhatsApp fallback, analytics consent, Arabic, English, social sign-in, AI draft) and every Phase 01–08 spec                                                                                                        |
+| `npm run check:bundle`                                                                                                | ✅ entry 406,201 B of the 409,600 B budget (+1,727 B); no provider SDK in any chunk                                                                                                                                                                                                                                                                                                                                                                     |
+| `npm run check:secrets`                                                                                               | ✅ 403 built files, 597 tracked files clean; 19 server-only names never exposed as `VITE_*`; bad `VITE_*` names / values and planted tokens are rejected                                                                                                                                                                                                                                                                                                |
+| Visual review                                                                                                         | ✅ Arabic + English on mobile, tablet and desktop: integrations overview, configuration, sync center with dry-run details, storefront consent panel; no overflow, no console errors. Fixed during review: WhatsApp button covering the footer's last row; card hint contrast                                                                                                                                                                            |
+| Demo / live review                                                                                                    | ✅ demo uses MOCK only (labelled, no network; GA never loads); live calls RPCs + the Edge Function, reports `runtime_unavailable` / `unsupported` instead of pretending; no paid dependency; no credentials in the repository                                                                                                                                                                                                                           |
 
 ### Known limits / not blocking
 
