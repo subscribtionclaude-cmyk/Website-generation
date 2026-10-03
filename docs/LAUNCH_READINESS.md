@@ -62,7 +62,7 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 
 | Metric                                | Result                                                      |
 | ------------------------------------- | ----------------------------------------------------------- |
-| Storefront entry chunk                | **399,116 B** (budget 409,600 B; was 406,201 B at Phase 09) |
+| Storefront entry chunk                | **399,162 B** (budget 409,600 B; was 406,201 B at Phase 09) |
 | Initial JavaScript (entry + preloads) | **620.4 KiB** (new budget 650 KiB)                          |
 | three.js                              | only in the lazy repair-diagnostic chunk                    |
 | CLS / LCP                             | covered by the Phase 08 E2E checks (demo build, Chromium)   |

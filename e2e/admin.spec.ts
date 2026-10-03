@@ -187,7 +187,8 @@ test.describe('admin control center', () => {
     await checkPage(page);
     const first = page.getByRole('table').getByRole('link').first();
     await first.click();
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    // The queue has a priority filter too: wait for the request page's own form before choosing.
+    await expect(page.getByRole('button', { name: 'حفظ الأولوية' })).toBeVisible();
     await page.getByLabel('الأولوية').last().selectOption('urgent');
     await page.getByRole('button', { name: 'حفظ الأولوية' }).click();
     await expect(page.getByText('تم الحفظ.').first()).toBeVisible();

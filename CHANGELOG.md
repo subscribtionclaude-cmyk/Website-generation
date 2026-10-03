@@ -36,7 +36,7 @@ launch tooling and documentation. Details: [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`]
 ### Performance
 
 - The admin route table loads on the first visit to `/admin`; storefront visitors download ~7 KB
-  less. Storefront entry 399,115 B (budget 409,600 B); initial JavaScript 620 KB.
+  less. Storefront entry 399,162 B (budget 409,600 B); initial JavaScript 620.4 KiB.
 - New bundle guard: total initial JavaScript (entry + modulepreloaded chunks) budget of 650 KB.
 
 ### Tooling and operations

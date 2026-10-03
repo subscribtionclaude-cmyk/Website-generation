@@ -33,10 +33,11 @@ export const appRoutes = [
 /**
  * The admin route table loads on the first visit to /admin, so storefront visitors never download
  * it. React Router asks here whenever a URL is not matched or only matched by a dynamic / catch-all
- * route; re-patching the same tree is a no-op.
+ * route; once the admin tree is in place it returns at once.
  */
-export const discoverRoutes: PatchRoutesOnNavigationFunction = async ({ path, patch }) => {
+export const discoverRoutes: PatchRoutesOnNavigationFunction = async ({ path, matches, patch }) => {
   if (path !== '/admin' && !path.startsWith('/admin/')) return;
+  if (matches.some((match) => match.route.path === '/admin')) return; // already added
   const { adminRoutes } = await import('@/admin/routes');
   patch(ROOT_ROUTE_ID, [adminRoutes]);
 };

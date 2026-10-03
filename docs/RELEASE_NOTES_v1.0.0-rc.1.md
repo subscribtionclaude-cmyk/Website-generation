@@ -35,7 +35,7 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 
 **Performance**
 
-- Storefront visitors no longer download the admin route table: entry 399,116 B (budget
+- Storefront visitors no longer download the admin route table: entry 399,162 B (budget
   409,600 B), initial JavaScript 620.4 KiB (new 650 KiB budget).
 
 **Tooling**

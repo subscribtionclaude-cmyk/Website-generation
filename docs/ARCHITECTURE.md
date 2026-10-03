@@ -1031,7 +1031,7 @@ explicitly.
 
 ### Bundle budgets
 
-`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,116 B at rc.1) **and** the
+`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,162 B at rc.1) **and** the
 total initial JavaScript — the entry plus every chunk `index.html` modulepreloads (≤ 650 KiB;
 620.4 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
 
