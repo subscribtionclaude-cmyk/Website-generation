@@ -31,6 +31,7 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 - The base configuration ships with search-engine indexing **off**; switching it on is the
   explicit launch step.
 - Open tabs recover from a deploy (one automatic reload instead of a broken page).
+- Selecting a section in the Site Editor no longer scrolls the editor page (only the preview).
 
 **Performance**
 

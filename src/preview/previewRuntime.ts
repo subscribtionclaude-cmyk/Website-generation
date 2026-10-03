@@ -105,7 +105,12 @@ function focusSection(key: string) {
   const target = heading?.closest('section') ?? heading;
   if (!target) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  target.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+  // Scroll this document only: scrollIntoView would also scroll the editor page around the frame,
+  // moving its controls under the user's pointer.
+  window.scrollTo({
+    top: target.getBoundingClientRect().top + window.scrollY,
+    behavior: reduce ? 'auto' : 'smooth',
+  });
   target.style.outline = '3px dashed #1a4fb2';
   target.style.outlineOffset = '4px';
   window.setTimeout(() => {

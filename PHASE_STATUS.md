@@ -704,6 +704,8 @@ environment (no dedicated Malek Store project; the static host is unreachable he
 - [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,116 B
       (was 406,201 B), initial JS 620.4 KiB; initial-JS budget added to the bundle guard.
 - [x] **Resilience** — one automatic reload when a deploy removed a chunk an open tab needs.
+- [x] **Site Editor fix** — selecting a section scrolls only the preview frame, never the editor
+      page (found as a CI-only E2E failure; regression test G2).
 - [x] **Quality gates** — `npm run check:links`; CI runs `test:db` and a 4-way sharded E2E matrix;
       CI unit-test timeout and `test:db` colour-parsing fixes (first fully green CI run).
 - [x] **Reviews** — store details (settings only), payments (COD / InstaPay / Split, InstaPay empty,

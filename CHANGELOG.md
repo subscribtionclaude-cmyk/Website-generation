@@ -28,6 +28,8 @@ launch tooling and documentation. Details: [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`]
 - The base seed ships with search-engine indexing off; publishing "Allow indexing" is the explicit
   launch switch (staging and fresh projects can no longer be indexed by accident).
 - An open tab that requests a chunk removed by a newer deploy reloads once instead of erroring.
+- Selecting a section in the Site Editor scrolls only the preview; it no longer scrolls the editor
+  page itself (which could move controls under the pointer and lose a click).
 - Unit tests no longer time out on slower CI runners; the database test script no longer stops
   silently when the test runner prints coloured output.
 

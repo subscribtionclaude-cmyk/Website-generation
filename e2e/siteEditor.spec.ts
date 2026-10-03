@@ -201,6 +201,27 @@ test.describe('visual site editor', () => {
     await expect(frame(page).getByRole('heading', { name: 'Fresh arrivals E2E' })).toBeVisible();
   });
 
+  test('G2. selecting a section scrolls the preview only, never the editor page', async ({
+    page,
+  }) => {
+    await openEditor(page);
+    const onePane =
+      (await page
+        .getByRole('group', { name: 'عرض الأجزاء' })
+        .getByRole('button', { name: 'المعاينة' })
+        .count()) > 0;
+    test.skip(
+      onePane,
+      'one-pane layouts open the inspector on selection; the preview is off screen',
+    );
+    await expect(frame(page).locator('main section').first()).toBeVisible();
+    const before = await page.evaluate(() => window.scrollY);
+    await page.getByRole('button', { name: NEW_RELEASES }).click();
+    // The preview marks the focused section once it has scrolled to it.
+    await expect(frame(page).locator('main section[style*="dashed"]')).toHaveCount(1);
+    expect(await page.evaluate(() => window.scrollY)).toBe(before);
+  });
+
   test('H + I. publish reaches the storefront; rollback restores the previous version', async ({
     page,
   }) => {
