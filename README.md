@@ -4,9 +4,10 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Build status:** Phase 07 (Visual Site Editor) complete — see [`PHASE_STATUS.md`](PHASE_STATUS.md).
-> The SEO module (08) and Integrations (09) are routed and clearly marked as scheduled; they are not
-> faked.
+> **Release:** `v1.0.0-rc.1` — all ten phases built; launch readiness: **ready after owner actions**
+> (see [`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md)). Launch steps:
+> [`docs/LAUNCH_RUNBOOK.md`](docs/LAUNCH_RUNBOOK.md). Progress: [`PHASE_STATUS.md`](PHASE_STATUS.md),
+> changes: [`CHANGELOG.md`](CHANGELOG.md).
 
 **Stack:** React 19 · TypeScript (strict) · Vite 8 · React Router 8 · TanStack Query · Zod ·
 Supabase (Postgres, Auth, Storage) · self-hosted IBM Plex Sans Arabic + Manrope · Vitest ·
@@ -71,9 +72,10 @@ A striped **"Demo mode"** banner is always visible in demo mode. Demo data is ne
 | `npm run test:e2e`                     | Playwright tests on mobile, tablet, desktop and large desktop: every storefront page, key interactions, cart → checkout → order journeys (Arabic + English), admin, Site Editor, SEO (prerendered pages, metadata, sitemap, robots), PWA (install, offline, cache boundaries), CLS / LCP, overflow checks and axe-core scans (builds + previews the app) |
 | `npm run seed:generate` / `seed:check` | Regenerate / verify the demo catalog (`seed/data/demo/catalog.json`, `public/demo/media`) and `supabase/seed/*.sql` from the seed sources                                                                                                                                                                                                                |
 | `npm run brand:icons`                  | Regenerate favicons/app icons/optimized marks from `public/brand/malek-store-logo.png`                                                                                                                                                                                                                                                                   |
-| `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB and three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                                                                           |
+| `npm run check:bundle`                 | Bundle budget: storefront entry ≤ 400 kB, initial JavaScript (entry + modulepreloads) ≤ 650 kB, three.js only in the lazy repair-diagnostic chunk                                                                                                                                                                                                        |
+| `npm run check:links`                  | Every internal link and asset on the prerendered pages resolves to a built file or an app route                                                                                                                                                                                                                                                          |
 | `npm run check:secrets`                | Secret guard: no secret-looking `VITE_*` variable, no credential patterns or server-only values in `dist/`, no credentials in tracked files                                                                                                                                                                                                              |
-| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget + secret guard                                                                                                                                                                                                                                                               |
+| `npm run check`                        | typecheck + lint + format + seed check + unit tests + build + bundle budget + secret guard + link check                                                                                                                                                                                                                                                  |
 
 ## 3. Environment variables
 
@@ -215,8 +217,9 @@ Cloudflare Pages, GitHub Pages, S3/CloudFront, Nginx…). Public pages are prere
 
 SEO and PWA notes:
 
-- Set `VITE_SITE_URL` and turn on Settings → Search engines → "Allow indexing" to be indexed; rebuild
-  after publishing content so crawlers without JavaScript (and `sitemap.xml`) see it.
+- Set `VITE_SITE_URL` and turn on Settings → Search engines → "Allow indexing" (off in the base seed
+  until launch) to be indexed; rebuild after publishing content so crawlers without JavaScript (and
+  `sitemap.xml`) see it.
 - The service worker (`/sw.js`) caches public files and visited public pages only — never admin,
   account, orders, checkout, cart, payments, notifications or private uploads. Serve `sw.js` without
   long caching (`dist/_headers` does this on Netlify / Cloudflare Pages).
@@ -227,4 +230,10 @@ SEO and PWA notes:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — technical architecture and decisions
 - [`docs/DATABASE.md`](docs/DATABASE.md) — schema conventions, RLS model, RPCs, migration workflow
 - [`docs/QA_CHECKLIST.md`](docs/QA_CHECKLIST.md) — QA checklist with pass/fail state
+- [`docs/LAUNCH_RUNBOOK.md`](docs/LAUNCH_RUNBOOK.md) — the 15 launch steps, owner checklist, environment matrix, smoke test
+- [`docs/ROLLBACK.md`](docs/ROLLBACK.md) — undoing a release: settings, Site Editor, integrations, frontend, service worker, database
+- [`docs/OPERATIONS.md`](docs/OPERATIONS.md) — staff checklist, backups and restore, monitoring, free-tier limits, privacy, retention
+- [`docs/SECURITY.md`](docs/SECURITY.md) — security review and accepted risks
+- [`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md) — launch readiness report
+- [`CHANGELOG.md`](CHANGELOG.md) · [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`](docs/RELEASE_NOTES_v1.0.0-rc.1.md)
 - [`PHASE_STATUS.md`](PHASE_STATUS.md) — phase plan and progress

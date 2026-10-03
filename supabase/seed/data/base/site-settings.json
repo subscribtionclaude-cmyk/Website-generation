@@ -259,7 +259,7 @@
         "ar": "MALEK STORE في العباسية، القاهرة: موبايلات وأجهزة جديدة، عروض، صيانة واستبدال الأجهزة.",
         "en": "MALEK STORE in Abbasseya, Cairo: new phones and devices, offers, repairs and device trade-in."
       },
-      "allowIndexing": true
+      "allowIndexing": false
     },
     "trust": {
       "items": [

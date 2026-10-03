@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router';
 import { describe, expect, it } from 'vitest';
+import { adminRoutes } from '@/admin/routes';
 import { appRoutes } from '@/app/router';
 import { isPrivatePath, STATIC_ROUTES } from '@/domain/seo/site';
 import { cachePolicy } from './cacheRules';
@@ -39,7 +40,7 @@ const PUBLIC = new Set([
 ]);
 
 describe('route table vs. private areas', () => {
-  const paths = collect(appRoutes as RouteObject[]).map((p) =>
+  const paths = collect([...appRoutes, adminRoutes] as RouteObject[]).map((p) =>
     p === '/en' ? '/' : p.startsWith('/en/') ? p.slice(3) : p,
   );
 

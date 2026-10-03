@@ -126,10 +126,15 @@ function envGuard(): Plugin {
 export default defineConfig({
   plugins: [envGuard(), react(), spaFallback(), previewShell(), fontPreload()],
   resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@seed': fileURLToPath(new URL('./supabase/seed/data', import.meta.url)),
-    },
+    alias: [
+      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+      {
+        find: '@seed',
+        replacement: fileURLToPath(new URL('./supabase/seed/data', import.meta.url)),
+      },
+      // Zod in CSP-safe (no eval) mode everywhere: see src/lib/zod.ts.
+      { find: /^zod$/, replacement: fileURLToPath(new URL('./src/lib/zod.ts', import.meta.url)) },
+    ],
   },
   build: {
     target: 'es2022',

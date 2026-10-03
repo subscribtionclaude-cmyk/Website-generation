@@ -166,7 +166,7 @@ describe('product detail page', () => {
     const storage = screen.getByRole('group', { name: /Storage/ });
     await user.click(within(storage).getByRole('radio', { name: /512GB/ }));
     await waitFor(() => expect(router.state.location.search).toContain('storage=512gb'));
-    expect(screen.getByText('IP18P-512GB-ORANGE')).toBeInTheDocument();
+    expect(await screen.findByText('IP18P-512GB-ORANGE')).toBeInTheDocument();
     expect(screen.getAllByText(/83,500/).length).toBeGreaterThan(0);
     const color = screen.getByRole('group', { name: /Color/ });
     await user.click(within(color).getByRole('radio', { name: /Black/ }));

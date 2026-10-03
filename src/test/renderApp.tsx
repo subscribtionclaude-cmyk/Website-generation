@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { AppProviders } from '@/app/AppProviders';
-import { appRoutes } from '@/app/router';
+import { appRoutes, discoverRoutes } from '@/app/router';
 import baseSeed from '@seed/base/site-settings.json';
 import type { AppConfig } from '@/config/env';
 import type { SettingRecord } from '@/domain/settings/resolve';
@@ -50,7 +50,10 @@ export function createTestRuntime(options: RenderAppOptions = {}): AppRuntime {
 
 export function renderApp(path: string, options: RenderAppOptions = {}) {
   const runtime = createTestRuntime(options);
-  const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
+  const router = createMemoryRouter(appRoutes, {
+    initialEntries: [path],
+    patchRoutesOnNavigation: discoverRoutes,
+  });
   const result = render(
     <AppProviders runtime={runtime}>
       <RouterProvider router={router} />

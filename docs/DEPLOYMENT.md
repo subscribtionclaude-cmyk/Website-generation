@@ -22,9 +22,9 @@ protects the data).
 | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `assets/`                                     | the app's hashed, immutable files                                                                                                                                                                                    |
 | `index.html`, `<path>.html`, `en/<path>.html` | prerendered public pages (Home, store, categories, brands, products, offers, news, services, contact, legal), Arabic and English — same head as the running app plus a readable body for crawlers without JavaScript |
-| `404.html`                                    | the plain SPA shell (the built `index.html` before prerendering) — served for every other route                                                                                                                      |
-| `_redirects`                                  | `/* /404.html 200` — rewrite for hosts that read Netlify-style rules                                                                                                                                                 |
-| `_headers`                                    | `sw.js` / `offline.html` revalidated, `assets/*` immutable (Netlify / Cloudflare Pages)                                                                                                                              |
+| `404.html`                                    | the plain SPA shell (the built `index.html` before prerendering) — served for app routes without a prerendered file, and (status 404) for unknown URLs                                                               |
+| `_redirects`                                  | Netlify-style rules: every known app route → `/404.html` with **200**; anything else → `/404.html` with **404**. `src/build/hosting.test.ts` keeps the list in sync with the route table                             |
+| `_headers`                                    | Content-Security-Policy and security headers on every response; `sw.js` / `offline.html` / manifest revalidated; `assets/*` immutable (Netlify / Cloudflare Pages and compatible hosts)                              |
 | `sitemap.xml`, `robots.txt`                   | generated at build time from published, non-demo content (demo builds: `Disallow: /`, empty sitemap)                                                                                                                 |
 | `sw.js`, `offline.html`                       | service worker (public files and visited public pages only) and its offline page                                                                                                                                     |
 | `manifest.webmanifest`, `icons/`, `brand/`    | PWA manifest, favicons, logo assets                                                                                                                                                                                  |
@@ -33,25 +33,65 @@ protects the data).
 
 A request for `/en/store` must serve `en/store.html` when it exists, and the SPA shell `404.html`
 otherwise (e.g. `/admin/orders`, `/account`, a product published after the build). Do **not** rewrite
-unknown paths to `index.html` — that is now the prerendered Arabic Home page.
+unknown paths to `index.html` — that is now the prerendered Arabic Home page. Made-up URLs should get
+the shell with a real **404** status (the app shows the bilingual not-found page); `_redirects`
+does this on hosts that read it. `npm run preview` applies `_redirects` and `_headers` the same way,
+so the E2E suite (incl. `e2e/launch.spec.ts`) tests what the host will serve.
 
-| Host                                  | What to do                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ShipStatic**                        | Upload the **contents** of `dist/`. After the first deploy open `/en/store` (prerendered) and `/admin` (shell) directly and reload; if a deep link does not load, enable ShipStatic's SPA / fallback option with `404.html` per its current docs. (Its docs were not reachable from the build environment, so this was not verified.) |
-| Netlify / Cloudflare Pages            | `.html` pages are served without the extension and `_redirects` sends the rest to `404.html` automatically.                                                                                                                                                                                                                           |
-| Cloudflare Workers static assets      | `not_found_handling = "404-page"` (serves `404.html`, status 404, for unknown paths). Avoid `single-page-application`: it would serve the prerendered `index.html`.                                                                                                                                                                   |
-| Vercel                                | `vercel.json`: `{ "cleanUrls": true, "rewrites": [{ "source": "/(.*)", "destination": "/404.html" }] }`                                                                                                                                                                                                                               |
-| GitHub Pages / hosts without rewrites | `.html` pages are served without the extension; `404.html` boots the app for other paths (HTTP status 404 — fine for users; prerendered public pages return 200).                                                                                                                                                                     |
-| Nginx                                 | `location / { try_files $uri $uri.html $uri/ /404.html; }`                                                                                                                                                                                                                                                                            |
-| Apache                                | `RewriteEngine On` · `RewriteCond %{REQUEST_FILENAME}.html -f` · `RewriteRule ^(.*)$ $1.html [L]` · `FallbackResource /404.html`                                                                                                                                                                                                      |
+| Host                                  | What to do                                                                                                                                                                                                                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ShipStatic**                        | Upload the **contents** of `dist/`. After the first deploy run the [ShipStatic check](#shipstatic-check) below. If a rule or header is not honoured, use ShipStatic's own SPA / fallback and header options per its current docs, or a host from this table that reads `_redirects` / `_headers`. |
+| Netlify / Cloudflare Pages            | `.html` pages are served without the extension and `_redirects` sends the rest to `404.html` automatically.                                                                                                                                                                                       |
+| Cloudflare Workers static assets      | `not_found_handling = "404-page"` (serves `404.html`, status 404, for unknown paths). Avoid `single-page-application`: it would serve the prerendered `index.html`.                                                                                                                               |
+| Vercel                                | `vercel.json`: `{ "cleanUrls": true, "rewrites": [{ "source": "/(.*)", "destination": "/404.html" }] }`                                                                                                                                                                                           |
+| GitHub Pages / hosts without rewrites | `.html` pages are served without the extension; `404.html` boots the app for other paths (HTTP status 404 — fine for users; prerendered public pages return 200).                                                                                                                                 |
+| Nginx                                 | `location / { try_files $uri $uri.html $uri/ /404.html; }`                                                                                                                                                                                                                                        |
+| Apache                                | `RewriteEngine On` · `RewriteCond %{REQUEST_FILENAME}.html -f` · `RewriteRule ^(.*)$ $1.html [L]` · `FallbackResource /404.html`                                                                                                                                                                  |
 
 Recommended cache headers (where the host allows): `assets/*` → `Cache-Control: public, max-age=31536000, immutable`;
 HTML, `sw.js`, `sitemap.xml`, `robots.txt` → `no-cache`.
 
+## Security headers
+
+`dist/_headers` sets, on every response: `Content-Security-Policy` (scripts only from the site, the
+one prerender inline script pinned by its SHA-256 hash, Google Tag Manager for consented analytics;
+API calls to `*.supabase.co`; `frame-ancestors 'self'` so the Site Editor's same-origin preview
+works), `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`,
+`Referrer-Policy: strict-origin-when-cross-origin` and a restrictive `Permissions-Policy`. On a host
+that ignores `_headers`, configure the same values in the host's settings (copy them from the file).
+If you change the inline script in `src/build/generateSite.ts`, `src/build/hosting.test.ts` fails
+until the hash in `public/_headers` is updated. If you load scripts or call APIs from another origin
+(e.g. a new integration in the browser), add that origin to the CSP — otherwise the browser blocks it.
+
+## ShipStatic check
+
+Phase 10 could not run a full staging deploy from the build environment: its network policy blocks
+`shipstatic.com`, and the 6.5 MB / 514-file build is too large for the inline upload tool. A
+2.5 KB **probe** with the real `_headers` and a reduced `_redirects` was deployed to the owner's
+ShipStatic account at `https://strong-star-8p5x5jg.shipstatic.com` (marker pages only, no app
+code; delete it from the ShipStatic dashboard when done). It could not be fetched from the build
+environment either, so open it yourself and compare:
+
+| URL                      | Expected (rules honoured)                                    |
+| ------------------------ | ------------------------------------------------------------ |
+| `/`                      | "PROBE-INDEX", status 200                                    |
+| `/store`                 | "PROBE-PRERENDERED-STORE" (the real file wins over the rule) |
+| `/en/store`              | "PROBE-EN-STORE" (`.html` served without the extension)      |
+| `/cart`, `/admin/orders` | "PROBE-SHELL", status 200                                    |
+| `/does-not-exist`        | "PROBE-SHELL", status **404**                                |
+| response headers on `/`  | `Content-Security-Policy`, `X-Frame-Options: SAMEORIGIN`, …  |
+| `/sw.js`                 | `Cache-Control: no-cache`                                    |
+
+Use the browser's developer tools (Network tab) to see status codes and headers. Then repeat the
+[post-deploy smoke test](LAUNCH_RUNBOOK.md#post-deploy-smoke-test) on the real staging deploy.
+
 ## Search engines
 
 - Demo builds are never indexable. A live build is indexable only with `VITE_SITE_URL` set (absolute
-  https) **and** Settings → Search engines → "Allow indexing" published.
+  https) **and** Settings → Search engines → "Allow indexing" published. The base seed ships with
+  indexing **off** (since v1.0.0-rc.1): switching it on is the launch step
+  ([runbook step 14](LAUNCH_RUNBOOK.md#14-indexing-switch--owner)). Staging builds leave
+  `VITE_SITE_URL` unset, so they stay unindexable whatever their database says.
 - The build reads the public catalog through `seo_public_index()` with the anon key (published,
   visible, non-demo rows only) and fails rather than publish a sitemap that disagrees with the store.
 - Prerendered pages and `sitemap.xml` reflect content at build time: rebuild and redeploy after
@@ -111,4 +151,5 @@ frontend, so switching hosts is a copy operation.
 
 ## Pre-launch checks
 
-See [`QA_CHECKLIST.md`](QA_CHECKLIST.md) and the launch checklist in `PHASE_STATUS.md` (Phase 10).
+Follow [`LAUNCH_RUNBOOK.md`](LAUNCH_RUNBOOK.md) (15 ordered steps, owner checklist, smoke test) and
+[`QA_CHECKLIST.md`](QA_CHECKLIST.md). Rollback: [`ROLLBACK.md`](ROLLBACK.md).

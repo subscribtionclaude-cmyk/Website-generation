@@ -180,6 +180,26 @@ public flags, feature flags and the Edge Function authorization RPC. Nine contra
 checks, jobs, job detail, deliveries, webhook events, features, a refused save, public flags) are
 parsed by the zod schemas.
 
+### Phase 10 migration (launch readiness)
+
+| File                                  | Contents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `20261004100000_launch_readiness.sql` | registers `payment_records`, `stock_reservations` and `promo_redemptions` in the demo registry (deleted before `orders`); table `app.rate_events` (no grants) with `app.request_subject()` (user id → `ip:` first `X-Forwarded-For` hop → `anonymous`) and `app.consume_rate(bucket, max, window)` (per-subject limit, ×30 for the shared `anonymous` subject, global ceiling of `max × 100` per window; raises `rate_limited`, SQLSTATE `54000`; keeps a day of events); triggers `waitlist_entries_rate_guard` / `stock_notifications_rate_guard` (10 guest or customer requests per hour, shared budget; staff and service role unlimited), `integration_webhook_events_cap` (≤ 200 rejected-signature events per integration per hour, extra ones dropped), `integration_configs_mfa_guard` (provider / settings / enabled / template map / ownership / direction changes call `app.assert_sensitive_action_allowed()`; service role exempt) |
+
+No RPC signatures changed. `join_waitlist` and `request_stock_alert` may now fail with
+`rate_limited` (SQLSTATE `54000`); the storefront shows its generic "try again later" error.
+
+`supabase/scripts/demo_audit.sql` is a **read-only** launch audit (`check_name, found, ok`): every
+`is_demo` table registered, zero demo rows, no live product media / brand / category / offer /
+content / settings / layout referencing `/demo/media/`, `features.showDemoCatalog` off, no demo slug
+in `seo_public_index()`. Run it in the SQL editor after seeding and before launch.
+
+`supabase/tests/sql/14_launch_readiness.test.sql` (25 assertions) covers the registry, an owner-only
+`delete_all_demo_data()` that keeps a live product, settings and layouts and leaves the audit clean,
+the guest rate limits (per IP, shared budget, other visitors unaffected, spoofed-IP flood capped),
+the webhook cap and MFA for integration changes. `12_seo_setup` now also asserts that a freshly
+seeded store is **not indexable** (`seo.allowIndexing` is `false` in the base seed until launch).
+
 Later phases add their own migrations (catalog, variants, inventory, price history, stock movements,
 orders, payments, shipping, repairs, trade-in, used requests, reviews, wishlist, recently viewed,
 offers, promo codes, loyalty, waitlist, notifications, news, site pages/sections, integrations,
@@ -286,7 +306,7 @@ when `security.adminMfaRequired` is enabled.
    `auth.uid()`, `storage.*`, and Supabase's default grants — so RLS must be the real guard),
 3. applies all migrations, the base and demo seeds, then **re-applies all migrations** (idempotency),
 4. checks the contracts above, and
-5. runs `supabase/tests/sql/*.test.sql` (949 assertions after Phase 08; first written in Phase 03 — pricing windows, quotes,
+5. runs `supabase/tests/sql/*.test.sql` (1,056 SQL assertions after Phase 10, plus 7 concurrency checks and 59 RPC contract samples — 1,122 in total; first written in Phase 03 — pricing windows, quotes,
    promo rules, validation, price-change rollback, idempotency, reservation expiry, stock commit /
    restock, payments, split, shipping, review, order privacy, snapshots, cart merge; catalog/search
    parity with the in-memory engine, demo gating, windows, request intake; Phase 01's RLS on every

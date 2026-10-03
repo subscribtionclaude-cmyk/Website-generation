@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import headersText from '../../public/_headers?raw';
 import redirectsText from '../../public/_redirects?raw';
+import { adminRoutes } from '@/admin/routes';
 import { appRoutes } from '@/app/router';
 import { headersFor, matchRedirect, parseHeaders, parseRedirects } from './hostingRules';
 import generateSiteSource from './generateSite.ts?raw';
@@ -22,7 +23,9 @@ const headers = parseHeaders(headersText);
 
 describe('static host rewrite rules (public/_redirects)', () => {
   it('serves every app route (Arabic, English, admin) the SPA shell with 200', () => {
-    const paths = collect(appRoutes as RouteObject[]).filter((p) => !p.endsWith('*'));
+    const paths = collect([...appRoutes, adminRoutes] as RouteObject[]).filter(
+      (p) => !p.endsWith('*'),
+    );
     expect(paths.length).toBeGreaterThan(60);
     for (const path of paths) {
       const concrete = path.replace(/:\w+/g, 'sample');

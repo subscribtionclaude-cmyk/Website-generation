@@ -66,11 +66,16 @@ select tests.act_as(:'editor');
 select tests.assert_raises($$select public.publish_setting('seo', null, false)$$, '42501',
   'content editors cannot publish SEO (content.publish)');
 reset role;
+select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'false',
+  'a freshly seeded store is not indexable until the owner switches indexing on');
 select tests.act_as(:'manager');
+select public.save_setting_draft('seo', (select value from public.site_settings where key = 'seo') || '{"allowIndexing": true}');
+select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'false', 'a draft does not change indexing');
+select public.publish_setting('seo', 'Launch: allow indexing', false);
+select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'true', 'publishing does');
 select public.save_setting_draft('seo', (select value from public.site_settings where key = 'seo') || '{"allowIndexing": false}');
-select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'true', 'a draft does not change indexing');
 select public.publish_setting('seo', 'Pause indexing', false);
-select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'false', 'publishing does');
+select tests.assert_equal(public.seo_public_index() ->> 'allowIndexing', 'false', 'indexing can be paused again');
 reset role;
 
 -- ══ Admin SEO overview ══════════════════════════════════════════════════════

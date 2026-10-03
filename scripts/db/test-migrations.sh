@@ -146,12 +146,18 @@ samples="${ROOT}/node_modules/.cache/malek/admin-samples.json"
 [[ "${UPDATE_CONTRACT_SAMPLES:-}" == "1" ]] && samples="${ROOT}/src/domain/admin/__fixtures__/admin-samples.json"
 PGOPTIONS='-c client_min_messages=warning' "${PSQL[@]}" -X -q -v ON_ERROR_STOP=1 -v out="${samples}" \
   -f "${ROOT}/supabase/tests/contracts/admin_samples.sql" >/dev/null || { echo "✗ admin contract sample capture FAILED" >&2; exit 1; }
-(cd "${ROOT}" && ADMIN_SAMPLES_FILE="${samples}" npx vitest run src/domain/admin/contracts.test.ts >"${WORKDIR}/contracts.out" 2>&1) || {
+# NO_COLOR: CI runners may force coloured output, which would hide the summary line from grep.
+(cd "${ROOT}" && NO_COLOR=1 ADMIN_SAMPLES_FILE="${samples}" npx vitest run src/domain/admin/contracts.test.ts >"${WORKDIR}/contracts.out" 2>&1) || {
   tail -40 "${WORKDIR}/contracts.out" >&2
   echo "✗ admin RPC contracts do not match the SQL output" >&2
   exit 1
 }
-contracts="$(grep -oE 'Tests +[0-9]+ passed' "${WORKDIR}/contracts.out" | grep -oE '[0-9]+')"
+contracts="$(sed 's/\x1b\[[0-9;]*m//g' "${WORKDIR}/contracts.out" | grep -oE 'Tests +[0-9]+ passed' | grep -oE '[0-9]+' || true)"
+if [[ -z "${contracts}" ]]; then
+  tail -20 "${WORKDIR}/contracts.out" >&2
+  echo "✗ could not read the admin RPC contract test summary" >&2
+  exit 1
+fi
 total=$((total + contracts))
 echo "   ✓ admin RPC contracts: ${contracts} samples parsed"
 
