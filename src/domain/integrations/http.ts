@@ -100,7 +100,9 @@ export async function fetchWithTimeout(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    return await fetchImpl(url, { ...init, signal: controller.signal });
+    // Redirects are never followed: a public endpoint must not bounce a server-side request to
+    // private infrastructure (the SSRF guard only vets the configured URL).
+    return await fetchImpl(url, { ...init, redirect: 'manual', signal: controller.signal });
   } finally {
     clearTimeout(timer);
   }
@@ -116,6 +118,14 @@ export async function callProvider<T>(
   try {
     const response = await run();
     const latencyMs = Date.now() - started;
+    if (response.type === 'opaqueredirect' || (response.status >= 300 && response.status < 400))
+      return {
+        ok: false,
+        code: 'provider_error',
+        message: 'redirect_not_followed',
+        retryable: false,
+        latencyMs,
+      };
     if (!response.ok) {
       const code = codeForStatus(response.status);
       let text = '';

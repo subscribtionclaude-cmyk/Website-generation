@@ -17,6 +17,7 @@
     "format:check": "prettier --check .",
     "check:bundle": "node scripts/check-bundle.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:db": "bash scripts/db/test-migrations.sh",
@@ -24,7 +25,7 @@
     "seed:generate": "node scripts/seed/generate-seed-sql.mjs",
     "seed:check": "node scripts/seed/generate-seed-sql.mjs --check",
     "brand:icons": "node scripts/brand/generate-brand-assets.mjs",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run seed:check && npm run test && npm run build && npm run check:bundle && npm run check:secrets"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run seed:check && npm run test && npm run build && npm run check:bundle && npm run check:secrets && npm run check:links"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",

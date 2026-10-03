@@ -1,3 +1,4 @@
+import '@/lib/zodConfig';
 import '@/styles/fonts';
 import '@/styles/tokens.css';
 import '@/styles/base.css';

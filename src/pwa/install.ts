@@ -33,7 +33,28 @@ export function isPwaContext(win: Window = window) {
   return win.self === win.top && !win.name.startsWith('malek-preview');
 }
 
+/**
+ * After a deploy, an open tab still runs the previous build; opening a page it has not loaded yet
+ * asks for an old hashed chunk that no longer exists. Reload once to pick up the new build instead
+ * of showing an error (never more than once per minute, so a real outage still shows the error).
+ */
+export function recoverFromStaleChunks(win: Window = window) {
+  win.addEventListener('vite:preloadError', (event) => {
+    const key = 'malek-chunk-reload';
+    try {
+      const last = Number(win.sessionStorage.getItem(key) ?? 0);
+      if (Date.now() - last < 60_000) return;
+      win.sessionStorage.setItem(key, String(Date.now()));
+    } catch {
+      return;
+    }
+    event.preventDefault();
+    win.location.reload();
+  });
+}
+
 export function setupPwa() {
+  recoverFromStaleChunks();
   if (!isPwaContext()) return;
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();

@@ -802,3 +802,22 @@ describe('server-side fetch targets (SSRF guard)', () => {
     });
   });
 });
+
+describe('server-side fetches never follow redirects', () => {
+  it('asks fetch not to follow and reports a redirect as a provider error', async () => {
+    const { fn, calls } = stubFetch(
+      () => new Response(null, { status: 302, headers: { Location: 'https://169.254.169.254/' } }),
+    );
+    const result = await whatsappCloudProvider({
+      ...whatsappSettings,
+      accessToken: TOKEN,
+      fetch: fn,
+    }).testConnection();
+    expect(calls[0]?.init?.redirect).toBe('manual');
+    expect(result).toMatchObject({
+      ok: false,
+      code: 'provider_error',
+      message: 'redirect_not_followed',
+    });
+  });
+});

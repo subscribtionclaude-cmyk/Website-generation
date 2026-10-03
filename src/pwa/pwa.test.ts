@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import manifest from '../../public/manifest.webmanifest?raw';
 import { cacheName, cachePolicy, isStorable, type RequestShape } from './cacheRules';
-import { isPwaContext } from './install';
+import { isPwaContext, recoverFromStaleChunks } from './install';
 
 const ORIGIN = 'https://malek.test';
 const nav = (path: string): RequestShape => ({
@@ -126,6 +126,30 @@ describe('install and registration context', () => {
       false,
     );
     expect(isPwaContext({ name: '', self: {}, top } as unknown as Window)).toBe(false);
+  });
+
+  it('a stale chunk after a deploy reloads once, never in a loop', () => {
+    const target = new EventTarget();
+    const reload = vi.fn();
+    const store = new Map<string, string>();
+    const win = Object.assign(target, {
+      location: { reload },
+      sessionStorage: {
+        getItem: (key: string) => store.get(key) ?? null,
+        setItem: (key: string, value: string) => store.set(key, value),
+      },
+    }) as unknown as Window;
+    recoverFromStaleChunks(win);
+    const fire = () => {
+      const event = new Event('vite:preloadError', { cancelable: true });
+      target.dispatchEvent(event);
+      return event.defaultPrevented;
+    };
+    expect(fire()).toBe(true);
+    expect(reload).toHaveBeenCalledTimes(1);
+    // A second failure within a minute is a real outage: let the error surface instead.
+    expect(fire()).toBe(false);
+    expect(reload).toHaveBeenCalledTimes(1);
   });
 
   it('the manifest is installable: standalone, scoped, 192/512 + maskable icons', () => {

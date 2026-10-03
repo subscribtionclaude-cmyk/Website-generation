@@ -1,5 +1,72 @@
-# Prerendered public pages (dist/<path>.html, Home = dist/index.html) are served as they are.
-# Every other route gets the plain SPA shell (dist/404.html, a copy of the built index.html) for
-# hosts that support Netlify-style rules (Netlify, Cloudflare Pages, many others). Hosts without
-# rewrite support serve dist/404.html for unknown paths anyway.
-/*    /404.html   200
+# Netlify-style rewrite rules (Netlify, Cloudflare Pages and compatible hosts).
+# Prerendered public pages (dist/<path>.html, Home = dist/index.html) and every real file are served
+# as they are. App routes that have no prerendered file (account, cart, checkout, search, admin,
+# pages published after the last build) get the SPA shell (dist/404.html, a copy of index.html)
+# with status 200; any other URL gets the same shell with a real 404 status, so made-up URLs are
+# not reported as pages. Kept in sync with the route table by src/build/hosting.test.ts.
+/en                          /404.html   200
+/admin                       /404.html   200
+/admin/*                     /404.html   200
+/store                       /404.html   200
+/search                      /404.html   200
+/budget                      /404.html   200
+/offers                      /404.html   200
+/new                         /404.html   200
+/coming-soon                 /404.html   200
+/news                        /404.html   200
+/contact                     /404.html   200
+/cart                        /404.html   200
+/checkout                    /404.html   200
+/services                    /404.html   200
+/repairs                     /404.html   200
+/repairs/request             /404.html   200
+/trade-in                    /404.html   200
+/trade-in/request            /404.html   200
+/used                        /404.html   200
+/used/request                /404.html   200
+/after-sales                 /404.html   200
+/after-sales/request         /404.html   200
+/account                     /404.html   200
+/wishlist                    /404.html   200
+/compare                     /404.html   200
+/apple                       /404.html   200
+/category/*                  /404.html   200
+/brand/*                     /404.html   200
+/product/*                   /404.html   200
+/offers/*                    /404.html   200
+/news/*                      /404.html   200
+/legal/*                     /404.html   200
+/order/*                     /404.html   200
+/account/*                   /404.html   200
+/en/store                    /404.html   200
+/en/search                   /404.html   200
+/en/budget                   /404.html   200
+/en/offers                   /404.html   200
+/en/new                      /404.html   200
+/en/coming-soon              /404.html   200
+/en/news                     /404.html   200
+/en/contact                  /404.html   200
+/en/cart                     /404.html   200
+/en/checkout                 /404.html   200
+/en/services                 /404.html   200
+/en/repairs                  /404.html   200
+/en/repairs/request          /404.html   200
+/en/trade-in                 /404.html   200
+/en/trade-in/request         /404.html   200
+/en/used                     /404.html   200
+/en/used/request             /404.html   200
+/en/after-sales              /404.html   200
+/en/after-sales/request      /404.html   200
+/en/account                  /404.html   200
+/en/wishlist                 /404.html   200
+/en/compare                  /404.html   200
+/en/apple                    /404.html   200
+/en/category/*               /404.html   200
+/en/brand/*                  /404.html   200
+/en/product/*                /404.html   200
+/en/offers/*                 /404.html   200
+/en/news/*                   /404.html   200
+/en/legal/*                  /404.html   200
+/en/order/*                  /404.html   200
+/en/account/*                /404.html   200
+/*                           /404.html   404

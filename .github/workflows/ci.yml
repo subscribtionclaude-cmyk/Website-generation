@@ -7,10 +7,13 @@ on:
 permissions:
   contents: read
 
+# Launch gates. No job needs a secret or a paid provider: everything runs in demo mode against a
+# throwaway local PostgreSQL and a local preview build.
 jobs:
   checks:
+    name: checks (typecheck, lint, format, unit, build, bundle, secrets, links, database)
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -21,13 +24,34 @@ jobs:
 
       - run: npm ci
 
-      # typecheck + lint + format + seed check + unit/integration tests + build
+      # typecheck + lint + format + seed check + unit/integration tests + build + bundle budget +
+      # secret guard (VITE_* names / values, dist/ credential patterns, tracked files)
       - run: npm run check
 
-      # Migrations, RLS and RBAC tests on the runner's preinstalled PostgreSQL (no Docker/Supabase needed)
+      # Migrations (twice: idempotency), seeds, RLS / RBAC / commerce / integration SQL suites,
+      # concurrency checks and RPC contract samples on the runner's preinstalled PostgreSQL
       - run: npm run test:db
 
+  e2e:
+    name: e2e (${{ matrix.project }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [mobile, tablet, desktop, large-desktop]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+
+      # Builds the demo site and runs every spec (axe, overflow, Arabic + English) on one viewport
+      - run: npx playwright test --project=${{ matrix.project }}
         env:
           CI: 'true'

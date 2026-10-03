@@ -1,5 +1,8 @@
 // Bundle budget guard (runs after `vite build` in `npm run check`).
 // - The storefront entry chunk must stay under ENTRY_BUDGET.
+// - Everything a first visit downloads before rendering (the entry plus the chunks index.html
+//   modulepreloads) must stay under INITIAL_BUDGET, so moving code into eagerly preloaded shared
+//   chunks cannot hide growth from the entry check.
 // - three.js (WebGL) may only live in the lazily loaded repair-diagnostic viewer chunk, so Home,
 //   Shop, Product, Checkout and Account never download it.
 import { readdir, readFile, stat } from 'node:fs/promises';
@@ -7,6 +10,7 @@ import { join } from 'node:path';
 
 const ASSETS = 'dist/assets';
 const ENTRY_BUDGET = 400 * 1024;
+const INITIAL_BUDGET = 650 * 1024;
 const THREE_MARKER = 'WebGLRenderer';
 
 const files = (await readdir(ASSETS)).filter((f) => f.endsWith('.js'));
@@ -23,6 +27,14 @@ for (const entry of entries) {
     );
 }
 
+const initial = [...html.matchAll(/(?:src|href)="\/assets\/([\w.-]+\.js)"/g)].map((m) => m[1]);
+let initialBytes = 0;
+for (const file of new Set(initial)) initialBytes += (await stat(join(ASSETS, file))).size;
+if (initialBytes > INITIAL_BUDGET)
+  problems.push(
+    `initial JS is ${(initialBytes / 1024).toFixed(1)} kB (budget ${INITIAL_BUDGET / 1024} kB)`,
+  );
+
 for (const file of files) {
   const source = await readFile(join(ASSETS, file), 'utf8');
   if (source.includes(THREE_MARKER) && !file.startsWith('Diagnostic3D-'))
@@ -36,5 +48,5 @@ if (problems.length > 0) {
   process.exit(1);
 }
 console.log(
-  `✓ bundle budget: entry within ${ENTRY_BUDGET / 1024} kB, three.js only in the lazy viewer`,
+  `✓ bundle budget: entry within ${ENTRY_BUDGET / 1024} kB, initial JS ${(initialBytes / 1024).toFixed(1)} kB of ${INITIAL_BUDGET / 1024} kB, three.js only in the lazy viewer`,
 );

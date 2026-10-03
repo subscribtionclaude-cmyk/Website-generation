@@ -1,9 +1,10 @@
 /// <reference types="vitest/config" />
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { copyFile } from 'node:fs/promises';
 import { fileURLToPath, URL } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
+import { headersFor, matchRedirect, parseHeaders, parseRedirects } from './src/build/hostingRules';
 
 /**
  * Generic static-host SPA fallback: many static hosts (and GitHub-Pages-style hosts)
@@ -25,20 +26,36 @@ function spaFallback(): Plugin {
 }
 
 /**
- * `vite preview` like a static host with `public/_redirects`: prerendered pages (dist/<path>.html,
- * written by scripts/generate-site.mjs) are served as they are; any other navigation gets the
- * plain SPA shell (dist/404.html) instead of the prerendered Home page in dist/index.html.
+ * `vite preview` like a static host reading `_redirects` and `_headers` (the files shipped in
+ * dist/): prerendered pages (dist/<path>.html) are served as they are; other navigations follow the
+ * rewrite rules — app routes get the SPA shell (dist/404.html) with 200, unknown URLs the same shell
+ * with a real 404 — and every response carries the production headers (CSP included), so the E2E
+ * suite runs against the same rules as the deployed site.
  */
 function previewShell(): Plugin {
   return {
     name: 'malek-preview-shell',
     configurePreviewServer(server) {
       const outDir = server.config.build.outDir;
-      server.middlewares.use((req, _res, next) => {
+      const read = (file: string) =>
+        existsSync(`${outDir}/${file}`) ? readFileSync(`${outDir}/${file}`, 'utf8') : '';
+      const redirects = parseRedirects(read('_redirects'));
+      const headers = parseHeaders(read('_headers'));
+      server.middlewares.use((req, res, next) => {
         const path = new URL(req.url ?? '/', 'http://preview').pathname;
+        for (const [name, value] of Object.entries(headersFor(headers, path)))
+          res.setHeader(name, value);
         const isPage = req.method === 'GET' && !/\.[a-z0-9]+$/i.test(path) && path !== '/';
-        if (isPage && !existsSync(`${outDir}${path.replace(/\/+$/, '')}.html`))
-          req.url = '/404.html';
+        if (isPage && !existsSync(`${outDir}${path.replace(/\/+$/, '')}.html`)) {
+          const rule = matchRedirect(redirects, path);
+          if (rule?.status === 404) {
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            res.end(readFileSync(`${outDir}/404.html`));
+            return;
+          }
+          req.url = rule?.to ?? '/404.html';
+        }
         next();
       });
     },
