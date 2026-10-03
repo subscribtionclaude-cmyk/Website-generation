@@ -67,23 +67,6 @@ function previewShell(): Plugin {
  * for CSS to discover them and headings don't re-wrap when the web font arrives (CLS). English
  * prerendered pages drop this hint (generate-site).
  */
-/**
- * Self-hosted @fontsource faces ship with `font-display: swap`: text first paints in a fallback font
- * and reflows when the web font arrives — a layout shift (CLS) on slower devices. `optional` uses a
- * face only if it is ready within the short block period (the preloads below make that the normal
- * case) and otherwise keeps the fallback for that page view, so text never jumps.
- */
-function fontDisplayOptional(): Plugin {
-  return {
-    name: 'malek-font-display-optional',
-    enforce: 'pre',
-    transform(code, id) {
-      if (!/@fontsource(-variable)?[\\/].*\.css$/.test(id.split('?')[0] ?? '')) return null;
-      return { code: code.replaceAll('font-display: swap', 'font-display: optional'), map: null };
-    },
-  };
-}
-
 function fontPreload(): Plugin {
   return {
     name: 'malek-font-preload',
@@ -142,14 +125,7 @@ function envGuard(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [
-    envGuard(),
-    fontDisplayOptional(),
-    react(),
-    spaFallback(),
-    previewShell(),
-    fontPreload(),
-  ],
+  plugins: [envGuard(), react(), spaFallback(), previewShell(), fontPreload()],
   resolve: {
     alias: [
       { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },

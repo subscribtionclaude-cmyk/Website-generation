@@ -35,10 +35,11 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 
 **Performance**
 
-- Storefront visitors no longer download the admin route table: entry 399,162 B (budget
-  409,600 B), initial JavaScript 620.4 KiB (new 650 KiB budget).
+- Storefront visitors no longer download the admin route table: entry 399,651 B (budget
+  409,600 B), initial JavaScript 620.9 KiB (new 650 KiB budget).
 
-- No layout shift when web fonts arrive late (`font-display: optional`, Latin 700 face preloaded).
+- No layout shift when web fonts arrive late (first paint waits ≤ 1 s for the needed fonts; Latin
+  700 face preloaded).
 
 **Tooling**
 

@@ -1031,18 +1031,19 @@ explicitly.
 
 ### Bundle budgets
 
-`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,162 B at rc.1) **and** the
+`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,651 B at rc.1) **and** the
 total initial JavaScript — the entry plus every chunk `index.html` modulepreloads (≤ 650 KiB;
-620.4 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
+620.9 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
 
 ### Font loading and layout stability
 
-The bundled @fontsource faces are rewritten at build time to `font-display: optional`
-(`fontDisplayOptional` in `vite.config.ts`): a face is used only if it is ready within the short block
-period, otherwise the fallback stays for that page view, so late fonts never reflow text. The faces
-the first screen paints with are preloaded (`fontPreload`: Arabic 400 / 700 and the Latin 700 face
-used by product names in headings). `e2e/launch.spec.ts` delays font responses by 700 ms and
-requires CLS < 0.05 on the home page.
+Fonts are self-hosted (@fontsource, `font-display: swap`). Before the first app render, `main.tsx`
+waits for the faces the first screen uses (IBM Plex Sans Arabic 400–700 + Manrope on Arabic pages,
+Manrope on English pages) while the boot screen is showing, capped at 1 s — so the first paint
+normally already uses the real fonts and nothing reflows when they arrive. The Arabic 400 / 700 and
+Latin 700 faces are preloaded (`fontPreload`). `font-display: optional` was tried and rejected: on
+first visits it often keeps the wider fallback font, which exposed min-content overflow on phones.
+`e2e/launch.spec.ts` delays font responses by 700 ms and requires CLS < 0.05 on the home page.
 
 ### Deploy resilience
 

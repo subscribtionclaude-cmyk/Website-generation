@@ -701,10 +701,11 @@ environment (no dedicated Malek Store project; the static host is unreachable he
       guest rate limits (per subject + global ceiling), rejected-webhook cap, MFA for integration
       changes; read-only launch audit `supabase/scripts/demo_audit.sql`; base seed ships with
       indexing off.
-- [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,162 B
-      (was 406,201 B), initial JS 620.4 KiB; initial-JS budget added to the bundle guard.
-- [x] **Layout stability** — web fonts use `font-display: optional` (+ Latin 700 preload): home CLS
-      with fonts delayed 700 ms went from 0.23 to 0 (found as an intermittent CI CLS failure;
+- [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,651 B
+      (was 406,201 B), initial JS 620.9 KiB; initial-JS budget added to the bundle guard.
+- [x] **Layout stability** — the app's first paint waits (≤ 1 s, behind the boot screen) for the
+      fonts the first screen uses, and the Latin 700 face is preloaded: home CLS with fonts delayed
+      700 ms went from 0.23 to 0 (found as an intermittent CI CLS failure;
       regression test in `e2e/launch.spec.ts`).
 - [x] **Resilience** — one automatic reload when a deploy removed a chunk an open tab needs.
 - [x] **Site Editor fix** — selecting a section scrolls only the preview frame, never the editor
@@ -728,7 +729,7 @@ environment (no dedicated Malek Store project; the static host is unreachable he
 | `npm test` (Vitest)                                                                                  | ✅ 448 / 448 tests, 35 files (was 441)                                                                       |
 | `npm run test:db` (PostgreSQL, clean cluster)                                                        | ✅ 1,122 assertions (was 1,095): 1,056 SQL (25 in `14_launch_readiness`), 7 concurrency, 59 contract samples |
 | `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                           | ✅ 449 passed, 15 skipped by design, 0 failed (13.9 min); includes `e2e/launch.spec.ts` (24 / 24)            |
-| `npm run check:bundle`                                                                               | ✅ entry 399,162 B of 409,600 B; initial JS 620.4 KiB of 650 KiB                                             |
+| `npm run check:bundle`                                                                               | ✅ entry 399,651 B of 409,600 B; initial JS 620.9 KiB of 650 KiB                                             |
 | `npm run check:secrets`                                                                              | ✅ built files and tracked files clean                                                                       |
 | `npm run check:links`                                                                                | ✅ 6,490 internal links on 145 pages                                                                         |
 | `npm audit`                                                                                          | ✅ 0 vulnerabilities                                                                                         |
