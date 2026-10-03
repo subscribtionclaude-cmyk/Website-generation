@@ -1,17 +1,17 @@
 # MALEK STORE — Phase Status
 
-| Phase | Name                         | Status                   |
-| ----- | ---------------------------- | ------------------------ |
-| 01    | Foundation                   | ✅ COMPLETE (2026-09-24) |
-| 02    | Storefront                   | ✅ COMPLETE (2026-09-24) |
-| 03    | Commerce                     | ✅ COMPLETE (2026-09-25) |
-| 04    | Customer Features            | ✅ COMPLETE (2026-09-25) |
-| 05    | Service Experiences          | ✅ COMPLETE (2026-09-26) |
-| 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28) |
-| 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28) |
-| 08    | Content / SEO / PWA / Polish | ✅ COMPLETE (2026-10-02) |
-| 09    | Integrations Layer           | ✅ COMPLETE (2026-10-02) |
-| 10    | QA / Staging / Launch        | ⚪ NOT STARTED — next    |
+| Phase | Name                         | Status                                                                |
+| ----- | ---------------------------- | --------------------------------------------------------------------- |
+| 01    | Foundation                   | ✅ COMPLETE (2026-09-24)                                              |
+| 02    | Storefront                   | ✅ COMPLETE (2026-09-24)                                              |
+| 03    | Commerce                     | ✅ COMPLETE (2026-09-25)                                              |
+| 04    | Customer Features            | ✅ COMPLETE (2026-09-25)                                              |
+| 05    | Service Experiences          | ✅ COMPLETE (2026-09-26)                                              |
+| 06    | Admin Control Center         | ✅ COMPLETE (2026-09-28)                                              |
+| 07    | Visual Site Editor           | ✅ COMPLETE (2026-09-28)                                              |
+| 08    | Content / SEO / PWA / Polish | ✅ COMPLETE (2026-10-02)                                              |
+| 09    | Integrations Layer           | ✅ COMPLETE (2026-10-02)                                              |
+| 10    | QA / Staging / Launch        | ⛔ BLOCKED (2026-10-03) — hosted validation needs the owner's project |
 
 ---
 
@@ -681,7 +681,63 @@ the provider is configured, enabled and confirmed working.
   enforces types, https URLs, known keys and secret refusal.
 - Storefront entry grew by ~1.7 kB (406,201 B of the 409,600 B budget) — little headroom remains.
 
-## Phase 10 — QA / Staging / Launch
+## Phase 10 — QA / Staging / Launch ⛔ BLOCKED
 
-Full QA, security & RLS review, performance & accessibility review, demo cleanup, backups, deployment
-docs, ShipStatic/generic static build, launch checklist, release notes.
+Release candidate **v1.0.0-rc.1**. All engineering work is done and green; the phase is blocked only
+because hosted Supabase and real static-host validation could not be performed from the build
+environment (no dedicated Malek Store project; the static host is unreachable here). See
+[`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md).
+
+### Delivered
+
+- [x] **Static-host contract** — `public/_headers` (CSP with the prerender inline script pinned by
+      SHA-256, `nosniff`, `SAMEORIGIN`, referrer + permissions policies, cache rules) and
+      `public/_redirects` (known app routes 200, everything else a real **404**); the preview server
+      applies both; `hosting.test.ts` keeps them in sync with the router and the prerenderer.
+- [x] **CSP-clean runtime** — Zod jitless through a `zod` alias (`src/lib/zod.ts`); zero CSP
+      violations on storefront, admin and the Site Editor preview frame (`e2e/launch.spec.ts`).
+- [x] **SSRF** — server fetches never follow redirects.
+- [x] **Database launch guards** (`20261004100000_launch_readiness.sql`) — demo registry completeness,
+      guest rate limits (per subject + global ceiling), rejected-webhook cap, MFA for integration
+      changes; read-only launch audit `supabase/scripts/demo_audit.sql`; base seed ships with
+      indexing off.
+- [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,116 B
+      (was 406,201 B), initial JS 620.4 KiB; initial-JS budget added to the bundle guard.
+- [x] **Resilience** — one automatic reload when a deploy removed a chunk an open tab needs.
+- [x] **Quality gates** — `npm run check:links`; CI runs `test:db` and a 4-way sharded E2E matrix;
+      CI unit-test timeout and `test:db` colour-parsing fixes (first fully green CI run).
+- [x] **Reviews** — store details (settings only), payments (COD / InstaPay / Split, InstaPay empty,
+      screenshots never verify), Authorized Reseller statement (editable / hideable), order / money /
+      inventory integrity, audit coverage, MFA, rate limits, input / XSS, SSRF, secrets, dependencies
+      (0 vulnerabilities), PWA, SEO, 404s, links, a11y, RTL, viewports, logging privacy, retention.
+- [x] **Docs** — `docs/LAUNCH_RUNBOOK.md`, `docs/ROLLBACK.md`, `docs/OPERATIONS.md`,
+      `docs/SECURITY.md`, `docs/LAUNCH_READINESS.md`, `CHANGELOG.md`,
+      `docs/RELEASE_NOTES_v1.0.0-rc.1.md`; README, ARCHITECTURE §19, DATABASE, DEPLOYMENT,
+      QA_CHECKLIST updated. Version `1.0.0-rc.1`.
+
+### Validation
+
+| Check                                                                                                | Result                                                                                                       |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `npm run check` (typecheck, lint, format, seed, unit, build + generate-site, bundle, secrets, links) | ✅ 0 errors, 0 warnings                                                                                      |
+| `npm test` (Vitest)                                                                                  | ✅ 448 / 448 tests, 35 files (was 441)                                                                       |
+| `npm run test:db` (PostgreSQL, clean cluster)                                                        | ✅ 1,122 assertions (was 1,095): 1,056 SQL (25 in `14_launch_readiness`), 7 concurrency, 59 contract samples |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                           | ✅ 449 passed, 15 skipped by design, 0 failed (13.9 min); includes `e2e/launch.spec.ts` (24 / 24)            |
+| `npm run check:bundle`                                                                               | ✅ entry 399,116 B of 409,600 B; initial JS 620.4 KiB of 650 KiB                                             |
+| `npm run check:secrets`                                                                              | ✅ built files and tracked files clean                                                                       |
+| `npm run check:links`                                                                                | ✅ 6,418 internal links on 145 pages                                                                         |
+| `npm audit`                                                                                          | ✅ 0 vulnerabilities                                                                                         |
+| CI                                                                                                   | ✅ checks + 4 E2E shards green                                                                               |
+| Visual review (Arabic + English, mobile + desktop: home, product, checkout, 404)                     | ✅ no overflow, correct direction, no console errors besides the 404 document's own status                   |
+| Hosted Supabase (migrations, RLS, storage, auth, first Owner, Edge Functions)                        | ⛔ not performed — no dedicated project                                                                      |
+| Static-host staging (routes, headers, PWA, robots on the real host)                                  | ⛔ not observed — host blocked by the build environment's network policy                                     |
+
+### Blockers / owner actions
+
+- **Blocker:** hosted validation — create the dedicated Supabase project, then run
+  `docs/LAUNCH_RUNBOOK.md` steps 2–6 and the staging rehearsal.
+- **Blocker:** static-host validation — deploy `dist/` and run the smoke test (open the ShipStatic
+  probe for a first check of rule / header support).
+- Owner content: WhatsApp, social and map links, InstaPay details, legal policies, real catalog,
+  Authorized Reseller confirmation, domain decision, staff roles + MFA.
+- Not tested: Firefox, Safari / iOS, real devices; live provider accounts; Edge Functions under Deno.

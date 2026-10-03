@@ -9,22 +9,27 @@ test (see [Limits](#limits-of-this-review)).
 
 ## Summary
 
-| Area                             | Result                                                                                                                                       |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Row-level security               | ✅ on every `public` table (asserted by `01_schema.test.sql`); no direct anon table access                                                   |
-| Database functions               | ✅ all 323 `SECURITY DEFINER` functions pin `search_path = ''`; permissions checked inside every staff RPC                                   |
-| Authentication / first Owner     | ✅ no default account or password; one-time, lock-protected Owner bootstrap from the SQL editor only                                         |
-| MFA (aal2) for sensitive actions | ✅ roles, prices, payments, settings and — new — integration changes, when "Require MFA for admins" is on                                    |
-| Secrets                          | ✅ none in the repository, the bundle or the database; build refuses secret-looking `VITE_*`; `check:secrets` in CI                          |
-| XSS                              | ✅ no raw-HTML sinks (`dangerouslySetInnerHTML`, `innerHTML`, …); React escaping; CSP without `unsafe-inline` / `unsafe-eval` for scripts    |
-| CSV / spreadsheet injection      | ✅ exports neutralise `= + - @`; imports reject formula-looking cells                                                                        |
-| SSRF (admin-entered endpoints)   | ✅ https + public host only, and — new — redirects are never followed                                                                        |
-| Abuse of anonymous endpoints     | ✅ — new — per-visitor and global rate limits on guest waitlist / stock alerts                                                               |
-| Webhooks                         | ✅ HMAC signature + event-ID dedupe; — new — rejected-request log capped                                                                     |
-| Security headers / CSP           | ✅ — new — CSP, `nosniff`, `SAMEORIGIN`, referrer and permissions policies (`public/_headers`)                                               |
-| PWA cache privacy                | ✅ service worker caches public files / visited public pages only; never admin, account, checkout, orders, auth, API, functions or analytics |
-| Dependencies                     | ✅ `npm audit`: 0 vulnerabilities (prod and dev); runtime licences MIT / ISC / OFL-1.1                                                       |
-| CI                               | ✅ no secrets, no paid services; read-only token scope (`contents: read`)                                                                    |
+| Area                             | Result                                                                                                                                                                                                                                                              |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Row-level security               | ✅ on every `public` table (asserted by `01_schema.test.sql`); no direct anon table access                                                                                                                                                                          |
+| Database functions               | ✅ all 323 `SECURITY DEFINER` functions pin `search_path = ''`; permissions checked inside every staff RPC                                                                                                                                                          |
+| Authentication / first Owner     | ✅ no default account or password; one-time, lock-protected Owner bootstrap from the SQL editor only                                                                                                                                                                |
+| RBAC                             | ✅ 8 roles / permission catalog mirrored by the database; every staff RPC checks `app.require_permission`; no self-escalation, last Owner protected (`02_access`, `10_admin`)                                                                                       |
+| Audit                            | ✅ price, stock, orders, payment verification, roles, permissions, settings, Site Editor publish / rollback, service operations, trade-in valuation, integrations, demo cleanup, setup completion; `audit_logs` is append-only (update / delete blocked by trigger) |
+| Storage                          | ✅ 3 public buckets (catalog, banners, site media); customer uploads (repairs, trade-in, used, after-sales, reviews, avatars, invoices) private, per-user folders, size + MIME limits; private files only via signed URLs (`04_storage_demo`)                       |
+| MFA (aal2) for sensitive actions | ✅ roles, prices, payments, settings and — new — integration changes, when "Require MFA for admins" is on                                                                                                                                                           |
+| Secrets                          | ✅ none in the repository, the bundle or the database; build refuses secret-looking `VITE_*`; `check:secrets` in CI                                                                                                                                                 |
+| XSS                              | ✅ no raw-HTML sinks (`dangerouslySetInnerHTML`, `innerHTML`, …); React escaping; CSP without `unsafe-inline` / `unsafe-eval` for scripts                                                                                                                           |
+| CSV / spreadsheet injection      | ✅ exports neutralise `= + - @`; imports reject formula-looking cells                                                                                                                                                                                               |
+| Uploads / imports                | ✅ MIME and size limits per bucket; customer files in the uploader's own folder; CSV import previewed and validated server-side before anything is written                                                                                                          |
+| SSRF (admin-entered endpoints)   | ✅ https + public host only, and — new — redirects are never followed                                                                                                                                                                                               |
+| Abuse of anonymous endpoints     | ✅ — new — per-visitor and global rate limits on guest waitlist / stock alerts                                                                                                                                                                                      |
+| Other public endpoints           | ✅ sign-in: Supabase Auth's built-in limits; checkout, reviews, service requests need a signed-in customer (open-order caps, purchase-gated reviews, open-request cap, velocity review rule); webhooks: HMAC + cap                                                  |
+| Webhooks                         | ✅ HMAC signature + event-ID dedupe; — new — rejected-request log capped                                                                                                                                                                                            |
+| Security headers / CSP           | ✅ — new — CSP, `nosniff`, `SAMEORIGIN`, referrer and permissions policies (`public/_headers`)                                                                                                                                                                      |
+| PWA cache privacy                | ✅ service worker caches public files / visited public pages only; never admin, account, checkout, orders, auth, API, functions or analytics                                                                                                                        |
+| Dependencies                     | ✅ `npm audit`: 0 vulnerabilities (prod and dev); runtime licences MIT / ISC / OFL-1.1                                                                                                                                                                              |
+| CI                               | ✅ no secrets, no paid services; read-only token scope (`contents: read`)                                                                                                                                                                                           |
 
 ## Fixed in Phase 10
 
@@ -55,13 +60,18 @@ test (see [Limits](#limits-of-this-review)).
 - **Demo mode role preview** (`/admin` role picker) exists only in demo builds, which have no
   backend; live builds use Supabase Auth and database-side permissions.
 - **No third-party error tracker** is bundled (privacy); errors are visible in Supabase logs.
+- **SVG in the public `site-media` bucket**: staff with design permissions may upload SVG logos.
+  An SVG can contain script; it is served from the Supabase storage origin (not the store's origin,
+  which holds the session), and only staff can upload. Upload SVGs only from trusted sources.
+- **Supabase Auth rate limits** (sign-in emails, verification) are Supabase's defaults; review them
+  in Authentication → Rate Limits after launch.
 
 ## Limits of this review
 
 - **Hosted Supabase was not tested.** Migrations, RLS, storage policies, auth flows, the first-Owner
   bootstrap and the Edge Functions were validated on a local PostgreSQL with a Supabase
   compatibility shim (`npm run test:db`, 1,122 assertions) and unit tests, not on a hosted project.
-  The owner must run [launch runbook](LAUNCH_RUNBOOK.md) steps 1–5 and 10 on a dedicated project.
+  The owner must run [launch runbook](LAUNCH_RUNBOOK.md) steps 2–6 and the staging rehearsal on a dedicated project.
 - **Static-host headers were not observed live.** The ShipStatic probe deployment could not be
   fetched from the build environment (network policy). After the first deploy, check the headers
   ([smoke test](LAUNCH_RUNBOOK.md#post-deploy-smoke-test) item 4). On a host that ignores

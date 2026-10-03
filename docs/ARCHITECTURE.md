@@ -992,3 +992,65 @@ applies through the demo catalog with the same rules (price history source `inte
 No provider SDK ships to the browser; the storefront entry gained ~1.7 kB (flags hook + lazy
 references). The service worker never caches GA, Edge Functions, webhooks, auth, RPCs or admin
 pages (`src/pwa/pwa.test.ts`).
+
+## 19. Launch hardening (Phase 10)
+
+Phase 10 adds no features; it makes the release safe to deploy and operate.
+
+### Static-host contract
+
+`public/_redirects` and `public/_headers` are the contract with the static host, and
+`vite.config.ts` (`previewShell`) applies both to `npm run preview`, so every E2E run exercises what
+the host will serve. `src/build/hostingRules.ts` parses the files (Netlify semantics: real files
+first, first matching rule wins; headers merged in order). Tests keep them honest:
+
+- `src/build/hosting.test.ts` — every route in the router (storefront + admin) has a 200 shell rule,
+  unknown paths get 404, the CSP contains no `unsafe-inline` / `unsafe-eval` for scripts, and the
+  pinned SHA-256 equals the prerenderer's only inline script.
+- `e2e/launch.spec.ts` — real 404 status and bilingual not-found page, route statuses, security
+  headers, and zero `securitypolicyviolation` events on storefront pages, admin and the Site
+  Editor's same-origin preview frame.
+- `scripts/check-links.mjs` (`npm run check:links`) — every internal `href` / `src` on the
+  prerendered pages resolves to a built file or an app route.
+
+### CSP-safe validation
+
+Zod's JIT compiles validators with `new Function`. Every bare `zod` import is aliased
+(`vite.config.ts` → `src/lib/zod.ts`) to a module that enables `jitless` mode before exporting `z`;
+module dependency order guarantees it runs before any schema in any chunk. Validation results are
+unchanged.
+
+### Route discovery
+
+The admin route table (`src/admin/routes.tsx`) is no longer part of the storefront entry:
+`createAppRouter` passes `patchRoutesOnNavigation` (`discoverRoutes` in `src/app/router.tsx`), which
+imports and patches the admin tree under the root route on the first `/admin` navigation. React
+Router consults it for unmatched URLs and for URLs matched only by a dynamic / catch-all route; for
+anything outside `/admin` it returns immediately. Tests that walk the route table add `adminRoutes`
+explicitly.
+
+### Bundle budgets
+
+`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,116 B at rc.1) **and** the
+total initial JavaScript — the entry plus every chunk `index.html` modulepreloads (≤ 650 KiB;
+620.4 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
+
+### Deploy resilience
+
+`recoverFromStaleChunks` (`src/pwa/install.ts`) listens for Vite's `vite:preloadError`: a tab opened
+before a deploy that asks for a removed chunk reloads once (at most once a minute, so a real outage
+still shows the error page). The service worker keeps per-release page caches and is always
+revalidated; `docs/ROLLBACK.md` has a kill-switch worker for emergencies.
+
+### Database launch guards
+
+`20261004100000_launch_readiness.sql`: demo-registry completeness, guest rate limits
+(`app.consume_rate`, per subject + global ceiling), rejected-webhook cap, MFA for integration
+changes. `supabase/scripts/demo_audit.sql` is the read-only pre-launch audit. The base seed ships
+with `seo.allowIndexing = false`; publishing it is the explicit launch switch.
+
+### Launch documentation
+
+`docs/LAUNCH_RUNBOOK.md` (environment matrix, 15 steps, owner checklist, smoke test),
+`docs/ROLLBACK.md`, `docs/OPERATIONS.md`, `docs/SECURITY.md`, `docs/LAUNCH_READINESS.md`,
+`CHANGELOG.md`, `docs/RELEASE_NOTES_v1.0.0-rc.1.md`.

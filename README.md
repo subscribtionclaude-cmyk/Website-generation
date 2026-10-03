@@ -4,8 +4,9 @@ Bilingual (Arabic RTL default / English LTR) ecommerce and operations platform f
 customer storefront, admin control center, visual site editor, catalog, orders, repairs, trade-in,
 used-device requests, content, analytics and integrations.
 
-> **Release:** `v1.0.0-rc.1` — all ten phases built; launch readiness: **ready after owner actions**
-> (see [`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md)). Launch steps:
+> **Release:** `v1.0.0-rc.1` — all ten phases built. Launch readiness: **blocked** on hosted Supabase and
+> static-host validation, which need the owner's project and host — no open engineering defects (see
+> [`docs/LAUNCH_READINESS.md`](docs/LAUNCH_READINESS.md)). Launch steps:
 > [`docs/LAUNCH_RUNBOOK.md`](docs/LAUNCH_RUNBOOK.md). Progress: [`PHASE_STATUS.md`](PHASE_STATUS.md),
 > changes: [`CHANGELOG.md`](CHANGELOG.md).
 

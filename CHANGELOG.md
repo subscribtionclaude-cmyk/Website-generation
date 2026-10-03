@@ -25,6 +25,8 @@ launch tooling and documentation. Details: [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`]
 - Unknown URLs now return a real **404** status (known app routes still get the app with 200).
 - Every `is_demo` table is registered for demo cleanup; read-only launch audit
   `supabase/scripts/demo_audit.sql`.
+- The base seed ships with search-engine indexing off; publishing "Allow indexing" is the explicit
+  launch switch (staging and fresh projects can no longer be indexed by accident).
 - An open tab that requests a chunk removed by a newer deploy reloads once instead of erroring.
 - Unit tests no longer time out on slower CI runners; the database test script no longer stops
   silently when the test runner prints coloured output.

@@ -90,7 +90,7 @@ Use the browser's developer tools (Network tab) to see status codes and headers.
 - Demo builds are never indexable. A live build is indexable only with `VITE_SITE_URL` set (absolute
   https) **and** Settings → Search engines → "Allow indexing" published. The base seed ships with
   indexing **off** (since v1.0.0-rc.1): switching it on is the launch step
-  ([runbook step 14](LAUNCH_RUNBOOK.md#14-indexing-switch--owner)). Staging builds leave
+  ([runbook step 13](LAUNCH_RUNBOOK.md#13-confirm-the-no-index--index-switch--owner)). Staging builds leave
   `VITE_SITE_URL` unset, so they stay unindexable whatever their database says.
 - The build reads the public catalog through `seo_public_index()` with the anon key (published,
   visible, non-demo rows only) and fails rather than publish a sitemap that disagrees with the store.
