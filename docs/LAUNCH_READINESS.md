@@ -31,7 +31,7 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 | `npm run check`       | ✅               | typecheck, lint, format, seed check, 450 unit tests (36 files), build, bundle budget, secret guard, link check                                                    |
 | Database              | ✅               | 1,122 assertions: 1,056 SQL, 7 concurrency checks, 59 RPC contract samples; migrations re-applied (idempotent)                                                    |
 | E2E                   | ✅               | 459 passed, 17 skipped by design, 0 failed — mobile, tablet, desktop, large desktop (Chromium); axe WCAG 2.1 A/AA + overflow in every spec                        |
-| CI (GitHub Actions)   | ✅               | checks + 4 E2E shards green on `6e50f48`                                                                                                                          |
+| CI (GitHub Actions)   | ✅               | checks + 4 E2E shards green on `7ae3c59` (incl. large desktop, which had failed on CLS 0.0506 before the final fixes)                                             |
 | Security review       | ✅               | [`SECURITY.md`](SECURITY.md) — 8 issues fixed, accepted risks listed                                                                                              |
 | Dependencies          | ✅               | `npm audit` 0 vulnerabilities                                                                                                                                     |
 | Browsers              | ⚠️ Chromium only | Firefox, Safari / iOS and real devices not tested                                                                                                                 |
@@ -60,12 +60,12 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 
 ## Performance
 
-| Metric                                | Result                                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------- |
-| Storefront entry chunk                | **399,722 B** (budget 409,600 B; was 406,201 B at Phase 09)               |
-| Initial JavaScript (entry + preloads) | **621.0 KiB** (new budget 650 KiB)                                        |
-| three.js                              | only in the lazy repair-diagnostic chunk                                  |
-| CLS / LCP                             | Phase 08 E2E checks; CLS < 0.05 even with fonts delayed 700 ms (was 0.23) |
+| Metric                                | Result                                                                                                                                          |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Storefront entry chunk                | **399,722 B** (budget 409,600 B; was 406,201 B at Phase 09)                                                                                     |
+| Initial JavaScript (entry + preloads) | **621.0 KiB** (new budget 650 KiB)                                                                                                              |
+| three.js                              | only in the lazy repair-diagnostic chunk                                                                                                        |
+| CLS / LCP                             | Home CLS ≤ 0.0009 (4 viewports, Arabic + English, fonts delayed 700 ms, CPU ×1 / ×4; was 0.0506 in CI); LCP checked by the Phase 08 E2E (< 4 s) |
 
 Real-network Core Web Vitals on the production host were not measured (no staging URL reachable).
 
