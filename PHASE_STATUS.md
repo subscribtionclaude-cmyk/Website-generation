@@ -701,12 +701,16 @@ environment (no dedicated Malek Store project; the static host is unreachable he
       guest rate limits (per subject + global ceiling), rejected-webhook cap, MFA for integration
       changes; read-only launch audit `supabase/scripts/demo_audit.sql`; base seed ships with
       indexing off.
-- [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,651 B
-      (was 406,201 B), initial JS 620.9 KiB; initial-JS budget added to the bundle guard.
+- [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,722 B
+      (was 406,201 B), initial JS 621.0 KiB; initial-JS budget added to the bundle guard.
 - [x] **Layout stability** — the app's first paint waits (≤ 1 s, behind the boot screen) for the
       fonts the first screen uses, and the Latin 700 face is preloaded: home CLS with fonts delayed
       700 ms went from 0.23 to 0 (found as an intermittent CI CLS failure;
       regression test in `e2e/launch.spec.ts`).
+- [x] **Hero stability** — the home hero keeps its placeholder until the teaser entry has loaded
+      (it used to render, then grow by ~135 px).
+- [x] **Scroll restoration fix** — a fully loaded page no longer scrolls (smoothly) to the previous
+      page's position (found through a rare lost click in the compare E2E; unit + E2E regression tests).
 - [x] **Resilience** — one automatic reload when a deploy removed a chunk an open tab needs.
 - [x] **Site Editor fix** — selecting a section scrolls only the preview frame, never the editor
       page (found as a CI-only E2E failure; regression test G2).
@@ -726,14 +730,16 @@ environment (no dedicated Malek Store project; the static host is unreachable he
 | Check                                                                                                | Result                                                                                                       |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `npm run check` (typecheck, lint, format, seed, unit, build + generate-site, bundle, secrets, links) | ✅ 0 errors, 0 warnings                                                                                      |
-| `npm test` (Vitest)                                                                                  | ✅ 448 / 448 tests, 35 files (was 441)                                                                       |
+| `npm test` (Vitest)                                                                                  | ✅ 450 / 450 tests, 36 files (was 441)                                                                       |
 | `npm run test:db` (PostgreSQL, clean cluster)                                                        | ✅ 1,122 assertions (was 1,095): 1,056 SQL (25 in `14_launch_readiness`), 7 concurrency, 59 contract samples |
-| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                           | ✅ 449 passed, 15 skipped by design, 0 failed (13.9 min); includes `e2e/launch.spec.ts` (24 / 24)            |
-| `npm run check:bundle`                                                                               | ✅ entry 399,651 B of 409,600 B; initial JS 620.9 KiB of 650 KiB                                             |
+| `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                           | ✅ 459 passed, 17 skipped by design, 0 failed (14.1 min); includes `e2e/launch.spec.ts` (32 / 32)            |
+| `npm run check:bundle`                                                                               | ✅ entry 399,722 B of 409,600 B; initial JS 621.0 KiB of 650 KiB                                             |
 | `npm run check:secrets`                                                                              | ✅ built files and tracked files clean                                                                       |
 | `npm run check:links`                                                                                | ✅ 6,490 internal links on 145 pages                                                                         |
 | `npm audit`                                                                                          | ✅ 0 vulnerabilities                                                                                         |
-| CI                                                                                                   | ✅ checks + 4 E2E shards green                                                                               |
+| Accessibility (axe WCAG 2.1 A/AA in every E2E spec, 4 viewports, Arabic + English)                   | ✅ no serious or critical violations                                                                         |
+| CLS (home, Arabic + English, 4 viewports, fonts delayed 700 ms, CPU ×1 / ×4, 48 runs)                | ✅ max 0.0009 (regression test limit 0.05); large desktop 0.0001 (CI had measured 0.0506 before the fixes)   |
+| CI                                                                                                   | (recorded after push)                                                                                        |
 | Visual review (Arabic + English, mobile + desktop: home, product, checkout, 404)                     | ✅ no overflow, correct direction, no console errors besides the 404 document's own status                   |
 | Hosted Supabase (migrations, RLS, storage, auth, first Owner, Edge Functions)                        | ⛔ not performed — no dedicated project                                                                      |
 | Static-host staging (routes, headers, PWA, robots on the real host)                                  | ⛔ not observed — host blocked by the build environment's network policy                                     |

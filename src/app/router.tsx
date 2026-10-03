@@ -2,17 +2,26 @@ import {
   createBrowserRouter,
   Outlet,
   ScrollRestoration,
+  type Location,
   type PatchRoutesOnNavigationFunction,
 } from 'react-router';
 import { ThemeController } from '@/features/theme/ThemeController';
 import { storefrontRoutes } from '@/storefront/routes';
 import { RootErrorBoundary } from './errors/ErrorBoundaries';
 
+/**
+ * Every full page load starts on a history entry keyed "default", so keying saved scroll positions by
+ * `location.key` alone made a freshly loaded page jump to wherever the previous page was scrolled.
+ * The first entry of a document is keyed by its URL instead; later entries keep their own key.
+ */
+export const scrollKey = (location: Location) =>
+  location.key === 'default' ? `${location.pathname}${location.search}` : location.key;
+
 function RootLayout() {
   return (
     <>
       <ThemeController />
-      <ScrollRestoration />
+      <ScrollRestoration getKey={scrollKey} />
       <Outlet />
     </>
   );

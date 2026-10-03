@@ -148,6 +148,21 @@ test.describe('Content-Security-Policy', () => {
   });
 });
 
+test.describe('Scroll position', () => {
+  test('a freshly loaded page starts at the top, whatever the previous page was scrolled to', async ({
+    page,
+  }) => {
+    await page.goto('/en/category/phones');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, 900));
+    await page.waitForTimeout(300); // let the position be saved on unload
+    await page.goto('/en/category/audio');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await page.waitForTimeout(800); // a restored position would scroll (smoothly) by now
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  });
+});
+
 test.describe('Core Web Vitals', () => {
   test('home stays layout-stable while web fonts are slow to arrive', async ({ page }) => {
     // A slow device or network gets the fonts after the first paint; text must not reflow then.

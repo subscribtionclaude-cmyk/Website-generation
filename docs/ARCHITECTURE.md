@@ -1031,9 +1031,9 @@ explicitly.
 
 ### Bundle budgets
 
-`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,651 B at rc.1) **and** the
+`scripts/check-bundle.mjs` enforces the storefront entry (≤ 400 KiB; 399,722 B at rc.1) **and** the
 total initial JavaScript — the entry plus every chunk `index.html` modulepreloads (≤ 650 KiB;
-620.9 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
+621.0 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
 
 ### Font loading and layout stability
 
@@ -1044,6 +1044,15 @@ normally already uses the real fonts and nothing reflows when they arrive. The A
 Latin 700 faces are preloaded (`fontPreload`). `font-display: optional` was tried and rejected: on
 first visits it often keeps the wider fallback font, which exposed min-content overflow on phones.
 `e2e/launch.spec.ts` delays font responses by 700 ms and requires CLS < 0.05 on the home page.
+
+The home hero keeps its reserved-height placeholder until both its campaign and teaser entries have
+loaded, so it never renders and then grows.
+
+### Scroll restoration
+
+`ScrollRestoration` uses `scrollKey` (`src/app/router.tsx`): every document load starts on the
+history entry keyed `"default"`, so that entry is keyed by its URL; in-app entries keep their own
+key. Otherwise a freshly loaded page restored whatever position the previous page had saved.
 
 ### Deploy resilience
 

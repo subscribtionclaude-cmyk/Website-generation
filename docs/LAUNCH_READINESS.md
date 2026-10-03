@@ -28,9 +28,9 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 | Storage               | ⚠️ local only    | bucket policies, folder isolation, MIME / size limits tested locally (`04_storage_demo`); not on a hosted project                                                 |
 | Edge Functions        | ⚠️ not deployed  | handler logic unit-tested (`integrations.server.test.ts`); not executed under Deno or deployed                                                                    |
 | Static host / staging | ⛔ not observed  | `_headers` / `_redirects` applied and E2E-tested on the local preview server; ShipStatic probe `https://strong-star-8p5x5jg.shipstatic.com` unreachable from here |
-| `npm run check`       | ✅               | typecheck, lint, format, seed check, 448 unit tests (35 files), build, bundle budget, secret guard, link check                                                    |
+| `npm run check`       | ✅               | typecheck, lint, format, seed check, 450 unit tests (36 files), build, bundle budget, secret guard, link check                                                    |
 | Database              | ✅               | 1,122 assertions: 1,056 SQL, 7 concurrency checks, 59 RPC contract samples; migrations re-applied (idempotent)                                                    |
-| E2E                   | ✅               | 449 passed, 15 skipped by design, 0 failed — mobile, tablet, desktop, large desktop (Chromium); axe WCAG 2.1 A/AA + overflow in every spec                        |
+| E2E                   | ✅               | 459 passed, 17 skipped by design, 0 failed — mobile, tablet, desktop, large desktop (Chromium); axe WCAG 2.1 A/AA + overflow in every spec                        |
 | CI (GitHub Actions)   | ✅               | checks + 4 E2E shards green on `6e50f48`                                                                                                                          |
 | Security review       | ✅               | [`SECURITY.md`](SECURITY.md) — 8 issues fixed, accepted risks listed                                                                                              |
 | Dependencies          | ✅               | `npm audit` 0 vulnerabilities                                                                                                                                     |
@@ -62,8 +62,8 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 
 | Metric                                | Result                                                                    |
 | ------------------------------------- | ------------------------------------------------------------------------- |
-| Storefront entry chunk                | **399,651 B** (budget 409,600 B; was 406,201 B at Phase 09)               |
-| Initial JavaScript (entry + preloads) | **620.9 KiB** (new budget 650 KiB)                                        |
+| Storefront entry chunk                | **399,722 B** (budget 409,600 B; was 406,201 B at Phase 09)               |
+| Initial JavaScript (entry + preloads) | **621.0 KiB** (new budget 650 KiB)                                        |
 | three.js                              | only in the lazy repair-diagnostic chunk                                  |
 | CLS / LCP                             | Phase 08 E2E checks; CLS < 0.05 even with fonts delayed 700 ms (was 0.23) |
 

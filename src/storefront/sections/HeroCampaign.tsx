@@ -32,7 +32,9 @@ export function HeroCampaign({
   const tone = props.tone === 'dark' ? styles.heroDark : styles.heroLight;
   const entry = campaign.data;
 
-  if (campaign.isPending) {
+  // Wait for the teaser too: rendering without it and then adding it would resize the hero and
+  // shift everything below (a layout shift).
+  if (campaign.isPending || (props.teaserSlug && teaser.isPending)) {
     return <section className={`${styles.hero} ${tone} ${styles.heroPending}`} aria-busy="true" />;
   }
 

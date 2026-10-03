@@ -30,16 +30,21 @@ launch tooling and documentation. Details: [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`]
 - An open tab that requests a chunk removed by a newer deploy reloads once instead of erroring.
 - Selecting a section in the Site Editor scrolls only the preview; it no longer scrolls the editor
   page itself (which could move controls under the pointer and lose a click).
+- A page opened by a full load (typed URL, refresh, external link) no longer jumps to the previous
+  page's scroll position: every document starts on React Router's "default" history entry, so
+  saved positions for that entry are now keyed by URL.
 - Unit tests no longer time out on slower CI runners; the database test script no longer stops
   silently when the test runner prints coloured output.
 
 ### Performance
 
 - The admin route table loads on the first visit to `/admin`; storefront visitors download ~7 KB
-  less. Storefront entry 399,651 B (budget 409,600 B); initial JavaScript 620.9 KiB.
+  less. Storefront entry 399,722 B (budget 409,600 B); initial JavaScript 621.0 KiB.
 - Web fonts no longer shift the layout when they arrive late: the app's first paint waits briefly
   (at most 1 s, behind the boot screen) for the faces the first screen uses, and the Latin 700 face
   used by product names in headings is preloaded (home CLS with fonts delayed 700 ms: 0.23 → 0).
+- The home hero waits for its teaser card before rendering, instead of growing when the teaser
+  arrives and pushing the page down (large-desktop CLS under slow CPU: 0.044 → 0).
 - New bundle guard: total initial JavaScript (entry + modulepreloaded chunks) budget of 650 KB.
 
 ### Tooling and operations

@@ -35,8 +35,8 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 
 **Performance**
 
-- Storefront visitors no longer download the admin route table: entry 399,651 B (budget
-  409,600 B), initial JavaScript 620.9 KiB (new 650 KiB budget).
+- Storefront visitors no longer download the admin route table: entry 399,722 B (budget
+  409,600 B), initial JavaScript 621.0 KiB (new 650 KiB budget).
 
 - No layout shift when web fonts arrive late (first paint waits ≤ 1 s for the needed fonts; Latin
   700 face preloaded).
@@ -66,9 +66,9 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 
 | Check                            | Result                                                                          |
 | -------------------------------- | ------------------------------------------------------------------------------- |
-| `npm run check`                  | ✅ typecheck, lint, format, seed, 448 unit tests, build, bundle, secrets, links |
+| `npm run check`                  | ✅ typecheck, lint, format, seed, 450 unit tests, build, bundle, secrets, links |
 | `npm run test:db`                | ✅ 1,122 assertions (SQL suites, concurrency, 59 contract samples)              |
-| `npm run test:e2e` (4 viewports) | ✅ 449 passed, 15 skipped by design, 0 failed                                   |
+| `npm run test:e2e` (4 viewports) | ✅ 459 passed, 17 skipped by design, 0 failed                                   |
 | `npm audit`                      | ✅ 0 vulnerabilities                                                            |
 
 ## Known limits
