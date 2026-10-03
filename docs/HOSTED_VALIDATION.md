@@ -204,6 +204,19 @@ code-only template (no link), wired into local dev by `supabase/config.toml`. On
 paste it into **Authentication → Emails** for both **Magic link** and **Confirm signup**, and keep
 **Email OTP length = 6** (Authentication → Providers → Email).
 
+## First Owner — 2026-10-03
+
+`mostafaadel10456@gmail.com` (`41a8c961-46d8-4621-ac52-aeee82e32b05`) was bootstrapped as Owner with
+`app_private.bootstrap_first_owner` after checking: account confirmed, not banned or deleted, no roles,
+0 owners, bootstrap never used. Verified afterwards: exactly 1 Owner; `access.bootstrap_owner`
+audit event written; `get_my_access` resolves `owner`, `grantsAll`, not suspended, 47 / 47
+permissions (dashboard, catalog, orders, customers, services, settings, design / Site Editor,
+content / SEO, integrations, audit / access); a second bootstrap is refused (42501, checked in a
+rolled-back transaction); staging indexing still off.
+
+The QA cleanup in this file must now leave the Owner alone: its guard checks only the 4 QA IDs and
+aborts if the Owner account is missing (a plain "4 users" count would no longer match).
+
 ## Remaining
 
 1. **Browser check of the ShipStatic URL** — console, visuals, sign-in with a real mailbox,
