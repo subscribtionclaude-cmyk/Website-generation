@@ -50,7 +50,7 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
   [`ROLLBACK.md`](ROLLBACK.md).
 - **SEO / prerender** — 144 prerendered Arabic / English pages with JSON-LD, canonical and hreflang;
   demo builds never indexable; base seed ships with indexing **off** (explicit launch switch);
-  unknown URLs return 404; 6,418 internal links resolve.
+  unknown URLs return 404; 6,490 internal links resolve.
 - **Commerce integrity** — server-authoritative prices, exact variant identity, offer windows,
   30-minute reservations, idempotent checkout, last-unit race (one order), snapshots, money
   constraints (`total = subtotal − discount + shipping`, `paid ≤ total`, `numeric(12,2)`), stock never
@@ -60,12 +60,12 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
 
 ## Performance
 
-| Metric                                | Result                                                      |
-| ------------------------------------- | ----------------------------------------------------------- |
-| Storefront entry chunk                | **399,162 B** (budget 409,600 B; was 406,201 B at Phase 09) |
-| Initial JavaScript (entry + preloads) | **620.4 KiB** (new budget 650 KiB)                          |
-| three.js                              | only in the lazy repair-diagnostic chunk                    |
-| CLS / LCP                             | covered by the Phase 08 E2E checks (demo build, Chromium)   |
+| Metric                                | Result                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------- |
+| Storefront entry chunk                | **399,162 B** (budget 409,600 B; was 406,201 B at Phase 09)               |
+| Initial JavaScript (entry + preloads) | **620.4 KiB** (new budget 650 KiB)                                        |
+| three.js                              | only in the lazy repair-diagnostic chunk                                  |
+| CLS / LCP                             | Phase 08 E2E checks; CLS < 0.05 even with fonts delayed 700 ms (was 0.23) |
 
 Real-network Core Web Vitals on the production host were not measured (no staging URL reachable).
 

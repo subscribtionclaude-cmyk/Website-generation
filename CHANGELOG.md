@@ -37,6 +37,9 @@ launch tooling and documentation. Details: [`docs/RELEASE_NOTES_v1.0.0-rc.1.md`]
 
 - The admin route table loads on the first visit to `/admin`; storefront visitors download ~7 KB
   less. Storefront entry 399,162 B (budget 409,600 B); initial JavaScript 620.4 KiB.
+- Web fonts no longer shift the layout when they arrive late: the self-hosted faces use
+  `font-display: optional` and the Latin 700 face used by product names in headings is preloaded
+  (home CLS with fonts delayed 700 ms: 0.23 → 0).
 - New bundle guard: total initial JavaScript (entry + modulepreloaded chunks) budget of 650 KB.
 
 ### Tooling and operations

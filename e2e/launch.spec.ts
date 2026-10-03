@@ -147,3 +147,29 @@ test.describe('Content-Security-Policy', () => {
     expect(await violations()).toEqual([]);
   });
 });
+
+test.describe('Core Web Vitals', () => {
+  test('home stays layout-stable while web fonts are slow to arrive', async ({ page }) => {
+    // A slow device or network gets the fonts after the first paint; text must not reflow then.
+    await page.route(/\.woff2?$/, async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      await route.continue();
+    });
+    await page.addInitScript(() => {
+      const store = window as unknown as { __cls: number };
+      store.__cls = 0;
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries() as (PerformanceEntry & {
+          value: number;
+          hadRecentInput: boolean;
+        })[])
+          if (!entry.hadRecentInput) store.__cls += entry.value;
+      }).observe({ type: 'layout-shift', buffered: true });
+    });
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await page.waitForTimeout(1500); // past the delayed font responses
+    const cls = await page.evaluate(() => (window as unknown as { __cls: number }).__cls);
+    expect(cls).toBeLessThan(0.05);
+  });
+});

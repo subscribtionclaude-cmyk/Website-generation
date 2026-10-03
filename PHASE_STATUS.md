@@ -703,6 +703,9 @@ environment (no dedicated Malek Store project; the static host is unreachable he
       indexing off.
 - [x] **Performance** — admin route table discovered on first `/admin` visit: entry 399,162 B
       (was 406,201 B), initial JS 620.4 KiB; initial-JS budget added to the bundle guard.
+- [x] **Layout stability** — web fonts use `font-display: optional` (+ Latin 700 preload): home CLS
+      with fonts delayed 700 ms went from 0.23 to 0 (found as an intermittent CI CLS failure;
+      regression test in `e2e/launch.spec.ts`).
 - [x] **Resilience** — one automatic reload when a deploy removed a chunk an open tab needs.
 - [x] **Site Editor fix** — selecting a section scrolls only the preview frame, never the editor
       page (found as a CI-only E2E failure; regression test G2).
@@ -727,7 +730,7 @@ environment (no dedicated Malek Store project; the static host is unreachable he
 | `npm run test:e2e` (mobile, tablet, desktop, large desktop; axe; overflow)                           | ✅ 449 passed, 15 skipped by design, 0 failed (13.9 min); includes `e2e/launch.spec.ts` (24 / 24)            |
 | `npm run check:bundle`                                                                               | ✅ entry 399,162 B of 409,600 B; initial JS 620.4 KiB of 650 KiB                                             |
 | `npm run check:secrets`                                                                              | ✅ built files and tracked files clean                                                                       |
-| `npm run check:links`                                                                                | ✅ 6,418 internal links on 145 pages                                                                         |
+| `npm run check:links`                                                                                | ✅ 6,490 internal links on 145 pages                                                                         |
 | `npm audit`                                                                                          | ✅ 0 vulnerabilities                                                                                         |
 | CI                                                                                                   | ✅ checks + 4 E2E shards green                                                                               |
 | Visual review (Arabic + English, mobile + desktop: home, product, checkout, 404)                     | ✅ no overflow, correct direction, no console errors besides the 404 document's own status                   |

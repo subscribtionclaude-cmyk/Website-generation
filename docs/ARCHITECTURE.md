@@ -1035,6 +1035,15 @@ explicitly.
 total initial JavaScript — the entry plus every chunk `index.html` modulepreloads (≤ 650 KiB;
 620.4 KiB at rc.1) — so moving code into eagerly preloaded shared chunks cannot hide growth.
 
+### Font loading and layout stability
+
+The bundled @fontsource faces are rewritten at build time to `font-display: optional`
+(`fontDisplayOptional` in `vite.config.ts`): a face is used only if it is ready within the short block
+period, otherwise the fallback stays for that page view, so late fonts never reflow text. The faces
+the first screen paints with are preloaded (`fontPreload`: Arabic 400 / 700 and the Latin 700 face
+used by product names in headings). `e2e/launch.spec.ts` delays font responses by 700 ms and
+requires CLS < 0.05 on the home page.
+
 ### Deploy resilience
 
 `recoverFromStaleChunks` (`src/pwa/install.ts`) listens for Vite's `vite:preloadError`: a tab opened
