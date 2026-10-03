@@ -76,6 +76,10 @@ there is nothing to dump yet — take the first dump after step 9.
 supabase db push                       # supabase/migrations/ in filename order (idempotent)
 ```
 
+On the staging project `dialrvjkfiphftdwrvkh` the migrations were applied through the Supabase
+connector, which recorded them under new versions: repair the history before the first
+`supabase db push` there ([`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md#migration-history-note)).
+
 Then run `supabase/seed/base.sql` in the SQL editor (real store details, navigation, SEO defaults,
 page layouts — **no** demo rows; it never overwrites published values). Never run
 `supabase/seed/demo.sql` on production.

@@ -73,8 +73,8 @@ integrations — plus the Phase 10 launch hardening below. No new features were 
 
 ## Known limits
 
-- Not validated on a hosted Supabase project or on the real static host (see
-  [`LAUNCH_READINESS.md`](LAUNCH_READINESS.md)).
+- Validated on a hosted Supabase staging project ([`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md));
+  not yet on the real static host (see [`LAUNCH_READINESS.md`](LAUNCH_READINESS.md)).
 - Automated browser coverage is Chromium only (mobile, tablet, desktop, large-desktop profiles).
 - Optional provider adapters (WhatsApp Cloud, Odoo, GA4, Google / Apple sign-in) are tested against
-  stubs, not live accounts; Edge Functions were not executed under Deno.
+  stubs, not live accounts; the Edge Functions run on the hosted project without provider secrets.

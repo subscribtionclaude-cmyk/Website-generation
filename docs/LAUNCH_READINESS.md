@@ -2,31 +2,29 @@
 
 **Date:** 2026-10-03 · **Branch:** `claude/malek-store-platform-yg5z2q` · **Version:** `1.0.0-rc.1`
 
-## Overall status: **BLOCKED**
+## Overall status: **BLOCKED** — static-host validation only
 
 The code passes every engineering check that could run here, and **no engineering defect is open**.
-Launch is blocked because two **critical validations could not be performed** in the build
-environment and must not be assumed:
 
-1. **Hosted Supabase validation** — no dedicated Malek Store Supabase project exists. The only
-   reachable projects belong to another application with real data, so applying these migrations
-   there was not acceptable, and creating a new project was not possible without the owner (free-plan
-   project limit / account decision).
-2. **Real static-host validation** — the build environment's network policy blocks the static
-   host, so the full build could not be deployed and observed (a small hosting-rules probe was
-   deployed but could not be fetched).
+1. **Hosted Supabase validation — ✅ PASSED (2026-10-03)** on the dedicated staging project
+   `dialrvjkfiphftdwrvkh`: migrations, schema fingerprint, RLS, storage, auth, first-Owner
+   bootstrap, Edge Functions, not-configured fallbacks, demo audit and indexing-off all verified
+   live. Full record: [`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md).
+2. **Real static-host validation — ⛔ still open.** The build environment's network policy blocks
+   the static host (and `*.supabase.co`), so the full build could not be deployed and observed.
+   This is the one remaining critical validation and must not be assumed.
 
-Once the owner creates the project and the checks in [Unblocking](#unblocking-the-launch) pass, the
-status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), then
-**READY FOR PRODUCTION** when those are done.
+Once the static-host check in [Unblocking](#unblocking-the-launch) passes, the status becomes
+**READY AFTER OWNER ACTIONS** (the owner content listed below), then **READY FOR PRODUCTION** when
+those are done.
 
 ## Validation summary
 
 | Area                  | Status           | Detail                                                                                                                                                            |
 | --------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hosted Supabase       | ⛔ not performed | no dedicated project; validated on local PostgreSQL with a Supabase shim instead                                                                                  |
-| Storage               | ⚠️ local only    | bucket policies, folder isolation, MIME / size limits tested locally (`04_storage_demo`); not on a hosted project                                                 |
-| Edge Functions        | ⚠️ not deployed  | handler logic unit-tested (`integrations.server.test.ts`); not executed under Deno or deployed                                                                    |
+| Hosted Supabase       | ✅               | `dialrvjkfiphftdwrvkh`: 30 migrations, schema identical to the local build, RLS 50/50, Advisors no ERROR — [`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md)         |
+| Storage               | ✅               | live 17/17: private folders isolated, staff access by permission, signed URLs expire, public catalog media, MIME limits                                           |
+| Edge Functions        | ✅               | `integrations` + `integration-webhook` deployed; auth, staff authorization, service-role boundary, HMAC, dedupe and fallbacks verified live (no secrets set)      |
 | Static host / staging | ⛔ not observed  | `_headers` / `_redirects` applied and E2E-tested on the local preview server; ShipStatic probe `https://strong-star-8p5x5jg.shipstatic.com` unreachable from here |
 | `npm run check`       | ✅               | typecheck, lint, format, seed check, 450 unit tests (36 files), build, bundle budget, secret guard, link check                                                    |
 | Database              | ✅               | 1,122 assertions: 1,056 SQL, 7 concurrency checks, 59 RPC contract samples; migrations re-applied (idempotent)                                                    |
@@ -43,7 +41,8 @@ status becomes **READY AFTER OWNER ACTIONS** (the owner content listed below), t
   the repository, bundle or database. Details and accepted risks: [`SECURITY.md`](SECURITY.md).
 - **RLS** — enabled on every `public` table (asserted); 323 `SECURITY DEFINER` functions all pin
   `search_path`; anon has no direct table access; customers see only their own rows; staff access is
-  per permission. Tested locally only.
+  per permission. Verified on the hosted project (308 definer functions in the application
+  schemas, all with a pinned `search_path`).
 - **PWA / cache** — service worker caches public files and visited public pages only (never admin,
   account, checkout, orders, auth, API, functions, analytics); per-release page caches; `sw.js`,
   manifest and offline page revalidated; one automatic reload after a deploy; kill switch in
@@ -80,8 +79,8 @@ cleanup the audit is clean while a live product, settings and layouts remain.
 
 Documented ([`OPERATIONS.md`](OPERATIONS.md#backups-and-restore)): application export ≠ database
 backup; `supabase db dump` (schema + data) before launch, before every migration and weekly; restore
-into a new project, verify, then switch. Not rehearsed on a hosted project (none available) — the
-staging rehearsal includes one restore.
+into a new project, verify, then switch. Not yet rehearsed (needs the CLI with database access from
+the owner's machine) — the staging rehearsal includes one restore.
 
 ## Runbooks
 
@@ -93,8 +92,10 @@ staging rehearsal includes one restore.
 
 ## Owner actions (setup — not engineering failures)
 
-1. Create the dedicated Malek Store Supabase project (free plan) and give the engineer access through
-   a secure route (Supabase dashboard / CLI on their machine — never credentials in chat).
+1. ~~Create the dedicated Supabase project~~ — done (`dialrvjkfiphftdwrvkh`). Run the QA-residue
+   cleanup SQL in [`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md#qa-residue--owner-cleanup-required),
+   then bootstrap the real Owner. Decide on leaked-password protection (Auth setting; check plan
+   availability).
 2. Choose the hosting account and the domain (free subdomain is fine).
 3. Confirm store details (address, landmark, phones, opening hours) — seeded, editable.
 4. Enter the WhatsApp number, social links and map link (or leave empty on purpose).
@@ -109,17 +110,15 @@ staging rehearsal includes one restore.
 
 ## Unblocking the launch
 
-On the dedicated project, run [`LAUNCH_RUNBOOK.md`](LAUNCH_RUNBOOK.md) steps 2–6 and the staging
-rehearsal, and check:
+Done on the hosted project (2026-10-03): migrations, RLS, Advisors, storage isolation, sessions,
+first-Owner bootstrap (rolled back) and the Edge Functions — see
+[`HOSTED_VALIDATION.md`](HOSTED_VALIDATION.md). Remaining:
 
-- migrations apply and re-apply cleanly; `pg_tables` reports RLS on every table; Advisors clean;
-- storage buckets exist with the listed public / private flags; a customer cannot read another
-  customer's upload;
-- email sign-in works on the real domain; first-Owner bootstrap works once and refuses a second run;
-- (only if integrations are wanted) the Edge Functions deploy and Admin → Integrations → Test
-  connection reaches them instead of reporting "Server runtime unavailable";
-- the full `dist/` deploys to the static host and passes the smoke test: deep links, real 404,
-  security headers, `robots.txt`, no CSP errors in the console.
+- build with `VITE_DATA_MODE=live`, the staging URL and publishable key and **no** `VITE_SITE_URL`;
+  deploy the full `dist/` to the static host and pass the smoke test: deep links, real 404, security
+  headers, `robots.txt` / `noindex` / empty sitemap on staging, no CSP errors in the console;
+- email sign-in with a real mailbox; Admin → Integrations shows every integration as not configured
+  and Test connection reaches the deployed function.
 
 ## Exact production-launch procedure
 
