@@ -152,14 +152,62 @@ drop extension if exists http;
 
 Then run `supabase/scripts/demo_audit.sql` again (all rows ok).
 
+## Static staging on ShipStatic — 2026-10-03
+
+**URL:** https://light-drifter-54c6ek6.shipstatic.com (uploaded by the owner from the build below).
+
+**Build:** `VITE_DATA_MODE=live`, `VITE_SUPABASE_URL=https://dialrvjkfiphftdwrvkh.supabase.co`, the
+publishable key, no `VITE_SITE_URL`. 26 prerendered pages, 0 sitemap URLs, not indexable; secret
+guard and bundle budget pass. The build environment cannot reach `*.supabase.co`, so the prerender
+step was fed the exact responses of the real project's public RPCs (fetched from the project itself
+with the same key and requests); nothing was invented and no code changed.
+
+Checked over HTTP from the staging database (this environment cannot reach `*.shipstatic.com`):
+
+| Check                                 | Result                                                                                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exact build                           | ✅ every file checked matches `dist/` byte for byte once ShipStatic's `?_ship=54c6ek6` cache-busting rewrite is removed                                       |
+| Public pages, direct load / refresh   | ✅ 200 for `/`, `/en`, `/store`, `/en/store`, `/apple`, `/en/apple`, `/offers`, `/news`, `/contact`, `/repairs`, `/trade-in`, `/used`, `/after-sales`         |
+| Unknown URLs                          | ✅ real 404 with the app's not-found page (`/this-page-does-not-exist`, `/en/missing/deep/link`, missing assets)                                              |
+| App routes without a prerendered file | ⚠️ `/admin` (and `/cart`, `/account`, `/checkout`, …) render the app but answer **404**: ShipStatic ignores `_redirects`                                      |
+| Assets / MIME / chunks                | ✅ 196 chunks fetched (every chunk that imports others, incl. entry + CSS): all 200 with correct MIME types; no redirects; hashed assets immutable            |
+| Live Supabase                         | ✅ bundle references `dialrvjkfiphftdwrvkh` only — no demo backend, localhost or other project                                                                |
+| SEO (staging)                         | ✅ `robots.txt` `Disallow: /`, empty sitemap, `noindex, nofollow` on every page, no canonical (no `VITE_SITE_URL`), hreflang alternates present               |
+| PWA                                   | ✅ manifest, `sw.js`, `offline.html` served from the root (scope `/`); ⚠️ `sw.js` / manifest cached `max-age=31536000, immutable` by ShipStatic (see below)   |
+| Security headers                      | ⚠️ ShipStatic ignores `_headers`: only `X-Content-Type-Options: nosniff` and HSTS are sent — **no CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy** |
+
+**ShipStatic limitations found (not fixed by switching hosts, as instructed):**
+
+1. `_headers` is not applied: CSP, frame protection, Referrer-Policy and Permissions-Policy are
+   missing. `_headers` and `_redirects` are served as plain public files (no secrets in them).
+2. `_redirects` is not applied: app routes without a prerendered page get the SPA shell with a 404
+   status. Browsers still show the page; the status matters for crawlers and monitoring.
+3. HTML, JS and CSS are rewritten to add `?_ship=<id>` to asset URLs, but imports written as template
+   literals (``import(`./X.js`)``) are left alone. Result: those lazy chunks load without the
+   suffix and their modulepreloads are fetched twice. Two modules load under two URLs
+   (`RequireModule`, a stateless route guard, and the repair page chunk that the 3D diagnostic
+   reads its CSS-module class names from); neither holds shared state, so nothing breaks — it costs
+   extra downloads only.
+4. `sw.js`, the manifest, `robots.txt` and the sitemap are served `immutable` for a year. Each
+   deployment has its own hostname, so staging is unaffected; on a custom domain this would delay
+   service-worker updates and a robots.txt change.
+
+Not checked from here (needs a real browser on the URL): console errors, visual review (Arabic
+RTL / English LTR, mobile / desktop), fonts and images in the browser, CLS, live Supabase calls from
+the page, service-worker registration.
+
+## Sign-in emails: code only
+
+The site verifies a 6-digit code (`verifyOtp`, type `email`). The default Supabase emails also carry
+a sign-in link; staff should get the code only. `supabase/templates/email-code.html` is the
+code-only template (no link), wired into local dev by `supabase/config.toml`. On the hosted project
+paste it into **Authentication → Emails** for both **Magic link** and **Confirm signup**, and keep
+**Email OTP length = 6** (Authentication → Providers → Email).
+
 ## Remaining
 
-1. **Static-host validation** — build with `VITE_DATA_MODE=live`,
-   `VITE_SUPABASE_URL=https://dialrvjkfiphftdwrvkh.supabase.co`, the project's publishable key and
-   **no** `VITE_SITE_URL` (keeps staging non-indexable), deploy `dist/` with `_headers` /
-   `_redirects`, then run the smoke test in [`LAUNCH_RUNBOOK.md`](LAUNCH_RUNBOOK.md): deep links,
-   real 404, security headers, `robots.txt` disallowing everything, `noindex` meta, no sitemap
-   entries, no CSP errors, sign-in with a real mailbox, Admin → Integrations showing "Not
-   configured". This build environment cannot reach `*.supabase.co` or the static host, so it has
-   to run where the network allows (owner machine or CI).
-2. Owner cleanup above, then the first-Owner bootstrap with the owner's real account.
+1. **Browser check of the ShipStatic URL** — console, visuals, sign-in with a real mailbox,
+   Admin → Integrations showing "Not configured".
+2. Decide whether ShipStatic's missing security headers / 404 status on app routes are acceptable
+   for production, or pick a host that applies `_headers` / `_redirects`.
+3. Owner cleanup above, then the first-Owner bootstrap with the owner's real account.
