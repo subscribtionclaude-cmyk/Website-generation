@@ -1,0 +1,498 @@
+{
+  "$comment": "Official manufacturer images copied into Supabase Storage by the catalog-media-ingest Edge Function (exported from app_private.catalog_media_ingest_log). files = our 480/1200 px WebP derivatives; sha256 = hash of the official source file.",
+  "exportedAt": "2026-10-04T09:04:03.43158+00:00",
+  "images": [
+    {
+      "brand": "apple",
+      "bytes": 1001305,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/eb253263bcfe87a1-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/eb253263bcfe87a1-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "eb253263bcfe87a1adf7f0c5b76537ef44ccb679a3e953f330314793d28c9bbe",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-black-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 239278,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/357c147578cc5e32-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/357c147578cc5e32-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "357c147578cc5e326f39652a82d0ccf3e20f808ddd50ad6c5140b4d2acf4a5db",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-black?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 285374,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/e1dfac861296a5ab-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/e1dfac861296a5ab-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "e1dfac861296a5abe8fdaec9f9f0345cc2ed558099f149e325192d7267c63ccf",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-pink?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 264507,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da4431cccfc6a139-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da4431cccfc6a139-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "da4431cccfc6a13967be41a1606b7334f21fee0cb2c4da0c5c948e5059465aca",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-teal?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 288817,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1c5e17bae031f93b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1c5e17bae031f93b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1c5e17bae031f93b3a368b25633ab2d494f4b95b7467e4df9c3186acd61f1e71",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-ultramarine?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 239532,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3b9f993298fa9a8d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3b9f993298fa9a8d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "3b9f993298fa9a8ddb6163e1fc50dfc90754cb0d22e37ae0c641e45b81dfe90c",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-white?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1187269,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/30a7282a8d750589-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/30a7282a8d750589-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "30a7282a8d75058936de7732e71762b80e2282e58a00a8ba60e6d5151f0f339b",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-pink-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1099402,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7d98bd095dca4381-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7d98bd095dca4381-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7d98bd095dca4381c661db5e4e4bcbb83ed0b7b63058df81e7d79205243058d8",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-teal-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1208394,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/18b15c3e13304b5b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/18b15c3e13304b5b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "18b15c3e13304b5b961da4ce63d4e26f7c6793c21597be036642aeabb49708c9",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-ultramarine-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 946700,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/67842e278746ae98-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/67842e278746ae98-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "67842e278746ae98b1bf31b77aae1a390d39134ac1d567b763bee4b2f119ddec",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-white-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 845462,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7a54a0bc168c62e1-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7a54a0bc168c62e1-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7a54a0bc168c62e1870bfbecb83f6125560267a1c97482418cdfeb1ca889acf0",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-black-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 834093,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/93f7a0e8dee02343-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/93f7a0e8dee02343-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "93f7a0e8dee023433b7c3793a3d3dad184bde1700fc9328c625b944048da4ad1",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-lavender-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 885634,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/6edc391adc49632f-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/6edc391adc49632f-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "6edc391adc49632f6c7b7103b254ce080fc7d40b88cf411116cf6bbb9bf7ed07",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-mistblue-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 906591,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/fb6ce71e6477d1f8-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/fb6ce71e6477d1f8-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fb6ce71e6477d1f8adee9fde4e4fa56bda2cfc8f83a9db38cd49afaf36f26c41",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-sage-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 748160,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7e87c6f0a772502d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7e87c6f0a772502d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7e87c6f0a772502de8faa4c34288637b707b71894b048b65a0aff8de1933b051",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-white-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 234380,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/be4079da3b80fe04-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/be4079da3b80fe04-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "be4079da3b80fe04c2ce32e1bf76703ff851bc6b4ba920faa3dd3a9e74451a8a",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 205644,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2f92d04240cb1b7c-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2f92d04240cb1b7c-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2f92d04240cb1b7ca7f01ce03d1ef00d470ce11eff6df09bbdeb1891924fa460",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-deepblue?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 196710,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7c9ecc51c36bb99c-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7c9ecc51c36bb99c-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7c9ecc51c36bb99cf0f8bcdac3c549bb57843cf42110b27a00a95d7ef1672055",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-silver?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 218059,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3dd3d05b358be17a-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3dd3d05b358be17a-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "3dd3d05b358be17a3d3da9b28b014e18f3b03085fcf4b774fcd6dfd55941f776",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 194092,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/702beb64f88a1f33-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/702beb64f88a1f33-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "702beb64f88a1f335aa12e6944c8651d2f78d678ce9a19787b39e1c693aff89d",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-deepblue?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 189182,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0daccdae72f24fa6-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0daccdae72f24fa6-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "0daccdae72f24fa6f60e0b69d6bf7e093c78829fb3fac625eb5a03a64316273c",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-silver?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 998557,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/c3fb914afad919d7-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/c3fb914afad919d7-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "c3fb914afad919d7115ad5faad0505368a540f44d91d26423941498b80091c16",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-black-202603?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 797190,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2932bb606e085544-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2932bb606e085544-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2932bb606e085544975bbd92892ab7679646cea433faa603055023bac786ac80",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-softpink-202603?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 828967,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/df63ee871ddc02ab-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/df63ee871ddc02ab-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "df63ee871ddc02ab8b8a6076e3f52aad165588968395c2bd13f44287d40a2dd9",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-white-202603?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 19551,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/33155e68ee75475d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/33155e68ee75475d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "33155e68ee75475dea9220c7aca355886680ec5961484447ca7474d07b25159f",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-black-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 41249,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/aad758a49af666aa-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/aad758a49af666aa-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "aad758a49af666aa1b0f3cb3e4c75751e374df3040fc743a2f7c012329eb3ade",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-glacier-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 884803,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/5e88f1a933e1bf44-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/5e88f1a933e1bf44-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "5e88f1a933e1bf441cd17c57de3d0f711c509241fe88cb9d3df219fd531fe530",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1195489,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bc510c81b0b4b14f-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bc510c81b0b4b14f-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "bc510c81b0b4b14fd6d0f06c5a8b1699471d50095d2b2ad850dd54718c685fac",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1129451,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/96d15025b23bcd29-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/96d15025b23bcd29-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "96d15025b23bcd29f9fc8f50d4001a47f0468e6a79fd922d9e5283a3efb0a9e7",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 941534,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0d7b050da1470f77-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0d7b050da1470f77-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "0d7b050da1470f773399dfd98414c784c503bced7aae7a232e202acd715d2095",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 22840,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/226485ebe1390274-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/226485ebe1390274-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "226485ebe1390274719ee016fa1b8447bd3cd2d51dccad55fcd8e5b2748aba52",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-silver-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1026961,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/237b89b92ab4820e-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/237b89b92ab4820e-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "237b89b92ab4820ef2e185bae82fb5852ebc254f2b8b870568789197eb2f82db",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1399000,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/d94084219b92698a-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/d94084219b92698a-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "d94084219b92698a523fb2b1b4663448b0c38baf3520f6514b2b8f3cb1205c58",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1327959,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da9fda9b9f30d7e2-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da9fda9b9f30d7e2-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "da9fda9b9f30d7e23d2a98ed21232c75faf80375e3cf39acb8c7009ca4390a36",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1093781,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/53d1f587977e6d0e-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/53d1f587977e6d0e-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "53d1f587977e6d0edfa9c9022c3eedbf92eeaf430f3a5a41db279e6a9f2c1b43",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 567449,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0da9b55565c59896-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0da9b55565c59896-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "0da9b55565c59896fee8cdba1233bf6cdb728dc9d288c3f7d14d66e5d73e0aa3",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-cloudwhite-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 618888,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1f0ebcdd1e298b46-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1f0ebcdd1e298b46-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1f0ebcdd1e298b46f47c5bb31d344af9dbd468e394a2cba323f38b00476a4bb8",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-lightgold-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 635284,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bd028e87d0b1984f-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bd028e87d0b1984f-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "bd028e87d0b1984fc5e32a9c242188b59fabfa8467334fbf6ca638400c099cc7",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-skyblue-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 546266,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/06a5b428c1cf714e-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/06a5b428c1cf714e-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "06a5b428c1cf714eea5e1512810aeb280946e8b14ec2989dfe35858bc62c2491",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-spaceblack-202509?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 890937,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/08f680b8c0b0f981-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/08f680b8c0b0f981-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "08f680b8c0b0f981dc5e3391a12f0dc1f29c6d671ded03bbbed385da845b5659",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-night-sky-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "apple",
+      "bytes": 1077725,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/94efac3ebe9e2a01-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/94efac3ebe9e2a01-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "94efac3ebe9e2a0192797f465a1ace4d0f380f7822691a3ab55008da6e17a01b",
+      "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-star-white-202609?wid=1200&hei=1200&fmt=png-alpha"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "batch": "2026-10-04-wave1",
+  "brands": ["apple"],
+  "counts": {
+    "brands": 1,
+    "products": 10,
+    "published": 10,
+    "draftsWithoutImages": 0,
+    "variants": 104,
+    "images": 38
+  },
+  "perBrand": {
+    "apple": {
+      "products": 10,
+      "variants": 104,
+      "images": 38
+    }
+  },
+  "missingImages": [],
+  "draftsWithoutImages": [],
+  "missingSpecs": [],
+  "duplicateImages": [],
+  "skipped": [],
+  "errors": [],
+  "warnings": [
+    {
+      "level": "warning",
+      "path": "products[4] apple/iphone-17-pro",
+      "message": "colour \"silver\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[4] apple/iphone-17-pro",
+      "message": "colour \"cosmicorange\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[4] apple/iphone-17-pro",
+      "message": "colour \"deepblue\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[5] apple/iphone-17-pro-max",
+      "message": "colour \"silver\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[5] apple/iphone-17-pro-max",
+      "message": "colour \"cosmicorange\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[5] apple/iphone-17-pro-max",
+      "message": "colour \"deepblue\" has no swatch colour"
+    }
+  ]
+}

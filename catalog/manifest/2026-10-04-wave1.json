@@ -1,0 +1,4268 @@
+{
+  "version": 1,
+  "batch": "2026-10-04-wave1",
+  "description": "Smartphone catalog import 2026-10-04-wave1 (Apple)",
+  "manifestPath": "catalog/manifest/2026-10-04-wave1.json",
+  "checkedAt": "2026-10-04T09:05:02.247Z",
+  "category": {
+    "slug": "phones",
+    "name": {
+      "ar": "الهواتف الذكية",
+      "en": "Smartphones"
+    },
+    "icon": "phone",
+    "sortOrder": 1
+  },
+  "brands": [
+    {
+      "slug": "apple",
+      "name": {
+        "ar": "أبل",
+        "en": "Apple"
+      },
+      "sourceUrl": "https://www.apple.com/eg/iphone/",
+      "sortOrder": 10
+    }
+  ],
+  "products": [
+    {
+      "key": "apple/iphone-18-pro",
+      "brand": "apple",
+      "slug": "iphone-18-pro",
+      "family": "iPhone 18",
+      "model": "iPhone 18 Pro",
+      "name": {
+        "ar": "iPhone 18 Pro",
+        "en": "iPhone 18 Pro"
+      },
+      "subtitle": {
+        "ar": "6.3 بوصة · A20 Pro",
+        "en": "6.3-inch · A20 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 18 Pro بشاشة 6.3 بوصة ومعالج A20 Pro. متوفر بالألوان: أسود، فضي، جليدي، عنّابي، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت و2 تيرابايت.",
+        "en": "Apple iPhone 18 Pro with a 6.3-inch display and the A20 Pro chip. Colours: Black, Silver, Glacier, Burgundy; storage: 256GB, 512GB, 1TB, 2TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 18 ايفون 18 برو",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/ae/iphone-18-pro/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#3b3b3b"
+            },
+            {
+              "key": "silver",
+              "label": {
+                "ar": "فضي",
+                "en": "Silver"
+              },
+              "swatchHex": "#f3f3f3"
+            },
+            {
+              "key": "glacier",
+              "label": {
+                "ar": "جليدي",
+                "en": "Glacier"
+              },
+              "swatchHex": "#e5eefb"
+            },
+            {
+              "key": "burgundy",
+              "label": {
+                "ar": "عنّابي",
+                "en": "Burgundy"
+              },
+              "swatchHex": "#4c1720"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            },
+            {
+              "key": "2tb",
+              "label": {
+                "ar": "2 تيرابايت",
+                "en": "2TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE18PRO-256GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-512GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-1TB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-2TB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-256GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-512GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-1TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-2TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-256GB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-512GB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-1TB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-2TB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-256GB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-512GB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-1TB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PRO-2TB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "2tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-18-pro/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/5e88f1a933e1bf44-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "5e88f1a933e1bf441cd17c57de3d0f711c509241fe88cb9d3df219fd531fe530",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro — اللون أسود",
+            "en": "Apple iPhone 18 Pro — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro/silver/1",
+          "color": "silver",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0d7b050da1470f77-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "0d7b050da1470f773399dfd98414c784c503bced7aae7a232e202acd715d2095",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro — اللون فضي",
+            "en": "Apple iPhone 18 Pro — Silver"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro/glacier/1",
+          "color": "glacier",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/96d15025b23bcd29-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "96d15025b23bcd29f9fc8f50d4001a47f0468e6a79fd922d9e5283a3efb0a9e7",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro — اللون جليدي",
+            "en": "Apple iPhone 18 Pro — Glacier"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro/burgundy/1",
+          "color": "burgundy",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bc510c81b0b4b14f-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "bc510c81b0b4b14fd6d0f06c5a8b1699471d50095d2b2ad850dd54718c685fac",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro — اللون عنّابي",
+            "en": "Apple iPhone 18 Pro — Burgundy"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.3 بوصة",
+                "en": "6.3-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2622 × 1206",
+                "en": "2622 × 1206"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A20 Pro",
+                "en": "A20 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 36 ساعة تشغيل فيديو",
+                "en": "Up to 36 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 15 دقيقة تقريبًا (محول 60 واط)؛ MagSafe وQi2 حتى 25 واط",
+                "en": "Up to 50% in about 15 min (60W adapter); MagSafe and Qi2 up to 25W"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 27",
+                "en": "iOS 27"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-18-pro-max",
+      "brand": "apple",
+      "slug": "iphone-18-pro-max",
+      "family": "iPhone 18",
+      "model": "iPhone 18 Pro Max",
+      "name": {
+        "ar": "iPhone 18 Pro Max",
+        "en": "iPhone 18 Pro Max"
+      },
+      "subtitle": {
+        "ar": "6.9 بوصة · A20 Pro",
+        "en": "6.9-inch · A20 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 18 Pro Max بشاشة 6.9 بوصة ومعالج A20 Pro. متوفر بالألوان: أسود، فضي، جليدي، عنّابي، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت و2 تيرابايت.",
+        "en": "Apple iPhone 18 Pro Max with a 6.9-inch display and the A20 Pro chip. Colours: Black, Silver, Glacier, Burgundy; storage: 256GB, 512GB, 1TB, 2TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 18 ايفون 18 برو ماكس",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/ae/iphone-18-pro/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#3b3b3b"
+            },
+            {
+              "key": "silver",
+              "label": {
+                "ar": "فضي",
+                "en": "Silver"
+              },
+              "swatchHex": "#f3f3f3"
+            },
+            {
+              "key": "glacier",
+              "label": {
+                "ar": "جليدي",
+                "en": "Glacier"
+              },
+              "swatchHex": "#e5eefb"
+            },
+            {
+              "key": "burgundy",
+              "label": {
+                "ar": "عنّابي",
+                "en": "Burgundy"
+              },
+              "swatchHex": "#4c1720"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            },
+            {
+              "key": "2tb",
+              "label": {
+                "ar": "2 تيرابايت",
+                "en": "2TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE18PROMAX-256GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-512GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-1TB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-2TB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-256GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-512GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-1TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-2TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-256GB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-512GB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-1TB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-2TB-GLACIER",
+          "options": {
+            "color": "glacier",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-256GB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-512GB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-1TB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE18PROMAX-2TB-BURGUNDY",
+          "options": {
+            "color": "burgundy",
+            "storage": "2tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-18-pro-max/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/237b89b92ab4820e-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "237b89b92ab4820ef2e185bae82fb5852ebc254f2b8b870568789197eb2f82db",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro Max — اللون أسود",
+            "en": "Apple iPhone 18 Pro Max — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro-max/silver/1",
+          "color": "silver",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/53d1f587977e6d0e-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "53d1f587977e6d0edfa9c9022c3eedbf92eeaf430f3a5a41db279e6a9f2c1b43",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro Max — اللون فضي",
+            "en": "Apple iPhone 18 Pro Max — Silver"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro-max/glacier/1",
+          "color": "glacier",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da9fda9b9f30d7e2-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "da9fda9b9f30d7e23d2a98ed21232c75faf80375e3cf39acb8c7009ca4390a36",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro Max — اللون جليدي",
+            "en": "Apple iPhone 18 Pro Max — Glacier"
+          }
+        },
+        {
+          "key": "media/apple/iphone-18-pro-max/burgundy/1",
+          "color": "burgundy",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/d94084219b92698a-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "d94084219b92698a523fb2b1b4663448b0c38baf3520f6514b2b8f3cb1205c58",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 18 Pro Max — اللون عنّابي",
+            "en": "Apple iPhone 18 Pro Max — Burgundy"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.9 بوصة",
+                "en": "6.9-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2868 × 1320",
+                "en": "2868 × 1320"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A20 Pro",
+                "en": "A20 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 45 ساعة تشغيل فيديو",
+                "en": "Up to 45 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 15 دقيقة تقريبًا (محول 60 واط)؛ MagSafe وQi2 حتى 25 واط",
+                "en": "Up to 50% in about 15 min (60W adapter); MagSafe and Qi2 up to 25W"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 27",
+                "en": "iOS 27"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-duo",
+      "brand": "apple",
+      "slug": "iphone-duo",
+      "family": "iPhone Duo",
+      "model": "iPhone Duo",
+      "name": {
+        "ar": "iPhone Duo",
+        "en": "iPhone Duo"
+      },
+      "subtitle": {
+        "ar": "7.6 بوصة داخلية، 5.4 بوصة خارجية · A20 Pro",
+        "en": "7.6-inch inner, 5.4-inch outer · A20 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone Duo بشاشة 7.6 بوصة داخلية، 5.4 بوصة خارجية ومعالج A20 Pro. متوفر بالألوان: سماء الليل، أبيض النجوم، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت و2 تيرابايت.",
+        "en": "Apple iPhone Duo with a 7.6-inch inner, 5.4-inch outer display and the A20 Pro chip. Colours: Night Sky, Star White; storage: 256GB, 512GB, 1TB, 2TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone Duo ايفون ديو قابل للطي فولد",
+      "status": "published",
+      "availability": "coming_soon",
+      "sourceUrl": "https://www.apple.com/ae/iphone-duo/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "night-sky",
+              "label": {
+                "ar": "سماء الليل",
+                "en": "Night Sky"
+              },
+              "swatchHex": "#384351"
+            },
+            {
+              "key": "star-white",
+              "label": {
+                "ar": "أبيض النجوم",
+                "en": "Star White"
+              },
+              "swatchHex": "#f3f2f1"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            },
+            {
+              "key": "2tb",
+              "label": {
+                "ar": "2 تيرابايت",
+                "en": "2TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONEDUO-256GB-NIGHTSKY",
+          "options": {
+            "color": "night-sky",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-512GB-NIGHTSKY",
+          "options": {
+            "color": "night-sky",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-1TB-NIGHTSKY",
+          "options": {
+            "color": "night-sky",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-2TB-NIGHTSKY",
+          "options": {
+            "color": "night-sky",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-256GB-STARWHITE",
+          "options": {
+            "color": "star-white",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-512GB-STARWHITE",
+          "options": {
+            "color": "star-white",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-1TB-STARWHITE",
+          "options": {
+            "color": "star-white",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEDUO-2TB-STARWHITE",
+          "options": {
+            "color": "star-white",
+            "storage": "2tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-duo/night-sky/1",
+          "color": "night-sky",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/08f680b8c0b0f981-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-night-sky-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "08f680b8c0b0f981dc5e3391a12f0dc1f29c6d671ded03bbbed385da845b5659",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone Duo — اللون سماء الليل",
+            "en": "Apple iPhone Duo — Night Sky"
+          }
+        },
+        {
+          "key": "media/apple/iphone-duo/star-white/1",
+          "color": "star-white",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/94efac3ebe9e2a01-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-star-white-202609?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "94efac3ebe9e2a0192797f465a1ace4d0f380f7822691a3ab55008da6e17a01b",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone Duo — اللون أبيض النجوم",
+            "en": "Apple iPhone Duo — Star White"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "7.6 بوصة داخلية، 5.4 بوصة خارجية",
+                "en": "7.6-inch inner, 5.4-inch outer"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED، شاشة داخلية قابلة للطي",
+                "en": "Super Retina XDR OLED, foldable inner display"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "1878 × 2670 (الداخلية)، 1398 × 2034 (الخارجية)",
+                "en": "1878 × 2670 (inner), 1398 × 2034 (outer)"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A20 Pro",
+                "en": "A20 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "12 ميجابكسل Center Stage (الشاشة الخارجية)",
+                "en": "12MP Center Stage (outer display)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 44 ساعة تشغيل فيديو (الشاشة الخارجية)",
+                "en": "Up to 44 hours video playback (outer display)"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 20 دقيقة تقريبًا (محول 60 واط)؛ MagSafe",
+                "en": "Up to 50% in about 20 min (60W adapter); MagSafe"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 27",
+                "en": "iOS 27"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-air",
+      "brand": "apple",
+      "slug": "iphone-air",
+      "family": "iPhone Air",
+      "model": "iPhone Air",
+      "name": {
+        "ar": "iPhone Air",
+        "en": "iPhone Air"
+      },
+      "subtitle": {
+        "ar": "6.5 بوصة · A19 Pro",
+        "en": "6.5-inch · A19 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone Air بشاشة 6.5 بوصة ومعالج A19 Pro. متوفر بالألوان: أسود فلكي، أبيض سحابي، ذهبي فاتح، أزرق سماوي، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت.",
+        "en": "Apple iPhone Air with a 6.5-inch display and the A19 Pro chip. Colours: Space Black, Cloud White, Light Gold, Sky Blue; storage: 256GB, 512GB, 1TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone Air ايفون اير",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-air/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "spaceblack",
+              "label": {
+                "ar": "أسود فلكي",
+                "en": "Space Black"
+              },
+              "swatchHex": "#121212"
+            },
+            {
+              "key": "cloudwhite",
+              "label": {
+                "ar": "أبيض سحابي",
+                "en": "Cloud White"
+              },
+              "swatchHex": "#f8f8f8"
+            },
+            {
+              "key": "lightgold",
+              "label": {
+                "ar": "ذهبي فاتح",
+                "en": "Light Gold"
+              },
+              "swatchHex": "#f7efe2"
+            },
+            {
+              "key": "skyblue",
+              "label": {
+                "ar": "أزرق سماوي",
+                "en": "Sky Blue"
+              },
+              "swatchHex": "#e2eef7"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONEAIR-256GB-SPACEBLACK",
+          "options": {
+            "color": "spaceblack",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-512GB-SPACEBLACK",
+          "options": {
+            "color": "spaceblack",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-1TB-SPACEBLACK",
+          "options": {
+            "color": "spaceblack",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-256GB-CLOUDWHITE",
+          "options": {
+            "color": "cloudwhite",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-512GB-CLOUDWHITE",
+          "options": {
+            "color": "cloudwhite",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-1TB-CLOUDWHITE",
+          "options": {
+            "color": "cloudwhite",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-256GB-LIGHTGOLD",
+          "options": {
+            "color": "lightgold",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-512GB-LIGHTGOLD",
+          "options": {
+            "color": "lightgold",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-1TB-LIGHTGOLD",
+          "options": {
+            "color": "lightgold",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-256GB-SKYBLUE",
+          "options": {
+            "color": "skyblue",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-512GB-SKYBLUE",
+          "options": {
+            "color": "skyblue",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONEAIR-1TB-SKYBLUE",
+          "options": {
+            "color": "skyblue",
+            "storage": "1tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-air/spaceblack/1",
+          "color": "spaceblack",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/06a5b428c1cf714e-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-spaceblack-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "06a5b428c1cf714eea5e1512810aeb280946e8b14ec2989dfe35858bc62c2491",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone Air — اللون أسود فلكي",
+            "en": "Apple iPhone Air — Space Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-air/cloudwhite/1",
+          "color": "cloudwhite",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0da9b55565c59896-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-cloudwhite-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "0da9b55565c59896fee8cdba1233bf6cdb728dc9d288c3f7d14d66e5d73e0aa3",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone Air — اللون أبيض سحابي",
+            "en": "Apple iPhone Air — Cloud White"
+          }
+        },
+        {
+          "key": "media/apple/iphone-air/lightgold/1",
+          "color": "lightgold",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1f0ebcdd1e298b46-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-lightgold-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "1f0ebcdd1e298b46f47c5bb31d344af9dbd468e394a2cba323f38b00476a4bb8",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone Air — اللون ذهبي فاتح",
+            "en": "Apple iPhone Air — Light Gold"
+          }
+        },
+        {
+          "key": "media/apple/iphone-air/skyblue/1",
+          "color": "skyblue",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/bd028e87d0b1984f-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-skyblue-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "bd028e87d0b1984fc5e32a9c242188b59fabfa8467334fbf6ca638400c099cc7",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone Air — اللون أزرق سماوي",
+            "en": "Apple iPhone Air — Sky Blue"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.5 بوصة",
+                "en": "6.5-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2736 × 1260",
+                "en": "2736 × 1260"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A19 Pro",
+                "en": "A19 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل",
+                "en": "48MP Fusion Main"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 27 ساعة تشغيل فيديو",
+                "en": "Up to 27 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 30 دقيقة (محول 20 واط)",
+                "en": "Up to 50% in 30 min (20W adapter)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            },
+            {
+              "key": "sim",
+              "label": {
+                "ar": "الشريحة",
+                "en": "SIM"
+              },
+              "value": {
+                "ar": "شريحتا eSIM (بدون شريحة فعلية)",
+                "en": "Dual eSIM (no physical SIM)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-17-pro",
+      "brand": "apple",
+      "slug": "iphone-17-pro",
+      "family": "iPhone 17",
+      "model": "iPhone 17 Pro",
+      "name": {
+        "ar": "iPhone 17 Pro",
+        "en": "iPhone 17 Pro"
+      },
+      "subtitle": {
+        "ar": "6.3 بوصة · A19 Pro",
+        "en": "6.3-inch · A19 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 17 Pro بشاشة 6.3 بوصة ومعالج A19 Pro. متوفر بالألوان: فضي، برتقالي كوني، أزرق عميق، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت.",
+        "en": "Apple iPhone 17 Pro with a 6.3-inch display and the A19 Pro chip. Colours: Silver, Cosmic Orange, Deep Blue; storage: 256GB, 512GB, 1TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 17 ايفون 17 برو",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17-pro/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "silver",
+              "label": {
+                "ar": "فضي",
+                "en": "Silver"
+              },
+              "swatchHex": null
+            },
+            {
+              "key": "cosmicorange",
+              "label": {
+                "ar": "برتقالي كوني",
+                "en": "Cosmic Orange"
+              },
+              "swatchHex": null
+            },
+            {
+              "key": "deepblue",
+              "label": {
+                "ar": "أزرق عميق",
+                "en": "Deep Blue"
+              },
+              "swatchHex": null
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE17PRO-256GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-512GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-1TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-256GB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-512GB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-1TB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-256GB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-512GB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PRO-1TB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "1tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-17-pro/silver/1",
+          "color": "silver",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7c9ecc51c36bb99c-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-silver?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "7c9ecc51c36bb99cf0f8bcdac3c549bb57843cf42110b27a00a95d7ef1672055",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro — اللون فضي",
+            "en": "Apple iPhone 17 Pro — Silver"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17-pro/cosmicorange/1",
+          "color": "cosmicorange",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/be4079da3b80fe04-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "be4079da3b80fe04c2ce32e1bf76703ff851bc6b4ba920faa3dd3a9e74451a8a",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro — اللون برتقالي كوني",
+            "en": "Apple iPhone 17 Pro — Cosmic Orange"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17-pro/deepblue/1",
+          "color": "deepblue",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2f92d04240cb1b7c-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-deepblue?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "2f92d04240cb1b7ca7f01ce03d1ef00d470ce11eff6df09bbdeb1891924fa460",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro — اللون أزرق عميق",
+            "en": "Apple iPhone 17 Pro — Deep Blue"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.3 بوصة",
+                "en": "6.3-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2622 × 1206",
+                "en": "2622 × 1206"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A19 Pro",
+                "en": "A19 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 31 ساعة تشغيل فيديو",
+                "en": "Up to 31 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)؛ MagSafe",
+                "en": "Up to 50% in 20 min (40W adapter); MagSafe"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            },
+            {
+              "key": "sim",
+              "label": {
+                "ar": "الشريحة",
+                "en": "SIM"
+              },
+              "value": {
+                "ar": "شريحتان (nano-SIM + eSIM)",
+                "en": "Dual SIM (nano-SIM + eSIM)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-17-pro-max",
+      "brand": "apple",
+      "slug": "iphone-17-pro-max",
+      "family": "iPhone 17",
+      "model": "iPhone 17 Pro Max",
+      "name": {
+        "ar": "iPhone 17 Pro Max",
+        "en": "iPhone 17 Pro Max"
+      },
+      "subtitle": {
+        "ar": "6.9 بوصة · A19 Pro",
+        "en": "6.9-inch · A19 Pro"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 17 Pro Max بشاشة 6.9 بوصة ومعالج A19 Pro. متوفر بالألوان: فضي، برتقالي كوني، أزرق عميق، وبسعات 256 جيجابايت و512 جيجابايت و1 تيرابايت و2 تيرابايت.",
+        "en": "Apple iPhone 17 Pro Max with a 6.9-inch display and the A19 Pro chip. Colours: Silver, Cosmic Orange, Deep Blue; storage: 256GB, 512GB, 1TB, 2TB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 17 ايفون 17 برو ماكس",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17-pro/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "silver",
+              "label": {
+                "ar": "فضي",
+                "en": "Silver"
+              },
+              "swatchHex": null
+            },
+            {
+              "key": "cosmicorange",
+              "label": {
+                "ar": "برتقالي كوني",
+                "en": "Cosmic Orange"
+              },
+              "swatchHex": null
+            },
+            {
+              "key": "deepblue",
+              "label": {
+                "ar": "أزرق عميق",
+                "en": "Deep Blue"
+              },
+              "swatchHex": null
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            },
+            {
+              "key": "1tb",
+              "label": {
+                "ar": "1 تيرابايت",
+                "en": "1TB"
+              }
+            },
+            {
+              "key": "2tb",
+              "label": {
+                "ar": "2 تيرابايت",
+                "en": "2TB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE17PROMAX-256GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-512GB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-1TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-2TB-SILVER",
+          "options": {
+            "color": "silver",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-256GB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-512GB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-1TB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-2TB-COSMICORANGE",
+          "options": {
+            "color": "cosmicorange",
+            "storage": "2tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-256GB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-512GB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-1TB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "1tb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17PROMAX-2TB-DEEPBLUE",
+          "options": {
+            "color": "deepblue",
+            "storage": "2tb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-17-pro-max/silver/1",
+          "color": "silver",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/0daccdae72f24fa6-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-silver?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "0daccdae72f24fa6f60e0b69d6bf7e093c78829fb3fac625eb5a03a64316273c",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro Max — اللون فضي",
+            "en": "Apple iPhone 17 Pro Max — Silver"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17-pro-max/cosmicorange/1",
+          "color": "cosmicorange",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3dd3d05b358be17a-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "3dd3d05b358be17a3d3da9b28b014e18f3b03085fcf4b774fcd6dfd55941f776",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro Max — اللون برتقالي كوني",
+            "en": "Apple iPhone 17 Pro Max — Cosmic Orange"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17-pro-max/deepblue/1",
+          "color": "deepblue",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/702beb64f88a1f33-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-deepblue?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "702beb64f88a1f335aa12e6944c8651d2f78d678ce9a19787b39e1c693aff89d",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 Pro Max — اللون أزرق عميق",
+            "en": "Apple iPhone 17 Pro Max — Deep Blue"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.9 بوصة",
+                "en": "6.9-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2868 × 1320",
+                "en": "2868 × 1320"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A19 Pro",
+                "en": "A19 Pro"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 37 ساعة تشغيل فيديو",
+                "en": "Up to 37 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)؛ MagSafe",
+                "en": "Up to 50% in 20 min (40W adapter); MagSafe"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            },
+            {
+              "key": "sim",
+              "label": {
+                "ar": "الشريحة",
+                "en": "SIM"
+              },
+              "value": {
+                "ar": "شريحتان (nano-SIM + eSIM)",
+                "en": "Dual SIM (nano-SIM + eSIM)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-17",
+      "brand": "apple",
+      "slug": "iphone-17",
+      "family": "iPhone 17",
+      "model": "iPhone 17",
+      "name": {
+        "ar": "iPhone 17",
+        "en": "iPhone 17"
+      },
+      "subtitle": {
+        "ar": "6.3 بوصة · A19",
+        "en": "6.3-inch · A19"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 17 بشاشة 6.3 بوصة ومعالج A19. متوفر بالألوان: أسود، أبيض، أزرق ضبابي، أخضر رمادي، ليلكي ناعم، وبسعات 256 جيجابايت و512 جيجابايت.",
+        "en": "Apple iPhone 17 with a 6.3-inch display and the A19 chip. Colours: Black, White, Mist Blue, Sage, Lavender; storage: 256GB, 512GB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 17 ايفون 17",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#434546"
+            },
+            {
+              "key": "white",
+              "label": {
+                "ar": "أبيض",
+                "en": "White"
+              },
+              "swatchHex": "#f8f8f8"
+            },
+            {
+              "key": "mistblue",
+              "label": {
+                "ar": "أزرق ضبابي",
+                "en": "Mist Blue"
+              },
+              "swatchHex": "#a6bbdb"
+            },
+            {
+              "key": "sage",
+              "label": {
+                "ar": "أخضر رمادي",
+                "en": "Sage"
+              },
+              "swatchHex": "#b7c399"
+            },
+            {
+              "key": "lavender",
+              "label": {
+                "ar": "ليلكي ناعم",
+                "en": "Lavender"
+              },
+              "swatchHex": "#e4d5ee"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE17-256GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-512GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-256GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-512GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-256GB-MISTBLUE",
+          "options": {
+            "color": "mistblue",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-512GB-MISTBLUE",
+          "options": {
+            "color": "mistblue",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-256GB-SAGE",
+          "options": {
+            "color": "sage",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-512GB-SAGE",
+          "options": {
+            "color": "sage",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-256GB-LAVENDER",
+          "options": {
+            "color": "lavender",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17-512GB-LAVENDER",
+          "options": {
+            "color": "lavender",
+            "storage": "512gb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-17/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7a54a0bc168c62e1-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-black-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "7a54a0bc168c62e1870bfbecb83f6125560267a1c97482418cdfeb1ca889acf0",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 17 — اللون أسود",
+            "en": "Apple iPhone 17 — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17/white/1",
+          "color": "white",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7e87c6f0a772502d-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-white-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "7e87c6f0a772502de8faa4c34288637b707b71894b048b65a0aff8de1933b051",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 — اللون أبيض",
+            "en": "Apple iPhone 17 — White"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17/mistblue/1",
+          "color": "mistblue",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/6edc391adc49632f-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-mistblue-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "6edc391adc49632f6c7b7103b254ce080fc7d40b88cf411116cf6bbb9bf7ed07",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 — اللون أزرق ضبابي",
+            "en": "Apple iPhone 17 — Mist Blue"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17/sage/1",
+          "color": "sage",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/fb6ce71e6477d1f8-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-sage-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "fb6ce71e6477d1f8adee9fde4e4fa56bda2cfc8f83a9db38cd49afaf36f26c41",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 — اللون أخضر رمادي",
+            "en": "Apple iPhone 17 — Sage"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17/lavender/1",
+          "color": "lavender",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/93f7a0e8dee02343-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-lavender-202509?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "93f7a0e8dee023433b7c3793a3d3dad184bde1700fc9328c625b944048da4ad1",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17 — اللون ليلكي ناعم",
+            "en": "Apple iPhone 17 — Lavender"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.3 بوصة",
+                "en": "6.3-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2622 × 1206",
+                "en": "2622 × 1206"
+              }
+            },
+            {
+              "key": "refresh_rate",
+              "label": {
+                "ar": "معدل التحديث",
+                "en": "Refresh rate"
+              },
+              "value": {
+                "ar": "ProMotion حتى 120 هرتز",
+                "en": "ProMotion, up to 120Hz"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A19",
+                "en": "A19"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل",
+                "en": "48MP Fusion Main + 48MP Fusion Ultra Wide"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "18 ميجابكسل Center Stage",
+                "en": "18MP Center Stage"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 30 ساعة تشغيل فيديو",
+                "en": "Up to 30 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)",
+                "en": "Up to 50% in 20 min (40W adapter)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-17e",
+      "brand": "apple",
+      "slug": "iphone-17e",
+      "family": "iPhone 17",
+      "model": "iPhone 17e",
+      "name": {
+        "ar": "iPhone 17e",
+        "en": "iPhone 17e"
+      },
+      "subtitle": {
+        "ar": "6.1 بوصة · A19",
+        "en": "6.1-inch · A19"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 17e بشاشة 6.1 بوصة ومعالج A19. متوفر بالألوان: أسود، أبيض، زهري ناعم، وبسعات 256 جيجابايت و512 جيجابايت.",
+        "en": "Apple iPhone 17e with a 6.1-inch display and the A19 chip. Colours: Black, White, Soft Pink; storage: 256GB, 512GB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 17 ايفون 17 اي",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17e/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#494d4e"
+            },
+            {
+              "key": "white",
+              "label": {
+                "ar": "أبيض",
+                "en": "White"
+              },
+              "swatchHex": "#f6f6f6"
+            },
+            {
+              "key": "softpink",
+              "label": {
+                "ar": "زهري ناعم",
+                "en": "Soft Pink"
+              },
+              "swatchHex": "#f8e4e3"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            },
+            {
+              "key": "512gb",
+              "label": {
+                "ar": "512 جيجابايت",
+                "en": "512GB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE17E-256GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17E-512GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17E-256GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17E-512GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "512gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17E-256GB-SOFTPINK",
+          "options": {
+            "color": "softpink",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE17E-512GB-SOFTPINK",
+          "options": {
+            "color": "softpink",
+            "storage": "512gb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-17e/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/c3fb914afad919d7-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-black-202603?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "c3fb914afad919d7115ad5faad0505368a540f44d91d26423941498b80091c16",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 17e — اللون أسود",
+            "en": "Apple iPhone 17e — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17e/white/1",
+          "color": "white",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/df63ee871ddc02ab-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-white-202603?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "df63ee871ddc02ab8b8a6076e3f52aad165588968395c2bd13f44287d40a2dd9",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17e — اللون أبيض",
+            "en": "Apple iPhone 17e — White"
+          }
+        },
+        {
+          "key": "media/apple/iphone-17e/softpink/1",
+          "color": "softpink",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/2932bb606e085544-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-softpink-202603?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "2932bb606e085544975bbd92892ab7679646cea433faa603055023bac786ac80",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 17e — اللون زهري ناعم",
+            "en": "Apple iPhone 17e — Soft Pink"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.1 بوصة",
+                "en": "6.1-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2532 × 1170",
+                "en": "2532 × 1170"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A19",
+                "en": "A19"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "48 ميجابكسل Fusion",
+                "en": "48MP Fusion"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "12 ميجابكسل TrueDepth",
+                "en": "12MP TrueDepth"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 26 ساعة تشغيل فيديو",
+                "en": "Up to 26 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 30 دقيقة (محول 20 واط)",
+                "en": "Up to 50% in 30 min (20W adapter)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-16",
+      "brand": "apple",
+      "slug": "iphone-16",
+      "family": "iPhone 16",
+      "model": "iPhone 16",
+      "name": {
+        "ar": "iPhone 16",
+        "en": "iPhone 16"
+      },
+      "subtitle": {
+        "ar": "6.1 بوصة · A18",
+        "en": "6.1-inch · A18"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 16 بشاشة 6.1 بوصة ومعالج A18. متوفر بالألوان: أسود، أبيض، وردي، فيروزي، أزرق عمق البحر، وبسعات 128 جيجابايت.",
+        "en": "Apple iPhone 16 with a 6.1-inch display and the A18 chip. Colours: Black, White, Pink, Teal, Ultramarine; storage: 128GB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 16 ايفون 16",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-16/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#494d4e"
+            },
+            {
+              "key": "white",
+              "label": {
+                "ar": "أبيض",
+                "en": "White"
+              },
+              "swatchHex": "#f6f6f6"
+            },
+            {
+              "key": "pink",
+              "label": {
+                "ar": "وردي",
+                "en": "Pink"
+              },
+              "swatchHex": "#efb0d9"
+            },
+            {
+              "key": "teal",
+              "label": {
+                "ar": "فيروزي",
+                "en": "Teal"
+              },
+              "swatchHex": "#b3d4d2"
+            },
+            {
+              "key": "ultramarine",
+              "label": {
+                "ar": "أزرق عمق البحر",
+                "en": "Ultramarine"
+              },
+              "swatchHex": "#9fb0f3"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "128gb",
+              "label": {
+                "ar": "128 جيجابايت",
+                "en": "128GB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE16-128GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16-128GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16-128GB-PINK",
+          "options": {
+            "color": "pink",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16-128GB-TEAL",
+          "options": {
+            "color": "teal",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16-128GB-ULTRAMARINE",
+          "options": {
+            "color": "ultramarine",
+            "storage": "128gb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-16/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/eb253263bcfe87a1-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-black-select-202409?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "eb253263bcfe87a1adf7f0c5b76537ef44ccb679a3e953f330314793d28c9bbe",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 16 — اللون أسود",
+            "en": "Apple iPhone 16 — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16/white/1",
+          "color": "white",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/67842e278746ae98-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-white-select-202409?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "67842e278746ae98b1bf31b77aae1a390d39134ac1d567b763bee4b2f119ddec",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 — اللون أبيض",
+            "en": "Apple iPhone 16 — White"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16/pink/1",
+          "color": "pink",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/30a7282a8d750589-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-pink-select-202409?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "30a7282a8d75058936de7732e71762b80e2282e58a00a8ba60e6d5151f0f339b",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 — اللون وردي",
+            "en": "Apple iPhone 16 — Pink"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16/teal/1",
+          "color": "teal",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/7d98bd095dca4381-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-teal-select-202409?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "7d98bd095dca4381c661db5e4e4bcbb83ed0b7b63058df81e7d79205243058d8",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 — اللون فيروزي",
+            "en": "Apple iPhone 16 — Teal"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16/ultramarine/1",
+          "color": "ultramarine",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/18b15c3e13304b5b-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-ultramarine-select-202409?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "18b15c3e13304b5b961da4ce63d4e26f7c6793c21597be036642aeabb49708c9",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 — اللون أزرق عمق البحر",
+            "en": "Apple iPhone 16 — Ultramarine"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.1 بوصة",
+                "en": "6.1-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2556 × 1179",
+                "en": "2556 × 1179"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A18",
+                "en": "A18"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "48 ميجابكسل Fusion + واسعة جدًا 12 ميجابكسل",
+                "en": "48MP Fusion + 12MP Ultra Wide"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "12 ميجابكسل TrueDepth",
+                "en": "12MP TrueDepth"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 22 ساعة تشغيل فيديو",
+                "en": "Up to 22 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 30 دقيقة تقريبًا (محول 20 واط)؛ MagSafe حتى 25 واط وQi2 حتى 15 واط",
+                "en": "Up to 50% in about 30 min (20W adapter); MagSafe up to 25W, Qi2 15W"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            },
+            {
+              "key": "sim",
+              "label": {
+                "ar": "الشريحة",
+                "en": "SIM"
+              },
+              "value": {
+                "ar": "شريحتان (nano-SIM + eSIM)",
+                "en": "Dual SIM (nano-SIM + eSIM)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "apple/iphone-16-plus",
+      "brand": "apple",
+      "slug": "iphone-16-plus",
+      "family": "iPhone 16",
+      "model": "iPhone 16 Plus",
+      "name": {
+        "ar": "iPhone 16 Plus",
+        "en": "iPhone 16 Plus"
+      },
+      "subtitle": {
+        "ar": "6.7 بوصة · A18",
+        "en": "6.7-inch · A18"
+      },
+      "description": {
+        "ar": "هاتف أبل iPhone 16 Plus بشاشة 6.7 بوصة ومعالج A18. متوفر بالألوان: أسود، أبيض، وردي، فيروزي، أزرق عمق البحر، وبسعات 128 جيجابايت و256 جيجابايت.",
+        "en": "Apple iPhone 16 Plus with a 6.7-inch display and the A18 chip. Colours: Black, White, Pink, Teal, Ultramarine; storage: 128GB, 256GB."
+      },
+      "keywords": "ابل ايفون apple iphone iPhone 16 ايفون 16 بلس",
+      "status": "published",
+      "availability": "available",
+      "sourceUrl": "https://www.apple.com/eg/iphone-16/specs/",
+      "checkedAt": "2026-10-04",
+      "options": [
+        {
+          "key": "color",
+          "name": {
+            "ar": "اللون",
+            "en": "Color"
+          },
+          "values": [
+            {
+              "key": "black",
+              "label": {
+                "ar": "أسود",
+                "en": "Black"
+              },
+              "swatchHex": "#494d4e"
+            },
+            {
+              "key": "white",
+              "label": {
+                "ar": "أبيض",
+                "en": "White"
+              },
+              "swatchHex": "#f6f6f6"
+            },
+            {
+              "key": "pink",
+              "label": {
+                "ar": "وردي",
+                "en": "Pink"
+              },
+              "swatchHex": "#efb0d9"
+            },
+            {
+              "key": "teal",
+              "label": {
+                "ar": "فيروزي",
+                "en": "Teal"
+              },
+              "swatchHex": "#b3d4d2"
+            },
+            {
+              "key": "ultramarine",
+              "label": {
+                "ar": "أزرق عمق البحر",
+                "en": "Ultramarine"
+              },
+              "swatchHex": "#9fb0f3"
+            }
+          ]
+        },
+        {
+          "key": "storage",
+          "name": {
+            "ar": "السعة",
+            "en": "Storage"
+          },
+          "values": [
+            {
+              "key": "128gb",
+              "label": {
+                "ar": "128 جيجابايت",
+                "en": "128GB"
+              }
+            },
+            {
+              "key": "256gb",
+              "label": {
+                "ar": "256 جيجابايت",
+                "en": "256GB"
+              }
+            }
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "sku": "APL-IPHONE16PLUS-128GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-256GB-BLACK",
+          "options": {
+            "color": "black",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-128GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-256GB-WHITE",
+          "options": {
+            "color": "white",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-128GB-PINK",
+          "options": {
+            "color": "pink",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-256GB-PINK",
+          "options": {
+            "color": "pink",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-128GB-TEAL",
+          "options": {
+            "color": "teal",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-256GB-TEAL",
+          "options": {
+            "color": "teal",
+            "storage": "256gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-128GB-ULTRAMARINE",
+          "options": {
+            "color": "ultramarine",
+            "storage": "128gb"
+          }
+        },
+        {
+          "sku": "APL-IPHONE16PLUS-256GB-ULTRAMARINE",
+          "options": {
+            "color": "ultramarine",
+            "storage": "256gb"
+          }
+        }
+      ],
+      "media": [
+        {
+          "key": "media/apple/iphone-16-plus/black/1",
+          "color": "black",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/357c147578cc5e32-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-black?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "357c147578cc5e326f39652a82d0ccf3e20f808ddd50ad6c5140b4d2acf4a5db",
+          "width": 1200,
+          "height": 1200,
+          "isCover": true,
+          "alt": {
+            "ar": "أبل iPhone 16 Plus — اللون أسود",
+            "en": "Apple iPhone 16 Plus — Black"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16-plus/white/1",
+          "color": "white",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/3b9f993298fa9a8d-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-white?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "3b9f993298fa9a8ddb6163e1fc50dfc90754cb0d22e37ae0c641e45b81dfe90c",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 Plus — اللون أبيض",
+            "en": "Apple iPhone 16 Plus — White"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16-plus/pink/1",
+          "color": "pink",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/e1dfac861296a5ab-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-pink?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "e1dfac861296a5abe8fdaec9f9f0345cc2ed558099f149e325192d7267c63ccf",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 Plus — اللون وردي",
+            "en": "Apple iPhone 16 Plus — Pink"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16-plus/teal/1",
+          "color": "teal",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/da4431cccfc6a139-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-teal?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "da4431cccfc6a13967be41a1606b7334f21fee0cb2c4da0c5c948e5059465aca",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 Plus — اللون فيروزي",
+            "en": "Apple iPhone 16 Plus — Teal"
+          }
+        },
+        {
+          "key": "media/apple/iphone-16-plus/ultramarine/1",
+          "color": "ultramarine",
+          "url": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/apple/1c5e17bae031f93b-1200.webp",
+          "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-ultramarine?wid=1200&hei=1200&fmt=png-alpha",
+          "sha256": "1c5e17bae031f93b3a368b25633ab2d494f4b95b7467e4df9c3186acd61f1e71",
+          "width": 1200,
+          "height": 1200,
+          "isCover": false,
+          "alt": {
+            "ar": "أبل iPhone 16 Plus — اللون أزرق عمق البحر",
+            "en": "Apple iPhone 16 Plus — Ultramarine"
+          }
+        }
+      ],
+      "specs": [
+        {
+          "key": "display",
+          "title": {
+            "ar": "الشاشة",
+            "en": "Display"
+          },
+          "items": [
+            {
+              "key": "display_size",
+              "label": {
+                "ar": "حجم الشاشة",
+                "en": "Screen size"
+              },
+              "value": {
+                "ar": "6.7 بوصة",
+                "en": "6.7-inch"
+              }
+            },
+            {
+              "key": "display_type",
+              "label": {
+                "ar": "نوع الشاشة",
+                "en": "Display type"
+              },
+              "value": {
+                "ar": "Super Retina XDR OLED",
+                "en": "Super Retina XDR OLED"
+              }
+            },
+            {
+              "key": "resolution",
+              "label": {
+                "ar": "الدقة",
+                "en": "Resolution"
+              },
+              "value": {
+                "ar": "2796 × 1290",
+                "en": "2796 × 1290"
+              }
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": {
+            "ar": "الأداء",
+            "en": "Performance"
+          },
+          "items": [
+            {
+              "key": "chipset",
+              "label": {
+                "ar": "المعالج",
+                "en": "Chipset"
+              },
+              "value": {
+                "ar": "A18",
+                "en": "A18"
+              }
+            }
+          ]
+        },
+        {
+          "key": "camera",
+          "title": {
+            "ar": "الكاميرا",
+            "en": "Camera"
+          },
+          "items": [
+            {
+              "key": "rear_camera",
+              "label": {
+                "ar": "الكاميرا الخلفية",
+                "en": "Rear camera"
+              },
+              "value": {
+                "ar": "48 ميجابكسل Fusion + واسعة جدًا 12 ميجابكسل",
+                "en": "48MP Fusion + 12MP Ultra Wide"
+              }
+            },
+            {
+              "key": "front_camera",
+              "label": {
+                "ar": "الكاميرا الأمامية",
+                "en": "Front camera"
+              },
+              "value": {
+                "ar": "12 ميجابكسل TrueDepth",
+                "en": "12MP TrueDepth"
+              }
+            }
+          ]
+        },
+        {
+          "key": "battery",
+          "title": {
+            "ar": "البطارية والشحن",
+            "en": "Battery & charging"
+          },
+          "items": [
+            {
+              "key": "battery",
+              "label": {
+                "ar": "البطارية",
+                "en": "Battery"
+              },
+              "value": {
+                "ar": "حتى 27 ساعة تشغيل فيديو",
+                "en": "Up to 27 hours video playback"
+              }
+            },
+            {
+              "key": "charging",
+              "label": {
+                "ar": "الشحن",
+                "en": "Charging"
+              },
+              "value": {
+                "ar": "حتى 50% خلال 30 دقيقة تقريبًا (محول 20 واط)؛ MagSafe حتى 25 واط وQi2 حتى 15 واط",
+                "en": "Up to 50% in about 30 min (20W adapter); MagSafe up to 25W, Qi2 15W"
+              }
+            }
+          ]
+        },
+        {
+          "key": "connectivity",
+          "title": {
+            "ar": "الاتصال",
+            "en": "Connectivity"
+          },
+          "items": [
+            {
+              "key": "network",
+              "label": {
+                "ar": "الشبكة",
+                "en": "Network"
+              },
+              "value": {
+                "ar": "5G",
+                "en": "5G"
+              }
+            },
+            {
+              "key": "sim",
+              "label": {
+                "ar": "الشريحة",
+                "en": "SIM"
+              },
+              "value": {
+                "ar": "شريحتان (nano-SIM + eSIM)",
+                "en": "Dual SIM (nano-SIM + eSIM)"
+              }
+            }
+          ]
+        },
+        {
+          "key": "design",
+          "title": {
+            "ar": "التصميم",
+            "en": "Design"
+          },
+          "items": [
+            {
+              "key": "water_resistance",
+              "label": {
+                "ar": "مقاومة الماء والغبار",
+                "en": "Water & dust resistance"
+              },
+              "value": {
+                "ar": "IP68",
+                "en": "IP68"
+              }
+            }
+          ]
+        },
+        {
+          "key": "software",
+          "title": {
+            "ar": "النظام",
+            "en": "Software"
+          },
+          "items": [
+            {
+              "key": "os",
+              "label": {
+                "ar": "نظام التشغيل",
+                "en": "Operating system"
+              },
+              "value": {
+                "ar": "iOS 26",
+                "en": "iOS 26"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

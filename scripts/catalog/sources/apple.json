@@ -1,0 +1,901 @@
+{
+  "brand": {
+    "slug": "apple",
+    "name": {
+      "ar": "أبل",
+      "en": "Apple"
+    },
+    "sourceUrl": "https://www.apple.com/eg/iphone/",
+    "sortOrder": 10,
+    "skuPrefix": "APL"
+  },
+  "keywords": "ابل ايفون apple iphone",
+  "checkedAt": "2026-10-04",
+  "notes": "Egypt lineup from apple.com/eg (iPhone 17 Pro, 17 Pro Max, Air, 17, 17e, 16, 16 Plus); iPhone 18 Pro, 18 Pro Max and iPhone Duo are confirmed on apple.com/ae (not yet listed on apple.com/eg). iPhone Duo pre-orders open 16/10 per apple.com/ae, so it is Coming soon. SIM type is region-dependent: recorded only where the source page states it unambiguously. Apple's store CDN exposes one transparent hero image per finish (\"finish-select\"); the other per-finish files are small colour chips, so one image per colour is used.",
+  "products": [
+    {
+      "slug": "iphone-18-pro",
+      "model": "iPhone 18 Pro",
+      "family": "iPhone 18",
+      "sourceUrl": "https://www.apple.com/ae/iphone-18-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#3b3b3b",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": "#f3f3f3",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "glacier",
+          "en": "Glacier",
+          "ar": "جليدي",
+          "hex": "#e5eefb",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "burgundy",
+          "en": "Burgundy",
+          "ar": "عنّابي",
+          "hex": "#4c1720",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        },
+        {
+          "storage": "2TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.3-inch",
+          "ar": "6.3 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2622 × 1206",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A20 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 36 hours video playback",
+          "ar": "حتى 36 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in about 15 min (60W adapter); MagSafe and Qi2 up to 25W",
+          "ar": "حتى 50% خلال 15 دقيقة تقريبًا (محول 60 واط)؛ MagSafe وQi2 حتى 25 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "iOS 27"
+      },
+      "keywords": "ايفون 18 برو"
+    },
+    {
+      "slug": "iphone-18-pro-max",
+      "model": "iPhone 18 Pro Max",
+      "family": "iPhone 18",
+      "sourceUrl": "https://www.apple.com/ae/iphone-18-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#3b3b3b",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-black-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": "#f3f3f3",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-silver-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "glacier",
+          "en": "Glacier",
+          "ar": "جليدي",
+          "hex": "#e5eefb",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-glacier-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "burgundy",
+          "en": "Burgundy",
+          "ar": "عنّابي",
+          "hex": "#4c1720",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-max-finish-select-burgundy-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        },
+        {
+          "storage": "2TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2868 × 1320",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A20 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 45 hours video playback",
+          "ar": "حتى 45 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in about 15 min (60W adapter); MagSafe and Qi2 up to 25W",
+          "ar": "حتى 50% خلال 15 دقيقة تقريبًا (محول 60 واط)؛ MagSafe وQi2 حتى 25 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "iOS 27"
+      },
+      "keywords": "ايفون 18 برو ماكس"
+    },
+    {
+      "slug": "iphone-duo",
+      "model": "iPhone Duo",
+      "family": "iPhone Duo",
+      "sourceUrl": "https://www.apple.com/ae/iphone-duo/specs/",
+      "availability": "coming_soon",
+      "colors": [
+        {
+          "key": "night-sky",
+          "en": "Night Sky",
+          "ar": "سماء الليل",
+          "hex": "#384351",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-night-sky-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "star-white",
+          "en": "Star White",
+          "ar": "أبيض النجوم",
+          "hex": "#f3f2f1",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-star-white-202609?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        },
+        {
+          "storage": "2TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "7.6-inch inner, 5.4-inch outer",
+          "ar": "7.6 بوصة داخلية، 5.4 بوصة خارجية"
+        },
+        "display_type": {
+          "en": "Super Retina XDR OLED, foldable inner display",
+          "ar": "Super Retina XDR OLED، شاشة داخلية قابلة للطي"
+        },
+        "resolution": {
+          "en": "1878 × 2670 (inner), 1398 × 2034 (outer)",
+          "ar": "1878 × 2670 (الداخلية)، 1398 × 2034 (الخارجية)"
+        },
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A20 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP Center Stage (outer display)",
+          "ar": "12 ميجابكسل Center Stage (الشاشة الخارجية)"
+        },
+        "battery": {
+          "en": "Up to 44 hours video playback (outer display)",
+          "ar": "حتى 44 ساعة تشغيل فيديو (الشاشة الخارجية)"
+        },
+        "charging": {
+          "en": "Up to 50% in about 20 min (60W adapter); MagSafe",
+          "ar": "حتى 50% خلال 20 دقيقة تقريبًا (محول 60 واط)؛ MagSafe"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "iOS 27"
+      },
+      "keywords": "ايفون ديو قابل للطي فولد"
+    },
+    {
+      "slug": "iphone-air",
+      "model": "iPhone Air",
+      "family": "iPhone Air",
+      "sourceUrl": "https://www.apple.com/eg/iphone-air/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "spaceblack",
+          "en": "Space Black",
+          "ar": "أسود فلكي",
+          "hex": "#121212",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-spaceblack-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "cloudwhite",
+          "en": "Cloud White",
+          "ar": "أبيض سحابي",
+          "hex": "#f8f8f8",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-cloudwhite-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "lightgold",
+          "en": "Light Gold",
+          "ar": "ذهبي فاتح",
+          "hex": "#f7efe2",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-lightgold-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "skyblue",
+          "en": "Sky Blue",
+          "ar": "أزرق سماوي",
+          "hex": "#e2eef7",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-air-finish-select-skyblue-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.5-inch",
+          "ar": "6.5 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2736 × 1260",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A19 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main",
+          "ar": "رئيسية 48 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 27 hours video playback",
+          "ar": "حتى 27 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in 30 min (20W adapter)",
+          "ar": "حتى 50% خلال 30 دقيقة (محول 20 واط)"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual eSIM (no physical SIM)",
+          "ar": "شريحتا eSIM (بدون شريحة فعلية)"
+        },
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون اير"
+    },
+    {
+      "slug": "iphone-17-pro",
+      "model": "iPhone 17 Pro",
+      "family": "iPhone 17",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-silver?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "cosmicorange",
+          "en": "Cosmic Orange",
+          "ar": "برتقالي كوني",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "deepblue",
+          "en": "Deep Blue",
+          "ar": "أزرق عميق",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-3inch-deepblue?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.3-inch",
+          "ar": "6.3 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2622 × 1206",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A19 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 31 hours video playback",
+          "ar": "حتى 31 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in 20 min (40W adapter); MagSafe",
+          "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)؛ MagSafe"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (nano-SIM + eSIM)",
+          "ar": "شريحتان (nano-SIM + eSIM)"
+        },
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 17 برو"
+    },
+    {
+      "slug": "iphone-17-pro-max",
+      "model": "iPhone 17 Pro Max",
+      "family": "iPhone 17",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-silver?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "cosmicorange",
+          "en": "Cosmic Orange",
+          "ar": "برتقالي كوني",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-cosmicorange?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "deepblue",
+          "en": "Deep Blue",
+          "ar": "أزرق عميق",
+          "hex": null,
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-finish-select-202509-6-9inch-deepblue?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        },
+        {
+          "storage": "1TB"
+        },
+        {
+          "storage": "2TB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2868 × 1320",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A19 Pro",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide + 48MP Fusion Telephoto (4x)",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل + مقرّبة 48 ميجابكسل (4x)"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 37 hours video playback",
+          "ar": "حتى 37 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in 20 min (40W adapter); MagSafe",
+          "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)؛ MagSafe"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (nano-SIM + eSIM)",
+          "ar": "شريحتان (nano-SIM + eSIM)"
+        },
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 17 برو ماكس"
+    },
+    {
+      "slug": "iphone-17",
+      "model": "iPhone 17",
+      "family": "iPhone 17",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#434546",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-black-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f8f8f8",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-white-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "mistblue",
+          "en": "Mist Blue",
+          "ar": "أزرق ضبابي",
+          "hex": "#a6bbdb",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-mistblue-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "sage",
+          "en": "Sage",
+          "ar": "أخضر رمادي",
+          "hex": "#b7c399",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-sage-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "lavender",
+          "en": "Lavender",
+          "ar": "ليلكي ناعم",
+          "hex": "#e4d5ee",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-finish-select-lavender-202509?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.3-inch",
+          "ar": "6.3 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2622 × 1206",
+        "refresh_rate": {
+          "en": "ProMotion, up to 120Hz",
+          "ar": "ProMotion حتى 120 هرتز"
+        },
+        "chipset": "A19",
+        "rear_camera": {
+          "en": "48MP Fusion Main + 48MP Fusion Ultra Wide",
+          "ar": "رئيسية 48 ميجابكسل + واسعة جدًا 48 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "18MP Center Stage",
+          "ar": "18 ميجابكسل Center Stage"
+        },
+        "battery": {
+          "en": "Up to 30 hours video playback",
+          "ar": "حتى 30 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in 20 min (40W adapter)",
+          "ar": "حتى 50% خلال 20 دقيقة (محول 40 واط)"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 17"
+    },
+    {
+      "slug": "iphone-17e",
+      "model": "iPhone 17e",
+      "family": "iPhone 17",
+      "sourceUrl": "https://www.apple.com/eg/iphone-17e/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d4e",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-black-202603?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f6f6f6",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-white-202603?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "softpink",
+          "en": "Soft Pink",
+          "ar": "زهري ناعم",
+          "hex": "#f8e4e3",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17e-finish-select-softpink-202603?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        },
+        {
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.1-inch",
+          "ar": "6.1 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2532 × 1170",
+        "chipset": "A19",
+        "rear_camera": {
+          "en": "48MP Fusion",
+          "ar": "48 ميجابكسل Fusion"
+        },
+        "front_camera": {
+          "en": "12MP TrueDepth",
+          "ar": "12 ميجابكسل TrueDepth"
+        },
+        "battery": {
+          "en": "Up to 26 hours video playback",
+          "ar": "حتى 26 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in 30 min (20W adapter)",
+          "ar": "حتى 50% خلال 30 دقيقة (محول 20 واط)"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 17 اي"
+    },
+    {
+      "slug": "iphone-16",
+      "model": "iPhone 16",
+      "family": "iPhone 16",
+      "sourceUrl": "https://www.apple.com/eg/iphone-16/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d4e",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-black-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f6f6f6",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-white-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "pink",
+          "en": "Pink",
+          "ar": "وردي",
+          "hex": "#efb0d9",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-pink-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "teal",
+          "en": "Teal",
+          "ar": "فيروزي",
+          "hex": "#b3d4d2",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-teal-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "ultramarine",
+          "en": "Ultramarine",
+          "ar": "أزرق عمق البحر",
+          "hex": "#9fb0f3",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-ultramarine-select-202409?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "128GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.1-inch",
+          "ar": "6.1 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2556 × 1179",
+        "chipset": "A18",
+        "rear_camera": {
+          "en": "48MP Fusion + 12MP Ultra Wide",
+          "ar": "48 ميجابكسل Fusion + واسعة جدًا 12 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP TrueDepth",
+          "ar": "12 ميجابكسل TrueDepth"
+        },
+        "battery": {
+          "en": "Up to 22 hours video playback",
+          "ar": "حتى 22 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in about 30 min (20W adapter); MagSafe up to 25W, Qi2 15W",
+          "ar": "حتى 50% خلال 30 دقيقة تقريبًا (محول 20 واط)؛ MagSafe حتى 25 واط وQi2 حتى 15 واط"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (nano-SIM + eSIM)",
+          "ar": "شريحتان (nano-SIM + eSIM)"
+        },
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 16"
+    },
+    {
+      "slug": "iphone-16-plus",
+      "model": "iPhone 16 Plus",
+      "family": "iPhone 16",
+      "sourceUrl": "https://www.apple.com/eg/iphone-16/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d4e",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-black?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f6f6f6",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-white?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "pink",
+          "en": "Pink",
+          "ar": "وردي",
+          "hex": "#efb0d9",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-pink?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "teal",
+          "en": "Teal",
+          "ar": "فيروزي",
+          "hex": "#b3d4d2",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-teal?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "ultramarine",
+          "en": "Ultramarine",
+          "ar": "أزرق عمق البحر",
+          "hex": "#9fb0f3",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-finish-select-202409-6-7inch-ultramarine?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "128GB"
+        },
+        {
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super Retina XDR OLED",
+        "resolution": "2796 × 1290",
+        "chipset": "A18",
+        "rear_camera": {
+          "en": "48MP Fusion + 12MP Ultra Wide",
+          "ar": "48 ميجابكسل Fusion + واسعة جدًا 12 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP TrueDepth",
+          "ar": "12 ميجابكسل TrueDepth"
+        },
+        "battery": {
+          "en": "Up to 27 hours video playback",
+          "ar": "حتى 27 ساعة تشغيل فيديو"
+        },
+        "charging": {
+          "en": "Up to 50% in about 30 min (20W adapter); MagSafe up to 25W, Qi2 15W",
+          "ar": "حتى 50% خلال 30 دقيقة تقريبًا (محول 20 واط)؛ MagSafe حتى 25 واط وQi2 حتى 15 واط"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (nano-SIM + eSIM)",
+          "ar": "شريحتان (nano-SIM + eSIM)"
+        },
+        "water_resistance": "IP68",
+        "os": "iOS 26"
+      },
+      "keywords": "ايفون 16 بلس"
+    }
+  ],
+  "skipped": []
+}
