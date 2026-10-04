@@ -18,6 +18,7 @@ import { useCatalogSearch, useEntries } from '../data/hooks';
 import contentStyles from '../components/content.module.css';
 import styles from './sections.module.css';
 import { BidiText } from '@/components/text/BidiText';
+import { catalogThumbUrl } from '@/domain/catalog/import/media';
 
 const STATE_LABEL: Record<string, CoreMessageKey> = {
   coming_soon: 'catalog.comingSoon',
@@ -53,7 +54,7 @@ export function ComingSoonSection({
             <article className={styles.soon}>
               {product.image ? (
                 <img
-                  src={product.image.url}
+                  src={catalogThumbUrl(product.image.url)}
                   alt=""
                   width={96}
                   height={120}

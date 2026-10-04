@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react';
 import { useState, type KeyboardEvent } from 'react';
+import { catalogImageSources, catalogThumbUrl } from '@/domain/catalog/import/media';
 import type { MediaItem } from '@/domain/catalog/types';
 import { resolveLocalized } from '@/domain/localized';
 import { useI18n } from '@/i18n/context';
@@ -60,7 +61,7 @@ export function ProductGallery({
         ) : (
           <img
             key={current.id}
-            src={current.url}
+            {...catalogImageSources(current.url, '(min-width: 1024px) 50vw, 100vw')}
             alt={resolveLocalized(current.alt, locale)}
             width={current.width ?? 800}
             height={current.height ?? 800}
@@ -106,7 +107,7 @@ export function ProductGallery({
                 onClick={() => setIndex(i)}
               >
                 <img
-                  src={item.kind === 'video' ? (item.posterUrl ?? '') : item.url}
+                  src={item.kind === 'video' ? (item.posterUrl ?? '') : catalogThumbUrl(item.url)}
                   alt=""
                   width={64}
                   height={64}

@@ -63,6 +63,7 @@ import { MyOrders, type OrderFilter } from '../../commerce/MyOrders';
 import { stockLabelKey } from '../../components/stockLabel';
 import { RecentlyViewedRail } from '../../customer/ProductRails';
 import styles from '../../customer/account.module.css';
+import { catalogThumbUrl } from '@/domain/catalog/import/media';
 
 // ═════════════════════════════ Layout ═════════════════════════════
 const NAV: { to: string; label: CoreMessageKey; Icon: LucideIcon; end?: boolean }[] = [
@@ -905,7 +906,7 @@ export function AccountRequests() {
                       {r.product.image ? (
                         <img
                           className={styles.thumb}
-                          src={r.product.image.url}
+                          src={catalogThumbUrl(r.product.image.url)}
                           alt=""
                           loading="lazy"
                           decoding="async"
@@ -974,7 +975,7 @@ export function AccountRequests() {
                       {r.product.image ? (
                         <img
                           className={styles.thumb}
-                          src={r.product.image.url}
+                          src={catalogThumbUrl(r.product.image.url)}
                           alt=""
                           loading="lazy"
                           decoding="async"

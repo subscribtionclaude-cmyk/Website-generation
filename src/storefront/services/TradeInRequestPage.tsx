@@ -43,6 +43,7 @@ import {
 } from './ServiceParts';
 import { useServiceDraft } from './useServiceDraft';
 import styles from './services.module.css';
+import { catalogThumbUrl } from '@/domain/catalog/import/media';
 
 const STORAGE_OPTIONS = ['64GB', '128GB', '256GB', '512GB', '1TB', '2TB'];
 
@@ -727,7 +728,7 @@ function TargetPicker({
               }}
             >
               {p.image ? (
-                <img src={p.image.url} alt="" loading="lazy" decoding="async" />
+                <img src={catalogThumbUrl(p.image.url)} alt="" loading="lazy" decoding="async" />
               ) : (
                 <PackageSearch aria-hidden="true" />
               )}
@@ -779,7 +780,11 @@ function TargetPicker({
           ))}
           {selected && (
             <div className={styles.targetCard} role="status">
-              {product.image ? <img src={product.image.url} alt="" decoding="async" /> : <span />}
+              {product.image ? (
+                <img src={catalogThumbUrl(product.image.url)} alt="" decoding="async" />
+              ) : (
+                <span />
+              )}
               <div>
                 <p>
                   <strong>{resolveLocalized(product.name, locale)}</strong>

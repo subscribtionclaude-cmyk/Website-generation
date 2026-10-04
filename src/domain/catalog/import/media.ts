@@ -93,3 +93,21 @@ export function catalogSrcSet(url: string): string | undefined {
   if (!m) return undefined;
   return `${m[1]}-480.webp 480w, ${m[1]}-1200.webp 1200w`;
 }
+
+/** The 480 px file of an ingested catalog image (thumbnails); other URLs are returned unchanged. */
+export function catalogThumbUrl(url: string): string {
+  const m = DERIVATIVE_URL.exec(url);
+  return m ? `${m[1]}-480.webp` : url;
+}
+
+/**
+ * <img> source attributes: ingested catalog images get the small file as `src` plus a srcset, so
+ * listing grids never download the 1200 px detail file. `sizes` describes the rendered width.
+ */
+export function catalogImageSources(
+  url: string,
+  sizes: string,
+): { src: string; srcSet?: string; sizes?: string } {
+  const srcSet = catalogSrcSet(url);
+  return srcSet ? { src: catalogThumbUrl(url), srcSet, sizes } : { src: url };
+}

@@ -8,6 +8,7 @@ import { offerHref } from './links';
 import styles from './content.module.css';
 import catalogStyles from './catalog.module.css';
 import { BidiText } from '@/components/text/BidiText';
+import { catalogThumbUrl } from '@/domain/catalog/import/media';
 
 export function OfferCard({ offer, headingLevel = 3 }: { offer: Offer; headingLevel?: 2 | 3 | 4 }) {
   const { t, locale, format } = useI18n();
@@ -20,7 +21,7 @@ export function OfferCard({ offer, headingLevel = 3 }: { offer: Offer; headingLe
           p.image ? (
             <img
               key={p.id}
-              src={p.image.url}
+              src={catalogThumbUrl(p.image.url)}
               alt=""
               width={p.image.width ?? 800}
               height={p.image.height ?? 800}

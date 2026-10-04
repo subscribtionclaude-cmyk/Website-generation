@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  catalogImageSources,
   catalogSrcSet,
+  catalogThumbUrl,
   derivativePath,
   fitInSquare,
   isOfficialImageUrl,
@@ -63,5 +65,15 @@ describe('catalog media rules', () => {
     );
     expect(catalogSrcSet('/demo/media/iphone.webp')).toBeUndefined();
     expect(catalogSrcSet(`${base}-999.webp`)).toBeUndefined();
+    expect(catalogThumbUrl(`${base}-1200.webp`)).toBe(`${base}-480.webp`);
+    expect(catalogThumbUrl('/demo/media/iphone.webp')).toBe('/demo/media/iphone.webp');
+    expect(catalogImageSources(`${base}-1200.webp`, '50vw')).toEqual({
+      src: `${base}-480.webp`,
+      srcSet: `${base}-480.webp 480w, ${base}-1200.webp 1200w`,
+      sizes: '50vw',
+    });
+    expect(catalogImageSources('/demo/media/iphone.webp', '50vw')).toEqual({
+      src: '/demo/media/iphone.webp',
+    });
   });
 });

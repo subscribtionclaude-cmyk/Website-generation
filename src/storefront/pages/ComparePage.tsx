@@ -16,6 +16,7 @@ import { useI18n } from '@/i18n/context';
 import { useRuntime } from '@/runtime/context';
 import { stockLabelKey } from '../components/stockLabel';
 import styles from '../customer/compare.module.css';
+import { catalogThumbUrl } from '@/domain/catalog/import/media';
 
 /**
  * Side-by-side comparison (browser only, max N, same top-level category). The table scrolls
@@ -120,7 +121,13 @@ export function ComparePage() {
                     return (
                       <th key={p.id} scope="col" className={styles.productHead}>
                         {p.image && (
-                          <img src={p.image.url} alt="" width={96} height={96} loading="lazy" />
+                          <img
+                            src={catalogThumbUrl(p.image.url)}
+                            alt=""
+                            width={96}
+                            height={96}
+                            loading="lazy"
+                          />
                         )}
                         <LocaleLink to={`/product/${p.slug}`} className={styles.productName}>
                           <BidiText text={name} />

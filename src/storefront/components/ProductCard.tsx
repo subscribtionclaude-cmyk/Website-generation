@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { LocaleLink } from '@/components/navigation/LocaleLink';
+import { catalogImageSources } from '@/domain/catalog/import/media';
 import type { ProductSummary } from '@/domain/catalog/types';
 import { resolveLocalized } from '@/domain/localized';
 import { useI18n } from '@/i18n/context';
@@ -37,6 +38,10 @@ function showStock(product: ProductSummary): boolean {
   return product.availabilityState !== 'available' || product.price.min !== null;
 }
 
+// Rendered image widths, so ingested catalog images load the 480 px file in grids.
+const CARD_SIZES = '(min-width: 1200px) 280px, (min-width: 640px) 33vw, 50vw';
+const FEATURED_SIZES = '(min-width: 1024px) 420px, 100vw';
+
 /** Practical grid card: the whole card is one link (stretched title link), keyboard + SR friendly. */
 export function ProductCard({
   product,
@@ -54,7 +59,7 @@ export function ProductCard({
       <div className={styles.cardMedia}>
         {product.image ? (
           <img
-            src={product.image.url}
+            {...catalogImageSources(product.image.url, CARD_SIZES)}
             alt={resolveLocalized(product.image.alt, locale)}
             width={product.image.width ?? 800}
             height={product.image.height ?? 800}
@@ -124,7 +129,7 @@ export function FeaturedProductCard({
       <div className={styles.featuredMedia}>
         {product.image && (
           <img
-            src={product.image.url}
+            {...catalogImageSources(product.image.url, FEATURED_SIZES)}
             alt={resolveLocalized(product.image.alt, locale)}
             width={product.image.width ?? 800}
             height={product.image.height ?? 800}
