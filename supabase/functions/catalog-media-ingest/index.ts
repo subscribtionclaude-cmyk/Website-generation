@@ -9,6 +9,7 @@
 // A "swatch" item returns the average colour of an official colour-swatch image instead of files.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { Image } from 'https://deno.land/x/imagescript@1.3.0/mod.ts';
+import encodeWebp, { init as initWebp } from 'npm:@jsquash/webp@1.5.0/encode.js';
 import {
   DERIVATIVE_SIZES,
   derivativePath,
@@ -31,6 +32,27 @@ const json = (status: number, body: unknown) =>
 
 const QUALITY: Record<number, number> = { 480: 80, 1200: 86 };
 const BRAND = /^[a-z0-9-]{1,60}$/;
+
+// ImageScript decodes and resizes; libwebp (jsquash, Apache-2.0) encodes, because the Deno build of
+// ImageScript has no WebP encoder. The wasm binary is pinned by version and SHA-256.
+const WEBP_WASM_URL =
+  'https://cdn.jsdelivr.net/npm/@jsquash/webp@1.5.0/codec/enc/webp_enc_simd.wasm';
+const WEBP_WASM_SHA256 = '39c279269ec1163b987b6d69749458e3d5b03b9585f58b6ca5455b76b504a305';
+let webpReady: Promise<unknown> | null = null;
+
+function loadWebpEncoder(): Promise<unknown> {
+  webpReady ??= (async () => {
+    const res = await fetch(WEBP_WASM_URL, { signal: AbortSignal.timeout(20_000) });
+    if (res.status !== 200) throw new Error(`webp wasm http ${res.status}`);
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    if ((await sha256Hex(bytes)) !== WEBP_WASM_SHA256) throw new Error('webp wasm hash mismatch');
+    return initWebp(await WebAssembly.compile(bytes));
+  })().catch((error) => {
+    webpReady = null; // retry on the next request
+    throw error;
+  });
+  return webpReady;
+}
 
 async function sha256Hex(bytes: Uint8Array): Promise<string> {
   const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes));
@@ -87,6 +109,7 @@ Deno.serve(async (request) => {
       results.push({ key, ok: false, error: 'source_not_official' });
       continue;
     }
+    let step = 'fetch';
     try {
       const res = await fetch(source, {
         redirect: 'manual',
@@ -137,10 +160,20 @@ Deno.serve(async (request) => {
       }
       const files: Record<number, string> = {};
       for (const size of DERIVATIVE_SIZES) {
+        step = 'resize';
         const fit = fitInSquare(img.width, img.height, size);
         const scaled = img.clone().resize(fit.width, fit.height);
         const canvas = new Image(size, size).composite(scaled, fit.x, fit.y);
-        const webp = await canvas.encodeWEBP(QUALITY[size] ?? 82);
+        step = 'encode';
+        await loadWebpEncoder();
+        const px = canvas.bitmap;
+        const rgba = new Uint8ClampedArray(px.buffer, px.byteOffset, px.byteLength);
+        const webp = new Uint8Array(
+          await encodeWebp({ data: rgba, width: size, height: size } as ImageData, {
+            quality: QUALITY[size] ?? 82,
+          }),
+        );
+        step = 'upload';
         const path = derivativePath(brand, sha256, size);
         const up = await service.storage.from('products').upload(path, webp, {
           contentType: 'image/webp',
@@ -148,8 +181,10 @@ Deno.serve(async (request) => {
           upsert: false,
         });
         // Same content hash = same file: an existing object is the expected dedupe outcome.
-        if (up.error && !/exists|duplicate/i.test(up.error.message))
+        if (up.error && !/exists|duplicate/i.test(up.error.message)) {
+          console.error('catalog-media-ingest upload error', up.error.message);
           throw new Error('upload_failed');
+        }
         files[size] = `${url}/storage/v1/object/public/products/${path}`;
       }
       results.push({
@@ -162,8 +197,14 @@ Deno.serve(async (request) => {
         files,
       });
     } catch (error) {
+      // Only a step code goes back to the caller; the detail stays in the function logs.
+      console.error(`catalog-media-ingest ${step} failed`, error);
       const name = error instanceof Error ? error.name : '';
-      results.push({ key, ok: false, error: name === 'TimeoutError' ? 'timeout' : 'failed' });
+      results.push({
+        key,
+        ok: false,
+        error: name === 'TimeoutError' ? 'timeout' : `${step}_failed`,
+      });
     }
   }
   return json(200, { ok: true, results });
