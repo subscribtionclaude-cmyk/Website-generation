@@ -49,6 +49,9 @@ export function optionValueState(
     product.options.every((o) => v.options[o.key] === candidate[o.key]),
   );
   if (!variant) return 'unavailable';
+  // A variant without a published price is shown and selectable ("Ask for price"); its stock is not
+  // advertised either way.
+  if (variant.price === null) return 'available';
   return variant.stockState === 'out_of_stock' ? 'out_of_stock' : 'available';
 }
 
@@ -84,6 +87,8 @@ export type PurchaseState =
   | { kind: 'coming_soon' }
   | { kind: 'waitlist_only' }
   | { kind: 'pre_order' }
+  /** The variant exists but its price isn't published yet: visible, never purchasable online. */
+  | { kind: 'ask_for_price' }
   | { kind: 'unavailable' };
 
 /** Which call-to-action the product page must show for the current selection. */
@@ -99,7 +104,8 @@ export function purchaseState(
     case 'pre_order':
       return { kind: 'pre_order' };
     default:
-      if (!variant || variant.price === null) return { kind: 'unavailable' };
+      if (!variant) return { kind: 'unavailable' };
+      if (variant.price === null) return { kind: 'ask_for_price' };
       if (variant.stockState === 'out_of_stock') return { kind: 'out_of_stock' };
       return { kind: 'purchasable', stockState: variant.stockState };
   }

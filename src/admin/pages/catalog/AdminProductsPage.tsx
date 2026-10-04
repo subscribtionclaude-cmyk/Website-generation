@@ -64,6 +64,7 @@ export function AdminProductsPage() {
     visibility: (params.get('visibility') as ProductFilter['visibility']) ?? null,
     stock: (params.get('stock') as ProductFilter['stock']) ?? null,
     offer: (params.get('offer') as ProductFilter['offer']) ?? null,
+    price: (params.get('price') as ProductFilter['price']) ?? null,
     data: (params.get('data') as ProductFilter['data']) ?? null,
     sort: (params.get('sort') as ProductFilter['sort']) ?? 'updated_desc',
     limit: PAGE_SIZE,
@@ -156,7 +157,11 @@ export function AdminProductsPage() {
       header: at('catalog.col.startingPrice'),
       className: styles.num,
       cell: (p) =>
-        p.startingPrice === null ? '—' : format.money(p.startingPrice, { fractionDigits: 0 }),
+        p.startingPrice !== null
+          ? format.money(p.startingPrice, { fractionDigits: 0 })
+          : p.missingPriceCount > 0
+            ? at('catalog.askForPrice')
+            : '—',
     },
     {
       id: 'variants',
@@ -359,6 +364,16 @@ export function AdminProductsPage() {
               { value: '', label: at('ui.all') },
               { value: 'with', label: at('catalog.withOffer') },
               { value: 'without', label: at('catalog.withoutOffer') },
+            ]}
+          />
+          <SelectField
+            label={at('catalog.priceFilter')}
+            value={filter.price ?? ''}
+            onChange={(e) => setParam('price', e.target.value)}
+            options={[
+              { value: '', label: at('ui.all') },
+              { value: 'missing', label: at('catalog.missingPrice') },
+              { value: 'priced', label: at('catalog.pricedOnly') },
             ]}
           />
           <SelectField

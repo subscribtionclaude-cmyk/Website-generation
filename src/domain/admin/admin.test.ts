@@ -334,6 +334,20 @@ describe('demo admin engine', () => {
     expect(await row('repairs_team')).toBe('001000');
   });
 
+  it('filters products by missing price ("Ask for price") and reports the count', async () => {
+    const owner = await as('owner');
+    const all = store.admin.catalog.listProducts(owner, { limit: 100 });
+    const missing = store.admin.catalog.listProducts(owner, { price: 'missing', limit: 100 });
+    const priced = store.admin.catalog.listProducts(owner, { price: 'priced', limit: 100 });
+    for (const p of missing.items) expect(p.missingPriceCount).toBeGreaterThan(0);
+    for (const p of priced.items) {
+      expect(p.missingPriceCount).toBe(0);
+      expect(p.startingPrice).not.toBeNull();
+    }
+    expect(missing.total + priced.total).toBeLessThanOrEqual(all.total);
+    expect(all.items.every((p) => Number.isInteger(p.missingPriceCount))).toBe(true);
+  });
+
   it('records price history with the reason and detects stale edits', async () => {
     const owner = await as('owner');
     const product = must(store.admin.catalog.listProducts(owner, { q: 'iPhone 17' }).items[0]);

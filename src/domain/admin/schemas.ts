@@ -284,6 +284,8 @@ export const productListItemSchema = z.object({
   image: z.string().nullable(),
   startingPrice: moneyN,
   variantCount: z.coerce.number().int(),
+  /** Active variants without a published price ("Ask for price"). */
+  missingPriceCount: z.coerce.number().int().default(0),
   stock: z.object({
     total: z.coerce.number().int(),
     available: z.coerce.number().int(),
@@ -301,6 +303,8 @@ export interface ProductFilter {
   visibility?: 'visible' | 'hidden' | null;
   stock?: 'in_stock' | 'low' | 'out' | null;
   offer?: 'with' | 'without' | null;
+  /** missing = at least one active variant without a price; priced = every active variant priced. */
+  price?: 'missing' | 'priced' | null;
   data?: 'demo' | 'live' | null;
   sort?: 'updated_desc' | 'name' | 'price_asc' | 'price_desc' | 'stock_asc';
   limit?: number;

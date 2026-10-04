@@ -1,5 +1,6 @@
 import { useI18n } from '@/i18n/context';
 import { discountPercent } from '@/domain/catalog/stock';
+import type { AvailabilityState } from '@/domain/catalog/types';
 import styles from './catalog.module.css';
 
 interface PriceProps {
@@ -10,6 +11,11 @@ interface PriceProps {
   /** Show "From X" when the price varies across variants. */
   showFrom?: boolean;
   showSaving?: boolean;
+  /**
+   * Without a price: an available product shows "Ask for price" (published, price not entered yet);
+   * a coming-soon / pre-order / waitlist product shows "Price to be announced".
+   */
+  availability?: AvailabilityState;
 }
 
 /**
@@ -23,10 +29,15 @@ export function Price({
   size = 'md',
   showFrom = true,
   showSaving = true,
+  availability = 'available',
 }: PriceProps) {
   const { t, format } = useI18n();
   if (min === null)
-    return <p className={`${styles.price} ${styles.priceTba}`}>{t('catalog.priceTba')}</p>;
+    return (
+      <p className={`${styles.price} ${styles.priceTba}`}>
+        {t(availability === 'available' ? 'catalog.askForPrice' : 'catalog.priceTba')}
+      </p>
+    );
   const varies = showFrom && max !== null && max > min;
   const percent = discountPercent(min, compareAt);
   return (

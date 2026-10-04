@@ -140,7 +140,7 @@ function productList(ctx: Ctx, products: readonly ProductSummary[]) {
     const price =
       p.price.min !== null
         ? ctx.t('catalog.from', { price: money(ctx, p.price.min) })
-        : ctx.t('catalog.priceTba');
+        : ctx.t(p.availabilityState === 'available' ? 'catalog.askForPrice' : 'catalog.priceTba');
     const image = p.image
       ? `<img src="${esc(p.image.url)}" alt="" width="${p.image.width ?? 400}" height="${p.image.height ?? 400}" loading="lazy" decoding="async" />`
       : '';
@@ -331,7 +331,7 @@ function productPage(ctx: Ctx, product: ProductDetail): Page {
   const price =
     product.price.min !== null
       ? t('catalog.from', { price: money(ctx, product.price.min) })
-      : t('catalog.priceTba');
+      : t(product.availabilityState === 'available' ? 'catalog.askForPrice' : 'catalog.priceTba');
   const image = product.image
     ? `<img src="${esc(product.image.url)}" alt="${esc(name)}" width="${product.image.width ?? 800}" height="${product.image.height ?? 800}" />`
     : '';

@@ -29,6 +29,14 @@ interface ProductCardProps extends ProductCardActions {
   priority?: boolean;
 }
 
+/**
+ * Stock is only advertised for products with a published price; an unpriced ("Ask for price")
+ * product shows that label alone instead of a contradictory "out of stock".
+ */
+function showStock(product: ProductSummary): boolean {
+  return product.availabilityState !== 'available' || product.price.min !== null;
+}
+
 /** Practical grid card: the whole card is one link (stretched title link), keyboard + SR friendly. */
 export function ProductCard({
   product,
@@ -72,8 +80,11 @@ export function ProductCard({
             min={product.price.min}
             max={product.price.max}
             compareAt={product.price.compareAt}
+            availability={product.availabilityState}
           />
-          <StockStatus state={product.stockState} availability={product.availabilityState} />
+          {showStock(product) && (
+            <StockStatus state={product.stockState} availability={product.availabilityState} />
+          )}
         </div>
         <div className={styles.cardActions}>
           {renderActions ? (
@@ -139,8 +150,11 @@ export function FeaturedProductCard({
           min={product.price.min}
           max={product.price.max}
           compareAt={product.price.compareAt}
+          availability={product.availabilityState}
         />
-        <StockStatus state={product.stockState} availability={product.availabilityState} />
+        {showStock(product) && (
+          <StockStatus state={product.stockState} availability={product.availabilityState} />
+        )}
         <span className={styles.featuredCta} aria-hidden="true">
           {ctaLabel}
           <ArrowRight className="flip-rtl" />

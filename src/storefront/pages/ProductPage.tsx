@@ -140,6 +140,12 @@ function ProductView({ product }: { product: ProductDetail }) {
     .filter(Boolean)
     .join('\n');
   useWhatsAppMessage(whatsappMessage);
+  // "Hello, I'd like to know the price of <Brand> <Model> <Variant>."
+  const askPriceMessage = t('product.askForPriceMessage', {
+    product: [resolveLocalized(product.brand.name, locale), name, variantLabel]
+      .filter(Boolean)
+      .join(' '),
+  });
 
   const crumbs: Crumb[] = [
     { label: t('common.home'), href: '/' },
@@ -198,11 +204,16 @@ function ProductView({ product }: { product: ProductDetail }) {
                 showFrom={false}
               />
             ) : (
-              <Price min={product.price.min} max={product.price.max} size="lg" />
+              <Price
+                min={product.price.min}
+                max={product.price.max}
+                size="lg"
+                availability={product.availabilityState}
+              />
             )}
             <div className={styles.meta}>
               {product.availabilityState === 'available' && variant ? (
-                <StockStatus state={variant.stockState} />
+                variant.price !== null && <StockStatus state={variant.stockState} />
               ) : (
                 <StockStatus state="out_of_stock" availability={product.availabilityState} />
               )}
@@ -238,6 +249,7 @@ function ProductView({ product }: { product: ProductDetail }) {
             variant={variant}
             state={state}
             whatsappMessage={whatsappMessage}
+            askPriceMessage={askPriceMessage}
             onRequest={setRequest}
           />
           <div className={styles.saveRow}>

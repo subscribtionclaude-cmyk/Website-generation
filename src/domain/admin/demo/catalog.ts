@@ -300,6 +300,7 @@ export class DemoAdminCatalog {
           image: cover?.url ?? null,
           startingPrice: prices.length ? Math.min(...prices) : null,
           variantCount: variants.length,
+          missingPriceCount: variants.filter((v) => v.isActive && v.price === null).length,
           stock: {
             total: states.reduce((n, s) => n + Math.max(s.available, 0), 0),
             available: states.filter((s) => s.state === 'in_stock' || s.state === 'low').length,
@@ -334,6 +335,12 @@ export class DemoAdminCatalog {
         if (filter.stock === 'low' && item.stock.low === 0) return false;
         if (filter.stock === 'in_stock' && item.stock.available === 0) return false;
         if (filter.offer && (filter.offer === 'with') !== item.hasOffer) return false;
+        if (filter.price === 'missing' && item.missingPriceCount === 0) return false;
+        if (
+          filter.price === 'priced' &&
+          (item.missingPriceCount > 0 || item.startingPrice === null)
+        )
+          return false;
         if (filter.data === 'live') return false;
         return true;
       })

@@ -35,12 +35,15 @@ export function PurchasePanel({
   variant,
   state,
   whatsappMessage,
+  askPriceMessage,
   onRequest,
 }: {
   product: ProductDetail;
   variant: ProductVariant | null;
   state: PurchaseState;
   whatsappMessage: string;
+  /** Prefilled WhatsApp text for "Ask for price" (brand, model and the selected variant). */
+  askPriceMessage: string;
   onRequest: (kind: RequestKind) => void;
 }) {
   const { t } = useI18n();
@@ -48,6 +51,7 @@ export function PurchasePanel({
   const phone = store.branches[0]?.phones[0];
   const tel = phone ? toTelHref(phone) : null;
   const whatsapp = buildWhatsAppLink(store.whatsappNumber, whatsappMessage);
+  const askWhatsapp = buildWhatsAppLink(store.whatsappNumber, askPriceMessage);
 
   const contact = (
     <div className={styles.contactRow}>
@@ -131,7 +135,55 @@ export function PurchasePanel({
           {t('product.unavailableNote')}
         </p>
       )}
-      {contact}
+      {state.kind === 'ask_for_price' && (
+        <>
+          <p className={styles.purchaseNote}>
+            <Info aria-hidden="true" />
+            {t('product.askForPriceNote')}
+          </p>
+          {/* No cart / checkout for an unpublished price: the customer asks the store instead. Only
+              channels that are actually configured are offered (never a broken WhatsApp link). */}
+          {askWhatsapp.status === 'ok' ? (
+            <a
+              href={askWhatsapp.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClassName({ variant: 'accent', size: 'lg', block: true })}
+            >
+              <MessageCircle aria-hidden="true" />
+              {t('product.askForPrice')}
+              <span className="visually-hidden"> {t('common.externalLink')}</span>
+            </a>
+          ) : (
+            tel && (
+              <a
+                href={tel}
+                className={buttonClassName({ variant: 'accent', size: 'lg', block: true })}
+              >
+                <Phone aria-hidden="true" />
+                {t('product.askForPrice')}
+              </a>
+            )
+          )}
+          {askWhatsapp.status === 'ok' && tel && (
+            <a href={tel} className={buttonClassName({ variant: 'secondary', block: true })}>
+              <Phone aria-hidden="true" />
+              {t('product.callToOrder')}
+            </a>
+          )}
+          {variant && (
+            <Button
+              variant="secondary"
+              block
+              icon={<BellRing aria-hidden="true" />}
+              onClick={() => onRequest('notify')}
+            >
+              {t('product.notifyPrice')}
+            </Button>
+          )}
+        </>
+      )}
+      {state.kind !== 'ask_for_price' && contact}
       {variant && product.availabilityState === 'available' && (
         <LocaleLink to={`/trade-in?product=${product.slug}`} className={styles.tradeIn}>
           <RefreshCcw aria-hidden="true" />

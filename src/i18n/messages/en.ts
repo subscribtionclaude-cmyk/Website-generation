@@ -212,6 +212,7 @@ export const en: Widen<typeof ar> = {
     fromLabel: 'From',
     from: 'From {price}',
     priceTba: 'Price to be announced',
+    askForPrice: 'Ask for Price',
     oldPrice: 'Was',
     currentPrice: 'Price',
     save: 'Save {percent}%',
@@ -306,6 +307,11 @@ export const en: Widen<typeof ar> = {
     preOrderNote:
       "Online pre-orders aren't available yet. Register your interest and we'll let you know, or call us to reserve.",
     unavailableNote: 'This combination isn’t available. Try another storage or colour.',
+    askForPrice: 'Ask for Price',
+    askForPriceNote:
+      'The price isn’t published yet. Ask us for the current price and availability.',
+    askForPriceMessage: 'Hello, I’d like to know the price of {product}.',
+    notifyPrice: 'Notify me when the price is available',
     tradeInCta: 'Have an old device? Trade it in and see the difference',
     whatsappCta: 'Ask on WhatsApp',
     whatsappMessage: 'Hi MALEK STORE, I’m interested in {product}.',
@@ -748,7 +754,7 @@ export const en: Widen<typeof ar> = {
     addMore: 'Add at least one more product to compare.',
     differencesOnly: 'Show differences only',
     caption: 'Comparison of {count} products',
-    priceTba: 'Price to be announced',
+    priceTba: 'Ask for Price',
     rowPrice: 'Price',
     rowAvailability: 'Availability',
     rowBrand: 'Brand',
