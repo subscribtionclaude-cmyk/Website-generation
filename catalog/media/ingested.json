@@ -493,6 +493,842 @@
       "height": 1200,
       "sha256": "94efac3ebe9e2a0192797f465a1ace4d0f380f7822691a3ab55008da6e17a01b",
       "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-star-white-202609?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d5b71d89bb560aec-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d5b71d89bb560aec-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "d5b71d89bb560aec6a289482404dec8533dd8b61173fec3f691cf0d6a150fbe8",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931bdbomea-544655342?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/196177a7e8bf83de-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/196177a7e8bf83de-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "196177a7e8bf83de1dcb78d1e8b37dda9ffd141900603eea6e7cc189679ee039",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931blgomea-544655380?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/633ddafa77c0e2da-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/633ddafa77c0e2da-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "633ddafa77c0e2da726abfe1db9d91f6a2284ff7fd008630dbc3a8ba7d5a67f3",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931bzsomea-544655399?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/6ed63a2442e0a008-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/6ed63a2442e0a008-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "6ed63a2442e0a008be253f767a9094a4630abde1ff4fbd0f6372037658ca9f4c",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936bdbimea-544667907?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/025c5f924a4617cd-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/025c5f924a4617cd-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "025c5f924a4617cdc1609be209a12c1b2d10a942206cbc2bd234b3e29b07db5d",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936blbimea-544667926?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/0b8b34b829bb9e1a-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/0b8b34b829bb9e1a-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "0b8b34b829bb9e1aa4caecc9bbfc7596af78ed0beba0971bfe691f203a5bc897",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936blgimea-544667964?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fe726c37e2e4b168-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fe726c37e2e4b168-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fe726c37e2e4b16854faca3842b23b1076bbdcf2ef6129fb227f447bad60d737",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936bzsimea-544668002?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/21add7b0ae139266-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/21add7b0ae139266-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "21add7b0ae139266fce868b8eba894e71ea96f3648914f9ca08a515a24b84585",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bzkimea-544701044?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/151aeafd65febfdb-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/151aeafd65febfdb-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "151aeafd65febfdbb6e48b16e38f7ced70a7146d420425bd49bf96ddfe0646ab",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bzsimea-544701192?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/e50f834b55e11fbb-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/e50f834b55e11fbb-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "e50f834b55e11fbbcfb98a64828d7fb22af188005565bb1afc55baa9fd72e131",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bztimea-544701340?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/366c10b7ecf10c54-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/366c10b7ecf10c54-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "366c10b7ecf10c542667e51ca1b5184200ce3dbdf169ca153de59d62942e37b5",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942blbomea-550915392?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/89fc1f3cf3d41d4b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/89fc1f3cf3d41d4b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "89fc1f3cf3d41d4b7e5e45ded8a380b3f51ebe2df128d4e73cad86e5b51e310e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzkomea-550915411?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1af5f0e482e99ade-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1af5f0e482e99ade-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1af5f0e482e99ade5e0dbb14b46e8e5a0980cb637a6e09d2b0f68bcddc453b73",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzvomea-550915430?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/a0c18b1bb6155408-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/a0c18b1bb6155408-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "a0c18b1bb6155408aa93087c9ed389656979c17294765f32570c89655845f329",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzwomea-550915449?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/37354308457ce587-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/37354308457ce587-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "37354308457ce587f49fc61443400bf8bac00194d07836390adf44f747e61dcc",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947blbimea-550915565?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/986d317b3fdce81b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/986d317b3fdce81b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "986d317b3fdce81bce7836a631430241aacd1bb5807264ac71cd938d4a80a6c8",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzkimea-550915584?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/41ab0be4b426d844-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/41ab0be4b426d844-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "41ab0be4b426d844cfd989d383e0101dcf7a1e1405efd7492ff97528fa9d535d",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzvimea-550915603?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/bee8dc52d68bb973-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/bee8dc52d68bb973-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "bee8dc52d68bb973c8f001b36272f918ceb6face0b30de4647f3e73057298647",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzwimea-550915622?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/c7a504a9957d7184-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/c7a504a9957d7184-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "c7a504a9957d7184118b423e303e87f1f34265cb002b0d2e7abc894171d55b30",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948blbimea-550916253?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/cd8faa1b949c24ea-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/cd8faa1b949c24ea-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "cd8faa1b949c24ea444c3527750d610262f5b0e79703b66ae7dd9320cb704087",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzkimea-550916327?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/eb0b4965e0fdbcf2-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/eb0b4965e0fdbcf2-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "eb0b4965e0fdbcf2c81b6407016f349696a3d503b7f9384180b3dc5ca6ae9e4e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzvimea-550916441?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2dc6cbcad5c229b7-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2dc6cbcad5c229b7-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2dc6cbcad5c229b7c7d285baa8f5744f2764e7d843df628c7eb5cff698f39a89",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzwimea-550916553?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/47f500ae276e82df-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/47f500ae276e82df-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "47f500ae276e82df7de7b68635dcba961b8a4799cd8570d5e10f1d504c34a77e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075flviegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075flviegy-550449334?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d65c69aa016409f4-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d65c69aa016409f4-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "d65c69aa016409f40a63d19d3de77ad21320c1af0f115bb28d5e626ce5d4926e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075fzgiegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075fzgiegy-550449353?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8d7a2c688d966218-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8d7a2c688d966218-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "8d7a2c688d96621889949323a3f35d8b38dcc495d4241b02f13cd7cf7eeef981",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075fzkiegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075fzkiegy-550449372?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/47f500ae276e82df-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/47f500ae276e82df-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "47f500ae276e82df7de7b68635dcba961b8a4799cd8570d5e10f1d504c34a77e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077flvdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077flvdegy-554820444?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d65c69aa016409f4-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d65c69aa016409f4-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "d65c69aa016409f40a63d19d3de77ad21320c1af0f115bb28d5e626ce5d4926e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077fzgdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077fzgdegy-554820463?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8d7a2c688d966218-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8d7a2c688d966218-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "8d7a2c688d96621889949323a3f35d8b38dcc495d4241b02f13cd7cf7eeef981",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077fzkdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077fzkdegy-554820482?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fa4076b62573f916-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fa4076b62573f916-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fa4076b62573f916b5b010babec43ff17092cc8de81901adf356a761f8d5268c",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fdbhegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fdbhegy-554520599?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/dcd0937ae2999bf0-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/dcd0937ae2999bf0-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "dcd0937ae2999bf0b94b29f9cb99637eab79cd97e01b0d1cb1f872ce919e4397",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fzgdegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fzgdegy-554520618?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/45a87d5c246859a5-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/45a87d5c246859a5-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "45a87d5c246859a5e1b850081336e8074e32f992a7151ebaf8b596402e0b6b17",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fzsdegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fzsdegy-554520675?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8f06af0389e41387-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/8f06af0389e41387-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "8f06af0389e41387e0bf5ab661eebe44f6646d4af4d457e96ef357380a2f5ac6",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175flbnmea/gallery/eg-galaxy-a17-sm-a175-sm-a175flbnmea-549050601?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fd620d26c9ae1b71-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fd620d26c9ae1b71-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fd620d26c9ae1b71982c47bdb51be7e1110e085006529e86ae46af7935c86711",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175fzanmea/gallery/eg-galaxy-a17-sm-a175-sm-a175fzanmea-549050658?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fea3ed74df524153-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fea3ed74df524153-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fea3ed74df52415369dd11e03ec2e9afc9ae75b0d6a6ffacfc3f5a42deefd1fc",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175fzkomea/gallery/eg-galaxy-a17-sm-a175-sm-a175fzkomea-549050734?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/76ea4323c1028275-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/76ea4323c1028275-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "76ea4323c102827527fb6d55558ea2ca21fb9ee91c9a764fc9f78f8a46b15f56",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzagmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzagmea-551025351?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/00df84fc8dffc9b9-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/00df84fc8dffc9b9-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "00df84fc8dffc9b94f75696f3bda3c0f3384fc8759fe9242fe207c0568ece4e6",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzbgmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzbgmea-551025370?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1ce14c203c2ec4dc-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1ce14c203c2ec4dc-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1ce14c203c2ec4dc7338d44019972cb95ec0d704316381d2eb70df266751685a",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzkgmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzkgmea-551025389?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/961a15319e24c7e8-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/961a15319e24c7e8-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "961a15319e24c7e8b9b7a915e0bede440e62309e8a79bf709e2bc2c1801b22e2",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185glbkegy/gallery/eg-galaxy-a18-sm-a185-sm-a185glbkegy-554925708?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/7a0ff03ff55ac83d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/7a0ff03ff55ac83d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7a0ff03ff55ac83d3229c96110c1efd093f5a3a071fe1835dda5a27fd9fe0cd8",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185gzkkegy/gallery/eg-galaxy-a18-sm-a185-sm-a185gzkkegy-554925767?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/f82736e8695ed14f-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/f82736e8695ed14f-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "f82736e8695ed14fbbad598186e3ef283955f55b5c5b458463b07a36da8efe03",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185gzskegy/gallery/eg-galaxy-a18-sm-a185-sm-a185gzskegy-554925827?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/38b2f597dfa56900-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/38b2f597dfa56900-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "38b2f597dfa5690046ff1b86b02ef7f6d627aa749e37164739fb4db6fe6eec34",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bziimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bziimea-545489214?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/659fe531a586a3e9-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/659fe531a586a3e9-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "659fe531a586a3e9ef9ce928e3ac7f8d6a3a4f83f678653e1e88150a274747b7",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bzkimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bzkimea-545489261?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/55db63ca56683a36-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/55db63ca56683a36-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "55db63ca56683a36ec15097829f9caee0a55ffd877c27524d57a12f252e77bc0",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bzwimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bzwimea-545489385?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1f79df56bb83ed73-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1f79df56bb83ed73-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1f79df56bb83ed73dae1a669f62768a3599dcd47682f0e3d6f7014df5cdd80d1",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bliimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bliimea-553813026?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4c562e94f133ea91-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4c562e94f133ea91-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "4c562e94f133ea91c043ec1b3a151f4fe1fc19debe2dff99140f77ba7a98b68b",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bzbimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bzbimea-553813083?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4ec026d6be3a2175-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4ec026d6be3a2175-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "4ec026d6be3a21757e414b4825bc6a70f3db1de240e80dc1045a98c2ffd976e4",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bzkimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bzkimea-553813140?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/cb4ad47b2a3d916a-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/cb4ad47b2a3d916a-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "cb4ad47b2a3d916aaee4afe50a44a9ada2d8f311ed220fa003f6252131d35af0",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366blgpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366blgpmea-545652749?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2d7aceee56efbf6e-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2d7aceee56efbf6e-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2d7aceee56efbf6e482536f5d0aabb2baac057bdd28adab1480f0bf0ca072909",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366blvpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366blvpmea-545652787?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/25b3a86625bd616c-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/25b3a86625bd616c-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "25b3a86625bd616ca4a9462d60e48d29c38dd016b97788ed4f78ec2c7c6ec236",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366bzapmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366bzapmea-545652825?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fcadfe358d65891f-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fcadfe358d65891f-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fcadfe358d65891ff7c75f3973301cf0d549997765e1a587a207cd00771685a4",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366bzkpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366bzkpmea-545652863?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/810a8e188fe33816-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/810a8e188fe33816-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "810a8e188fe3381634b282315b427031b0cda90519b8d961f9996ec91b240c39",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bdgpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bdgpmea-552260812?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/11deb702811f0d06-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/11deb702811f0d06-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "11deb702811f0d069ec549f630d8e1c17fd35034b9a3cbe4e637fb0c24f19f06",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376blvpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376blvpmea-552260869?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1f86069f4471200c-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1f86069f4471200c-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1f86069f4471200cb80d222b1bfef7d6b5e5fac56e2fa3f84f211d9c172a7f73",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bzapmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bzapmea-552260936?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/e92ebaca71cece38-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/e92ebaca71cece38-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "e92ebaca71cece3888b0eede6466be23b433bc4d6183c520169c6ba12ba70600",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bzwpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bzwpmea-552261010?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/a063d011e9162e1d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/a063d011e9162e1d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "a063d011e9162e1d2a82c15e8343fe9c7ee19f0b149c33eed3fe711ebd63aac3",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566blivmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566blivmea-545652045?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fb647d8e260d647b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/fb647d8e260d647b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "fb647d8e260d647be84919ba8988381bdedacdc481d7638683f572d3581dd8da",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzavmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzavmea-545652114?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/7960eaa9c0d201c6-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/7960eaa9c0d201c6-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "7960eaa9c0d201c697c105f388f8cfabe7d07547e462981176e3e5beb1fdd6b0",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzgvmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzgvmea-545652183?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/de26cc95dba462fa-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/de26cc95dba462fa-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "de26cc95dba462fa7467fae8a48dda6492b5b1cb61346e9015960ef150ef2552",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzkvmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzkvmea-545652252?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1ff7b939c673638d-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1ff7b939c673638d-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1ff7b939c673638ddf442421ab4c2331927441245ecb667f4b2ec184862e4894",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bdbpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bdbpmea-552260431?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/5a3f8af4b536d369-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/5a3f8af4b536d369-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "5a3f8af4b536d3694f9648aa88e2000775c48f93d5b5bdd553199fcedb98b71e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576blbpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576blbpmea-552260494?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/543264252482f553-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/543264252482f553-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "543264252482f553ce5d787ca8c8e6bbd5b8b136a6af546ae0c7dd4f126fc954",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bzapmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bzapmea-552260573?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/b39ae6aa3eaaae47-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/b39ae6aa3eaaae47-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "b39ae6aa3eaaae477e8cfd7076e8a910c1f9d0398c70aaf5c5e917259f27c64b",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bzvpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bzvpmea-552260632?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/da5c57f132369bb2-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/da5c57f132369bb2-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "da5c57f132369bb21ece35c362381a42d4a2b2b878ae8651d8eb775e356071f3",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741blbamea/gallery/eg-galaxy-zflip6-f741-sm-f741blbamea-544323980?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/acadf802a962c3dc-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/acadf802a962c3dc-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "acadf802a962c3dcfb6ff565e1840608ee4de10cab810d504aa35af20a981e20",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741blgamea/gallery/eg-galaxy-zflip6-f741-529256-sm-f741blgamea-544358751?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/96bde59be8c3b01b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/96bde59be8c3b01b-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "96bde59be8c3b01b7d0fbaf327b670985f6b30e50d12b8d759dadfe5db3ae5ae",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741bzsamea/gallery/eg-galaxy-zflip6-f741-sm-f741bzsamea-544324006?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/ab4058d1f07c78b7-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/ab4058d1f07c78b7-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "ab4058d1f07c78b749d46322704afe016410a2588399f0c76bf1366247a2ac6e",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741bzyamea/gallery/eg-galaxy-zflip6-f741-sm-f741bzyamea-544324031?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/9d22c641460f31d4-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/9d22c641460f31d4-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "9d22c641460f31d4b7861245f60cab0b035d77494c73b82281da7dff3b6ffcce",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f956bzsdmea/gallery/eg-galaxy-z-fold6-f956-sm-f956bzsdmea-542882982?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/011852721efb8399-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/011852721efb8399-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "011852721efb839973513139032315702227f416821c626ef9bbf025c17d24f2",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bdbvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bdbvmea-549558961?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/f91546b5e52db996-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/f91546b5e52db996-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "f91546b5e52db9967da80e2a5b8575f606ca39284d688f8f8398fdda8e02b28d",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731blbvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731blbvmea-549559007?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2b390b4782bd44fe-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2b390b4782bd44fe-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2b390b4782bd44fefbb4c52b3ac8904bd1259d5fa9095d102602e5bd31069515",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bzkvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bzkvmea-549559054?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/caf3ecca7dfa9325-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/caf3ecca7dfa9325-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "caf3ecca7dfa93253d993ef29e687b05b22f3ae0eb7aecf11acbdd06fd208c07",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bzwvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bzwvmea-549559103?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2dbabeab41887a0e-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/2dbabeab41887a0e-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "2dbabeab41887a0ed7aa8e34597bc9656f16f663683b9239744c0c53e65eab96",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741blggegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741blggegy-554537024?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/0b14fe28f79ac637-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/0b14fe28f79ac637-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "0b14fe28f79ac637a1c04f4a630ad39bea9ea8a1a8aab77624fbcea6fd6068cc",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741bzkgegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741bzkgegy-554537101?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/00dbbedca7b2b0fc-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/00dbbedca7b2b0fc-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "00dbbedca7b2b0fc73f80828cb1810b53c5f3117d51ebfa3238421a001fd19b4",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741bzvgegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741bzvgegy-554537176?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4c9dff43d63b305c-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/4c9dff43d63b305c-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "4c9dff43d63b305c1bc497b65cf96e2f5ae7109be5f9f3a6b2cbb761a10d1e4d",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s931blbomea/gallery/eg-galaxy-s25-s931-538477-sm-s931blbomea-550141668?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "samsung",
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1264f0c93475acae-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/1264f0c93475acae-1200.webp"
+      },
+      "width": 1200,
+      "height": 1200,
+      "sha256": "1264f0c93475acae130e84953634cde7e36cd0f52d204229d896331290ebb8a2",
+      "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s938bzbimea/gallery/eg-galaxy-s25-ultra-s938-538479-sm-s938bzbimea-550141376?wid=1200&hei=1200&fmt=png-alpha"
     }
   ]
 }

@@ -1,0 +1,2622 @@
+{
+  "brand": {
+    "slug": "samsung",
+    "name": {
+      "ar": "سامسونج",
+      "en": "Samsung"
+    },
+    "sourceUrl": "https://www.samsung.com/eg/smartphones/all-smartphones/",
+    "sortOrder": 20,
+    "skuPrefix": "SAM"
+  },
+  "keywords": "سامسونج جالاكسي جلاكسي samsung galaxy",
+  "checkedAt": "2026-10-04",
+  "notes": "Every smartphone listed on samsung.com/eg (22 models, 161 Egyptian model codes). Variant SKU = Samsung's own model code. Colours and Arabic colour names, hex and storage from samsung.com/eg; RAM per model code from each model page's specification table, or for the S and Z flagships from Samsung Egypt's own RAM statements (Z Flip6 / Z Fold6 RAM is not stated, so no RAM option). Specs from each model page's specification table, or for flagships from the official samsung.com/eg product pages; anything not stated there is left empty (e.g. the Galaxy S26 / S26+ page names both Exynos 2600 and Snapdragon 8 Elite Gen 5, so the chipset is not recorded). One official full-resolution product image per colour (the model's largeUrl on images.samsung.com).",
+  "products": [
+    {
+      "slug": "galaxy-s26-ultra",
+      "model": "Galaxy S26 Ultra",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s26-ultra/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "cobalt-violet",
+          "en": "Cobalt Violet",
+          "ar": "بنفسجي الكوبالت",
+          "hex": "#686884",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzvimea-550916441?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzkimea-550916327?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "sky-blue",
+          "en": "Sky Blue",
+          "ar": "أزرق سماوي",
+          "hex": "#b3cbd9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948blbimea-550916253?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f3f4f5",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-ultra-s948-sm-s948bzwimea-550916553?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        },
+        {
+          "ram": "16GB",
+          "storage": "1TB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "cobalt-violet",
+          "config": 0,
+          "sku": "SM-S948BZVIMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-S948BZKIMEA"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-S948BZKOMEA"
+        },
+        {
+          "color": "black",
+          "config": 2,
+          "sku": "SM-S948BZKPMEA"
+        },
+        {
+          "color": "cobalt-violet",
+          "config": 1,
+          "sku": "SM-S948BZVOMEA"
+        },
+        {
+          "color": "cobalt-violet",
+          "config": 2,
+          "sku": "SM-S948BZVPMEA"
+        },
+        {
+          "color": "sky-blue",
+          "config": 0,
+          "sku": "SM-S948BLBIMEA"
+        },
+        {
+          "color": "sky-blue",
+          "config": 1,
+          "sku": "SM-S948BLBOMEA"
+        },
+        {
+          "color": "white",
+          "config": 0,
+          "sku": "SM-S948BZWIMEA"
+        },
+        {
+          "color": "white",
+          "config": 1,
+          "sku": "SM-S948BZWOMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "display_type": "Dynamic AMOLED 2X",
+        "chipset": "Snapdragon 8 Elite Gen 5",
+        "rear_camera": {
+          "en": "200MP main camera",
+          "ar": "كاميرا رئيسية 200 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "model_code": "SM-S948B/DS"
+      },
+      "keywords": "جالاكسي s26 ultra"
+    },
+    {
+      "slug": "galaxy-s26-plus",
+      "model": "Galaxy S26+",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s26/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "cobalt-violet",
+          "en": "Cobalt Violet",
+          "ar": "بنفسجي غامق",
+          "hex": "#686884",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzvimea-550915603?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzkimea-550915584?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "sky-blue",
+          "en": "Sky Blue",
+          "ar": "أزرق سماوي",
+          "hex": "#b3cbd9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947blbimea-550915565?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f3f4f5",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s947-sm-s947bzwimea-550915622?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "cobalt-violet",
+          "config": 0,
+          "sku": "SM-S947BZVIMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-S947BZKIMEA"
+        },
+        {
+          "color": "sky-blue",
+          "config": 0,
+          "sku": "SM-S947BLBIMEA"
+        },
+        {
+          "color": "white",
+          "config": 0,
+          "sku": "SM-S947BZWIMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "rear_camera": {
+          "en": "50MP main camera",
+          "ar": "كاميرا رئيسية 50 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "4,900mAh",
+          "ar": "4900 مللي أمبير"
+        },
+        "model_code": "SM-S947B/DS"
+      },
+      "keywords": "جالاكسي s26+"
+    },
+    {
+      "slug": "galaxy-s26",
+      "model": "Galaxy S26",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s26/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "cobalt-violet",
+          "en": "Cobalt Violet",
+          "ar": "بنفسجي غامق",
+          "hex": "#686884",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzvomea-550915430?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#494d53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzkomea-550915411?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "sky-blue",
+          "en": "Sky Blue",
+          "ar": "أزرق سماوي",
+          "hex": "#b3cbd9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942blbomea-550915392?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f3f4f5",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/s2602/gallery/eg-galaxy-s26-s942-sm-s942bzwomea-550915449?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "cobalt-violet",
+          "config": 0,
+          "sku": "SM-S942BZVOMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-S942BZKOMEA"
+        },
+        {
+          "color": "sky-blue",
+          "config": 0,
+          "sku": "SM-S942BLBOMEA"
+        },
+        {
+          "color": "white",
+          "config": 0,
+          "sku": "SM-S942BZWOMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.3-inch",
+          "ar": "6.3 بوصة"
+        },
+        "display_type": "Dynamic AMOLED 2X",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "rear_camera": {
+          "en": "50MP main camera",
+          "ar": "كاميرا رئيسية 50 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "4,300mAh",
+          "ar": "4300 مللي أمبير"
+        },
+        "model_code": "SM-S942B/DS"
+      },
+      "keywords": "جالاكسي s26"
+    },
+    {
+      "slug": "galaxy-s26-fe",
+      "model": "Galaxy S26 FE",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s/galaxy-s26-fe-pistachio-256gb-sm-s741blggegy/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "pistachio",
+          "en": "Pistachio",
+          "ar": "فستقي",
+          "hex": "#bdcfce",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741blggegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741blggegy-554537024?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "graphite",
+          "en": "Graphite",
+          "ar": "جرافيتي",
+          "hex": "#494d53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741bzkgegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741bzkgegy-554537101?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "blueberry",
+          "en": "Blueberry",
+          "ar": "بلوبيري",
+          "hex": "#666e91",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s741bzvgegy/gallery/eg-galaxy-s26-fe-sm-s741-605965-sm-s741bzvgegy-554537176?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "512GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "pistachio",
+          "config": 0,
+          "sku": "SM-S741BLGGEGY"
+        },
+        {
+          "color": "graphite",
+          "config": 0,
+          "sku": "SM-S741BZKGEGY"
+        },
+        {
+          "color": "graphite",
+          "config": 1,
+          "sku": "SM-S741BZKIEGY"
+        },
+        {
+          "color": "blueberry",
+          "config": 0,
+          "sku": "SM-S741BZVGEGY"
+        },
+        {
+          "color": "blueberry",
+          "config": 1,
+          "sku": "SM-S741BZVIEGY"
+        },
+        {
+          "color": "pistachio",
+          "config": 1,
+          "sku": "SM-S741BLGIEGY"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Dynamic AMOLED 2X",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Exynos 2500",
+        "cpu": {
+          "en": "Deca-core (3.3GHz, 2.74GHz, 2.36GHz, 1.8GHz)",
+          "ar": "عشاري النواة (3.3 جيجاهرتز، 2.74 جيجاهرتز، 2.36 جيجاهرتز، 1.8 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 12MP + 8MP",
+          "ar": "50 ميجابكسل + 12 ميجابكسل + 8 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "4,900mAh",
+          "ar": "4900 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "model_code": "SM-S741B/DS"
+      },
+      "keywords": "جالاكسي s26 fe"
+    },
+    {
+      "slug": "galaxy-s25-ultra",
+      "model": "Galaxy S25 Ultra",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s25-ultra/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "titanium-silverblue",
+          "en": "Titanium Silverblue",
+          "ar": "التيتانيوم SilverBlue",
+          "hex": "#8e9fbc",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s938bzbimea/gallery/eg-galaxy-s25-ultra-s938-538479-sm-s938bzbimea-550141376?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "titanium-black",
+          "en": "Titanium Black",
+          "ar": "أسود تيتانيوم",
+          "hex": "#4a4a4d",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bzkimea-544701044?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "titanium-gray",
+          "en": "Titanium Gray",
+          "ar": "رمادي تيتانيوم",
+          "hex": "#b3ab9e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bztimea-544701340?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "titanium-whitesilver",
+          "en": "Titanium Whitesilver",
+          "ar": "فضي تيتانيوم",
+          "hex": "#d9d9d6",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s938-sm-s938bzsimea-544701192?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "1TB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "titanium-silverblue",
+          "config": 0,
+          "sku": "SM-S938BZBIMEA"
+        },
+        {
+          "color": "titanium-black",
+          "config": 0,
+          "sku": "SM-S938BZKIMEA"
+        },
+        {
+          "color": "titanium-black",
+          "config": 1,
+          "sku": "SM-S938BZKOMEA"
+        },
+        {
+          "color": "titanium-black",
+          "config": 2,
+          "sku": "SM-S938BZKPMEA"
+        },
+        {
+          "color": "titanium-silverblue",
+          "config": 1,
+          "sku": "SM-S938BZBOMEA"
+        },
+        {
+          "color": "titanium-silverblue",
+          "config": 2,
+          "sku": "SM-S938BZBPMEA"
+        },
+        {
+          "color": "titanium-gray",
+          "config": 0,
+          "sku": "SM-S938BZTIMEA"
+        },
+        {
+          "color": "titanium-gray",
+          "config": 1,
+          "sku": "SM-S938BZTOMEA"
+        },
+        {
+          "color": "titanium-gray",
+          "config": 2,
+          "sku": "SM-S938BZTPMEA"
+        },
+        {
+          "color": "titanium-whitesilver",
+          "config": 0,
+          "sku": "SM-S938BZSIMEA"
+        },
+        {
+          "color": "titanium-whitesilver",
+          "config": 1,
+          "sku": "SM-S938BZSOMEA"
+        },
+        {
+          "color": "titanium-whitesilver",
+          "config": 2,
+          "sku": "SM-S938BZSPMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "resolution": "3120 × 1440 (QHD+)",
+        "refresh_rate": {
+          "en": "1–120Hz adaptive",
+          "ar": "متغير 1–120 هرتز"
+        },
+        "chipset": "Snapdragon 8 Elite for Galaxy",
+        "water_resistance": "IP68",
+        "model_code": "SM-S938B/DS"
+      },
+      "keywords": "جالاكسي s25 ultra"
+    },
+    {
+      "slug": "galaxy-s25-plus",
+      "model": "Galaxy S25+",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s25/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "navy",
+          "en": "Navy",
+          "ar": "البحرية",
+          "hex": "#3c5b8a",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936bdbimea-544667907?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver-shadow",
+          "en": "Silver Shadow",
+          "ar": "فضي قاتم",
+          "hex": "#7f7f7e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936bzsimea-544668002?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "icyblue",
+          "en": "Icyblue",
+          "ar": "أزرق فاتح",
+          "hex": "#c8d3df",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936blbimea-544667926?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "mint",
+          "en": "Mint",
+          "ar": "نعناعي",
+          "hex": "#d3e8dd",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s936-sm-s936blgimea-544667964?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "navy",
+          "config": 0,
+          "sku": "SM-S936BDBIMEA"
+        },
+        {
+          "color": "silver-shadow",
+          "config": 0,
+          "sku": "SM-S936BZSIMEA"
+        },
+        {
+          "color": "icyblue",
+          "config": 0,
+          "sku": "SM-S936BLBIMEA"
+        },
+        {
+          "color": "mint",
+          "config": 0,
+          "sku": "SM-S936BLGIMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "resolution": "3120 × 1440 (QHD+)",
+        "refresh_rate": {
+          "en": "1–120Hz adaptive",
+          "ar": "متغير 1–120 هرتز"
+        },
+        "chipset": "Snapdragon 8 Elite for Galaxy",
+        "battery": {
+          "en": "4,900mAh",
+          "ar": "4900 مللي أمبير"
+        },
+        "water_resistance": "IP68",
+        "model_code": "SM-S936B/DS"
+      },
+      "keywords": "جالاكسي s25+"
+    },
+    {
+      "slug": "galaxy-s25",
+      "model": "Galaxy S25",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s25/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "icyblue",
+          "en": "Icyblue",
+          "ar": "آيسيبلو",
+          "hex": "#c8d3df",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s931blbomea/gallery/eg-galaxy-s25-s931-538477-sm-s931blbomea-550141668?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "navy",
+          "en": "Navy",
+          "ar": "كُحلي",
+          "hex": "#3c5b8a",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931bdbomea-544655342?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver-shadow",
+          "en": "Silver Shadow",
+          "ar": "فضي قاتم",
+          "hex": "#7f7f7e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931bzsomea-544655399?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "mint",
+          "en": "Mint",
+          "ar": "نعناعي",
+          "hex": "#d3e8dd",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/2501/gallery/eg-galaxy-s25-s931-sm-s931blgomea-544655380?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "icyblue",
+          "config": 0,
+          "sku": "SM-S931BLBOMEA"
+        },
+        {
+          "color": "navy",
+          "config": 0,
+          "sku": "SM-S931BDBOMEA"
+        },
+        {
+          "color": "silver-shadow",
+          "config": 0,
+          "sku": "SM-S931BZSOMEA"
+        },
+        {
+          "color": "mint",
+          "config": 0,
+          "sku": "SM-S931BLGOMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.2-inch",
+          "ar": "6.2 بوصة"
+        },
+        "resolution": "2340 × 1080 (FHD+)",
+        "refresh_rate": {
+          "en": "1–120Hz adaptive",
+          "ar": "متغير 1–120 هرتز"
+        },
+        "chipset": "Snapdragon 8 Elite for Galaxy",
+        "battery": {
+          "en": "4,000mAh",
+          "ar": "4000 مللي أمبير"
+        },
+        "water_resistance": "IP68",
+        "model_code": "SM-S931B/DS"
+      },
+      "keywords": "جالاكسي s25"
+    },
+    {
+      "slug": "galaxy-s25-fe",
+      "model": "Galaxy S25 FE",
+      "family": "Galaxy S series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-s/galaxy-s25-fe-jetblack-256gb-sm-s731bzkvmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "jetblack",
+          "en": "Jetblack",
+          "ar": "أسود داكن",
+          "hex": "#494a4d",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bzkvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bzkvmea-549559054?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "navy",
+          "en": "Navy",
+          "ar": "الكُحلي",
+          "hex": "#3c5b8a",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bdbvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bdbvmea-549558961?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "icyblue",
+          "en": "Icyblue",
+          "ar": "الأزرق الثلجي",
+          "hex": "#becae9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731blbvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731blbvmea-549559007?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "أبيض",
+          "hex": "#f5f7f6",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s731bzwvmea/gallery/eg-galaxy-s25-fe-sm-s731-sm-s731bzwvmea-549559103?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "512GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "jetblack",
+          "config": 0,
+          "sku": "SM-S731BZKVMEA"
+        },
+        {
+          "color": "navy",
+          "config": 0,
+          "sku": "SM-S731BDBVMEA"
+        },
+        {
+          "color": "navy",
+          "config": 1,
+          "sku": "SM-S731BDBWMEA"
+        },
+        {
+          "color": "jetblack",
+          "config": 1,
+          "sku": "SM-S731BZKWMEA"
+        },
+        {
+          "color": "icyblue",
+          "config": 0,
+          "sku": "SM-S731BLBVMEA"
+        },
+        {
+          "color": "icyblue",
+          "config": 1,
+          "sku": "SM-S731BLBWMEA"
+        },
+        {
+          "color": "white",
+          "config": 0,
+          "sku": "SM-S731BZWVMEA"
+        },
+        {
+          "color": "white",
+          "config": 1,
+          "sku": "SM-S731BZWWMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Dynamic AMOLED 2X",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Exynos 2400",
+        "cpu": {
+          "en": "Deca-core (3.2GHz, 2.9GHz, 2.6GHz, 1.95GHz)",
+          "ar": "عشاري النواة (3.2 جيجاهرتز، 2.9 جيجاهرتز، 2.6 جيجاهرتز، 1.95 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 12MP + 8MP",
+          "ar": "50 ميجابكسل + 12 ميجابكسل + 8 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "4,900mAh",
+          "ar": "4900 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "model_code": "SM-S731B/DS"
+      },
+      "keywords": "جالاكسي s25 fe"
+    },
+    {
+      "slug": "galaxy-z-fold6",
+      "model": "Galaxy Z Fold6",
+      "family": "Galaxy Z series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-z-fold6/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "silver-shadow",
+          "en": "Silver Shadow",
+          "ar": "ظل فضي",
+          "hex": "#7f7f7e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f956bzsdmea/gallery/eg-galaxy-z-fold6-f956-sm-f956bzsdmea-542882982?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "silver-shadow",
+          "config": 0,
+          "sku": "SM-F956BZSDMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "7.6-inch main, 6.3-inch cover",
+          "ar": "7.6 بوصة رئيسية، 6.3 بوصة للغطاء"
+        },
+        "chipset": "Snapdragon 8 Gen 3 for Galaxy",
+        "rear_camera": {
+          "en": "50MP wide + 12MP ultra-wide + 3x telephoto",
+          "ar": "واسعة 50 ميجابكسل + فائقة الاتساع 12 ميجابكسل + مقربة 3x"
+        },
+        "battery": {
+          "en": "4,400mAh",
+          "ar": "4400 مللي أمبير"
+        },
+        "water_resistance": "IP48",
+        "model_code": "SM-F956B/DS"
+      },
+      "keywords": "جالاكسي z fold6"
+    },
+    {
+      "slug": "galaxy-z-flip6",
+      "model": "Galaxy Z Flip6",
+      "family": "Galaxy Z series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-z-flip6/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "yellow",
+          "en": "Yellow",
+          "ar": "أصفر",
+          "hex": "#f8e59a",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741bzyamea/gallery/eg-galaxy-zflip6-f741-sm-f741bzyamea-544324031?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver-shadow",
+          "en": "Silver Shadow",
+          "ar": "فضي قاتم",
+          "hex": "#7f7f7e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741bzsamea/gallery/eg-galaxy-zflip6-f741-sm-f741bzsamea-544324006?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "mint",
+          "en": "Mint",
+          "ar": "نعناعي",
+          "hex": "#a5dfd3",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741blgamea/gallery/eg-galaxy-zflip6-f741-529256-sm-f741blgamea-544358751?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "blue",
+          "en": "Blue",
+          "ar": "أزرق",
+          "hex": "#a7c6ed",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-f741blbamea/gallery/eg-galaxy-zflip6-f741-sm-f741blbamea-544323980?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "storage": "128GB"
+        },
+        {
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "yellow",
+          "config": 1,
+          "sku": "SM-F741BZYAMEA"
+        },
+        {
+          "color": "silver-shadow",
+          "config": 1,
+          "sku": "SM-F741BZSAMEA"
+        },
+        {
+          "color": "mint",
+          "config": 0,
+          "sku": "SM-F741BLGAMEA"
+        },
+        {
+          "color": "blue",
+          "config": 1,
+          "sku": "SM-F741BLBAMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch main, 3.4-inch cover",
+          "ar": "6.7 بوصة رئيسية، 3.4 بوصة للغطاء"
+        },
+        "chipset": "Snapdragon 8 Gen 3 for Galaxy",
+        "battery": {
+          "en": "4,000mAh",
+          "ar": "4000 مللي أمبير"
+        },
+        "water_resistance": "IP48",
+        "model_code": "SM-F741B"
+      },
+      "keywords": "جالاكسي z flip6"
+    },
+    {
+      "slug": "galaxy-a57-5g",
+      "model": "Galaxy A57 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a57-5g-awesome-navy-256gb-sm-a576bdbpmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "awesome-navy",
+          "en": "Awesome Navy",
+          "ar": "Awesome Navy",
+          "hex": "#383e4e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bdbpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bdbpmea-552260431?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-gray",
+          "en": "Awesome Gray",
+          "ar": "رمادي أوسوم",
+          "hex": "#7e7d80",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bzapmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bzapmea-552260573?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-lilac",
+          "en": "Awesome Lilac",
+          "ar": "ليلكي أوسوم",
+          "hex": "#a7b2e7",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576bzvpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576bzvpmea-552260632?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-icyblue",
+          "en": "Awesome Icyblue",
+          "ar": "أزرق ثلجي أوسوم",
+          "hex": "#c8d8eb",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a576blbpmea/gallery/eg-galaxy-a57-5g-sm-a576-sm-a576blbpmea-552260494?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "awesome-navy",
+          "config": 0,
+          "sku": "SM-A576BDBPMEA"
+        },
+        {
+          "color": "awesome-navy",
+          "config": 1,
+          "sku": "SM-A576BDBVMEA"
+        },
+        {
+          "color": "awesome-navy",
+          "config": 2,
+          "sku": "SM-A576BDBWMEA"
+        },
+        {
+          "color": "awesome-gray",
+          "config": 0,
+          "sku": "SM-A576BZAPMEA"
+        },
+        {
+          "color": "awesome-gray",
+          "config": 1,
+          "sku": "SM-A576BZAVMEA"
+        },
+        {
+          "color": "awesome-gray",
+          "config": 2,
+          "sku": "SM-A576BZAWMEA"
+        },
+        {
+          "color": "awesome-lilac",
+          "config": 0,
+          "sku": "SM-A576BZVPMEA"
+        },
+        {
+          "color": "awesome-lilac",
+          "config": 1,
+          "sku": "SM-A576BZVVMEA"
+        },
+        {
+          "color": "awesome-lilac",
+          "config": 2,
+          "sku": "SM-A576BZVWMEA"
+        },
+        {
+          "color": "awesome-icyblue",
+          "config": 0,
+          "sku": "SM-A576BLBPMEA"
+        },
+        {
+          "color": "awesome-icyblue",
+          "config": 1,
+          "sku": "SM-A576BLBVMEA"
+        },
+        {
+          "color": "awesome-icyblue",
+          "config": 2,
+          "sku": "SM-A576BLBWMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED Plus",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.9GHz, 2.6GHz, 1.9GHz)",
+          "ar": "ثماني النواة (2.9 جيجاهرتز، 2.6 جيجاهرتز، 1.9 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 12MP + 5MP",
+          "ar": "50 ميجابكسل + 12 ميجابكسل + 5 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W fast charging",
+          "ar": "شحن سريع 45 واط"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "water_resistance": "IP68",
+        "model_code": "SM-A576B/DS"
+      },
+      "keywords": "جالاكسي a57 5g"
+    },
+    {
+      "slug": "galaxy-a56-5g",
+      "model": "Galaxy A56 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a56-5g-awesome-pink-128gb-sm-a566blivmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "awesome-pink",
+          "en": "Awesome Pink",
+          "ar": "Awesome Pink",
+          "hex": "#f2dee9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566blivmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566blivmea-545652045?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-graphite",
+          "en": "Awesome Graphite",
+          "ar": "Awesome Graphite",
+          "hex": "#53565a",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzkvmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzkvmea-545652252?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-olive",
+          "en": "Awesome Olive",
+          "ar": "Awesome Olive",
+          "hex": "#a9bab7",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzgvmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzgvmea-545652183?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-lightgray",
+          "en": "Awesome Lightgray",
+          "ar": "Awesome Lightgray",
+          "hex": "#c8caca",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a566bzavmea/gallery/eg-galaxy-a56-5g-sm-a566-sm-a566bzavmea-545652114?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "awesome-pink",
+          "config": 0,
+          "sku": "SM-A566BLIVMEA"
+        },
+        {
+          "color": "awesome-graphite",
+          "config": 0,
+          "sku": "SM-A566BZKVMEA"
+        },
+        {
+          "color": "awesome-graphite",
+          "config": 1,
+          "sku": "SM-A566BZKWMEA"
+        },
+        {
+          "color": "awesome-graphite",
+          "config": 2,
+          "sku": "SM-A566BZKYMEA"
+        },
+        {
+          "color": "awesome-olive",
+          "config": 0,
+          "sku": "SM-A566BZGVMEA"
+        },
+        {
+          "color": "awesome-olive",
+          "config": 1,
+          "sku": "SM-A566BZGWMEA"
+        },
+        {
+          "color": "awesome-olive",
+          "config": 2,
+          "sku": "SM-A566BZGYMEA"
+        },
+        {
+          "color": "awesome-lightgray",
+          "config": 0,
+          "sku": "SM-A566BZAVMEA"
+        },
+        {
+          "color": "awesome-lightgray",
+          "config": 1,
+          "sku": "SM-A566BZAWMEA"
+        },
+        {
+          "color": "awesome-lightgray",
+          "config": 2,
+          "sku": "SM-A566BZAYMEA"
+        },
+        {
+          "color": "awesome-pink",
+          "config": 1,
+          "sku": "SM-A566BLIWMEA"
+        },
+        {
+          "color": "awesome-pink",
+          "config": 2,
+          "sku": "SM-A566BLIYMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.9GHz, 2.6GHz, 1.9GHz)",
+          "ar": "ثماني النواة (2.9 جيجاهرتز، 2.6 جيجاهرتز، 1.9 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 12MP + 5MP",
+          "ar": "50 ميجابكسل + 12 ميجابكسل + 5 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "model_code": "SM-A566B/DS"
+      },
+      "keywords": "جالاكسي a56 5g"
+    },
+    {
+      "slug": "galaxy-a37-5g",
+      "model": "Galaxy A37 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a37-5g-awesome-graygreen-128gb-sm-a376bdgpmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "awesome-graygreen",
+          "en": "Awesome Graygreen",
+          "ar": "أخضر رمادي أوسوم",
+          "hex": "#5c707e",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bdgpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bdgpmea-552260812?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-charcoal",
+          "en": "Awesome Charcoal",
+          "ar": "أسود أوسوم",
+          "hex": "#525257",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bzapmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bzapmea-552260936?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-lavender",
+          "en": "Awesome Lavender",
+          "ar": "Awesome Lavender",
+          "hex": "#bcbde2",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376blvpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376blvpmea-552260869?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-white",
+          "en": "Awesome White",
+          "ar": "أبيض أوسوم",
+          "hex": "#f3f4f5",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a376bzwpmea/gallery/eg-galaxy-a37-5g-sm-a376-sm-a376bzwpmea-552261010?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "awesome-graygreen",
+          "config": 0,
+          "sku": "SM-A376BDGPMEA"
+        },
+        {
+          "color": "awesome-charcoal",
+          "config": 0,
+          "sku": "SM-A376BZAPMEA"
+        },
+        {
+          "color": "awesome-charcoal",
+          "config": 1,
+          "sku": "SM-A376BZAVMEA"
+        },
+        {
+          "color": "awesome-charcoal",
+          "config": 2,
+          "sku": "SM-A376BZAWMEA"
+        },
+        {
+          "color": "awesome-graygreen",
+          "config": 1,
+          "sku": "SM-A376BDGVMEA"
+        },
+        {
+          "color": "awesome-graygreen",
+          "config": 2,
+          "sku": "SM-A376BDGWMEA"
+        },
+        {
+          "color": "awesome-lavender",
+          "config": 0,
+          "sku": "SM-A376BLVPMEA"
+        },
+        {
+          "color": "awesome-lavender",
+          "config": 1,
+          "sku": "SM-A376BLVVMEA"
+        },
+        {
+          "color": "awesome-lavender",
+          "config": 2,
+          "sku": "SM-A376BLVWMEA"
+        },
+        {
+          "color": "awesome-white",
+          "config": 0,
+          "sku": "SM-A376BZWPMEA"
+        },
+        {
+          "color": "awesome-white",
+          "config": 1,
+          "sku": "SM-A376BZWVMEA"
+        },
+        {
+          "color": "awesome-white",
+          "config": 2,
+          "sku": "SM-A376BZWWMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.75GHz, 2GHz)",
+          "ar": "ثماني النواة (2.75 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 8MP + 5MP",
+          "ar": "50 ميجابكسل + 8 ميجابكسل + 5 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "water_resistance": "IP68",
+        "model_code": "SM-A376B/DS"
+      },
+      "keywords": "جالاكسي a37 5g"
+    },
+    {
+      "slug": "galaxy-a36-5g",
+      "model": "Galaxy A36 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a36-5g-awesome-lime-128gb-sm-a366blgpmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "awesome-lime",
+          "en": "Awesome Lime",
+          "ar": "ليمون رائع",
+          "hex": "#dfefdb",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366blgpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366blgpmea-545652749?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-black",
+          "en": "Awesome Black",
+          "ar": "أسود رائع",
+          "hex": "#404145",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366bzkpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366bzkpmea-545652863?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-lavender",
+          "en": "Awesome Lavender",
+          "ar": "لافندر رائع",
+          "hex": "#c6cce7",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366blvpmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366blvpmea-545652787?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "awesome-white",
+          "en": "Awesome White",
+          "ar": "أبيض رائع",
+          "hex": "#dad9db",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a366bzapmea/gallery/eg-galaxy-a36-5g-sm-a366-sm-a366bzapmea-545652825?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "awesome-lime",
+          "config": 0,
+          "sku": "SM-A366BLGPMEA"
+        },
+        {
+          "color": "awesome-black",
+          "config": 0,
+          "sku": "SM-A366BZKPMEA"
+        },
+        {
+          "color": "awesome-black",
+          "config": 1,
+          "sku": "SM-A366BZKVMEA"
+        },
+        {
+          "color": "awesome-lavender",
+          "config": 0,
+          "sku": "SM-A366BLVPMEA"
+        },
+        {
+          "color": "awesome-lavender",
+          "config": 1,
+          "sku": "SM-A366BLVVMEA"
+        },
+        {
+          "color": "awesome-white",
+          "config": 0,
+          "sku": "SM-A366BZAPMEA"
+        },
+        {
+          "color": "awesome-white",
+          "config": 1,
+          "sku": "SM-A366BZAVMEA"
+        },
+        {
+          "color": "awesome-lime",
+          "config": 1,
+          "sku": "SM-A366BLGVMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.4GHz, 1.8GHz)",
+          "ar": "ثماني النواة (2.4 جيجاهرتز، 1.8 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 8MP + 5MP",
+          "ar": "50 ميجابكسل + 8 ميجابكسل + 5 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual SIM (Nano-SIM + eSIM)",
+          "ar": "شريحتان (Nano-SIM وeSIM)"
+        },
+        "model_code": "SM-A366B/DS"
+      },
+      "keywords": "جالاكسي a36 5g"
+    },
+    {
+      "slug": "galaxy-a27-5g",
+      "model": "Galaxy A27 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a27-5g-light-pink-128gb-sm-a276bliimea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "light-pink",
+          "en": "Light Pink",
+          "ar": "زهري فاتح",
+          "hex": "#f2dee9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bliimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bliimea-553813026?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "blue",
+          "en": "Blue",
+          "ar": "أزرق",
+          "hex": "#395081",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bzbimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bzbimea-553813083?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#3e4043",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a276bzkimea/gallery/eg-galaxy-a27-5g-sm-a276-sm-a276bzkimea-553813140?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "light-pink",
+          "config": 0,
+          "sku": "SM-A276BLIIMEA"
+        },
+        {
+          "color": "blue",
+          "config": 0,
+          "sku": "SM-A276BZBIMEA"
+        },
+        {
+          "color": "blue",
+          "config": 1,
+          "sku": "SM-A276BZBPMEA"
+        },
+        {
+          "color": "blue",
+          "config": 2,
+          "sku": "SM-A276BZBJMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A276BZKIMEA"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-A276BZKPMEA"
+        },
+        {
+          "color": "black",
+          "config": 2,
+          "sku": "SM-A276BZKJMEA"
+        },
+        {
+          "color": "light-pink",
+          "config": 1,
+          "sku": "SM-A276BLIPMEA"
+        },
+        {
+          "color": "light-pink",
+          "config": 2,
+          "sku": "SM-A276BLIJMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.4GHz, 1.8GHz)",
+          "ar": "ثماني النواة (2.4 جيجاهرتز، 1.8 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 5MP + 2MP",
+          "ar": "50 ميجابكسل + 5 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "12MP",
+          "ar": "12 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual Nano-SIM (hybrid microSD slot)",
+          "ar": "شريحتا Nano-SIM (منفذ هجين لبطاقة microSD)"
+        },
+        "model_code": "SM-A276B/DS"
+      },
+      "keywords": "جالاكسي a27 5g"
+    },
+    {
+      "slug": "galaxy-a26-5g",
+      "model": "Galaxy A26 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a26-5g-peach-pink-128gb-sm-a266bziimea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "peach-pink",
+          "en": "Peach Pink",
+          "ar": "Peach pink",
+          "hex": "#fbb2a9",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bziimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bziimea-545489214?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "Black",
+          "hex": "#2d2926",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bzkimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bzkimea-545489261?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "white",
+          "en": "White",
+          "ar": "White",
+          "hex": "#f3f4f4",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a266bzwimea/gallery/eg-galaxy-a26-5g-sm-a266-sm-a266bzwimea-545489385?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "peach-pink",
+          "config": 0,
+          "sku": "SM-A266BZIIMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A266BZKIMEA"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-A266BZKJMEA"
+        },
+        {
+          "color": "white",
+          "config": 0,
+          "sku": "SM-A266BZWIMEA"
+        },
+        {
+          "color": "white",
+          "config": 1,
+          "sku": "SM-A266BZWJMEA"
+        },
+        {
+          "color": "peach-pink",
+          "config": 1,
+          "sku": "SM-A266BZIJMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.4GHz, 2GHz)",
+          "ar": "ثماني النواة (2.4 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 8MP + 2MP",
+          "ar": "50 ميجابكسل + 8 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual Nano-SIM (hybrid microSD slot)",
+          "ar": "شريحتا Nano-SIM (منفذ هجين لبطاقة microSD)"
+        },
+        "model_code": "SM-A266B/DS"
+      },
+      "keywords": "جالاكسي a26 5g"
+    },
+    {
+      "slug": "galaxy-a18",
+      "model": "Galaxy A18",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a18-light-blue-128gb-sm-a185glbkegy/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "light-blue",
+          "en": "Light Blue",
+          "ar": "أزرق فاتح",
+          "hex": "#a4c8e1",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185glbkegy/gallery/eg-galaxy-a18-sm-a185-sm-a185glbkegy-554925708?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#40424b",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185gzkkegy/gallery/eg-galaxy-a18-sm-a185-sm-a185gzkkegy-554925767?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": "#c2c7ca",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a185gzskegy/gallery/eg-galaxy-a18-sm-a185-sm-a185gzskegy-554925827?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "light-blue",
+          "config": 0,
+          "sku": "SM-A185GLBKEGY"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A185GZKKEGY"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-A185GZKLEGY"
+        },
+        {
+          "color": "black",
+          "config": 2,
+          "sku": "SM-A185GZKNEGY"
+        },
+        {
+          "color": "light-blue",
+          "config": 1,
+          "sku": "SM-A185GLBLEGY"
+        },
+        {
+          "color": "light-blue",
+          "config": 2,
+          "sku": "SM-A185GLBNEGY"
+        },
+        {
+          "color": "silver",
+          "config": 0,
+          "sku": "SM-A185GZSKEGY"
+        },
+        {
+          "color": "silver",
+          "config": 1,
+          "sku": "SM-A185GZSLEGY"
+        },
+        {
+          "color": "silver",
+          "config": 2,
+          "sku": "SM-A185GZSNEGY"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "cpu": {
+          "en": "Octa-core (2.2GHz, 2GHz)",
+          "ar": "ثماني النواة (2.2 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 5MP + 2MP",
+          "ar": "50 ميجابكسل + 5 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "4G LTE",
+        "sim": {
+          "en": "Dual Nano-SIM (hybrid microSD slot)",
+          "ar": "شريحتا Nano-SIM (منفذ هجين لبطاقة microSD)"
+        },
+        "model_code": "SM-A185G/DS"
+      },
+      "keywords": "جالاكسي a18"
+    },
+    {
+      "slug": "galaxy-a17-5g",
+      "model": "Galaxy A17 5G",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a17-5g-gray-256gb-sm-a176bzagmea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "gray",
+          "en": "Gray",
+          "ar": "Gray",
+          "hex": "#9b9ca1",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzagmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzagmea-551025351?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "blue",
+          "en": "Blue",
+          "ar": "Blue",
+          "hex": "#004680",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzbgmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzbgmea-551025370?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "Black",
+          "hex": "#404145",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a176bzkgmea/gallery/eg-galaxy-a17-5g-sm-a176-sm-a176bzkgmea-551025389?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "gray",
+          "config": 0,
+          "sku": "SM-A176BZAGMEA"
+        },
+        {
+          "color": "blue",
+          "config": 0,
+          "sku": "SM-A176BZBGMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A176BZKGMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.4GHz, 2GHz)",
+          "ar": "ثماني النواة (2.4 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 5MP + 2MP",
+          "ar": "50 ميجابكسل + 5 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "5G",
+        "sim": {
+          "en": "Dual Nano-SIM (hybrid microSD slot)",
+          "ar": "شريحتا Nano-SIM (منفذ هجين لبطاقة microSD)"
+        },
+        "model_code": "SM-A176B/DS"
+      },
+      "keywords": "جالاكسي a17 5g"
+    },
+    {
+      "slug": "galaxy-a17",
+      "model": "Galaxy A17",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a17-black-256gb-sm-a175fzkomea/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "Black",
+          "hex": "#404145",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175fzkomea/gallery/eg-galaxy-a17-sm-a175-sm-a175fzkomea-549050734?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "gray",
+          "en": "Gray",
+          "ar": "الرمادي",
+          "hex": "#9b9ca1",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175fzanmea/gallery/eg-galaxy-a17-sm-a175-sm-a175fzanmea-549050658?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "light-blue",
+          "en": "Light Blue",
+          "ar": "أزرق فاتح",
+          "hex": "#a4c8e1",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a175flbnmea/gallery/eg-galaxy-a17-sm-a175-sm-a175flbnmea-549050601?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "black",
+          "config": 2,
+          "sku": "SM-A175FZKOMEA"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A175FZKNMEA"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-A175FZKCMEA"
+        },
+        {
+          "color": "gray",
+          "config": 0,
+          "sku": "SM-A175FZANMEA"
+        },
+        {
+          "color": "gray",
+          "config": 1,
+          "sku": "SM-A175FZACMEA"
+        },
+        {
+          "color": "gray",
+          "config": 2,
+          "sku": "SM-A175FZAOMEA"
+        },
+        {
+          "color": "light-blue",
+          "config": 0,
+          "sku": "SM-A175FLBNMEA"
+        },
+        {
+          "color": "light-blue",
+          "config": 1,
+          "sku": "SM-A175FLBCMEA"
+        },
+        {
+          "color": "light-blue",
+          "config": 2,
+          "sku": "SM-A175FLBOMEA"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "Super AMOLED",
+        "resolution": "1080 × 2340 (FHD+)",
+        "cpu": {
+          "en": "Octa-core (2.2GHz, 2GHz)",
+          "ar": "ثماني النواة (2.2 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 5MP + 2MP",
+          "ar": "50 ميجابكسل + 5 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "4G LTE",
+        "sim": {
+          "en": "Dual Nano-SIM (hybrid microSD slot)",
+          "ar": "شريحتا Nano-SIM (منفذ هجين لبطاقة microSD)"
+        },
+        "model_code": "SM-A175F/DS"
+      },
+      "keywords": "جالاكسي a17"
+    },
+    {
+      "slug": "galaxy-a08",
+      "model": "Galaxy A08",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a08-dark-blue-128gb-sm-a085fdbhegy/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "dark-blue",
+          "en": "Dark Blue",
+          "ar": "أزرق داكن",
+          "hex": "#041e42",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fdbhegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fdbhegy-554520599?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "green",
+          "en": "Green",
+          "ar": "أخضر",
+          "hex": "#477a7b",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fzgdegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fzgdegy-554520618?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "silver",
+          "en": "Silver",
+          "ar": "فضي",
+          "hex": "#cbd3ea",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a085fzsdegy/gallery/eg-galaxy-a08-sm-a085-sm-a085fzsdegy-554520675?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "64GB"
+        },
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "dark-blue",
+          "config": 2,
+          "sku": "SM-A085FDBHEGY"
+        },
+        {
+          "color": "dark-blue",
+          "config": 0,
+          "sku": "SM-A085FDBDEGY"
+        },
+        {
+          "color": "dark-blue",
+          "config": 1,
+          "sku": "SM-A085FDBGEGY"
+        },
+        {
+          "color": "green",
+          "config": 0,
+          "sku": "SM-A085FZGDEGY"
+        },
+        {
+          "color": "green",
+          "config": 1,
+          "sku": "SM-A085FZGGEGY"
+        },
+        {
+          "color": "green",
+          "config": 2,
+          "sku": "SM-A085FZGHEGY"
+        },
+        {
+          "color": "silver",
+          "config": 0,
+          "sku": "SM-A085FZSDEGY"
+        },
+        {
+          "color": "silver",
+          "config": 1,
+          "sku": "SM-A085FZSGEGY"
+        },
+        {
+          "color": "silver",
+          "config": 2,
+          "sku": "SM-A085FZSHEGY"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "PLS LCD",
+        "resolution": "720 × 1600 (HD+)",
+        "cpu": {
+          "en": "Octa-core (2.2GHz, 2GHz)",
+          "ar": "ثماني النواة (2.2 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 2MP",
+          "ar": "50 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,000mAh",
+          "ar": "6000 مللي أمبير"
+        },
+        "network": "4G LTE",
+        "sim": {
+          "en": "Dual Nano-SIM + dedicated microSD slot",
+          "ar": "شريحتا Nano-SIM مع منفذ مستقل لبطاقة microSD"
+        },
+        "water_resistance": "IP64",
+        "model_code": "SM-A085F/DS"
+      },
+      "keywords": "جالاكسي a08"
+    },
+    {
+      "slug": "galaxy-a07s",
+      "model": "Galaxy A07s",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a07s-light-violet-64gb-sm-a077flvdegy/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "light-violet",
+          "en": "Light Violet",
+          "ar": "بنفسجي فاتح",
+          "hex": "#b6c0d6",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077flvdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077flvdegy-554820444?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "green",
+          "en": "Green",
+          "ar": "أخضر",
+          "hex": "#304e53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077fzgdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077fzgdegy-554820463?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#4a4f59",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a077fzkdegy/gallery/eg-galaxy-a07s-sm-a077-sm-a077fzkdegy-554820482?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "64GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "light-violet",
+          "config": 0,
+          "sku": "SM-A077FLVDEGY"
+        },
+        {
+          "color": "green",
+          "config": 0,
+          "sku": "SM-A077FZGDEGY"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A077FZKDEGY"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "PLS LCD",
+        "resolution": "720 × 1600 (HD+)",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.2GHz, 2GHz)",
+          "ar": "ثماني النواة (2.2 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 2MP",
+          "ar": "50 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "4G LTE",
+        "sim": {
+          "en": "Dual Nano-SIM + dedicated microSD slot",
+          "ar": "شريحتا Nano-SIM مع منفذ مستقل لبطاقة microSD"
+        },
+        "water_resistance": "IP54",
+        "model_code": "SM-A077F/DS"
+      },
+      "keywords": "جالاكسي a07s"
+    },
+    {
+      "slug": "galaxy-a07",
+      "model": "Galaxy A07",
+      "family": "Galaxy A series",
+      "sourceUrl": "https://www.samsung.com/eg/smartphones/galaxy-a/galaxy-a07-green-256gb-sm-a075fzgiegy/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "green",
+          "en": "Green",
+          "ar": "Green",
+          "hex": "#304e53",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075fzgiegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075fzgiegy-550449353?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "Black",
+          "hex": "#4a4f59",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075fzkiegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075fzkiegy-550449372?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        },
+        {
+          "key": "light-violet",
+          "en": "Light Violet",
+          "ar": "Light Violet",
+          "hex": "#b6c0d6",
+          "images": [
+            "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-a075flviegy/gallery/eg-galaxy-a07-sm-a075-573861-sm-a075flviegy-550449334?wid=1200&hei=1200&fmt=png-alpha"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "64GB"
+        },
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "combos": [
+        {
+          "color": "green",
+          "config": 3,
+          "sku": "SM-A075FZGIEGY"
+        },
+        {
+          "color": "black",
+          "config": 3,
+          "sku": "SM-A075FZKIEGY"
+        },
+        {
+          "color": "light-violet",
+          "config": 3,
+          "sku": "SM-A075FLVIEGY"
+        },
+        {
+          "color": "light-violet",
+          "config": 0,
+          "sku": "SM-A075FLVDEGY"
+        },
+        {
+          "color": "green",
+          "config": 0,
+          "sku": "SM-A075FZGDEGY"
+        },
+        {
+          "color": "green",
+          "config": 1,
+          "sku": "SM-A075FZGGEGY"
+        },
+        {
+          "color": "green",
+          "config": 2,
+          "sku": "SM-A075FZGHEGY"
+        },
+        {
+          "color": "black",
+          "config": 0,
+          "sku": "SM-A075FZKDEGY"
+        },
+        {
+          "color": "black",
+          "config": 1,
+          "sku": "SM-A075FZKGEGY"
+        },
+        {
+          "color": "black",
+          "config": 2,
+          "sku": "SM-A075FZKHEGY"
+        },
+        {
+          "color": "light-violet",
+          "config": 1,
+          "sku": "SM-A075FLVGEGY"
+        },
+        {
+          "color": "light-violet",
+          "config": 2,
+          "sku": "SM-A075FLVHEGY"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.7-inch",
+          "ar": "6.7 بوصة"
+        },
+        "display_type": "PLS LCD",
+        "resolution": "720 × 1600 (HD+)",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "cpu": {
+          "en": "Octa-core (2.2GHz, 2GHz)",
+          "ar": "ثماني النواة (2.2 جيجاهرتز، 2 جيجاهرتز)"
+        },
+        "rear_camera": {
+          "en": "50MP + 2MP",
+          "ar": "50 ميجابكسل + 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "network": "4G LTE",
+        "sim": {
+          "en": "Dual Nano-SIM + dedicated microSD slot",
+          "ar": "شريحتا Nano-SIM مع منفذ مستقل لبطاقة microSD"
+        },
+        "model_code": "SM-A075F/DS"
+      },
+      "keywords": "جالاكسي a07"
+    }
+  ],
+  "skipped": []
+}

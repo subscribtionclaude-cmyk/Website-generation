@@ -1,25 +1,135 @@
 {
   "batch": "2026-10-04-wave1",
-  "brands": ["apple"],
+  "brands": ["apple", "samsung"],
   "counts": {
-    "brands": 1,
-    "products": 10,
-    "published": 10,
+    "brands": 2,
+    "products": 32,
+    "published": 32,
     "draftsWithoutImages": 0,
-    "variants": 104,
-    "images": 38
+    "variants": 265,
+    "images": 114
   },
   "perBrand": {
     "apple": {
       "products": 10,
       "variants": 104,
       "images": 38
+    },
+    "samsung": {
+      "products": 22,
+      "variants": 161,
+      "images": 76
     }
   },
   "missingImages": [],
   "draftsWithoutImages": [],
-  "missingSpecs": [],
-  "duplicateImages": [],
+  "missingSpecs": [
+    {
+      "product": "samsung/galaxy-s26-ultra",
+      "fields": ["os"]
+    },
+    {
+      "product": "samsung/galaxy-s26-plus",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-s26",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-s26-fe",
+      "fields": ["os"]
+    },
+    {
+      "product": "samsung/galaxy-s25-ultra",
+      "fields": ["rear_camera", "battery", "os"]
+    },
+    {
+      "product": "samsung/galaxy-s25-plus",
+      "fields": ["rear_camera", "os"]
+    },
+    {
+      "product": "samsung/galaxy-s25",
+      "fields": ["rear_camera", "os"]
+    },
+    {
+      "product": "samsung/galaxy-s25-fe",
+      "fields": ["os"]
+    },
+    {
+      "product": "samsung/galaxy-z-fold6",
+      "fields": ["os"]
+    },
+    {
+      "product": "samsung/galaxy-z-flip6",
+      "fields": ["rear_camera", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a57-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a56-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a37-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a36-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a27-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a26-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a18",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a17-5g",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a17",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a08",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a07s",
+      "fields": ["chipset", "os"]
+    },
+    {
+      "product": "samsung/galaxy-a07",
+      "fields": ["chipset", "os"]
+    }
+  ],
+  "duplicateImages": [
+    {
+      "sha256": "47f500ae276e82df7de7b68635dcba961b8a4799cd8570d5e10f1d504c34a77e",
+      "uses": [
+        "media/samsung/galaxy-a07s/light-violet/1",
+        "media/samsung/galaxy-a07/light-violet/1"
+      ]
+    },
+    {
+      "sha256": "d65c69aa016409f40a63d19d3de77ad21320c1af0f115bb28d5e626ce5d4926e",
+      "uses": ["media/samsung/galaxy-a07s/green/1", "media/samsung/galaxy-a07/green/1"]
+    },
+    {
+      "sha256": "8d7a2c688d96621889949323a3f35d8b38dcc495d4241b02f13cd7cf7eeef981",
+      "uses": ["media/samsung/galaxy-a07s/black/1", "media/samsung/galaxy-a07/black/1"]
+    }
+  ],
   "skipped": [],
   "errors": [],
   "warnings": [

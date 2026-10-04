@@ -219,6 +219,20 @@ describe('catalog manifest', () => {
     );
   });
 
+  it('uses the manufacturer model code as the SKU when the source gives one', () => {
+    const s = source();
+    at(s.products, 0).combos = [
+      { color: 'black', config: 0, sku: 'SM-X100BZKAMEA' },
+      { color: 'silver', config: 1 },
+    ];
+    const { manifest } = buildManifest([s], ingested, META);
+    expect(at(manifest.products, 0).variants.map((v) => v.sku)).toEqual([
+      'SM-X100BZKAMEA',
+      'SAM-GALAXYX-8GB-256GB-SILVER',
+    ]);
+    expect(validateManifest(manifest).filter((i) => i.level === 'error')).toEqual([]);
+  });
+
   it('orders capacities numerically', () => {
     expect(
       ['1TB', '256GB', '512GB', '128GB'].sort((a, b) => capacityGb(a) - capacityGb(b)),

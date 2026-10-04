@@ -39,6 +39,7 @@ export const SPEC_FIELDS = {
   resolution: { group: 'display', ar: 'الدقة', en: 'Resolution' },
   refresh_rate: { group: 'display', ar: 'معدل التحديث', en: 'Refresh rate' },
   chipset: { group: 'performance', ar: 'المعالج', en: 'Chipset' },
+  cpu: { group: 'performance', ar: 'وحدة المعالجة المركزية', en: 'CPU' },
   rear_camera: { group: 'camera', ar: 'الكاميرا الخلفية', en: 'Rear camera' },
   front_camera: { group: 'camera', ar: 'الكاميرا الأمامية', en: 'Front camera' },
   battery: { group: 'battery', ar: 'البطارية', en: 'Battery' },
@@ -80,7 +81,7 @@ export interface SourceProduct {
   colors: SourceColor[];
   configs: SourceConfig[];
   /** Colour × configuration pairs that exist (default: every pair). Keys: colour key + config index. */
-  combos?: { color: string; config: number }[];
+  combos?: { color: string; config: number; sku?: string }[];
   specs: Partial<Record<SpecKey, SpecValue>>;
   keywords?: string;
 }
@@ -249,14 +250,14 @@ function buildProduct(
       values: rams.map((r) => ({ key: keyOf(r), label: capacityLabel(r) })),
     });
 
-  const combos =
+  const combos: NonNullable<SourceProduct['combos']> =
     p.combos ?? p.colors.flatMap((c) => p.configs.map((_, config) => ({ color: c.key, config })));
   const ordered = [...combos].sort(
     (a, b) =>
       p.colors.findIndex((c) => c.key === a.color) - p.colors.findIndex((c) => c.key === b.color) ||
       a.config - b.config,
   );
-  const variants = ordered.map(({ color, config }) => {
+  const variants = ordered.map(({ color, config, sku: officialSku }) => {
     const cfg = p.configs[config];
     const selection: Record<string, string> = {};
     if (p.colors.length > 0) selection.color = color;
@@ -264,15 +265,18 @@ function buildProduct(
       selection.storage = keyOf(cfg.storage);
       if (cfg.ram) selection.ram = keyOf(cfg.ram);
     }
-    const sku = [
-      brand.skuPrefix,
-      skuPart(p.slug.replace(new RegExp(`^${brand.slug}-`), '')),
-      cfg?.ram ? skuPart(cfg.ram) : null,
-      cfg ? skuPart(cfg.storage) : null,
-      p.colors.length > 0 ? skuPart(color) : null,
-    ]
-      .filter(Boolean)
-      .join('-');
+    // The manufacturer's own model code (e.g. Samsung SM-S948BZVIMEA) identifies the exact variant.
+    const sku =
+      officialSku ??
+      [
+        brand.skuPrefix,
+        skuPart(p.slug.replace(new RegExp(`^${brand.slug}-`), '')),
+        cfg?.ram ? skuPart(cfg.ram) : null,
+        cfg ? skuPart(cfg.storage) : null,
+        p.colors.length > 0 ? skuPart(color) : null,
+      ]
+        .filter(Boolean)
+        .join('-');
     return { sku, options: selection };
   });
 
