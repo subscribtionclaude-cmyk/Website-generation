@@ -1,13 +1,13 @@
 {
   "batch": "2026-10-04-wave1",
-  "brands": ["apple", "samsung"],
+  "brands": ["apple", "samsung", "xiaomi", "redmi", "poco"],
   "counts": {
-    "brands": 2,
-    "products": 32,
-    "published": 32,
-    "draftsWithoutImages": 0,
-    "variants": 265,
-    "images": 114
+    "brands": 5,
+    "products": 57,
+    "published": 35,
+    "draftsWithoutImages": 22,
+    "variants": 443,
+    "images": 123
   },
   "perBrand": {
     "apple": {
@@ -19,10 +19,394 @@
       "products": 22,
       "variants": 161,
       "images": 76
+    },
+    "xiaomi": {
+      "products": 6,
+      "variants": 33,
+      "images": 3
+    },
+    "redmi": {
+      "products": 18,
+      "variants": 141,
+      "images": 6
+    },
+    "poco": {
+      "products": 1,
+      "variants": 4,
+      "images": 0
     }
   },
-  "missingImages": [],
-  "draftsWithoutImages": [],
+  "missingImages": [
+    {
+      "product": "xiaomi/xiaomi-17-ultra",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-17t",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-17t",
+      "color": "opal-white",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-17t",
+      "color": "violet",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-15t",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-15t",
+      "color": "gray",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-15t",
+      "color": "rose-gold",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t-pro",
+      "color": "titan-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t-pro",
+      "color": "titan-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t-pro",
+      "color": "titan-gray",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t",
+      "color": "lemon-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t",
+      "color": "titan-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t",
+      "color": "titan-gray",
+      "reason": "no official image found"
+    },
+    {
+      "product": "xiaomi/xiaomi-14t",
+      "color": "titan-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-plus-5g",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-plus-5g",
+      "color": "glacier-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-plus-5g",
+      "color": "mocha-brown",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-5g",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-5g",
+      "color": "glacier-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-pro-5g",
+      "color": "titanium-color",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-5g",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-5g",
+      "color": "glacier-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15-5g",
+      "color": "mist-purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15",
+      "color": "glacier-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15",
+      "color": "purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-15",
+      "color": "forest-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro-plus-5g",
+      "color": "frost-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro-plus-5g",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro-plus-5g",
+      "color": "lavender-purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro",
+      "color": "ocean-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14-pro",
+      "color": "aurora-purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14",
+      "color": "lime-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-14",
+      "color": "ocean-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17-5g",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17-5g",
+      "color": "deep-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17",
+      "color": "deep-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17",
+      "color": "lotus-purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-17",
+      "color": "oak-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-15c",
+      "color": "moonlight-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-15c",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-15c",
+      "color": "mint-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-15c",
+      "color": "twilight-orange",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a5",
+      "color": "ocean-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a5",
+      "color": "lake-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a5",
+      "color": "sandy-gold",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a5",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-13",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-13",
+      "color": "mint-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-note-13",
+      "color": "ice-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-13",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-13",
+      "color": "sandy-gold",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-13",
+      "color": "pearl-pink",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-13",
+      "color": "ocean-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-14-c",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-14-c",
+      "color": "sage-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-14-c",
+      "color": "dreamy-purple",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-14-c",
+      "color": "starry-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3",
+      "color": "forest-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3",
+      "color": "star-blue",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3x",
+      "color": "midnight-black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3x",
+      "color": "moonlight-white",
+      "reason": "no official image found"
+    },
+    {
+      "product": "redmi/redmi-a3x",
+      "color": "aurora-green",
+      "reason": "no official image found"
+    },
+    {
+      "product": "poco/poco-c75",
+      "color": "black",
+      "reason": "no official image found"
+    },
+    {
+      "product": "poco/poco-c75",
+      "color": "gold",
+      "reason": "no official image found"
+    }
+  ],
+  "draftsWithoutImages": [
+    "xiaomi/xiaomi-17-ultra",
+    "xiaomi/xiaomi-17t",
+    "xiaomi/xiaomi-15t",
+    "xiaomi/xiaomi-14t-pro",
+    "xiaomi/xiaomi-14t",
+    "redmi/redmi-note-15-pro-plus-5g",
+    "redmi/redmi-note-15-pro-5g",
+    "redmi/redmi-note-15-5g",
+    "redmi/redmi-note-15",
+    "redmi/redmi-note-14-pro-plus-5g",
+    "redmi/redmi-note-14-pro",
+    "redmi/redmi-note-14",
+    "redmi/redmi-17-5g",
+    "redmi/redmi-17",
+    "redmi/redmi-15c",
+    "redmi/redmi-a5",
+    "redmi/redmi-note-13",
+    "redmi/redmi-13",
+    "redmi/redmi-14-c",
+    "redmi/redmi-a3",
+    "redmi/redmi-a3x",
+    "poco/poco-c75"
+  ],
   "missingSpecs": [
     {
       "product": "samsung/galaxy-s26-ultra",
@@ -111,6 +495,14 @@
     {
       "product": "samsung/galaxy-a07",
       "fields": ["chipset", "os"]
+    },
+    {
+      "product": "xiaomi/xiaomi-14t-pro",
+      "fields": ["display_size"]
+    },
+    {
+      "product": "xiaomi/xiaomi-14t",
+      "fields": ["display_size"]
     }
   ],
   "duplicateImages": [
@@ -162,6 +554,116 @@
       "level": "warning",
       "path": "products[5] apple/iphone-17-pro-max",
       "message": "colour \"deepblue\" has no swatch colour"
+    },
+    {
+      "level": "warning",
+      "path": "products[32] xiaomi/xiaomi-17-ultra",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[34] xiaomi/xiaomi-17t",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[35] xiaomi/xiaomi-15t",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[36] xiaomi/xiaomi-14t-pro",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[37] xiaomi/xiaomi-14t",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[38] redmi/redmi-note-15-pro-plus-5g",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[39] redmi/redmi-note-15-pro-5g",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[40] redmi/redmi-note-15-5g",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[41] redmi/redmi-note-15",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[42] redmi/redmi-note-14-pro-plus-5g",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[43] redmi/redmi-note-14-pro",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[44] redmi/redmi-note-14",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[45] redmi/redmi-17-5g",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[46] redmi/redmi-17",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[48] redmi/redmi-15c",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[49] redmi/redmi-a5",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[51] redmi/redmi-note-13",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[52] redmi/redmi-13",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[53] redmi/redmi-14-c",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[54] redmi/redmi-a3",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[55] redmi/redmi-a3x",
+      "message": "no official image yet: imported as a hidden draft"
+    },
+    {
+      "level": "warning",
+      "path": "products[56] poco/poco-c75",
+      "message": "no official image yet: imported as a hidden draft"
     }
   ]
 }

@@ -1,0 +1,436 @@
+{
+  "brand": {
+    "slug": "xiaomi",
+    "name": {
+      "ar": "شاومي",
+      "en": "Xiaomi"
+    },
+    "sourceUrl": "https://www.mi.com/eg/",
+    "sortOrder": 30,
+    "skuPrefix": "XMI"
+  },
+  "keywords": "شاومي xiaomi",
+  "checkedAt": "2026-10-04",
+  "notes": "Egypt lineup from mi.com/eg (every phone on the Egyptian Xiaomi site in this family: the phone list at mi.com/eg/product-list/phone/ plus the newer models linked from mi.com/eg). Colours, Arabic colour names and memory configurations from each model's mi.com/eg specs page; the Egyptian page lists colours and configurations independently, so every listed colour is offered in every listed configuration. English specifications from the same model's mi.com/global specs page (colour swatches are the same files on both, which maps each Arabic colour name to its English name exactly); anything those pages do not state is left empty. Swatch colours are the average of Xiaomi's own colour-swatch images. Product images: Xiaomi publishes clean per-colour images only for some models (official colour-section composites on i02.appmifile.com, served as PNG by Xiaomi's own CDN); the other models only have lifestyle or dark marketing banners, so they are imported as hidden drafts with the image pending instead of using a non-official or unsuitable image.",
+  "products": [
+    {
+      "slug": "xiaomi-17-ultra",
+      "model": "Xiaomi 17 Ultra",
+      "family": "Xiaomi 17 series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-17-ultra/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "الأسود",
+          "hex": "#2a2a2e",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "16GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "display_type": "Xiaomi HyperRGB OLED",
+        "resolution": "2608 × 1200",
+        "chipset": "Snapdragon 8 Elite Gen 5",
+        "rear_camera": {
+          "en": "Leica 50MP 1-inch main (23mm) + 200MP telephoto (75–100mm) + 50MP ultra-wide (14mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل بمستشعر 1 بوصة (23 مم) + مقرّبة 200 ميجابكسل (75–100 مم) + واسعة جدًا 50 ميجابكسل (14 مم)"
+        },
+        "front_camera": {
+          "en": "50MP",
+          "ar": "50 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,000mAh",
+          "ar": "6000 مللي أمبير"
+        },
+        "charging": {
+          "en": "90W wired HyperCharge",
+          "ar": "شحن سلكي 90 واط HyperCharge"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS 3"
+      },
+      "keywords": "شاومي 17 الترا"
+    },
+    {
+      "slug": "xiaomi-17t-pro",
+      "model": "Xiaomi 17T Pro",
+      "family": "Xiaomi 17T series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-17t-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#2d2d32",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-3.png"
+          ]
+        },
+        {
+          "key": "deep-violet",
+          "en": "Deep Violet",
+          "ar": "بنفسجي داكن",
+          "hex": "#725e73",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-2.png"
+          ]
+        },
+        {
+          "key": "deep-blue",
+          "en": "Deep Blue",
+          "ar": "أزرق داكن",
+          "hex": "#364b78",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-1.png"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.83-inch",
+          "ar": "6.83 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2772 × 1280 (1.5K)",
+        "refresh_rate": {
+          "en": "Up to 144Hz",
+          "ar": "حتى 144 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 9500",
+        "rear_camera": {
+          "en": "Leica 50MP main (23mm) + 50MP periscope telephoto (115mm) + 12MP ultra-wide (15mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل (23 مم) + مقرّبة بيريسكوب 50 ميجابكسل (115 مم) + واسعة جدًا 12 ميجابكسل (15 مم)"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "7,000mAh",
+          "ar": "7000 مللي أمبير"
+        },
+        "charging": {
+          "en": "100W wired; 50W wireless",
+          "ar": "شحن سلكي 100 واط؛ لاسلكي 50 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS 3"
+      },
+      "keywords": "شاومي 17 تي برو"
+    },
+    {
+      "slug": "xiaomi-17t",
+      "model": "Xiaomi 17T",
+      "family": "Xiaomi 17T series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-17t/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#29292e",
+          "images": []
+        },
+        {
+          "key": "opal-white",
+          "en": "Opal White",
+          "ar": "أبيض لؤلؤي",
+          "hex": "#f5eaec",
+          "images": []
+        },
+        {
+          "key": "violet",
+          "en": "Violet",
+          "ar": "بنفسجي",
+          "hex": "#a68ca2",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.59-inch",
+          "ar": "6.59 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2756 × 1268",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 8500-Ultra",
+        "rear_camera": {
+          "en": "Leica 50MP main (23mm) + 50MP periscope telephoto (115mm) + 12MP ultra-wide (15mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل (23 مم) + مقرّبة بيريسكوب 50 ميجابكسل (115 مم) + واسعة جدًا 12 ميجابكسل (15 مم)"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,500mAh",
+          "ar": "6500 مللي أمبير"
+        },
+        "charging": {
+          "en": "67W wired",
+          "ar": "شحن سلكي 67 واط"
+        },
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS 3"
+      },
+      "keywords": "شاومي 17 تي"
+    },
+    {
+      "slug": "xiaomi-15t",
+      "model": "Xiaomi 15T",
+      "family": "Xiaomi 15T series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-15t/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#2d2d2f",
+          "images": []
+        },
+        {
+          "key": "gray",
+          "en": "Gray",
+          "ar": "رمادي",
+          "hex": "#8b8a88",
+          "images": []
+        },
+        {
+          "key": "rose-gold",
+          "en": "Rose Gold",
+          "ar": "ذهبي وردي",
+          "hex": "#71635e",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.83-inch",
+          "ar": "6.83 بوصة"
+        },
+        "resolution": "2772 × 1280",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 8400-Ultra",
+        "rear_camera": {
+          "en": "Leica 50MP main (23mm) + 50MP telephoto (46mm) + 12MP ultra-wide (15mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل (23 مم) + مقرّبة 50 ميجابكسل (46 مم) + واسعة جدًا 12 ميجابكسل (15 مم)"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,500mAh",
+          "ar": "5500 مللي أمبير"
+        },
+        "charging": {
+          "en": "67W wired",
+          "ar": "شحن سلكي 67 واط"
+        },
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "شاومي 15 تي"
+    },
+    {
+      "slug": "xiaomi-14t-pro",
+      "model": "Xiaomi 14T Pro",
+      "family": "Xiaomi 14T series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-14t-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "titan-black",
+          "en": "Titan Black",
+          "ar": "أسود تيتان",
+          "hex": "#3c3c3c",
+          "images": []
+        },
+        {
+          "key": "titan-blue",
+          "en": "Titan Blue",
+          "ar": "أزرق تيتان",
+          "hex": "#a0b0c3",
+          "images": []
+        },
+        {
+          "key": "titan-gray",
+          "en": "Titan Gray",
+          "ar": "رمادي تيتان",
+          "hex": "#807a74",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "1TB"
+        }
+      ],
+      "specs": {
+        "display_type": "AMOLED",
+        "resolution": "2712 × 1220",
+        "refresh_rate": {
+          "en": "Up to 144Hz",
+          "ar": "حتى 144 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 9300+",
+        "rear_camera": {
+          "en": "Leica 50MP main (23mm) + 50MP telephoto (60mm) + 12MP ultra-wide (15mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل (23 مم) + مقرّبة 50 ميجابكسل (60 مم) + واسعة جدًا 12 ميجابكسل (15 مم)"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "120W wired HyperCharge",
+          "ar": "شحن سلكي 120 واط HyperCharge"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "شاومي 14 تي برو"
+    },
+    {
+      "slug": "xiaomi-14t",
+      "model": "Xiaomi 14T",
+      "family": "Xiaomi 14T series",
+      "sourceUrl": "https://www.mi.com/eg/product/xiaomi-14t/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "lemon-green",
+          "en": "Lemon Green",
+          "ar": "أخضر ليموني",
+          "hex": "#bdc29c",
+          "images": []
+        },
+        {
+          "key": "titan-black",
+          "en": "Titan Black",
+          "ar": "أسود تيتان",
+          "hex": "#3c3c3c",
+          "images": []
+        },
+        {
+          "key": "titan-gray",
+          "en": "Titan Gray",
+          "ar": "رمادي تيتان",
+          "hex": "#807a74",
+          "images": []
+        },
+        {
+          "key": "titan-blue",
+          "en": "Titan Blue",
+          "ar": "أزرق تيتان",
+          "hex": "#a0b0c3",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_type": "AMOLED",
+        "resolution": "2712 × 1220",
+        "refresh_rate": {
+          "en": "Up to 144Hz",
+          "ar": "حتى 144 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 8300-Ultra",
+        "rear_camera": {
+          "en": "Leica 50MP main (23mm) + 50MP telephoto (50mm) + 12MP ultra-wide (15mm)",
+          "ar": "Leica رئيسية 50 ميجابكسل (23 مم) + مقرّبة 50 ميجابكسل (50 مم) + واسعة جدًا 12 ميجابكسل (15 مم)"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "67W wired HyperCharge",
+          "ar": "شحن سلكي 67 واط HyperCharge"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "شاومي 14 تي"
+    }
+  ],
+  "skipped": []
+}

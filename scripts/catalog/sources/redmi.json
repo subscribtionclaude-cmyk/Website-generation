@@ -1,0 +1,1382 @@
+{
+  "brand": {
+    "slug": "redmi",
+    "name": {
+      "ar": "ريدمي",
+      "en": "Redmi"
+    },
+    "sourceUrl": "https://www.mi.com/eg/",
+    "sortOrder": 31,
+    "skuPrefix": "RDM"
+  },
+  "keywords": "ريدمي شاومي redmi xiaomi",
+  "checkedAt": "2026-10-04",
+  "notes": "Egypt lineup from mi.com/eg (every phone on the Egyptian Xiaomi site in this family: the phone list at mi.com/eg/product-list/phone/ plus the newer models linked from mi.com/eg). Colours, Arabic colour names and memory configurations from each model's mi.com/eg specs page; the Egyptian page lists colours and configurations independently, so every listed colour is offered in every listed configuration. English specifications from the same model's mi.com/global specs page (colour swatches are the same files on both, which maps each Arabic colour name to its English name exactly); anything those pages do not state is left empty. Swatch colours are the average of Xiaomi's own colour-swatch images. Product images: Xiaomi publishes clean per-colour images only for some models (official colour-section composites on i02.appmifile.com, served as PNG by Xiaomi's own CDN); the other models only have lifestyle or dark marketing banners, so they are imported as hidden drafts with the image pending instead of using a non-official or unsuitable image. mi.com/eg lists the Redmi Note 14 Pro+ 5G colour names in English only; their Arabic labels are translations. Redmi 17 memory: mi.com/global lists more configurations than mi.com/eg; only the Egyptian ones (4+256, 6+256) are imported.",
+  "products": [
+    {
+      "slug": "redmi-note-15-pro-plus-5g",
+      "model": "Redmi Note 15 Pro+ 5G",
+      "family": "Redmi Note 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-15-pro-plus-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#32363a",
+          "images": []
+        },
+        {
+          "key": "glacier-blue",
+          "en": "Glacier Blue",
+          "ar": "أزرق جليدي",
+          "hex": "#adc2d0",
+          "images": []
+        },
+        {
+          "key": "mocha-brown",
+          "en": "Mocha Brown",
+          "ar": "بني موكا",
+          "hex": "#594436",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.83-inch",
+          "ar": "6.83 بوصة"
+        },
+        "display_type": "CrystalRes AMOLED",
+        "resolution": "2772 × 1280 (1.5K)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Snapdragon 7s Gen 4",
+        "rear_camera": {
+          "en": "200MP main (OIS) + 8MP ultra-wide",
+          "ar": "رئيسية 200 ميجابكسل (OIS) + واسعة جدًا 8 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,500mAh",
+          "ar": "6500 مللي أمبير"
+        },
+        "charging": {
+          "en": "100W wired",
+          "ar": "شحن سلكي 100 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP66 / IP68 / IP69",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي نوت 15 برو بلس"
+    },
+    {
+      "slug": "redmi-note-15-pro-5g",
+      "model": "Redmi Note 15 Pro 5G",
+      "family": "Redmi Note 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-15-pro-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#303337",
+          "images": []
+        },
+        {
+          "key": "glacier-blue",
+          "en": "Glacier Blue",
+          "ar": "أزرق جليدي",
+          "hex": "#a5bbc7",
+          "images": []
+        },
+        {
+          "key": "titanium-color",
+          "en": "Titanium color",
+          "ar": "لون التيتانيوم",
+          "hex": "#beb4ae",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.83-inch",
+          "ar": "6.83 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2772 × 1280 (1.5K)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 7400-Ultra",
+        "rear_camera": {
+          "en": "200MP main (OIS) + 8MP ultra-wide",
+          "ar": "رئيسية 200 ميجابكسل (OIS) + واسعة جدًا 8 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "20MP",
+          "ar": "20 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,580mAh",
+          "ar": "6580 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W wired",
+          "ar": "شحن سلكي 45 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP66 / IP68 / IP69",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي نوت 15 برو"
+    },
+    {
+      "slug": "redmi-note-15-5g",
+      "model": "Redmi Note 15 5G",
+      "family": "Redmi Note 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-15-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "glacier-blue",
+          "en": "Glacier Blue",
+          "ar": "أزرق جليدي",
+          "hex": "#b7d0d9",
+          "images": []
+        },
+        {
+          "key": "mist-purple",
+          "en": "Mist Purple",
+          "ar": "بنفسجي ضبابي",
+          "hex": "#d1d0ec",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2392 × 1080",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Snapdragon 6 Gen 3",
+        "rear_camera": {
+          "en": "108MP main + 8MP ultra-wide",
+          "ar": "رئيسية 108 ميجابكسل + واسعة جدًا 8 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "20MP",
+          "ar": "20 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,520mAh",
+          "ar": "5520 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W wired",
+          "ar": "شحن سلكي 45 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP66",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي نوت 15 فايف جي"
+    },
+    {
+      "slug": "redmi-note-15",
+      "model": "Redmi Note 15",
+      "family": "Redmi Note 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-15/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#32363a",
+          "images": []
+        },
+        {
+          "key": "glacier-blue",
+          "en": "Glacier Blue",
+          "ar": "أزرق جليدي",
+          "hex": "#adc2d0",
+          "images": []
+        },
+        {
+          "key": "purple",
+          "en": "Purple",
+          "ar": "بنفسجي",
+          "hex": "#bdc4e0",
+          "images": []
+        },
+        {
+          "key": "forest-green",
+          "en": "Forest Green",
+          "ar": "أخضر",
+          "hex": "#d8e2dc",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.77-inch",
+          "ar": "6.77 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2392 × 1080",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Helio G100-Ultra",
+        "rear_camera": {
+          "en": "108MP main + 2MP depth",
+          "ar": "رئيسية 108 ميجابكسل + عمق 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "20MP",
+          "ar": "20 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,000mAh",
+          "ar": "6000 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "network": "4G",
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي نوت 15"
+    },
+    {
+      "slug": "redmi-note-14-pro-plus-5g",
+      "model": "Redmi Note 14 Pro+ 5G",
+      "family": "Redmi Note 14 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-14-pro-plus-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "frost-blue",
+          "en": "Frost Blue",
+          "ar": "أزرق ثلجي",
+          "hex": "#c1e4e9",
+          "images": []
+        },
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود منتصف الليل",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "lavender-purple",
+          "en": "Lavender Purple",
+          "ar": "بنفسجي لافندر",
+          "hex": "#d7d4ea",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "CrystalRes AMOLED",
+        "resolution": "2712 × 1220 (1.5K)",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Snapdragon 7s Gen 3",
+        "rear_camera": {
+          "en": "200MP main (OIS) + 8MP ultra-wide + 2MP macro",
+          "ar": "رئيسية 200 ميجابكسل (OIS) + واسعة جدًا 8 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "20MP",
+          "ar": "20 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,110mAh",
+          "ar": "5110 مللي أمبير"
+        },
+        "charging": {
+          "en": "120W wired",
+          "ar": "شحن سلكي 120 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "ريدمي نوت 14 برو بلس"
+    },
+    {
+      "slug": "redmi-note-14-pro",
+      "model": "Redmi Note 14 Pro",
+      "family": "Redmi Note 14 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-14-pro/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "ocean-blue",
+          "en": "Ocean Blue",
+          "ar": "أزرق محيطي",
+          "hex": "#96bfcf",
+          "images": []
+        },
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود منتصف الليل",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "aurora-purple",
+          "en": "Aurora Purple",
+          "ar": "أورورا بنفسجي",
+          "hex": "#e1e0f4",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2400 × 1080",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Helio G100-Ultra",
+        "rear_camera": {
+          "en": "200MP main (OIS) + 8MP ultra-wide + 2MP macro",
+          "ar": "رئيسية 200 ميجابكسل (OIS) + واسعة جدًا 8 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "32MP",
+          "ar": "32 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,500mAh",
+          "ar": "5500 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W wired",
+          "ar": "شحن سلكي 45 واط"
+        },
+        "network": "4G",
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "ريدمي نوت 14 برو"
+    },
+    {
+      "slug": "redmi-note-14",
+      "model": "Redmi Note 14",
+      "family": "Redmi Note 14 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-14/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "lime-green",
+          "en": "Lime Green",
+          "ar": "أخضر ليموني",
+          "hex": "#e7f1bd",
+          "images": []
+        },
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود منتصف الليل",
+          "hex": "#484848",
+          "images": []
+        },
+        {
+          "key": "ocean-blue",
+          "en": "Ocean Blue",
+          "ar": "أزرق محيطي",
+          "hex": "#75a4bd",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2400 × 1080",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Helio G99-Ultra",
+        "rear_camera": {
+          "en": "108MP main + 2MP depth + 2MP macro",
+          "ar": "رئيسية 108 ميجابكسل + عمق 2 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "20MP",
+          "ar": "20 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,500mAh",
+          "ar": "5500 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "network": "4G",
+        "water_resistance": "IP54",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "ريدمي نوت 14"
+    },
+    {
+      "slug": "redmi-17-5g",
+      "model": "Redmi 17 5G",
+      "family": "Redmi 17 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-17-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#343537",
+          "images": []
+        },
+        {
+          "key": "deep-blue",
+          "en": "Deep Blue",
+          "ar": "أزرق عميق",
+          "hex": "#3d5282",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "resolution": "1600 × 720",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Snapdragon 4 Gen 5",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "7,500mAh",
+          "ar": "7500 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W wired",
+          "ar": "شحن سلكي 45 واط"
+        },
+        "network": "5G",
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS 3"
+      },
+      "keywords": "ريدمي 17 فايف جي"
+    },
+    {
+      "slug": "redmi-17",
+      "model": "Redmi 17",
+      "family": "Redmi 17 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-17/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#343537",
+          "images": []
+        },
+        {
+          "key": "deep-blue",
+          "en": "Deep Blue",
+          "ar": "أزرق عميق",
+          "hex": "#3d5282",
+          "images": []
+        },
+        {
+          "key": "lotus-purple",
+          "en": "Lotus Purple",
+          "ar": "بنفسجي اللوتس",
+          "hex": "#d2d5f5",
+          "images": []
+        },
+        {
+          "key": "oak-green",
+          "en": "Oak Green",
+          "ar": "أخضر داكن",
+          "hex": "#223f35",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "resolution": "1600 × 720",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Helio G91-Ultra",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "7,500mAh",
+          "ar": "7500 مللي أمبير"
+        },
+        "charging": {
+          "en": "45W wired",
+          "ar": "شحن سلكي 45 واط"
+        },
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS 3"
+      },
+      "keywords": "ريدمي 17"
+    },
+    {
+      "slug": "redmi-15",
+      "model": "Redmi 15",
+      "family": "Redmi 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-15/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#000000",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/balckphone.webp?f=png"
+          ]
+        },
+        {
+          "key": "titan-gray",
+          "en": "Titan Gray",
+          "ar": "رمادي تيتانيوم",
+          "hex": "#aa9f95",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/grayphone.webp?f=png"
+          ]
+        },
+        {
+          "key": "sandy-purple",
+          "en": "Sandy Purple",
+          "ar": "أرجواني رملي",
+          "hex": "#a6a2c3",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/purplephone.webp?f=png"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "display_type": "FHD+ DotDisplay",
+        "resolution": "2340 × 1080",
+        "refresh_rate": {
+          "en": "Up to 144Hz",
+          "ar": "حتى 144 هرتز"
+        },
+        "chipset": "Snapdragon 685",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "7,000mAh",
+          "ar": "7000 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي 15"
+    },
+    {
+      "slug": "redmi-15c",
+      "model": "Redmi 15C",
+      "family": "Redmi 15 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-15c/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "moonlight-blue",
+          "en": "Moonlight Blue",
+          "ar": "أزرق ضوء القمر",
+          "hex": "#7bacea",
+          "images": []
+        },
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "mint-green",
+          "en": "Mint Green",
+          "ar": "أخضر نعناعي",
+          "hex": "#b3cccf",
+          "images": []
+        },
+        {
+          "key": "twilight-orange",
+          "en": "Twilight Orange",
+          "ar": "برتقالي الشفق",
+          "hex": "#f6cfbe",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.9-inch",
+          "ar": "6.9 بوصة"
+        },
+        "resolution": "1600 × 720",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Helio G81-Ultra",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "6,000mAh",
+          "ar": "6000 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "water_resistance": "IP64",
+        "os": "Xiaomi HyperOS 2"
+      },
+      "keywords": "ريدمي 15 سي"
+    },
+    {
+      "slug": "redmi-a5",
+      "model": "Redmi A5",
+      "family": "Redmi A series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-a5/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "ocean-blue",
+          "en": "Ocean Blue",
+          "ar": "أزرق محيطي",
+          "hex": "#cceff8",
+          "images": []
+        },
+        {
+          "key": "lake-green",
+          "en": "Lake Green",
+          "ar": "أخضر فيروزي",
+          "hex": "#e0eed8",
+          "images": []
+        },
+        {
+          "key": "sandy-gold",
+          "en": "Sandy Gold",
+          "ar": "ذهبي رملي",
+          "hex": "#d5d0c6",
+          "images": []
+        },
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود",
+          "hex": "#2a2b2d",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "3GB",
+          "storage": "64GB"
+        },
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.88-inch",
+          "ar": "6.88 بوصة"
+        },
+        "resolution": "1640 × 720",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "UNISOC T7250",
+        "rear_camera": {
+          "en": "32MP main + auxiliary lens",
+          "ar": "رئيسية 32 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "8MP",
+          "ar": "8 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,200mAh",
+          "ar": "5200 مللي أمبير"
+        },
+        "charging": {
+          "en": "15W wired",
+          "ar": "شحن سلكي 15 واط"
+        },
+        "os": "Android 15 (Go edition)"
+      },
+      "keywords": "ريدمي ايه 5"
+    },
+    {
+      "slug": "redmi-note-13-pro-plus-5g",
+      "model": "Redmi Note 13 Pro+ 5G",
+      "family": "Redmi Note 13 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-13-pro-plus-5g/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#474747",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-black.png"
+          ]
+        },
+        {
+          "key": "moonlight-white",
+          "en": "Moonlight White",
+          "ar": "أبيض قمري",
+          "hex": "#cecece",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-white.png"
+          ]
+        },
+        {
+          "key": "aurora-purple",
+          "en": "Aurora Purple",
+          "ar": "أورورا أرجواني",
+          "hex": "#aeb9ca",
+          "images": [
+            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-purple.jpg"
+          ]
+        }
+      ],
+      "configs": [
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        },
+        {
+          "ram": "12GB",
+          "storage": "512GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "CrystalRes AMOLED",
+        "resolution": "2712 × 1220",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "MediaTek Dimensity 7200-Ultra",
+        "rear_camera": {
+          "en": "200MP main (OIS) + 8MP ultra-wide + 2MP macro",
+          "ar": "رئيسية 200 ميجابكسل (OIS) + واسعة جدًا 8 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "16MP",
+          "ar": "16 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "120W wired HyperCharge",
+          "ar": "شحن سلكي 120 واط HyperCharge"
+        },
+        "network": "5G",
+        "water_resistance": "IP68",
+        "os": "MIUI 14"
+      },
+      "keywords": "ريدمي نوت 13 برو بلس"
+    },
+    {
+      "slug": "redmi-note-13",
+      "model": "Redmi Note 13",
+      "family": "Redmi Note 13 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-note-13/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "mint-green",
+          "en": "Mint Green",
+          "ar": "أخضر نعناعي",
+          "hex": "#a5c996",
+          "images": []
+        },
+        {
+          "key": "ice-blue",
+          "en": "Ice Blue",
+          "ar": "أزرق ثلجي",
+          "hex": "#a1c8ce",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.67-inch",
+          "ar": "6.67 بوصة"
+        },
+        "display_type": "AMOLED",
+        "resolution": "2400 × 1080",
+        "refresh_rate": {
+          "en": "Up to 120Hz",
+          "ar": "حتى 120 هرتز"
+        },
+        "chipset": "Snapdragon 685",
+        "rear_camera": {
+          "en": "108MP main + 8MP ultra-wide + 2MP macro",
+          "ar": "رئيسية 108 ميجابكسل + واسعة جدًا 8 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "16MP",
+          "ar": "16 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "network": "4G",
+        "water_resistance": "IP54",
+        "os": "MIUI 14"
+      },
+      "keywords": "ريدمي نوت 13"
+    },
+    {
+      "slug": "redmi-13",
+      "model": "Redmi 13",
+      "family": "Redmi 13 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-13/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#111111",
+          "images": []
+        },
+        {
+          "key": "sandy-gold",
+          "en": "Sandy Gold",
+          "ar": "ذهبي رملي",
+          "hex": "#fff2c5",
+          "images": []
+        },
+        {
+          "key": "pearl-pink",
+          "en": "Pearl Pink",
+          "ar": "وردي لؤلؤي",
+          "hex": "#fad1e6",
+          "images": []
+        },
+        {
+          "key": "ocean-blue",
+          "en": "Ocean Blue",
+          "ar": "أزرق بحري",
+          "hex": "#ccf3ff",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.79-inch",
+          "ar": "6.79 بوصة"
+        },
+        "display_type": "FHD+ DotDisplay",
+        "resolution": "2460 × 1080",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "chipset": "MediaTek Helio G91-Ultra",
+        "rear_camera": {
+          "en": "108MP main + 2MP macro",
+          "ar": "رئيسية 108 ميجابكسل + ماكرو 2 ميجابكسل"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,030mAh",
+          "ar": "5030 مللي أمبير"
+        },
+        "charging": {
+          "en": "33W wired",
+          "ar": "شحن سلكي 33 واط"
+        },
+        "network": "4G",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "ريدمي 13"
+    },
+    {
+      "slug": "redmi-14-c",
+      "model": "Redmi 14C",
+      "family": "Redmi 14 series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-14-c/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "الأسود",
+          "hex": "#505053",
+          "images": []
+        },
+        {
+          "key": "sage-green",
+          "en": "Sage Green",
+          "ar": "الأخضر",
+          "hex": "#848c66",
+          "images": []
+        },
+        {
+          "key": "dreamy-purple",
+          "en": "Dreamy Purple",
+          "ar": "الأرجواني",
+          "hex": "#e3e1ef",
+          "images": []
+        },
+        {
+          "key": "starry-blue",
+          "en": "Starry Blue",
+          "ar": "الأزرق",
+          "hex": "#2a518f",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.88-inch",
+          "ar": "6.88 بوصة"
+        },
+        "display_type": "Dot Drop",
+        "resolution": "1640 × 720",
+        "chipset": "MediaTek Helio G81-Ultra",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,160mAh",
+          "ar": "5160 مللي أمبير"
+        },
+        "charging": {
+          "en": "18W wired",
+          "ar": "شحن سلكي 18 واط"
+        },
+        "network": "4G",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "ريدمي 14 سي"
+    },
+    {
+      "slug": "redmi-a3",
+      "model": "Redmi A3",
+      "family": "Redmi A series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-a3/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود ليلي",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "forest-green",
+          "en": "Forest Green",
+          "ar": "أخضر داكن",
+          "hex": "#4b6153",
+          "images": []
+        },
+        {
+          "key": "star-blue",
+          "en": "Star Blue",
+          "ar": "أزرق سماوي",
+          "hex": "#8aa3c2",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "3GB",
+          "storage": "64GB"
+        },
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.71-inch",
+          "ar": "6.71 بوصة"
+        },
+        "display_type": "Dot Drop",
+        "resolution": "1650 × 720",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "chipset": "MediaTek Helio G36",
+        "rear_camera": {
+          "en": "8MP main + auxiliary lens",
+          "ar": "رئيسية 8 ميجابكسل + عدسة مساعدة"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "10W wired",
+          "ar": "شحن سلكي 10 واط"
+        },
+        "network": "4G",
+        "os": "Android 14"
+      },
+      "keywords": "ريدمي ايه 3"
+    },
+    {
+      "slug": "redmi-a3x",
+      "model": "Redmi A3x",
+      "family": "Redmi A series",
+      "sourceUrl": "https://www.mi.com/eg/product/redmi-a3x/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "midnight-black",
+          "en": "Midnight Black",
+          "ar": "أسود",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "moonlight-white",
+          "en": "Moonlight White",
+          "ar": "أبيض",
+          "hex": "#dcdcdc",
+          "images": []
+        },
+        {
+          "key": "aurora-green",
+          "en": "Aurora Green",
+          "ar": "أخضر",
+          "hex": "#99c3b3",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "4GB",
+          "storage": "128GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.71-inch",
+          "ar": "6.71 بوصة"
+        },
+        "display_type": "Dot Drop",
+        "resolution": "1650 × 720",
+        "refresh_rate": {
+          "en": "Up to 90Hz",
+          "ar": "حتى 90 هرتز"
+        },
+        "chipset": "Unisoc T603",
+        "rear_camera": {
+          "en": "8MP main + auxiliary lens",
+          "ar": "رئيسية 8 ميجابكسل + عدسة مساعدة"
+        },
+        "battery": {
+          "en": "5,000mAh",
+          "ar": "5000 مللي أمبير"
+        },
+        "charging": {
+          "en": "10W wired",
+          "ar": "شحن سلكي 10 واط"
+        },
+        "network": "4G",
+        "os": "Android 14"
+      },
+      "keywords": "ريدمي ايه 3 اكس"
+    }
+  ],
+  "skipped": []
+}

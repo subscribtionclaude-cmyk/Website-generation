@@ -219,6 +219,13 @@ function buildProduct(
   const brand = source.brand;
   const key = `${brand.slug}/${p.slug}`;
   const name: Pair = { ar: p.name?.ar ?? p.model, en: p.name?.en ?? p.model };
+  // "Samsung Galaxy A56", but "Xiaomi 17T Pro" (not "Xiaomi Xiaomi 17T Pro"): the official model
+  // name of some brands already starts with the brand.
+  const ownBrand = p.model.toLowerCase().startsWith(`${brand.name.en.toLowerCase()} `);
+  const branded: Pair = {
+    ar: ownBrand ? p.model : `${brand.name.ar} ${p.model}`,
+    en: ownBrand ? p.model : `${brand.name.en} ${p.model}`,
+  };
   const storages = [...new Set(p.configs.map((c) => c.storage))].sort(
     (a, b) => capacityGb(a) - capacityGb(b),
   );
@@ -310,8 +317,8 @@ function buildProduct(
         height: DETAIL_SIZE,
         isCover: media.length === 0,
         alt: {
-          ar: `${brand.name.ar} ${p.model} — اللون ${color.ar}`,
-          en: `${brand.name.en} ${p.model} — ${color.en}`,
+          ar: `${branded.ar} — اللون ${color.ar}`,
+          en: `${branded.en} — ${color.en}`,
         },
       });
     });
@@ -349,11 +356,7 @@ function buildProduct(
       : null);
   const storageText = storages.map((s) => capacityLabel(s));
   const description: Pair = {
-    ar: [
-      `هاتف ${brand.name.ar} ${p.model}`,
-      size ? `بشاشة ${size.ar}` : null,
-      chip ? `ومعالج ${chip.ar}` : null,
-    ]
+    ar: [`هاتف ${branded.ar}`, size ? `بشاشة ${size.ar}` : null, chip ? `ومعالج ${chip.ar}` : null]
       .filter(Boolean)
       .join(' ')
       .concat(
@@ -362,7 +365,7 @@ function buildProduct(
         '.',
       ),
     en: [
-      `${brand.name.en} ${p.model}`,
+      branded.en,
       size ? `with a ${size.en} display` : null,
       chip ? `and the ${chip.en} chip` : null,
     ]

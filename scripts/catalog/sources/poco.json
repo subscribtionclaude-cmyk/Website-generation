@@ -1,0 +1,79 @@
+{
+  "brand": {
+    "slug": "poco",
+    "name": {
+      "ar": "بوكو",
+      "en": "POCO"
+    },
+    "sourceUrl": "https://www.mi.com/eg/",
+    "sortOrder": 32,
+    "skuPrefix": "PCO"
+  },
+  "keywords": "بوكو شاومي poco xiaomi",
+  "checkedAt": "2026-10-04",
+  "notes": "Egypt lineup from mi.com/eg (every phone on the Egyptian Xiaomi site in this family: the phone list at mi.com/eg/product-list/phone/ plus the newer models linked from mi.com/eg). Colours, Arabic colour names and memory configurations from each model's mi.com/eg specs page; the Egyptian page lists colours and configurations independently, so every listed colour is offered in every listed configuration. English specifications from the same model's mi.com/global specs page (colour swatches are the same files on both, which maps each Arabic colour name to its English name exactly); anything those pages do not state is left empty. Swatch colours are the average of Xiaomi's own colour-swatch images. Product images: Xiaomi publishes clean per-colour images only for some models (official colour-section composites on i02.appmifile.com, served as PNG by Xiaomi's own CDN); the other models only have lifestyle or dark marketing banners, so they are imported as hidden drafts with the image pending instead of using a non-official or unsuitable image. POCO C75 is the only POCO phone on mi.com/eg. The other POCO phones (C, M, X and F series) are listed only on mi.com/global, not on the Egyptian site, so they are not imported.",
+  "products": [
+    {
+      "slug": "poco-c75",
+      "model": "POCO C75",
+      "family": "POCO C series",
+      "sourceUrl": "https://www.mi.com/eg/product/poco-c75/specs/",
+      "availability": "available",
+      "colors": [
+        {
+          "key": "black",
+          "en": "Black",
+          "ar": "أسود",
+          "hex": "#474747",
+          "images": []
+        },
+        {
+          "key": "gold",
+          "en": "Gold",
+          "ar": "ذهبي",
+          "hex": "#d5d0c6",
+          "images": []
+        }
+      ],
+      "configs": [
+        {
+          "ram": "6GB",
+          "storage": "128GB"
+        },
+        {
+          "ram": "8GB",
+          "storage": "256GB"
+        }
+      ],
+      "specs": {
+        "display_size": {
+          "en": "6.88-inch",
+          "ar": "6.88 بوصة"
+        },
+        "display_type": "Dot Drop",
+        "resolution": "1640 × 720",
+        "chipset": "MediaTek Helio G81-Ultra",
+        "rear_camera": {
+          "en": "50MP main + auxiliary lens",
+          "ar": "رئيسية 50 ميجابكسل + عدسة مساعدة"
+        },
+        "front_camera": {
+          "en": "13MP",
+          "ar": "13 ميجابكسل"
+        },
+        "battery": {
+          "en": "5,160mAh",
+          "ar": "5160 مللي أمبير"
+        },
+        "charging": {
+          "en": "18W wired",
+          "ar": "شحن سلكي 18 واط"
+        },
+        "network": "4G",
+        "os": "Xiaomi HyperOS"
+      },
+      "keywords": "بوكو سي 75"
+    }
+  ],
+  "skipped": []
+}

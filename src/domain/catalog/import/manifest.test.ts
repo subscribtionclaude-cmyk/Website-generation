@@ -233,6 +233,20 @@ describe('catalog manifest', () => {
     expect(validateManifest(manifest).filter((i) => i.level === 'error')).toEqual([]);
   });
 
+  it('does not repeat the brand when the official model name already starts with it', () => {
+    const s = source();
+    s.brand.name = { ar: 'شاومي', en: 'Xiaomi' };
+    at(s.products, 0).model = 'Xiaomi 17T Pro';
+    const p = at(buildManifest([s], ingested, META).manifest.products, 0);
+    expect(p.name.en).toBe('Xiaomi 17T Pro');
+    expect(at(p.media, 0).alt).toEqual({
+      ar: 'Xiaomi 17T Pro — اللون أسود',
+      en: 'Xiaomi 17T Pro — Black',
+    });
+    expect(p.description?.en.startsWith('Xiaomi 17T Pro with')).toBe(true);
+    expect(p.description?.ar.startsWith('هاتف Xiaomi 17T Pro بشاشة')).toBe(true);
+  });
+
   it('orders capacities numerically', () => {
     expect(
       ['1TB', '256GB', '512GB', '128GB'].sort((a, b) => capacityGb(a) - capacityGb(b)),

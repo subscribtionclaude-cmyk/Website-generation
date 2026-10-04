@@ -495,6 +495,78 @@
       "sourceUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-duo-finish-select-star-white-202609?wid=1200&hei=1200&fmt=png-alpha"
     },
     {
+      "brand": "redmi",
+      "bytes": 1074332,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/563c37873530bbf7-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/563c37873530bbf7-1200.webp"
+      },
+      "width": 1679,
+      "height": 1203,
+      "sha256": "563c37873530bbf7c0bdd1bbd3ebb47dbee6a6115c2c3147c1f613ae933d548e",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/balckphone.webp?f=png"
+    },
+    {
+      "brand": "redmi",
+      "bytes": 1029393,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/13b3721e38c76d80-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/13b3721e38c76d80-1200.webp"
+      },
+      "width": 1679,
+      "height": 1203,
+      "sha256": "13b3721e38c76d808e5c14cf5b873f4679ebe327fbc2dc89e99f18549a25e4dc",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/grayphone.webp?f=png"
+    },
+    {
+      "brand": "redmi",
+      "bytes": 1041306,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/a2772d4d9b53e735-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/a2772d4d9b53e735-1200.webp"
+      },
+      "width": 1679,
+      "height": 1203,
+      "sha256": "a2772d4d9b53e735b3f80514ef390533f446cb9f9ae575b8272a08d7fc0d3bbc",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15/pc/purplephone.webp?f=png"
+    },
+    {
+      "brand": "redmi",
+      "bytes": 833980,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/78cae68299f12d16-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/78cae68299f12d16-1200.webp"
+      },
+      "width": 1290,
+      "height": 945,
+      "sha256": "78cae68299f12d1658caaced940d8abb9115382b5af35b3b7f5e8f4693e18542",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-black.png"
+    },
+    {
+      "brand": "redmi",
+      "bytes": 83288,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/ff519ffc815c0871-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/ff519ffc815c0871-1200.webp"
+      },
+      "width": 1290,
+      "height": 944,
+      "sha256": "ff519ffc815c0871ebcbcb35cb73d148cd4e5d59a2ba0f4a5afa28676bcf5523",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-purple.jpg"
+    },
+    {
+      "brand": "redmi",
+      "bytes": 743497,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/e884771991d4eb7b-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/redmi/e884771991d4eb7b-1200.webp"
+      },
+      "width": 1290,
+      "height": 945,
+      "sha256": "e884771991d4eb7b54336f7de4df16237516a9f9bd730f8bf3fd63a6c4d6763b",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-note-13-pro-plus-5g/pc/tel-white.png"
+    },
+    {
       "brand": "samsung",
       "files": {
         "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/samsung/d5b71d89bb560aec-480.webp",
@@ -1329,6 +1401,42 @@
       "height": 1200,
       "sha256": "1264f0c93475acae130e84953634cde7e36cd0f52d204229d896331290ebb8a2",
       "sourceUrl": "https://images.samsung.com/is/image/samsung/p6pim/eg/sm-s938bzbimea/gallery/eg-galaxy-s25-ultra-s938-538479-sm-s938bzbimea-550141376?wid=1200&hei=1200&fmt=png-alpha"
+    },
+    {
+      "brand": "xiaomi",
+      "bytes": 1001820,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/9b5f897578fa5e91-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/9b5f897578fa5e91-1200.webp"
+      },
+      "width": 1537,
+      "height": 850,
+      "sha256": "9b5f897578fa5e916a87bc48eb5769ffcee15861a44310da5f2f275d9e7e44be",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-1.png"
+    },
+    {
+      "brand": "xiaomi",
+      "bytes": 1379632,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/07e0cb495f87cebd-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/07e0cb495f87cebd-1200.webp"
+      },
+      "width": 1537,
+      "height": 850,
+      "sha256": "07e0cb495f87cebde6ed67a1352da0011a38848431b4a518823ef16ad1c5af9b",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-2.png"
+    },
+    {
+      "brand": "xiaomi",
+      "bytes": 807295,
+      "files": {
+        "480": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/0c034d14b0e25231-480.webp",
+        "1200": "https://dialrvjkfiphftdwrvkh.supabase.co/storage/v1/object/public/products/catalog/xiaomi/0c034d14b0e25231-1200.webp"
+      },
+      "width": 1537,
+      "height": 850,
+      "sha256": "0c034d14b0e25231800bdea893b70dac5b6f075ccc2b52709b850f5d68b90700",
+      "sourceUrl": "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-17t-pro/pc/screen20-color-3.png"
     }
   ]
 }
