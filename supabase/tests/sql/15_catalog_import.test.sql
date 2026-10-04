@@ -103,4 +103,24 @@ select tests.assert_equal((select count(*)::int from public.catalog_sources wher
   'staff with catalog.view read provenance');
 reset role;
 
+-- ── Media ingest tokens: operator-created, service role only, expire, use-limited ─
+insert into app_private.catalog_media_tokens (token, expires_at, max_uses)
+values (repeat('a', 48), now() + interval '1 hour', 2), (repeat('b', 48), now() - interval '1 minute', 5);
+select tests.act_as_anon();
+select tests.assert_raises($$select public.catalog_media_authorize(repeat('a', 48))$$, '42501', 'visitors cannot use ingest tokens');
+reset role;
+select tests.act_as(:'owner');
+select tests.assert_raises($$select public.catalog_media_authorize(repeat('a', 48))$$, '42501', 'even the Owner session cannot call the ingest gate');
+reset role;
+set local role service_role;
+select set_config('request.jwt.claims', '{"role": "service_role"}', true);
+select tests.assert(public.catalog_media_authorize(repeat('a', 48)), 'a valid token authorizes the ingest function');
+select tests.assert(public.catalog_media_authorize(repeat('a', 48)), 'second use within the limit');
+select tests.assert(not public.catalog_media_authorize(repeat('a', 48)), 'a used-up token is refused');
+select tests.assert(not public.catalog_media_authorize(repeat('b', 48)), 'an expired token is refused');
+select tests.assert(not public.catalog_media_authorize('short'), 'malformed tokens are refused');
+reset role;
+select tests.assert_raises($$insert into app_private.catalog_media_tokens (token, expires_at) values (repeat('c', 48), now() + interval '2 days')$$,
+  '23514', 'tokens cannot live longer than 6 hours');
+
 rollback;
