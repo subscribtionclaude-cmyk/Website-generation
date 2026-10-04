@@ -1,0 +1,21 @@
+{
+  "$comment": "Pre-import snapshot of the real (non-demo) catalog on staging project dialrvjkfiphftdwrvkh, taken with scripts/catalog/import/sql/backup.sql before the first real run of batch 2026-10-04-wave1.",
+  "batch": "2026-10-04-wave1",
+  "brands": [],
+  "counts": {
+    "media": 0,
+    "brands": 0,
+    "products": 0,
+    "variants": 0,
+    "categories": 0,
+    "catalogSources": 0
+  },
+  "takenAt": "2026-10-04T09:05:17.473935+00:00",
+  "products": [],
+  "variants": [],
+  "categories": [],
+  "demoCounts": {
+    "brands": 0,
+    "products": 0
+  }
+}
