@@ -35,7 +35,7 @@ export interface ParseResult<T> {
   warnings: { row: number; message: string }[];
 }
 
-const INVISIBLE = /[​-‏‪-‮⁠-⁩﻿ ]/g;
+const INVISIBLE = /[\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF\u00A0]/g;
 
 export function clean(v: Cell): string {
   if (v === null || v === undefined) return '';
@@ -43,7 +43,7 @@ export function clean(v: Cell): string {
 }
 
 export function normHeader(h: Cell): string {
-  return clean(h).toLowerCase().replace(/[^a-z0-9؀-ۿ]+/g, '');
+  return clean(h).toLowerCase().replace(/[^a-z0-9\u0600-\u06FF]+/g, '');
 }
 
 export function parseBool(v: Cell): boolean | null {
@@ -191,7 +191,9 @@ export function parseLeadSheet(values: Cell[][]): ParseResult<LeadRow> {
   const rows: LeadRow[] = [];
   for (let r = h + 1; r < values.length; r++) {
     const row = values[r] ?? [];
-    if (row.every((c) => clean(c) === '')) continue;
+    // rows with no company whose other cells are empty / unticked checkboxes are formatting leftovers, not data
+    const meaningful = (c: Cell) => clean(c) !== '' && c !== false && clean(c).toLowerCase() !== 'false';
+    if (!row.some(meaningful)) continue;
     const get = (f: string): Cell => (columns[f] === undefined ? undefined : row[columns[f]]);
     const sheetRow = r + 1;
     const extra: string[] = [];

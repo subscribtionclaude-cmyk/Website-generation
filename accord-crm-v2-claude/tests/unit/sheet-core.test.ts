@@ -43,13 +43,14 @@ describe('legacy sheet parsing (real-world samples from Accord New Data)', () =>
       ['Company', 'Email', 'Sent', 'Contact', 'Linkedin', 'Contacted', 'Phone No.', 'Called', 'Status', 'Next Step', 'Lead ID', 'Last Activity', 'Follow-up Date', 'Notes', 'Column 1'],
       ['IL Cazar Developments', 'info@ilcazar.com\nmarieelwy@gmail.com', true, 'Ahmed Elwy | CDO', '', false, '01025408565', true, 'Warm', 'Follow up', 2, '2026-10-06', '2026-10-11', 'x', 'didnt respond'],
       ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', false, '', '', false, '', false, '', '', '', '', '', '', ''],   // checkbox-only leftover row
       ['Eliwah Group', 'info@eliwahgroup.com', true, '', '', false, '', false, 'Cold', 'Searching for contact', 1],
     ];
     const r = parseLeadSheet(values);
     expect(r.headerRow).toBe(1);
     expect(r.rows).toHaveLength(2);
     expect(r.rows[0]).toMatchObject({ row_number: 2, company: 'IL Cazar Developments', external_lead_id: '2', status: 'Warm', follow_up_date: '2026-10-11', called: true, extra_notes: ['didnt respond'] });
-    expect(r.rows[1]).toMatchObject({ row_number: 4, external_lead_id: '1', emails: ['info@eliwahgroup.com'] });
+    expect(r.rows[1]).toMatchObject({ row_number: 5, external_lead_id: '1', emails: ['info@eliwahgroup.com'] });
     expect(r.columns.company).toBe(0);
   });
   it('parses Sheet2 (blank first/last headers ignored) incl. Arabic names', () => {

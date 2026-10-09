@@ -290,14 +290,19 @@ begin
   perform t.eq('8 same-name different-id is a conflict', (c ->> 'conflicts')::int, 1);
   perform t.root();
   perform t.eq('8 conflict did not create a lead', (select count(*)::int from leads where name = 'Eliwah Group'), 1);
-  -- Lead ID collision with a manual lead of another name => conflict
+  -- Lead ID collision with a manual lead of another name => never merged; imported separately without the clashing id
   perform t.root();
   insert into leads (name, external_lead_id, created_by) values ('Manual Co', '777', t.u('a1'));
   perform t.svc();
-  c := sync_apply_leads(run, null, 'Sheet1', '[{"row_number":11,"company":"Totally Different Ltd","external_lead_id":"777","emails":[],"phones":[],"linkedin":[],"contacts":[]}]'::jsonb);
-  perform t.eq('8 Lead ID collision with manual lead is a conflict', (c ->> 'conflicts')::int, 1);
+  c := sync_apply_leads(run, null, 'Sheet1', '[{"row_number":11,"company":"Totally Different Ltd","external_lead_id":"777","emails":["x@diff.com"],"phones":[],"linkedin":[],"contacts":[]}]'::jsonb);
+  perform t.eq('8 Lead ID collision counted as conflict', (c ->> 'conflicts')::int, 1);
+  perform t.eq('8 collision row still imported once', (c ->> 'inserted')::int, 1);
+  c := sync_apply_leads(run, null, 'Sheet1', '[{"row_number":11,"company":"Totally Different Ltd","external_lead_id":"777","emails":["x@diff.com"],"phones":[],"linkedin":[],"contacts":[]}]'::jsonb);
+  perform t.eq('8 collision row not duplicated on re-sync', (c ->> 'inserted')::int, 0);
   perform t.root();
   perform t.eq('8 collision left the manual lead untouched', (select legacy::text from leads where external_lead_id = '777'), '{}');
+  perform t.eq('8 colliding company imported without the id, original id kept in legacy', (select legacy ->> 'sheet_lead_id' from leads where name = 'Totally Different Ltd'), '777');
+  perform t.eq('8 exactly one lead per name', (select count(*)::int from leads where name in ('Manual Co', 'Totally Different Ltd')), 2);
   -- sheet2 projects
   perform t.svc();
   a := sync_apply_projects(run, null, 'Sheet2', '[{"row_number":2,"developer":"ERG","project":"Diamond 1"},{"row_number":3,"developer":"شركة مصر افريقيا","project":"sc-1 school"}]'::jsonb);

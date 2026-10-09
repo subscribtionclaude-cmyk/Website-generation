@@ -74,3 +74,15 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
 | `npm run test:e2e` | full browser suites against a local stack (Postgres + PostgREST + real Edge Function code under Deno) |
 | `npm run scan:secrets` | secret scan of source **and** compiled output |
 | `npm run package` | builds both ZIPs into `deliverables/` |
+
+## Hosted project (ACCORD CRM V2 - Claude)
+
+- Project ref: `olanalmpysrwjgfnbejq` (eu-central-1) — URL `https://olanalmpysrwjgfnbejq.supabase.co`
+- Migrations 1–8 applied; Edge Functions `admin-users` and `google-sheet-sync` deployed (verify_jwt on).
+- `public/config.js` carries only the public URL + anon key.
+
+Manual steps still required (not possible through the available tooling):
+1. Dashboard → Authentication → Sign In / Providers: turn **off** "Allow new users to sign up".
+2. Authentication → URL Configuration: set Site URL to the ShipStatic URL and add `https://<site>/set-password/` to redirect URLs.
+3. Edge Functions → Secrets: `SITE_URL`, `ALLOWED_ORIGINS`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `SPREADSHEET_ID` (share the Sheet with the service account as Viewer).
+4. Create the first admin: create the user in Authentication → Users, then run `supabase/bootstrap-first-admin.sql` with that email.
