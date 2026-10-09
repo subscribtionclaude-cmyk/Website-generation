@@ -1,4 +1,6 @@
 // All business-date logic uses Africa/Cairo (never the browser's local zone).
+import { intlLocale, locRecord, t } from './i18n';
+
 export const TZ = 'Africa/Cairo';
 
 const dateFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -58,10 +60,10 @@ export function prevMonthRange(date: string): { from: string; to: string } {
 }
 
 export type RangePreset = 'today' | 'yesterday' | 'this_week' | 'previous_week' | 'this_month' | 'previous_month' | 'custom';
-export const PRESET_LABELS: Record<RangePreset, string> = {
+export const PRESET_LABELS: Record<RangePreset, string> = locRecord({
   today: 'Today', yesterday: 'Yesterday', this_week: 'This week', previous_week: 'Previous week',
   this_month: 'This month', previous_month: 'Previous month', custom: 'Custom',
-};
+});
 export function presetRange(p: RangePreset, today = cairoToday()): { from: string; to: string } {
   switch (p) {
     case 'today': return { from: today, to: today };
@@ -77,7 +79,7 @@ export function presetRange(p: RangePreset, today = cairoToday()): { from: strin
 export function fmtDate(iso?: string | null): string {
   if (!iso) return '—';
   const d = iso.length === 10 ? new Date(`${iso}T12:00:00Z`) : new Date(iso);
-  return new Intl.DateTimeFormat('en-GB', { timeZone: iso.length === 10 ? 'UTC' : TZ, day: '2-digit', month: 'short', year: 'numeric' }).format(d);
+  return new Intl.DateTimeFormat(intlLocale(), { timeZone: iso.length === 10 ? 'UTC' : TZ, day: '2-digit', month: 'short', year: 'numeric' }).format(d);
 }
 export function fmtTime(iso?: string | null): string {
   return iso ? timeFmt.format(new Date(iso)) : '—';
@@ -86,15 +88,15 @@ export function fmtDateTime(iso?: string | null): string {
   return iso ? `${fmtDate(iso)} · ${fmtTime(iso)}` : '—';
 }
 export function fmtRelative(iso?: string | null): string {
-  if (!iso) return 'Never';
+  if (!iso) return t('Never');
   const diff = Date.now() - new Date(iso).getTime();
   const m = Math.round(diff / 60000);
-  if (m < 1) return 'just now';
-  if (m < 60) return `${m}m ago`;
+  if (m < 1) return t('just now');
+  if (m < 60) return t('{n}m ago', { n: m });
   const h = Math.round(m / 60);
-  if (h < 24) return `${h}h ago`;
+  if (h < 24) return t('{n}h ago', { n: h });
   const days = Math.round(h / 24);
-  return days < 30 ? `${days}d ago` : fmtDate(iso);
+  return days < 30 ? t('{n}d ago', { n: days }) : fmtDate(iso);
 }
 export function daysBetween(a: string, b: string): number {
   const pa = a.split('-').map(Number); const pb = b.split('-').map(Number);

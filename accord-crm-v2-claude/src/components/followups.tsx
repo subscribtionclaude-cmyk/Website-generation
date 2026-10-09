@@ -6,6 +6,7 @@ import { useToast } from '../lib/toast';
 import { Modal, Field, ErrorNote, UserSelect } from './ui';
 import { addDays, cairoToday } from '../lib/cairo';
 import type { FollowUp } from '../lib/types';
+import { t } from '../lib/i18n';
 
 function useInv() {
   const qc = useQueryClient();
@@ -32,16 +33,16 @@ export function FollowUpFormDialog({ leadId, leadName, editing, onClose, origin 
       inv(leadId); toast('Follow-up saved', 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
-  const t = cairoToday();
+  const td = cairoToday();
   return (
     <Modal narrow title={`${editing ? 'Reschedule' : 'New'} follow-up · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Save</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
-      <div className="chips">{[['Today', 0], ['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${date === addDays(t, n as number) ? 'on' : ''}`} onClick={() => setDate(addDays(t, n as number))}>{l}</button>)}</div>
-      <div className="form-grid"><Field label="Date (Cairo)"><input type="date" value={date} onChange={(e) => setDate(e.target.value)} /></Field>
-        <Field label="Time (optional)"><input type="time" value={time} onChange={(e) => setTime(e.target.value)} /></Field></div>
-      <Field label="Owner"><UserSelect value={owner} onChange={setOwner} /></Field>
-      <Field label="Note"><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+      <div className="chips">{[['Today', 0], ['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${date === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setDate(addDays(td, n as number))}>{l}</button>)}</div>
+      <div className="form-grid"><Field label={t('Date (Cairo)')}><input type="date" value={date} onChange={(e) => setDate(e.target.value)} /></Field>
+        <Field label={t('Time (optional)')}><input type="time" value={time} onChange={(e) => setTime(e.target.value)} /></Field></div>
+      <Field label={t('Owner')}><UserSelect value={owner} onChange={setOwner} /></Field>
+      <Field label={t('Note')}><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
     </Modal>
   );
 }
@@ -51,7 +52,7 @@ export function CompleteFollowUpDialog({ fu, leadName, onClose }: { fu: FollowUp
   const toast = useToast(); const inv = useInv();
   const [next, setNext] = useState(''); const [note, setNote] = useState('');
   const [err, setErr] = useState<unknown>(null); const [busy, setBusy] = useState(false);
-  const t = cairoToday();
+  const td = cairoToday();
   async function save(withNext: boolean) {
     setBusy(true); setErr(null);
     try {
@@ -61,13 +62,13 @@ export function CompleteFollowUpDialog({ fu, leadName, onClose }: { fu: FollowUp
   }
   return (
     <Modal narrow title={`Complete follow-up · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" disabled={busy} onClick={() => save(false)}>Complete only</button><button className="btn primary" disabled={busy || !next} onClick={() => save(true)}>Complete + schedule next</button></>}>
+      footer={<><button className="btn" disabled={busy} onClick={() => save(false)}>{t('Complete only')}</button><button className="btn primary" disabled={busy || !next} onClick={() => save(true)}>{t('Complete + schedule next')}</button></>}>
       <ErrorNote error={err} />
       {fu.notes && <div className="notice">{fu.notes}</div>}
-      <div className="field"><label>Next follow-up</label>
-        <div className="chips">{[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${next === addDays(t, n as number) ? 'on' : ''}`} onClick={() => setNext(addDays(t, n as number))}>{l}</button>)}
-          <input type="date" min={t} value={next} onChange={(e) => setNext(e.target.value)} style={{ width: 160 }} aria-label="Next follow-up date" /></div></div>
-      <Field label="Note for the next follow-up"><input value={note} onChange={(e) => setNote(e.target.value)} /></Field>
+      <div className="field"><label>{t('Next follow-up')}</label>
+        <div className="chips">{[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${next === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setNext(addDays(td, n as number))}>{l}</button>)}
+          <input type="date" min={td} value={next} onChange={(e) => setNext(e.target.value)} style={{ width: 160 }} aria-label={t('Next follow-up date')} /></div></div>
+      <Field label={t('Note for the next follow-up')}><input value={note} onChange={(e) => setNote(e.target.value)} /></Field>
     </Modal>
   );
 }

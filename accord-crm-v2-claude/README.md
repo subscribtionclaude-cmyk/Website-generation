@@ -10,3 +10,6 @@ Static React app (ShipStatic) + its **own** Supabase project (Postgres/Auth/Stor
 
 Brand assets used (from the supplied pack): `accord-logo-light-transparent.png`, `accord-logo-dark-transparent.png` (UI logos) and PWA icons composed from the
 original wordmark on white by `scripts/make-icons.py`. No generated or redrawn artwork; storyboards/app-icon explorations were deliberately not used.
+The dark-mode logo and the compact "A" mark are recolour/crop derivatives of the supplied logo (`scripts/make-brand-variants.py`).
+
+UI: Light / Dark / System theme and English / العربية (RTL) — see *UI: theme, language, design tokens* in `docs/ARCHITECTURE.md`.

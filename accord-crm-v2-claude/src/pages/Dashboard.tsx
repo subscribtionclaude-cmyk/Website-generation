@@ -1,18 +1,29 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Phone, CalendarClock, Handshake, Briefcase, AlertTriangle } from 'lucide-react';
+import { Phone, CalendarClock, Handshake, Briefcase, AlertTriangle, CheckCircle2, CalendarDays, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useMyCallMetrics, useCairoToday } from '../lib/hooks';
 import { Kpi, PageHead, Loading, ErrorNote, Empty } from '../components/ui';
 import { useCall } from '../components/CallProvider';
 import { addDays, cairoDayStart, fmtDate, fmtTime, daysBetween } from '../lib/cairo';
-import { label, MEETING_TYPES } from '../lib/labels';
+import { label, MEETING_TYPES, CONFIRMATION } from '../lib/labels';
+import { t } from '../lib/i18n';
 
 async function count(q: PromiseLike<{ count: number | null; error: { message: string } | null }>): Promise<number> {
   const { count: c, error } = await q;
   if (error) throw new Error(error.message);
   return c ?? 0;
+}
+
+function StatRow({ to, label, value, tone }: { to: string; label: string; value: number; tone?: 'bad' | 'warn' }) {
+  return (
+    <Link to={to} className="stat-row">
+      <span className="grow">{label}</span>
+      <b className="num" style={tone ? { color: `var(--${tone})` } : undefined}>{value}</b>
+      <ChevronRight className="flip-rtl" aria-hidden="true" />
+    </Link>
+  );
 }
 
 export default function Dashboard() {
@@ -48,70 +59,76 @@ export default function Dashboard() {
   const pct = mm?.achievement_pct ?? null;
   return (
     <>
-      <PageHead title={`Hello, ${(profile!.full_name || profile!.email).split(' ')[0]}`} sub={`Today · ${fmtDate(today)} (Cairo)`} />
+      <PageHead title={t('Hello, {name}', { name: (profile!.full_name || profile!.email).split(' ')[0] })} sub={t('Today · {date} (Cairo)', { date: fmtDate(today) })} />
       <ErrorNote error={m.error ?? dash.error} />
 
-      <section aria-label="My call performance" className="col" style={{ marginBottom: 18 }}>
-        <h2 className="row"><Phone size={16} /> My call performance</h2>
+      <section aria-label={t('My call performance')} className="col" style={{ marginBottom: 22, gap: 10 }}>
+        <h2 className="section-title">{t('My call performance')}</h2>
         {!mm ? <Loading /> : (
           <>
             <div className="grid cols-4 keep2">
-              <Kpi hero label="Calls today" value={<span data-testid="kpi-calls">{mm.total}</span>} sub={mm.has_target ? `of ${mm.target} daily target` : 'No target set — ask an admin'} />
-              <Kpi label="Target achievement" value={<span data-testid="kpi-pct">{pct === null ? '—' : `${pct}%`}</span>} sub={mm.has_target ? <>Remaining <b data-testid="kpi-remaining">{mm.remaining}</b></> : ''} tone={pct !== null && pct >= 100 ? 'ok' : undefined} />
-              <Kpi label="Responded" value={<span data-testid="kpi-responded">{mm.responded}</span>} sub={`Response rate ${mm.response_rate ?? '—'}${mm.response_rate !== null ? '%' : ''}`} />
-              <Kpi label="Didn't respond" value={<span data-testid="kpi-dnr">{mm.did_not_respond}</span>} sub={<>Unique leads called <b data-testid="kpi-unique">{mm.unique_leads}</b></>} />
+              <Kpi hero label={t('Calls today')} value={<span data-testid="kpi-calls">{mm.total}</span>} sub={mm.has_target ? t('of {n} daily target', { n: mm.target }) : t('No target set — ask an admin')} />
+              <Kpi label={t('Target achievement')} value={<span data-testid="kpi-pct">{pct === null ? '—' : `${pct}%`}</span>} sub={mm.has_target ? <>{t('Remaining')} <b data-testid="kpi-remaining">{mm.remaining}</b></> : ''} tone={pct !== null && pct >= 100 ? 'ok' : undefined} />
+              <Kpi label={t('Responded')} value={<span data-testid="kpi-responded">{mm.responded}</span>} sub={t('Response rate {r}', { r: mm.response_rate === null ? '—' : `${mm.response_rate}%` })} />
+              <Kpi label={t('Didn\'t respond')} value={<span data-testid="kpi-dnr">{mm.did_not_respond}</span>} sub={<>{t('Unique leads called')} <b data-testid="kpi-unique">{mm.unique_leads}</b></>} />
             </div>
-            {mm.has_target && <div className={`progress ${pct !== null && pct >= 100 ? 'over' : ''}`} aria-label="Daily target progress"><i style={{ width: `${Math.min(pct ?? 0, 100)}%` }} /></div>}
+            {mm.has_target && <div className={`progress ${pct !== null && pct >= 100 ? 'over' : ''}`} aria-label={t('Daily target progress')}><i style={{ width: `${Math.min(pct ?? 0, 100)}%` }} /></div>}
           </>
         )}
       </section>
 
       {dash.isLoading ? <Loading /> : dash.data && (
         <>
-          <div className="grid cols-3" style={{ marginBottom: 18 }}>
-            <section className="card card-pad col" aria-label="My follow-ups">
-              <h2 className="row"><CalendarClock size={16} /> My follow-ups</h2>
-              <div className="row spread"><Link to="/follow-ups/?tab=today">Due today</Link><b className="num">{dash.data.fuToday}</b></div>
-              <div className="row spread"><Link to="/follow-ups/?tab=overdue" style={{ color: dash.data.fuOver ? 'var(--bad)' : undefined }}>Overdue</Link><b className="num" style={{ color: dash.data.fuOver ? 'var(--bad)' : undefined }}>{dash.data.fuOver}</b></div>
+          <div className="grid cols-3" style={{ marginBottom: 22 }}>
+            <section className="card" aria-label={t('My follow-ups')}>
+              <div className="card-head"><h2 className="row"><CalendarClock size={16} /> {t('My follow-ups')}</h2></div>
+              <div className="stat-list">
+                <StatRow to="/follow-ups/?tab=today" label={t('Due today')} value={dash.data.fuToday} />
+                <StatRow to="/follow-ups/?tab=overdue" label={t('Overdue')} value={dash.data.fuOver} tone={dash.data.fuOver ? 'bad' : undefined} />
+              </div>
             </section>
-            <section className="card card-pad col" aria-label="My meetings">
-              <h2 className="row"><Handshake size={16} /> My meetings</h2>
-              <div className="row spread"><Link to="/meetings/?tab=today">Today</Link><b className="num">{dash.data.mtToday}</b></div>
-              <div className="row spread"><Link to="/meetings/?tab=upcoming">Upcoming</Link><b className="num">{dash.data.mtUp}</b></div>
-              <div className="row spread"><span className="muted">Confirmed / Unconfirmed</span><span className="num"><span className="badge ok">{dash.data.mtConf}</span> <span className="badge warn">{dash.data.mtUnconf}</span></span></div>
+            <section className="card" aria-label={t('My meetings')}>
+              <div className="card-head"><h2 className="row"><Handshake size={16} /> {t('My meetings')}</h2>
+                <span className="row nowrap small" title={t('Confirmed / Unconfirmed')}><span className="badge ok num">{dash.data.mtConf}</span><span className="badge warn num">{dash.data.mtUnconf}</span></span></div>
+              <div className="stat-list">
+                <StatRow to="/meetings/?tab=today" label={t('Today')} value={dash.data.mtToday} />
+                <StatRow to="/meetings/?tab=upcoming" label={t('Upcoming')} value={dash.data.mtUp} />
+              </div>
             </section>
-            <section className="card card-pad col" aria-label="My commercial actions">
-              <h2 className="row"><Briefcase size={16} /> Commercial actions</h2>
-              <div className="row spread"><Link to="/proposals/?tab=forms">Forms awaiting client</Link><b className="num">{dash.data.formsWait}</b></div>
-              <div className="row spread"><Link to="/proposals/?tab=action">Proposals needing action</Link><b className="num">{dash.data.propAction}</b></div>
-              <div className="row spread"><Link to="/proposals/?tab=followup">Proposal follow-ups due</Link><b className="num">{dash.data.propFu}</b></div>
+            <section className="card" aria-label={t('My commercial actions')}>
+              <div className="card-head"><h2 className="row"><Briefcase size={16} /> {t('Commercial actions')}</h2></div>
+              <div className="stat-list">
+                <StatRow to="/proposals/?tab=forms" label={t('Forms awaiting client')} value={dash.data.formsWait} />
+                <StatRow to="/proposals/?tab=action" label={t('Proposals needing action')} value={dash.data.propAction} />
+                <StatRow to="/proposals/?tab=followup" label={t('Proposal follow-ups due')} value={dash.data.propFu} tone={dash.data.propFu ? 'warn' : undefined} />
+              </div>
             </section>
           </div>
 
           <div className="grid cols-2">
-            <section className="card" aria-label="Priority next actions">
-              <div className="card-head"><h2 className="row"><AlertTriangle size={16} /> Next actions</h2><Link to="/follow-ups/">All follow-ups</Link></div>
-              {dash.data.queue.length === 0 ? <Empty>Nothing due. Nice work.</Empty> : (
+            <section className="card" aria-label={t('Priority next actions')}>
+              <div className="card-head"><h2 className="row"><AlertTriangle size={16} /> {t('Next actions')}</h2><Link to="/follow-ups/">{t('All follow-ups')}</Link></div>
+              {dash.data.queue.length === 0 ? <Empty icon={<CheckCircle2 />}>{t('Nothing due. Nice work.')}</Empty> : (
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                   {dash.data.queue.map((f) => (
-                    <li key={f.id} className="row spread card-pad" style={{ borderBottom: '1px solid var(--line)' }}>
-                      <div><Link to={`/leads/view/?id=${f.lead_id}`}><b>{f.leads?.name}</b></Link>
-                        <div className="muted small">{f.due_date < today ? <span style={{ color: 'var(--bad)' }}>{daysBetween(f.due_date, today)}d overdue</span> : 'Due today'}{f.notes ? ` · ${f.notes}` : ''}</div></div>
-                      {isStaff && <button className="btn sm" onClick={() => startCall({ id: f.lead_id, name: f.leads?.name ?? '' })}><Phone /> Call</button>}
+                    <li key={f.id} className="row spread nowrap card-pad list-row">
+                      <div className="grow"><Link to={`/leads/view/?id=${f.lead_id}`}><b>{f.leads?.name}</b></Link>
+                        <div className="muted small">{f.due_date < today ? <span style={{ color: 'var(--bad)' }}>{t('{n}d overdue', { n: daysBetween(f.due_date, today) })}</span> : t('Due today')}{f.notes ? ` · ${f.notes}` : ''}</div></div>
+                      {isStaff && <button className="btn sm" onClick={() => startCall({ id: f.lead_id, name: f.leads?.name ?? '' })}><Phone /> {t('Call')}</button>}
                     </li>
                   ))}
                 </ul>
               )}
             </section>
-            <section className="card" aria-label="Today's meetings">
-              <div className="card-head"><h2 className="row"><Handshake size={16} /> Meetings today</h2><Link to="/meetings/">Meetings hub</Link></div>
-              {dash.data.todayMeetings.length === 0 ? <Empty>No meetings today.</Empty> : (
+            <section className="card" aria-label={t('Today\'s meetings')}>
+              <div className="card-head"><h2 className="row"><Handshake size={16} /> {t('Meetings today')}</h2><Link to="/meetings/">{t('Meetings hub')}</Link></div>
+              {dash.data.todayMeetings.length === 0 ? <Empty icon={<CalendarDays />}>{t('No meetings today.')}</Empty> : (
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                   {dash.data.todayMeetings.map((x) => (
-                    <li key={x.id} className="row spread card-pad" style={{ borderBottom: '1px solid var(--line)' }}>
-                      <div><Link to={`/leads/view/?id=${x.lead_id}`}><b>{x.leads?.name}</b></Link>
-                        <div className="muted small">{fmtTime(x.scheduled_at)} · {label(MEETING_TYPES, x.meeting_type)}{x.meeting_with ? ` · ${x.meeting_with}` : ''}</div></div>
-                      <span className={`badge ${x.confirmation_status === 'confirmed' ? 'ok' : 'warn'}`}>{label([['confirmed', 'Confirmed'], ['unconfirmed', 'Unconfirmed'], ['tentative', 'Tentative']], x.confirmation_status)}</span>
+                    <li key={x.id} className="row spread nowrap card-pad list-row">
+                      <div className="grow"><Link to={`/leads/view/?id=${x.lead_id}`}><b>{x.leads?.name}</b></Link>
+                        <div className="muted small"><span className="num">{fmtTime(x.scheduled_at)}</span> · {label(MEETING_TYPES, x.meeting_type)}{x.meeting_with ? ` · ${x.meeting_with}` : ''}</div></div>
+                      <span className={`badge ${x.confirmation_status === 'confirmed' ? 'ok' : 'warn'}`}>{label(CONFIRMATION, x.confirmation_status)}</span>
                     </li>
                   ))}
                 </ul>

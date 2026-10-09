@@ -8,6 +8,7 @@ import { Modal, Field, Select, ErrorNote, UserSelect, Loading, Empty } from './u
 import { FORM_STATUS, PROPOSAL_STATUS, RESPONSE_OUTCOME, MEETING_TYPES, CONFIRMATION } from '../lib/labels';
 import { cairoToday, fmtDate, fromLocalInput, addDays } from '../lib/cairo';
 import type { Form, Proposal } from '../lib/types';
+import { t } from '../lib/i18n';
 
 export function useInvalidateCommercial() {
   const qc = useQueryClient();
@@ -60,18 +61,18 @@ export function FormDialog({ leadId, leadName, form, meetingId, onClose }: { lea
   }
   return (
     <Modal title={`${form ? 'Update' : 'Track'} information form · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Save</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
-        <Field label="Status" full><Select value={status} onChange={setStatus} options={FORM_STATUS} /></Field>
-        {needSent && <Field label="Date sent"><input type="date" max={cairoToday()} value={sentOn} onChange={(e) => setSentOn(e.target.value)} /></Field>}
-        {status === 'completed' && <Field label="Date completed"><input type="date" max={cairoToday()} value={doneOn} onChange={(e) => setDoneOn(e.target.value)} /></Field>}
-        <Field label="Form link" full><input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://…" /></Field>
-        <Field label="Owner"><UserSelect value={owner} onChange={setOwner} /></Field>
-        <Field label="Notes" full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+        <Field label={t('Status')} full><Select value={status} onChange={setStatus} options={FORM_STATUS} /></Field>
+        {needSent && <Field label={t('Date sent')}><input type="date" max={cairoToday()} value={sentOn} onChange={(e) => setSentOn(e.target.value)} /></Field>}
+        {status === 'completed' && <Field label={t('Date completed')}><input type="date" max={cairoToday()} value={doneOn} onChange={(e) => setDoneOn(e.target.value)} /></Field>}
+        <Field label={t('Form link')} full><input value={link} onChange={(e) => setLink(e.target.value)} placeholder={t('https://…')} /></Field>
+        <Field label={t('Owner')}><UserSelect value={owner} onChange={setOwner} /></Field>
+        <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
       </div>
-      {status === 'completed' && <label className="row"><input type="checkbox" checked={evidence} onChange={(e) => setEvidence(e.target.checked)} /> I confirm the client returned the completed form.</label>}
-      <span className="muted small">Dates are never filled in automatically — only record what actually happened.</span>
+      {status === 'completed' && <label className="row"><input type="checkbox" checked={evidence} onChange={(e) => setEvidence(e.target.checked)} /> {t('I confirm the client returned the completed form.')}</label>}
+      <span className="muted small">{t('Dates are never filled in automatically — only record what actually happened.')}</span>
     </Modal>
   );
 }
@@ -117,20 +118,20 @@ export function ProposalDialog({ leadId, leadName, proposal, onClose, meetingId 
   }
   return (
     <Modal wide title={`${proposal ? 'Edit' : 'New'} proposal · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Save</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
-        <Field label="Title" full><input value={title} onChange={(e) => setTitle(e.target.value)} /></Field>
-        <Field label="Status"><Select value={status} onChange={setStatus} options={PROPOSAL_STATUS} /></Field>
-        <Field label="Owner"><UserSelect value={owner} onChange={setOwner} /></Field>
-        <Field label="Value"><input type="number" min="0" step="0.01" value={value} onChange={(e) => setValue(e.target.value)} /></Field>
-        <Field label="Currency"><input value={currency} onChange={(e) => setCurrency(e.target.value.toUpperCase().slice(0, 3))} /></Field>
-        <Field label="Prepared date"><input type="date" value={preparedOn} onChange={(e) => setPreparedOn(e.target.value)} /></Field>
-        {needSent && <Field label="Sent date"><input type="date" max={cairoToday()} value={sentOn} onChange={(e) => setSentOn(e.target.value)} /></Field>}
-        <Field label="Next follow-up"><input type="date" value={nextFu} onChange={(e) => setNextFu(e.target.value)} /></Field>
-        <Field label="Linked information form"><select value={formId} onChange={(e) => setFormId(e.target.value)}><option value="">— none —</option>{(forms ?? []).map((f) => <option key={f.id} value={f.id}>{f.status.replace(/_/g, ' ')} · {fmtDate(f.created_at)}</option>)}</select></Field>
+        <Field label={t('Title')} full><input value={title} onChange={(e) => setTitle(e.target.value)} /></Field>
+        <Field label={t('Status')}><Select value={status} onChange={setStatus} options={PROPOSAL_STATUS} /></Field>
+        <Field label={t('Owner')}><UserSelect value={owner} onChange={setOwner} /></Field>
+        <Field label={t('Value')}><input type="number" min="0" step="0.01" value={value} onChange={(e) => setValue(e.target.value)} /></Field>
+        <Field label={t('Currency')}><input value={currency} onChange={(e) => setCurrency(e.target.value.toUpperCase().slice(0, 3))} /></Field>
+        <Field label={t('Prepared date')}><input type="date" value={preparedOn} onChange={(e) => setPreparedOn(e.target.value)} /></Field>
+        {needSent && <Field label={t('Sent date')}><input type="date" max={cairoToday()} value={sentOn} onChange={(e) => setSentOn(e.target.value)} /></Field>}
+        <Field label={t('Next follow-up')}><input type="date" value={nextFu} onChange={(e) => setNextFu(e.target.value)} /></Field>
+        <Field label={t('Linked information form')}><select value={formId} onChange={(e) => setFormId(e.target.value)}><option value="">{t('— none —')}</option>{(forms ?? []).map((f) => <option key={f.id} value={f.id}>{f.status.replace(/_/g, ' ')} · {fmtDate(f.created_at)}</option>)}</select></Field>
         <Field label={proposal?.file_path ? 'Replace proposal file' : 'Proposal file'} full><input ref={fileRef} type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,image/*" /></Field>
-        <Field label="Notes" full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+        <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
       </div>
     </Modal>
   );
@@ -160,25 +161,25 @@ export function ProposalResponseDialog({ proposal, leadName, onClose }: { propos
   }
   return (
     <Modal wide title={`Client response · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Record response</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Record response')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
-        <Field label="Response"><Select value={outcome} onChange={setOutcome} options={RESPONSE_OUTCOME} placeholder="Select…" /></Field>
-        <Field label="Date of response"><input type="date" max={cairoToday()} value={on} onChange={(e) => setOn(e.target.value)} /></Field>
-        <Field label="Notes" full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
-        <Field label="Next follow-up"><input type="date" min={cairoToday()} value={fu} onChange={(e) => setFu(e.target.value)} /></Field>
+        <Field label={t('Response')}><Select value={outcome} onChange={setOutcome} options={RESPONSE_OUTCOME} placeholder={t('Select…')} /></Field>
+        <Field label={t('Date of response')}><input type="date" max={cairoToday()} value={on} onChange={(e) => setOn(e.target.value)} /></Field>
+        <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+        <Field label={t('Next follow-up')}><input type="date" min={cairoToday()} value={fu} onChange={(e) => setFu(e.target.value)} /></Field>
         <div className="row" style={{ alignItems: 'flex-end' }}>{[['3 days', 3], ['1 week', 7]].map(([l, n]) => <button key={l as string} className="chip" onClick={() => setFu(addDays(cairoToday(), n as number))}>{l}</button>)}</div>
       </div>
-      <label className="row"><input type="checkbox" checked={meet} onChange={(e) => setMeet(e.target.checked)} /> <b>Another meeting required</b> (creates a Proposal Review Meeting)</label>
+      <label className="row"><input type="checkbox" checked={meet} onChange={(e) => setMeet(e.target.checked)} /> <b>{t('Another meeting required')}</b> {t('(creates a Proposal Review Meeting)')}</label>
       {meet && (
         <div className="card card-pad form-grid">
-          <Field label="Date & time (Cairo)"><input type="datetime-local" value={mAt} onChange={(e) => setMAt(e.target.value)} /></Field>
-          <Field label="Meeting with"><input value={mWith} onChange={(e) => setMWith(e.target.value)} /></Field>
-          <Field label="Type"><Select value={mType} onChange={setMType} options={MEETING_TYPES} /></Field>
-          <Field label="Confirmation"><Select value={mConf} onChange={setMConf} options={CONFIRMATION} /></Field>
+          <Field label={t('Date & time (Cairo)')}><input type="datetime-local" value={mAt} onChange={(e) => setMAt(e.target.value)} /></Field>
+          <Field label={t('Meeting with')}><input value={mWith} onChange={(e) => setMWith(e.target.value)} /></Field>
+          <Field label={t('Type')}><Select value={mType} onChange={setMType} options={MEETING_TYPES} /></Field>
+          <Field label={t('Confirmation')}><Select value={mConf} onChange={setMConf} options={CONFIRMATION} /></Field>
         </div>
       )}
-      <span className="muted small">"No response" never means Lost. Accepted / Rejected are only set when you record that response.</span>
+      <span className="muted small">{t('"No response" never means Lost. Accepted / Rejected are only set when you record that response.')}</span>
     </Modal>
   );
 }
@@ -200,13 +201,13 @@ export function FilesPanel({ leadId }: { leadId: string }) {
   }
   return (
     <div className="card">
-      <div className="card-head"><h2 className="row"><Paperclip size={16} /> Files</h2>
+      <div className="card-head"><h2 className="row"><Paperclip size={16} /> {t('Files')}</h2>
         {isStaff && <><input ref={ref} type="file" multiple hidden onChange={(e) => upload(e.target.files)} /><button className="btn sm" disabled={busy} onClick={() => ref.current?.click()}><Upload /> {busy ? 'Uploading…' : 'Upload'}</button></>}</div>
-      {isLoading ? <Loading /> : !data?.length ? <Empty>No files yet. Files are stored privately and opened with a short-lived link.</Empty> : (
+      {isLoading ? <Loading /> : !data?.length ? <Empty>{t('No files yet. Files are stored privately and opened with a short-lived link.')}</Empty> : (
         <table className="t"><tbody>
           {data.map((a) => (
             <tr key={a.id}><td>{a.file_name}<div className="muted small">{a.entity_type} · {fmtDate(a.created_at)}{a.size_bytes ? ` · ${(a.size_bytes / 1024).toFixed(0)} KB` : ''}</div></td>
-              <td className="r"><button className="btn sm" onClick={() => openFile(a.path).catch((e) => toast(e.message, 'bad'))}><Download /> Open</button>{(isAdmin || a.uploaded_by === profile?.id) && <button className="btn sm ghost" onClick={() => remove(a)} aria-label="Delete file"><Trash2 /></button>}</td></tr>
+              <td className="r"><button className="btn sm" onClick={() => openFile(a.path).catch((e) => toast(e.message, 'bad'))}><Download /> {t('Open')}</button>{(isAdmin || a.uploaded_by === profile?.id) && <button className="btn sm ghost" onClick={() => remove(a)} aria-label={t('Delete file')}><Trash2 /></button>}</td></tr>
           ))}
         </tbody></table>
       )}

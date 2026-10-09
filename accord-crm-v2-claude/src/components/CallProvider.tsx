@@ -11,6 +11,7 @@ import { RESPONDED_SUBS, NO_RESPONSE_SUBS } from '../lib/labels';
 import { addDays, cairoToday } from '../lib/cairo';
 import { useActiveSession } from '../lib/hooks';
 import type { Contact } from '../lib/types';
+import { t } from '../lib/i18n';
 
 export interface CallTarget { id: string; name: string }
 interface Ctx { startCall: (lead: CallTarget) => void }
@@ -119,23 +120,23 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
   const subs = kind === 'did_not_respond' ? NO_RESPONSE_SUBS : RESPONDED_SUBS;
   return (
     <Modal title={<span className="row nowrap"><PhoneCall size={18} /> Call · {lead.name}</span>} onClose={onClose} narrow={step === 'choose'}
-      footer={step === 'saved' ? <button className="btn primary" onClick={onClose} disabled={busy}>Done</button> : undefined}>
+      footer={step === 'saved' ? <button className="btn primary" onClick={onClose} disabled={busy}>{t('Done')}</button> : undefined}>
       {step === 'choose' && (
         <>
           {phones.length > 0 && (
             <div className="row">{phones.map((p) => <a key={p} className="btn sm" href={`tel:${p}`}><Phone /> {p}</a>)}</div>
           )}
           {(contacts ?? []).length > 1 && (
-            <Field label="Spoke / calling (optional)">
+            <Field label={t('Spoke / calling (optional)')}>
               <select value={contactId} onChange={(e) => setContactId(e.target.value)}>
-                <option value="">— not specified —</option>
+                <option value="">{t('— not specified —')}</option>
                 {(contacts ?? []).map((c) => <option key={c.id} value={c.id}>{c.full_name || 'Company line'}{c.job_title ? ` · ${c.job_title}` : ''}</option>)}
               </select>
             </Field>
           )}
           <div className="call-big">
-            <button className="btn ok" onClick={() => log('responded')} autoFocus data-testid="call-responded"><Phone /> Responded<small className="muted" style={{ color: '#fff', opacity: 0.8, fontWeight: 500 }}>R</small></button>
-            <button className="btn bad" onClick={() => log('did_not_respond')} data-testid="call-no-response"><PhoneOff /> Didn't Respond<small style={{ opacity: 0.8, fontWeight: 500 }}>N</small></button>
+            <button className="btn ok" onClick={() => log('responded')} autoFocus data-testid="call-responded"><Phone /> {t('Responded')}<small className="muted" style={{ color: '#fff', opacity: 0.8, fontWeight: 500 }}>R</small></button>
+            <button className="btn bad" onClick={() => log('did_not_respond')} data-testid="call-no-response"><PhoneOff /> {t('Didn\'t Respond')}<small style={{ opacity: 0.8, fontWeight: 500 }}>N</small></button>
           </div>
           <span className="muted small">Saved the moment you tap. {session ? 'Counted in your active calling session.' : ''}</span>
         </>
@@ -148,20 +149,20 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
               <div className="chips">
                 {subs.map(([k, l]) => <button key={k} className={`chip ${sub === k ? 'on' : ''}`} onClick={() => setSub(sub === k ? '' : k)}>{l}</button>)}
               </div>
-              <Field label="Note"><textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="What was discussed?" /></Field>
-              <div className="field"><label>Follow-up</label>
+              <Field label={t('Note')}><textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('What was discussed?')} /></Field>
+              <div className="field"><label>{t('Follow-up')}</label>
                 <div className="chips">
                   {[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7]].map(([l, n]) => (
                     <button key={l as string} className={`chip ${fuDate === addDays(today, n as number) ? 'on' : ''}`} onClick={() => setFuDate(fuDate === addDays(today, n as number) ? '' : addDays(today, n as number))}>{l}</button>
                   ))}
-                  <input type="date" min={today} value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={{ width: 160 }} aria-label="Follow-up date" />
+                  <input type="date" min={today} value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={{ width: 160 }} aria-label={t('Follow-up date')} />
                 </div>
               </div>
               <div className="row">
-                <button className="btn" onClick={() => setMeetingMode('requested')}><Handshake /> Meeting requested</button>
-                <button className="btn" onClick={() => setMeetingMode('scheduled')}><CalendarPlus /> Schedule meeting</button>
+                <button className="btn" onClick={() => setMeetingMode('requested')}><Handshake /> {t('Meeting requested')}</button>
+                <button className="btn" onClick={() => setMeetingMode('scheduled')}><CalendarPlus /> {t('Schedule meeting')}</button>
                 <span className="grow" />
-                <button className="btn primary" disabled={busy || (!sub && !note.trim() && !fuDate)} onClick={() => applyDetails({ sub, date: fuDate, noteText: note })}>Save details</button>
+                <button className="btn primary" disabled={busy || (!sub && !note.trim() && !fuDate)} onClick={() => applyDetails({ sub, date: fuDate, noteText: note })}>{t('Save details')}</button>
               </div>
             </>
           ) : (
@@ -179,12 +180,12 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
               </div>
               {sub === 'select_date' && (
                 <div className="row">
-                  <input type="date" min={today} value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={{ width: 170 }} aria-label="Retry date" />
-                  <button className="btn primary" disabled={!fuDate || busy} onClick={() => applyDetails({ sub: 'select_date', date: fuDate })}>Schedule retry</button>
+                  <input type="date" min={today} value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={{ width: 170 }} aria-label={t('Retry date')} />
+                  <button className="btn primary" disabled={!fuDate || busy} onClick={() => applyDetails({ sub: 'select_date', date: fuDate })}>{t('Schedule retry')}</button>
                 </div>
               )}
-              <Field label="Note (optional)"><textarea value={note} onChange={(e) => setNote(e.target.value)} /></Field>
-              {note.trim() && <button className="btn sm" disabled={busy} onClick={() => applyDetails({ noteText: note })}>Save note</button>}
+              <Field label={t('Note (optional)')}><textarea value={note} onChange={(e) => setNote(e.target.value)} /></Field>
+              {note.trim() && <button className="btn sm" disabled={busy} onClick={() => applyDetails({ noteText: note })}>{t('Save note')}</button>}
             </>
           )}
         </>

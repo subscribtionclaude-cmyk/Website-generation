@@ -4,7 +4,8 @@ import { useAuth } from './lib/auth';
 import { configured } from './lib/supabase';
 import { AppShell } from './components/Layout';
 import { Loading } from './components/ui';
-import { LoginPage, SetPasswordPage, NoAccessPage } from './pages/AuthPages';
+import { LoginPage, SetPasswordPage, NoAccessPage, BootScreen } from './pages/AuthPages';
+import { t } from './lib/i18n';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Leads = lazy(() => import('./pages/Leads'));
@@ -28,7 +29,7 @@ const AdminStatus = lazy(() => import('./pages/admin/Status'));
 function Protected({ admin, children }: { admin?: boolean; children: JSX.Element }) {
   const { loading, session, profile, noAccess, isAdmin } = useAuth();
   const loc = useLocation();
-  if (loading) return <Loading text="Starting ACCORD CRM…" />;
+  if (loading) return <BootScreen />;
   if (!session) return <Navigate to="/login/" replace state={{ from: loc.pathname + loc.search }} />;
   if (noAccess) return <NoAccessPage />;
   if (profile?.must_change_password && loc.pathname !== '/set-password/') return <Navigate to="/set-password/" replace />;
@@ -40,7 +41,7 @@ export default function App() {
   if (!configured) {
     return (
       <div className="auth-wrap"><div className="card auth-card">
-        <h2>Backend not configured</h2>
+        <h2>{t('Backend not configured')}</h2>
         <p className="muted">No Supabase URL / public key is configured. Edit <code>config.js</code> in the deployed files (or set <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> at build time) — see docs/SETUP.md.</p>
       </div></div>
     );

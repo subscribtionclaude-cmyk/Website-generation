@@ -67,7 +67,7 @@ test.describe.serial('BD executive — daily workflow', () => {
     await page.goto('/follow-ups/?tab=tomorrow');
     await expect(page.getByTestId('followup-row').filter({ hasText: 'Palm Hills' })).toBeVisible();
     await page.goto('/calls/');
-    await expect(page.getByRole('row').filter({ hasText: 'Palm Hills' })).toContainText('interested');
+    await expect(page.getByRole('row').filter({ hasText: 'Palm Hills' })).toContainText('Interested') // sub-outcome shown as its display label;
   });
 
   test('didn\'t respond → Retry later today creates a same-day follow-up', async ({ page }) => {

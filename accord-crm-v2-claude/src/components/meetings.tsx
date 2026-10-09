@@ -7,6 +7,7 @@ import { Modal, Field, Select, ErrorNote, UserSelect } from './ui';
 import { CONFIRMATION, MEETING_TYPES, NOT_ATTENDED_REASONS, MEETING_OUTCOMES, NEXT_STEPS } from '../lib/labels';
 import { fromLocalInput, toLocalInput, cairoToday, addDays } from '../lib/cairo';
 import type { Meeting } from '../lib/types';
+import { t } from '../lib/i18n';
 
 export function useInvalidateMeetings() {
   const qc = useQueryClient();
@@ -69,20 +70,20 @@ export function MeetingFormDialog({ leadId, leadName, mode, onClose, contactId, 
 
   return (
     <Modal wide title={`${editing ? 'Edit' : scheduling ? 'Schedule' : 'Request'} meeting · ${leadName}`} onClose={() => onClose(false)}
-      footer={<><button className="btn" onClick={() => onClose(false)}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>{editing ? 'Save' : scheduling ? 'Schedule' : 'Record request'}</button></>}>
+      footer={<><button className="btn" onClick={() => onClose(false)}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{editing ? 'Save' : scheduling ? 'Schedule' : 'Record request'}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
-        {scheduling && <Field label="Date & time (Cairo)"><input type="datetime-local" value={at} onChange={(e) => setAt(e.target.value)} /></Field>}
-        <Field label="Meeting with"><input value={withWho} onChange={(e) => setWithWho(e.target.value)} placeholder="Name / role" /></Field>
-        <Field label="Meeting type"><Select value={type} onChange={setType} options={MEETING_TYPES} /></Field>
-        {scheduling && <Field label="Confirmation"><Select value={conf} onChange={setConf} options={CONFIRMATION} /></Field>}
+        {scheduling && <Field label={t('Date & time (Cairo)')}><input type="datetime-local" value={at} onChange={(e) => setAt(e.target.value)} /></Field>}
+        <Field label={t('Meeting with')}><input value={withWho} onChange={(e) => setWithWho(e.target.value)} placeholder={t('Name / role')} /></Field>
+        <Field label={t('Meeting type')}><Select value={type} onChange={setType} options={MEETING_TYPES} /></Field>
+        {scheduling && <Field label={t('Confirmation')}><Select value={conf} onChange={setConf} options={CONFIRMATION} /></Field>}
         {type === 'online' || type === 'phone'
           ? <Field label={type === 'online' ? 'Meeting link' : 'Dial-in / number'} full><input value={link} onChange={(e) => setLink(e.target.value)} /></Field>
-          : <Field label="Location" full><input value={location} onChange={(e) => setLocation(e.target.value)} /></Field>}
-        <Field label="Owner"><UserSelect value={owner} onChange={setOwner} /></Field>
-        <Field label="ACCORD attendees"><input value={internal} onChange={(e) => setInternal(e.target.value)} /></Field>
-        <Field label="Purpose" full><input value={purpose} onChange={(e) => setPurpose(e.target.value)} /></Field>
-        <Field label="Agenda" full><textarea value={agenda} onChange={(e) => setAgenda(e.target.value)} /></Field>
+          : <Field label={t('Location')} full><input value={location} onChange={(e) => setLocation(e.target.value)} /></Field>}
+        <Field label={t('Owner')}><UserSelect value={owner} onChange={setOwner} /></Field>
+        <Field label={t('ACCORD attendees')}><input value={internal} onChange={(e) => setInternal(e.target.value)} /></Field>
+        <Field label={t('Purpose')} full><input value={purpose} onChange={(e) => setPurpose(e.target.value)} /></Field>
+        <Field label={t('Agenda')} full><textarea value={agenda} onChange={(e) => setAgenda(e.target.value)} /></Field>
       </div>
       {isAdmin ? null : null}
     </Modal>
@@ -125,37 +126,37 @@ export function AttendanceDialog({ meeting, leadName, onClose }: { meeting: Meet
 
   return (
     <Modal wide title={`Meeting outcome · ${leadName}`} onClose={() => onClose()}
-      footer={<><button className="btn" onClick={() => onClose()}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Save</button></>}>
+      footer={<><button className="btn" onClick={() => onClose()}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="call-big">
-        <button className={`btn ${attended === true ? 'ok' : ''}`} onClick={() => setAttended(true)} data-testid="att-yes">Attended</button>
-        <button className={`btn ${attended === false ? 'bad' : ''}`} onClick={() => setAttended(false)} data-testid="att-no">Not Attended</button>
+        <button className={`btn ${attended === true ? 'ok' : ''}`} onClick={() => setAttended(true)} data-testid="att-yes">{t('Attended')}</button>
+        <button className={`btn ${attended === false ? 'bad' : ''}`} onClick={() => setAttended(false)} data-testid="att-no">{t('Not Attended')}</button>
       </div>
       {attended === false && (
         <>
           <div className="form-grid">
-            <Field label="Reason (required)"><Select value={reason} onChange={setReason} options={NOT_ATTENDED_REASONS} placeholder="Select a reason…" /></Field>
-            <Field label="Notes"><input value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+            <Field label={t('Reason (required)')}><Select value={reason} onChange={setReason} options={NOT_ATTENDED_REASONS} placeholder={t('Select a reason…')} /></Field>
+            <Field label={t('Notes')}><input value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
           </div>
           <div className="field"><label>Another meeting required?</label>
             <div className="chips">
-              <button className={`chip ${again === true ? 'on' : ''}`} onClick={() => setAgain(true)}>Yes</button>
-              <button className={`chip ${again === false ? 'on' : ''}`} onClick={() => setAgain(false)}>No</button>
+              <button className={`chip ${again === true ? 'on' : ''}`} onClick={() => setAgain(true)}>{t('Yes')}</button>
+              <button className={`chip ${again === false ? 'on' : ''}`} onClick={() => setAgain(false)}>{t('No')}</button>
             </div>
           </div>
           {again && (
             <div className="card card-pad form-grid">
-              <Field label="New date & time (Cairo)"><input type="datetime-local" value={rAt} onChange={(e) => setRAt(e.target.value)} /></Field>
-              <Field label="Meeting with"><input value={rWith} onChange={(e) => setRWith(e.target.value)} /></Field>
-              <Field label="Type"><Select value={rType} onChange={setRType} options={MEETING_TYPES} /></Field>
-              <Field label="Confirmation"><Select value={rConf} onChange={setRConf} options={CONFIRMATION} /></Field>
-              <Field label="Purpose" full><input value={rPurpose} onChange={(e) => setRPurpose(e.target.value)} /></Field>
+              <Field label={t('New date & time (Cairo)')}><input type="datetime-local" value={rAt} onChange={(e) => setRAt(e.target.value)} /></Field>
+              <Field label={t('Meeting with')}><input value={rWith} onChange={(e) => setRWith(e.target.value)} /></Field>
+              <Field label={t('Type')}><Select value={rType} onChange={setRType} options={MEETING_TYPES} /></Field>
+              <Field label={t('Confirmation')}><Select value={rConf} onChange={setRConf} options={CONFIRMATION} /></Field>
+              <Field label={t('Purpose')} full><input value={rPurpose} onChange={(e) => setRPurpose(e.target.value)} /></Field>
               <span className="muted small full">The original meeting is preserved; the new meeting is linked to it.</span>
             </div>
           )}
         </>
       )}
-      {attended === true && <div className="notice">After saving you can record the minutes, outcome and next step.</div>}
+      {attended === true && <div className="notice">{t('After saving you can record the minutes, outcome and next step.')}</div>}
     </Modal>
   );
 }
@@ -202,12 +203,12 @@ export function OutcomeDialog({ meeting, leadName, onClose }: { meeting: Meeting
 
   return (
     <Modal wide title={`Minutes & next step · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Save minutes</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save minutes')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
-        <Field label="Meeting with"><input value={f.meeting_with} onChange={(e) => set('meeting_with')(e.target.value)} /></Field>
-        <Field label="Actual attendees (client)"><input value={f.external_attendees} onChange={(e) => set('external_attendees')(e.target.value)} /></Field>
-        <Field label="ACCORD attendees" full><input value={f.internal_attendees} onChange={(e) => set('internal_attendees')(e.target.value)} /></Field>
+        <Field label={t('Meeting with')}><input value={f.meeting_with} onChange={(e) => set('meeting_with')(e.target.value)} /></Field>
+        <Field label={t('Actual attendees (client)')}><input value={f.external_attendees} onChange={(e) => set('external_attendees')(e.target.value)} /></Field>
+        <Field label={t('ACCORD attendees')} full><input value={f.internal_attendees} onChange={(e) => set('internal_attendees')(e.target.value)} /></Field>
         {T('summary', 'Meeting summary')}
         {T('minutes_of_meeting', 'Minutes of meeting', true)}
         {T('client_requirements', 'Client requirements', false, false)}
@@ -215,26 +216,26 @@ export function OutcomeDialog({ meeting, leadName, onClose }: { meeting: Meeting
         {T('agreements', 'Agreements', false, false)}
         {T('commitments', 'Commitments', false, false)}
         {T('requested_documents', 'Requested documents')}
-        <Field label="Outcome"><Select value={f.meeting_outcome} onChange={set('meeting_outcome')} options={MEETING_OUTCOMES} placeholder="Select…" /></Field>
-        <Field label="Next step"><Select value={f.next_step} onChange={set('next_step')} options={NEXT_STEPS} placeholder="Select…" /></Field>
-        <Field label="Next step detail" full><input value={f.next_step_detail} onChange={(e) => set('next_step_detail')(e.target.value)} /></Field>
-        <Field label="Follow-up date"><input type="date" min={today} value={fu} onChange={(e) => setFu(e.target.value)} /></Field>
+        <Field label={t('Outcome')}><Select value={f.meeting_outcome} onChange={set('meeting_outcome')} options={MEETING_OUTCOMES} placeholder={t('Select…')} /></Field>
+        <Field label={t('Next step')}><Select value={f.next_step} onChange={set('next_step')} options={NEXT_STEPS} placeholder={t('Select…')} /></Field>
+        <Field label={t('Next step detail')} full><input value={f.next_step_detail} onChange={(e) => set('next_step_detail')(e.target.value)} /></Field>
+        <Field label={t('Follow-up date')}><input type="date" min={today} value={fu} onChange={(e) => setFu(e.target.value)} /></Field>
         <div className="row" style={{ alignItems: 'flex-end' }}>
           {[['Tomorrow', 1], ['3 days', 3], ['1 week', 7]].map(([l, n]) => <button key={l as string} className="chip" onClick={() => setFu(addDays(today, n as number))}>{l}</button>)}
         </div>
         {T('commercial_notes', 'Commercial notes')}
       </div>
-      <label className="row"><input type="checkbox" checked={nextReq} onChange={(e) => setNextReq(e.target.checked)} /> <b>Next meeting required</b></label>
+      <label className="row"><input type="checkbox" checked={nextReq} onChange={(e) => setNextReq(e.target.checked)} /> <b>{t('Next meeting required')}</b></label>
       {nextReq && (
         <div className="card card-pad form-grid">
-          <Field label="Date & time (Cairo)"><input type="datetime-local" value={nAt} onChange={(e) => setNAt(e.target.value)} /></Field>
-          <Field label="Meeting with"><input value={nWith} onChange={(e) => setNWith(e.target.value)} /></Field>
-          <Field label="Type"><Select value={nType} onChange={setNType} options={MEETING_TYPES} /></Field>
-          <Field label="Confirmation"><Select value={nConf} onChange={setNConf} options={CONFIRMATION} /></Field>
-          <Field label="Purpose" full><input value={nPurpose} onChange={(e) => setNPurpose(e.target.value)} /></Field>
+          <Field label={t('Date & time (Cairo)')}><input type="datetime-local" value={nAt} onChange={(e) => setNAt(e.target.value)} /></Field>
+          <Field label={t('Meeting with')}><input value={nWith} onChange={(e) => setNWith(e.target.value)} /></Field>
+          <Field label={t('Type')}><Select value={nType} onChange={setNType} options={MEETING_TYPES} /></Field>
+          <Field label={t('Confirmation')}><Select value={nConf} onChange={setNConf} options={CONFIRMATION} /></Field>
+          <Field label={t('Purpose')} full><input value={nPurpose} onChange={(e) => setNPurpose(e.target.value)} /></Field>
         </div>
       )}
-      <span className="muted small">Saving minutes never changes the lead's temperature or pipeline stage.</span>
+      <span className="muted small">{t('Saving minutes never changes the lead\'s temperature or pipeline stage.')}</span>
     </Modal>
   );
 }
@@ -253,11 +254,11 @@ export function RescheduleDialog({ meeting, leadName, onClose }: { meeting: Meet
   }
   return (
     <Modal narrow title={`Reschedule · ${leadName}`} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={save}>Reschedule</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Reschedule')}</button></>}>
       <ErrorNote error={err} />
-      <Field label="New date & time (Cairo)"><input type="datetime-local" value={at} onChange={(e) => setAt(e.target.value)} /></Field>
-      <Field label="Confirmation"><Select value={conf} onChange={setConf} options={CONFIRMATION} /></Field>
-      <Field label="Note"><input value={note} onChange={(e) => setNote(e.target.value)} /></Field>
+      <Field label={t('New date & time (Cairo)')}><input type="datetime-local" value={at} onChange={(e) => setAt(e.target.value)} /></Field>
+      <Field label={t('Confirmation')}><Select value={conf} onChange={setConf} options={CONFIRMATION} /></Field>
+      <Field label={t('Note')}><input value={note} onChange={(e) => setNote(e.target.value)} /></Field>
     </Modal>
   );
 }

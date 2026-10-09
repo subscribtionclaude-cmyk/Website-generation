@@ -12,6 +12,23 @@ No Vercel, no Node server, no secrets in the frontend.
 Every client route is emitted as its own `…/index.html` (`scripts/postbuild.mjs`), so refresh / bookmark / Home-Screen launch work on a plain
 static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. Public URL/anon key come from `/config.js` (runtime) or build env.
 
+## UI: theme, language, design tokens
+* **Theme** — one source of truth: `src/lib/theme.tsx` (`ThemeProvider`, preference `light | dark | system` in `localStorage['accord-theme']`).
+  The *resolved* theme is always written to `<html data-theme>`; CSS reads only that attribute. `index.html` resolves the same key before
+  first paint (no flash), sets `color-scheme`, and the provider keeps `<meta name="theme-color">` in sync. "System" follows OS changes live.
+* **Logo** — `Logo` in `components/Layout.tsx` always follows the active theme. `public/brand/accord-logo-dark.png` is a high-contrast
+  recolour of the supplied artwork (`scripts/make-brand-variants.py`; the original dark file is kept, not deployed, as `assets-src/accord-logo-dark-original.png`);
+  `accord-mark-*.png` (the wordmark's "A") is used in the collapsed tablet sidebar.
+* **Language** — `src/lib/i18n.tsx`: English is the source; `t('English phrase', vars)` looks the phrase up in `src/lib/i18n-ar.ts`
+  (missing keys fall back to English). Preference in `localStorage['accord-lang']`; `<html lang dir>` set before first paint and on change.
+  Arabic = RTL via CSS logical properties (no per-component overrides). Emails / phones / URLs / IDs / codes stay LTR (`bdi`, `.ltr`,
+  `input[type=email|tel|url]`). **Only UI labels are translated** — DB keys (`labels.ts` maps, stage/outcome keys) are unchanged;
+  admin-edited stage labels are shown as entered. Dates use `ar-EG` with Latin digits.
+* **Design tokens** — `src/index.css` `:root` (light) and `:root[data-theme='dark']` (layered navy surfaces: bg → sidebar → surface →
+  surface-2 → surface-3). Components use tokens only (`--primary-text` for links/active states, `--ring` for focus).
+* **Settings** — `/settings/?section=profile|appearance|language|security|about`; Admin → Configuration exposes working days, optional call
+  outcomes, stage display labels and the company display name — all writes go through admin-only RLS and the existing audit trigger.
+
 ## Data model (public schema)
 `profiles` · `leads` (+`lead_rollups` denormalised, trigger-maintained) · `contacts` · `call_sessions` · `call_attempts` · `user_targets` ·
 `follow_ups` · `meetings` · `commercial_forms` · `proposals` · `attachments` · `projects` (Sheet2) · `activities` (timeline) ·
@@ -58,3 +75,5 @@ Sheet2 → `projects` (never creates leads, never auto-links to companies). Repe
 * Report export = CSV (Excel-compatible, UTF-8 BOM) and browser Print/PDF; no server-side PDF.
 * Edge Function tests ran under Deno 2.9 against a mocked GoTrue/Google; they have not been executed on hosted Supabase.
 * No realtime subscriptions: dashboard metrics update after each successful write and refresh every 60 s.
+* UI translation covers the shell, auth, settings, dashboard, all lists, dialogs, reports and admin pages. Free-text data, activity
+  summaries written by the database (timeline) and server error messages are shown as stored (English).

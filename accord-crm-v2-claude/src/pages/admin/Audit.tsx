@@ -3,6 +3,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { supabase } from '../../lib/supabase';
 import { PageHead, Pager, Loading, ErrorNote, Empty, useDebounced } from '../../components/ui';
 import { fmtDateTime } from '../../lib/cairo';
+import { t } from '../../lib/i18n';
 
 interface A { id: number; at: string; actor_id: string | null; actor_email: string | null; entity: string; entity_id: string | null; action: string; old_value: unknown; new_value: unknown; meta: unknown }
 const ENTITIES = ['leads', 'contacts', 'call_attempts', 'follow_ups', 'meetings', 'commercial_forms', 'proposals', 'user_targets', 'profiles', 'settings', 'sync_runs', 'attachments', 'projects', 'pipeline_stages', 'call_outcomes'];
@@ -22,20 +23,20 @@ export default function AdminAudit() {
   });
   return (
     <>
-      <PageHead title="Audit log" sub="Append-only. Entries cannot be edited or deleted — not even by administrators." />
+      <PageHead title={t('Audit log')} sub={t('Append-only. Entries cannot be edited or deleted — not even by administrators.')} />
       <div className="card card-pad row" style={{ marginBottom: 12 }}>
-        <select value={entity} onChange={(e) => { setEntity(e.target.value); setPage(0); }} aria-label="Entity"><option value="">All entities</option>{ENTITIES.map((e) => <option key={e}>{e}</option>)}</select>
-        <input placeholder="Action contains…" value={action} onChange={(e) => { setAction(e.target.value); setPage(0); }} style={{ maxWidth: 200 }} aria-label="Action" />
-        <input placeholder="Actor email contains…" value={actor} onChange={(e) => { setActor(e.target.value); setPage(0); }} style={{ maxWidth: 240 }} aria-label="Actor" />
+        <select value={entity} onChange={(e) => { setEntity(e.target.value); setPage(0); }} aria-label={t('Entity')}><option value="">{t('All entities')}</option>{ENTITIES.map((e) => <option key={e}>{e}</option>)}</select>
+        <input placeholder={t('Action contains…')} value={action} onChange={(e) => { setAction(e.target.value); setPage(0); }} style={{ maxWidth: 200 }} aria-label={t('Action')} />
+        <input placeholder={t('Actor email contains…')} value={actor} onChange={(e) => { setActor(e.target.value); setPage(0); }} style={{ maxWidth: 240 }} aria-label={t('Actor')} />
       </div>
       <ErrorNote error={q.error} />
       <div className="card">
-        {q.isLoading ? <Loading /> : !q.data?.rows.length ? <Empty>No audit entries.</Empty> : (
-          <><div className="table-wrap"><table className="t" aria-label="Audit log"><thead><tr><th>When (Cairo)</th><th>Actor</th><th>Action</th><th>Entity</th><th>ID</th><th /></tr></thead><tbody>
+        {q.isLoading ? <Loading /> : !q.data?.rows.length ? <Empty>{t('No audit entries.')}</Empty> : (
+          <><div className="table-wrap"><table className="t" aria-label={t('Audit log')}><thead><tr><th>{t('When (Cairo)')}</th><th>{t('Actor')}</th><th>{t('Action')}</th><th>{t('Entity')}</th><th>ID</th><th /></tr></thead><tbody>
             {q.data.rows.map((a) => (
               <>
-                <tr key={a.id}><td className="nowrap">{fmtDateTime(a.at)}</td><td>{a.actor_email ?? <span className="muted">system</span>}</td><td><b>{a.action}</b></td><td>{a.entity}</td><td className="mono">{a.entity_id?.slice(0, 8)}</td><td className="r"><button className="btn sm ghost" onClick={() => setOpen(open === a.id ? null : a.id)}>{open === a.id ? 'Hide' : 'Diff'}</button></td></tr>
-                {open === a.id && <tr key={a.id + 'd'}><td colSpan={6}><div className="grid cols-2"><div><div className="label">Old</div><pre className="json mono">{JSON.stringify(a.old_value, null, 2) ?? '—'}</pre></div><div><div className="label">New</div><pre className="json mono">{JSON.stringify(a.new_value ?? a.meta, null, 2) ?? '—'}</pre></div></div></td></tr>}
+                <tr key={a.id}><td className="nowrap">{fmtDateTime(a.at)}</td><td>{a.actor_email ?? <span className="muted">{t('system')}</span>}</td><td><b>{a.action}</b></td><td>{a.entity}</td><td className="mono">{a.entity_id?.slice(0, 8)}</td><td className="r"><button className="btn sm ghost" onClick={() => setOpen(open === a.id ? null : a.id)}>{open === a.id ? 'Hide' : 'Diff'}</button></td></tr>
+                {open === a.id && <tr key={a.id + 'd'}><td colSpan={6}><div className="grid cols-2"><div><div className="label">{t('Old')}</div><pre className="json mono">{JSON.stringify(a.old_value, null, 2) ?? '—'}</pre></div><div><div className="label">{t('New')}</div><pre className="json mono">{JSON.stringify(a.new_value ?? a.meta, null, 2) ?? '—'}</pre></div></div></td></tr>}
               </>))}
           </tbody></table></div><Pager page={page} pageSize={PAGE} total={q.data.total} onPage={setPage} /></>)}
       </div>

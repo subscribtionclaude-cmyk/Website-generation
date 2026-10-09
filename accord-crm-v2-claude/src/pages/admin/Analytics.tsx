@@ -6,12 +6,13 @@ import { PageHead, Loading, ErrorNote } from '../../components/ui';
 import { cairoDayStart, addDays, cairoToday, fmtDate, presetRange, PRESET_LABELS, type RangePreset } from '../../lib/cairo';
 import { MEETING_OUTCOMES, NOT_ATTENDED_REASONS, MEETING_TYPES, PROPOSAL_STATUS, STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, label } from '../../lib/labels';
 import { useAdminReport, CallsSection, MeetingsSection, CommercialSection, PipelineSection, FollowUpsSection } from './shared';
+import { t } from '../../lib/i18n';
 
 const TITLES: Record<string, string> = { calls: 'Calls analytics', meetings: 'Meetings analytics', commercial: 'Commercial / proposal analytics', pipeline: 'Pipeline analytics' };
 const tally = <T,>(rows: T[], key: (r: T) => string | null | undefined) => { const m = new Map<string, number>(); for (const r of rows) { const k = key(r) ?? '—'; m.set(k, (m.get(k) ?? 0) + 1); } return [...m.entries()].sort((a, b) => b[1] - a[1]); };
 function Breakdown({ title, rows, fmt }: { title: string; rows: [string, number][]; fmt?: (k: string) => string }) {
   const max = Math.max(1, ...rows.map((r) => r[1]));
-  return <div className="card card-pad col"><h3>{title}</h3>{rows.length === 0 && <span className="muted">No data.</span>}{rows.map(([k, n]) => <div key={k} className="hbar"><span>{fmt ? fmt(k) : k}</span><div className="track"><i style={{ width: `${(100 * n) / max}%` }} /></div><b className="num">{n}</b></div>)}</div>;
+  return <div className="card card-pad col"><h3>{title}</h3>{rows.length === 0 && <span className="muted">{t('No data.')}</span>}{rows.map(([k, n]) => <div key={k} className="hbar"><span>{fmt ? fmt(k) : k}</span><div className="track"><i style={{ width: `${(100 * n) / max}%` }} /></div><b className="num">{n}</b></div>)}</div>;
 }
 
 export default function AdminAnalytics() {
@@ -41,18 +42,18 @@ export default function AdminAnalytics() {
           {focus === 'meetings' && <>
             <MeetingsSection r={rep.data} />
             {meetings.data && <div className="grid cols-3">
-              <Breakdown title="By type" rows={tally(meetings.data, (m) => m.meeting_type)} fmt={(k) => label(MEETING_TYPES, k)} />
-              <Breakdown title="Outcome of attended meetings" rows={tally(meetings.data.filter((m) => m.attendance_status === 'attended'), (m) => m.meeting_outcome)} fmt={(k) => (k === '—' ? 'No outcome recorded' : label(MEETING_OUTCOMES, k))} />
-              <Breakdown title="Not-attended reasons" rows={tally(meetings.data.filter((m) => m.attendance_status === 'not_attended'), (m) => m.not_attended_reason)} fmt={(k) => label(NOT_ATTENDED_REASONS, k)} />
+              <Breakdown title={t('By type')} rows={tally(meetings.data, (m) => m.meeting_type)} fmt={(k) => label(MEETING_TYPES, k)} />
+              <Breakdown title={t('Outcome of attended meetings')} rows={tally(meetings.data.filter((m) => m.attendance_status === 'attended'), (m) => m.meeting_outcome)} fmt={(k) => (k === '—' ? 'No outcome recorded' : label(MEETING_OUTCOMES, k))} />
+              <Breakdown title={t('Not-attended reasons')} rows={tally(meetings.data.filter((m) => m.attendance_status === 'not_attended'), (m) => m.not_attended_reason)} fmt={(k) => label(NOT_ATTENDED_REASONS, k)} />
             </div>}</>}
           {focus === 'commercial' && <>
             <CommercialSection r={rep.data} />
-            {proposals.data && <Breakdown title="All proposals by status (current)" rows={tally(proposals.data, (p) => p.status)} fmt={(k) => label(PROPOSAL_STATUS, k)} />}</>}
+            {proposals.data && <Breakdown title={t('All proposals by status (current)')} rows={tally(proposals.data, (p) => p.status)} fmt={(k) => label(PROPOSAL_STATUS, k)} />}</>}
           {focus === 'pipeline' && <>
             <PipelineSection r={rep.data} />
-            {leads.data && <div className="card table-wrap"><table className="t" aria-label="Temperature by stage"><thead><tr><th>Stage</th>{TEMPERATURES.map((t) => <th key={t} className="r">{TEMP_LABEL[t]}</th>)}<th className="r">Total</th></tr></thead><tbody>
+            {leads.data && <div className="card table-wrap"><table className="t" aria-label={t('Temperature by stage')}><thead><tr><th>{t('Stage')}</th>{TEMPERATURES.map((t) => <th key={t} className="r">{TEMP_LABEL[t]}</th>)}<th className="r">{t('Total')}</th></tr></thead><tbody>
               {STAGES.map((s) => <tr key={s}><td>{STAGE_LABEL[s]}</td>{TEMPERATURES.map((t) => <td key={t} className="r num">{leads.data!.filter((l) => l.pipeline_stage === s && l.temperature === t).length}</td>)}<td className="r num"><b>{leads.data!.filter((l) => l.pipeline_stage === s).length}</b></td></tr>)}
-            </tbody></table><div className="card-pad muted small">Temperature and pipeline stage are independent — every combination is valid.</div></div>}</>}
+            </tbody></table><div className="card-pad muted small">{t('Temperature and pipeline stage are independent — every combination is valid.')}</div></div>}</>}
         </div>
       )}
     </>

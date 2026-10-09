@@ -2,28 +2,26 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Building2, Phone, Columns3, CalendarClock, CalendarDays, FileText, Settings, ShieldCheck, LogOut, Moon, Sun,
-  Users, Target, BarChart3, Presentation, PhoneCall, Handshake, Briefcase, GitBranch, RefreshCw, ScrollText, SlidersHorizontal, Activity, MoreHorizontal, ArrowLeft, CalendarRange, CalendarCheck2,
+  Users, Target, Presentation, PhoneCall, Handshake, Briefcase, GitBranch, RefreshCw, ScrollText, SlidersHorizontal, Activity, MoreHorizontal, ArrowLeft, CalendarRange, CalendarCheck2,
+  Monitor, Languages,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
-import { Modal } from './ui';
+import { useTheme, type ThemePref } from '../lib/theme';
+import { useI18n, t } from '../lib/i18n';
+import { ROLE_LABEL } from '../lib/labels';
+import { Modal, Segmented } from './ui';
 
-function useTheme() {
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    try { const t = localStorage.getItem('accord-theme'); if (t === 'light' || t === 'dark') return t; } catch { /* ignore */ }
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try { localStorage.setItem('accord-theme', theme); } catch { /* ignore */ }
-  }, [theme]);
-  return { theme, toggle: () => setTheme((t) => (t === 'dark' ? 'light' : 'dark')) };
-}
-
-export function Logo({ dark }: { dark?: boolean }) {
+/** ACCORD logo; the variant always follows the ACTIVE theme (single source: ThemeProvider). */
+export function Logo({ dark, className }: { dark?: boolean; className?: string }) {
   const { theme } = useTheme();
   const useDark = dark ?? theme === 'dark';
-  return <img src={useDark ? '/brand/accord-logo-dark.png' : '/brand/accord-logo-light.png'} alt="ACCORD" width={150} height={86} />;
+  return <img className={className} src={useDark ? '/brand/accord-logo-dark.png' : '/brand/accord-logo-light.png'} alt="ACCORD" width={146} height={70} />;
 }
+function Mark() {
+  const { theme } = useTheme();
+  return <img className="mark" src={theme === 'dark' ? '/brand/accord-mark-dark.png' : '/brand/accord-mark-light.png'} alt="" width={36} height={36} />;
+}
+export const initials = (name?: string | null) => (name || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('') || '?';
 
 interface Item { to: string; label: string; icon: ReactNode; end?: boolean }
 const CRM_NAV: Item[] = [
@@ -56,36 +54,69 @@ const ADMIN_NAV: (Item | string)[] = [
   { to: '/admin/status/', label: 'System Status', icon: <Activity /> },
 ];
 
+const navCls = ({ isActive }: { isActive: boolean }) => `navlink ${isActive ? 'active' : ''}`;
+function NavItem({ i, onClick }: { i: Item; onClick?: () => void }) {
+  return <NavLink to={i.to} end={i.end} className={navCls} title={t(i.label)} onClick={onClick}>{i.icon}<span>{t(i.label)}</span></NavLink>;
+}
+
 function Sidebar({ admin }: { admin?: boolean }) {
   const { profile, isAdmin, signOut } = useAuth();
   const { theme, toggle } = useTheme();
   return (
     <aside className="sidebar">
-      <Link to={admin ? '/admin/' : '/dashboard/'} className="brand" aria-label="ACCORD CRM home"><Logo /></Link>
-      {admin && <div className="admin-ribbon" style={{ margin: '0 6px 8px' }}><ShieldCheck size={13} /> <span className="hide-tablet">Management control centre</span></div>}
-      <nav aria-label={admin ? 'Admin navigation' : 'Main navigation'}>
+      <Link to={admin ? '/admin/' : '/dashboard/'} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><Mark /></Link>
+      {admin && <div className="admin-ribbon" style={{ margin: '0 4px 10px' }} title={t('Management control centre')}><ShieldCheck size={13} /> <span>{t('Management control centre')}</span></div>}
+      <nav aria-label={admin ? t('Admin navigation') : t('Main navigation')}>
         {admin
-          ? ADMIN_NAV.map((i) => typeof i === 'string'
-            ? <div key={i} className="navsep">{i}</div>
-            : <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`} title={i.label}>{i.icon}<span>{i.label}</span></NavLink>)
-          : CRM_NAV.map((i) => <NavLink key={i.to} to={i.to} className={({ isActive }) => `navlink ${isActive ? 'active' : ''}`} title={i.label}>{i.icon}<span>{i.label}</span></NavLink>)}
+          ? ADMIN_NAV.map((i) => typeof i === 'string' ? <div key={i} className="navsep">{t(i)}</div> : <NavItem key={i.to} i={i} />)
+          : CRM_NAV.map((i) => <NavItem key={i.to} i={i} />)}
       </nav>
       <div className="foot">
         {isAdmin && (admin
-          ? <NavLink to="/dashboard/" className="navlink" title="Back to CRM"><ArrowLeft /><span>Back to CRM</span></NavLink>
-          : <NavLink to="/admin/" className="navlink" title="Admin dashboard"><ShieldCheck /><span>Admin dashboard</span></NavLink>)}
-        <NavLink to="/settings/" className="navlink" title="Profile & settings"><Settings /><span className="label">{profile?.full_name || profile?.email}</span></NavLink>
-        <div className="row nowrap">
-          <button className="btn ghost sm icon" onClick={toggle} aria-label="Toggle theme">{theme === 'dark' ? <Sun /> : <Moon />}</button>
-          <button className="btn ghost sm icon" onClick={() => signOut()} aria-label="Sign out"><LogOut /></button>
+          ? <NavLink to="/dashboard/" className="navlink" title={t('Back to CRM')}><ArrowLeft className="flip-rtl" /><span>{t('Back to CRM')}</span></NavLink>
+          : <NavLink to="/admin/" className="navlink" title={t('Admin dashboard')}><ShieldCheck /><span>{t('Admin dashboard')}</span></NavLink>)}
+        <NavLink to="/settings/" className={({ isActive }) => `usercard ${isActive ? 'active' : ''}`} title={t('Profile & settings')}>
+          <span className="avatar" aria-hidden="true">{initials(profile?.full_name || profile?.email)}</span>
+          <span className="who"><b>{profile?.full_name || profile?.email}</b><span>{profile ? ROLE_LABEL[profile.role] : ''} · {t('Settings')}</span></span>
+        </NavLink>
+        <div className="foot-actions">
+          <button className="btn ghost sm icon" onClick={toggle} aria-label="Toggle theme" title={theme === 'dark' ? t('Switch to light mode') : t('Switch to dark mode')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
+          <button className="btn ghost sm icon" onClick={() => signOut()} aria-label={t('Sign out')} title={t('Sign out')}><LogOut className="flip-rtl" /></button>
         </div>
       </div>
     </aside>
   );
 }
 
+/** Appearance + language quick controls (mobile "More" sheet; also reused on the auth screens). */
+export function QuickPrefs() {
+  const { pref, setPref } = useTheme();
+  const { lang, setLang } = useI18n();
+  return (
+    <div className="col" style={{ gap: 10 }}>
+      <div className="row spread"><span className="label">{t('Appearance')}</span>
+        <Segmented<ThemePref> label={t('Appearance')} value={pref} onChange={setPref} options={[
+          { key: 'light', label: t('Light'), icon: <Sun /> }, { key: 'dark', label: t('Dark'), icon: <Moon /> }, { key: 'system', label: t('System'), icon: <Monitor /> }]} /></div>
+      <div className="row spread"><span className="label">{t('Language')}</span>
+        <Segmented label={t('Language')} value={lang} onChange={setLang} options={[{ key: 'en', label: 'English' }, { key: 'ar', label: 'العربية' }]} /></div>
+    </div>
+  );
+}
+
+/** Compact theme + language buttons for screens without the sidebar (login, set password). */
+export function AuthTools() {
+  const { theme, toggle } = useTheme();
+  const { lang, setLang } = useI18n();
+  return (
+    <div className="auth-tools">
+      <button type="button" className="btn ghost sm" onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')} aria-label={t('Language')}><Languages />{lang === 'ar' ? 'English' : 'العربية'}</button>
+      <button type="button" className="btn ghost sm icon" onClick={toggle} aria-label={t('Switch theme')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
+    </div>
+  );
+}
+
 function MobileBar({ admin }: { admin?: boolean }) {
-  const { isAdmin } = useAuth();
+  const { isAdmin, signOut } = useAuth();
   const [more, setMore] = useState(false);
   const loc = useLocation();
   useEffect(() => setMore(false), [loc.pathname]);
@@ -98,18 +129,31 @@ function MobileBar({ admin }: { admin?: boolean }) {
   return (
     <>
       <nav className="mobilebar" aria-label="Quick navigation">
-        {primary.map((i) => <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => (isActive ? 'active' : '')}>{i.icon}{i.label.replace(' & Access', '')}</NavLink>)}
-        <button onClick={() => setMore(true)} aria-label="More"><MoreHorizontal />More</button>
+        {primary.map((i) => <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => (isActive ? 'active' : '')}>{i.icon}{t(i.label.replace(' & Access', ''))}</NavLink>)}
+        <button onClick={() => setMore(true)} aria-label={t('More')}><MoreHorizontal />{t('More')}</button>
       </nav>
       {more && (
-        <Modal title="More" onClose={() => setMore(false)}>
-          <div className="col">
-            {rest.map((i) => <NavLink key={i.to} to={i.to} className="navlink" onClick={() => setMore(false)}>{i.icon}<span>{i.label}</span></NavLink>)}
-            {admin && <NavLink to="/dashboard/" className="navlink"><ArrowLeft /><span>Back to CRM</span></NavLink>}
+        <Modal title={t('More')} onClose={() => setMore(false)}>
+          <div className="col" style={{ gap: 2 }}>
+            {rest.map((i) => <NavItem key={i.to} i={i} onClick={() => setMore(false)} />)}
+            {admin && <NavLink to="/dashboard/" className="navlink"><ArrowLeft className="flip-rtl" /><span>{t('Back to CRM')}</span></NavLink>}
           </div>
+          <div className="card card-pad"><QuickPrefs /></div>
+          <button className="btn danger" onClick={() => signOut()}><LogOut className="flip-rtl" /> {t('Sign out')}</button>
         </Modal>
       )}
     </>
+  );
+}
+
+function MobileTopActions() {
+  const { profile } = useAuth();
+  const { theme, toggle } = useTheme();
+  return (
+    <div className="row nowrap" style={{ gap: 4 }}>
+      <button className="btn ghost icon" onClick={toggle} aria-label={t('Switch theme')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
+      <Link to="/settings/" aria-label={t('Profile & settings')}><span className="avatar">{initials(profile?.full_name || profile?.email)}</span></Link>
+    </div>
   );
 }
 
@@ -117,7 +161,10 @@ export function AppShell({ admin }: { admin?: boolean }) {
   return (
     <div className="shell">
       <Sidebar admin={admin} />
-      <main className="main" id="main"><Outlet /></main>
+      <main className="main" id="main">
+        <div className="mobile-top"><Link to={admin ? '/admin/' : '/dashboard/'} aria-label={t('ACCORD CRM home')}><Logo /></Link><MobileTopActions /></div>
+        <Outlet />
+      </main>
       <MobileBar admin={admin} />
     </div>
   );

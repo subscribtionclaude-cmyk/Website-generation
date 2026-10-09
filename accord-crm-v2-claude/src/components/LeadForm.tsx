@@ -7,6 +7,7 @@ import { useToast } from '../lib/toast';
 import { Modal, Field, Select, ErrorNote, UserSelect } from './ui';
 import { TEMPERATURES, TEMP_LABEL, STAGES, STAGE_LABEL } from '../lib/labels';
 import type { LeadRow } from '../lib/types';
+import { t } from '../lib/i18n';
 
 const splitList = (s: string) => [...new Set(s.split(/[\n,;]+/).map((x) => x.trim()).filter(Boolean))];
 
@@ -54,27 +55,27 @@ export function LeadFormDialog({ lead, onClose, onSaved }: { lead?: Partial<Lead
 
   return (
     <Modal wide side title={lead ? `Edit lead · ${lead.name}` : 'New lead'} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>Cancel</button><button className="btn primary" disabled={busy} onClick={() => save()}>{lead ? 'Save changes' : 'Create lead'}</button></>}>
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={() => save()}>{lead ? 'Save changes' : 'Create lead'}</button></>}>
       <ErrorNote error={err} />
-      {dupe && <div className="notice warn">A lead named <b>{dupe.name}</b> already exists. <Link to={`/leads/view/?id=${dupe.id}`}>Open it</Link> or <button className="btn sm" onClick={() => save(true)}>create anyway</button></div>}
+      {dupe && <div className="notice warn">{t('A lead named')} <b>{dupe.name}</b> {t('already exists.')} <Link to={`/leads/view/?id=${dupe.id}`}>{t('Open it')}</Link> {t('or')} <button className="btn sm" onClick={() => save(true)}>{t('create anyway')}</button></div>}
       <div className="form-grid">
-        <Field label="Company *" full><input value={name} onChange={(e) => setName(e.target.value)} autoFocus /></Field>
-        <Field label="Temperature"><Select value={temp} onChange={setTemp} options={TEMPERATURES.map((t) => [t, TEMP_LABEL[t]])} /></Field>
-        <Field label="Pipeline stage"><Select value={stage} onChange={setStage} options={STAGES.map((t) => [t, STAGE_LABEL[t]])} /></Field>
-        <Field label="Owner">{isAdmin ? <UserSelect value={owner} onChange={setOwner} includeAll allLabel="Unassigned" /> : <select value={owner} onChange={(e) => setOwner(e.target.value)}><option value="">Unassigned</option><option value={profile!.id}>Me</option></select>}</Field>
-        <Field label="City"><input value={city} onChange={(e) => setCity(e.target.value)} /></Field>
-        <Field label="Industry"><input value={industry} onChange={(e) => setIndustry(e.target.value)} /></Field>
-        <Field label="Website"><input value={website} onChange={(e) => setWebsite(e.target.value)} /></Field>
-        <Field label="Notes" full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+        <Field label={t('Company *')} full><input value={name} onChange={(e) => setName(e.target.value)} autoFocus /></Field>
+        <Field label={t('Temperature')}><Select value={temp} onChange={setTemp} options={TEMPERATURES.map((t) => [t, TEMP_LABEL[t]])} /></Field>
+        <Field label={t('Pipeline stage')}><Select value={stage} onChange={setStage} options={STAGES.map((t) => [t, STAGE_LABEL[t]])} /></Field>
+        <Field label={t('Owner')}>{isAdmin ? <UserSelect value={owner} onChange={setOwner} includeAll allLabel={t('Unassigned')} /> : <select value={owner} onChange={(e) => setOwner(e.target.value)}><option value="">{t('Unassigned')}</option><option value={profile!.id}>{t('Me')}</option></select>}</Field>
+        <Field label={t('City')}><input value={city} onChange={(e) => setCity(e.target.value)} /></Field>
+        <Field label={t('Industry')}><input value={industry} onChange={(e) => setIndustry(e.target.value)} /></Field>
+        <Field label={t('Website')}><input value={website} onChange={(e) => setWebsite(e.target.value)} /></Field>
+        <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
       </div>
       {!lead && (
         <>
-          <h3>First contact (optional)</h3>
+          <h3>{t('First contact (optional)')}</h3>
           <div className="form-grid">
-            <Field label="Name"><input value={cName} onChange={(e) => setCName(e.target.value)} /></Field>
-            <Field label="Job title"><input value={cTitle} onChange={(e) => setCTitle(e.target.value)} /></Field>
-            <Field label="Email(s)"><input value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder="comma separated" /></Field>
-            <Field label="Phone(s)"><input value={cPhone} onChange={(e) => setCPhone(e.target.value)} placeholder="comma separated" inputMode="tel" /></Field>
+            <Field label={t('Name')}><input value={cName} onChange={(e) => setCName(e.target.value)} /></Field>
+            <Field label={t('Job title')}><input value={cTitle} onChange={(e) => setCTitle(e.target.value)} /></Field>
+            <Field label={t('Email(s)')}><input value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder={t('comma separated')} /></Field>
+            <Field label={t('Phone(s)')}><input value={cPhone} onChange={(e) => setCPhone(e.target.value)} placeholder={t('comma separated')} inputMode="tel" /></Field>
           </div>
         </>
       )}

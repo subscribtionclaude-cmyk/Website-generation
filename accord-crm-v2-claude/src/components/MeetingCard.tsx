@@ -8,6 +8,7 @@ import { AttendanceDialog, OutcomeDialog, RescheduleDialog, MeetingFormDialog, u
 import { fmtDateTime } from '../lib/cairo';
 import { label, MEETING_TYPES, MEETING_OUTCOMES, NEXT_STEPS, NOT_ATTENDED_REASONS, CONFIRMATION } from '../lib/labels';
 import type { Meeting } from '../lib/types';
+import { t } from '../lib/i18n';
 
 export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boolean }) {
   const { profile, isAdmin, isStaff } = useAuth();
@@ -24,11 +25,11 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
   async function patch(p: Record<string, unknown>, msg: string) {
     try { unwrap(await supabase.from('meetings').update(p).eq('id', m.id).select('id')); inv(m.lead_id); toast(msg, 'ok'); } catch (e) { toast((e as Error).message, 'bad'); }
   }
-  const statusBadge = m.attendance_status === 'attended' ? <span className="badge ok">Attended</span>
-    : m.attendance_status === 'not_attended' ? <span className="badge bad">Not attended</span>
-    : m.status === 'cancelled' ? <span className="badge">Cancelled</span> : m.status === 'rescheduled' ? <span className="badge warn">Rescheduled</span>
-    : m.status === 'requested' ? <span className="badge info">Requested</span>
-    : awaiting ? <span className="badge warn">Awaiting outcome</span> : <span className="badge info">Scheduled</span>;
+  const statusBadge = m.attendance_status === 'attended' ? <span className="badge ok">{t('Attended')}</span>
+    : m.attendance_status === 'not_attended' ? <span className="badge bad">{t('Not attended')}</span>
+    : m.status === 'cancelled' ? <span className="badge">{t('Cancelled')}</span> : m.status === 'rescheduled' ? <span className="badge warn">{t('Rescheduled')}</span>
+    : m.status === 'requested' ? <span className="badge info">{t('Requested')}</span>
+    : awaiting ? <span className="badge warn">{t('Awaiting outcome')}</span> : <span className="badge info">{t('Scheduled')}</span>;
 
   return (
     <div className="card card-pad col" data-testid="meeting-card">
@@ -45,24 +46,24 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
           {m.status !== 'requested' && m.status !== 'cancelled' && <span className={`badge ${m.confirmation_status === 'confirmed' ? 'ok' : 'warn'}`}>{label(CONFIRMATION, m.confirmation_status)}</span>}
         </div>
       </div>
-      {m.rescheduled_from_id && <span className="muted small">↳ Replacement for an earlier meeting</span>}
-      {m.follows_meeting_id && <span className="muted small">↳ Follow-up to a previous meeting</span>}
+      {m.rescheduled_from_id && <span className="muted small">{t('↳ Replacement for an earlier meeting')}</span>}
+      {m.follows_meeting_id && <span className="muted small">{t('↳ Follow-up to a previous meeting')}</span>}
       {m.attendance_status === 'not_attended' && <span className="muted small">Reason: {label(NOT_ATTENDED_REASONS, m.not_attended_reason)}{m.not_attended_notes ? ` — ${m.not_attended_notes}` : ''}</span>}
       {m.attendance_status === 'attended' && (m.meeting_outcome || m.next_step) && (
         <div className="row small">{m.meeting_outcome && <span className="badge">Outcome: {label(MEETING_OUTCOMES, m.meeting_outcome)}</span>}{m.next_step && <span className="badge">Next: {label(NEXT_STEPS, m.next_step)}</span>}</div>
       )}
-      {open && (m.minutes_of_meeting || m.summary) && <div className="notice pre">{m.summary && <p><b>Summary:</b> {m.summary}</p>}{m.minutes_of_meeting && <><b>Minutes</b><div>{m.minutes_of_meeting}</div></>}{m.next_step_detail && <p><b>Next step:</b> {m.next_step_detail}</p>}</div>}
+      {open && (m.minutes_of_meeting || m.summary) && <div className="notice pre">{m.summary && <p><b>{t('Summary:')}</b> {m.summary}</p>}{m.minutes_of_meeting && <><b>{t('Minutes')}</b><div>{m.minutes_of_meeting}</div></>}{m.next_step_detail && <p><b>{t('Next step:')}</b> {m.next_step_detail}</p>}</div>}
       <div className="row">
-        {can && m.status === 'requested' && <button className="btn sm primary" onClick={() => setDlg('sched')}><CalendarCheck /> Schedule</button>}
+        {can && m.status === 'requested' && <button className="btn sm primary" onClick={() => setDlg('sched')}><CalendarCheck /> {t('Schedule')}</button>}
         {can && m.status === 'scheduled' && m.attendance_status === 'pending' && (
           <>
             {m.confirmation_status !== 'confirmed'
-              ? <button className="btn sm" onClick={() => patch({ confirmation_status: 'confirmed' }, 'Meeting confirmed')}><CheckCircle2 /> Confirm</button>
-              : <button className="btn sm" onClick={() => patch({ confirmation_status: 'unconfirmed' }, 'Marked unconfirmed')}>Unconfirm</button>}
-            <button className={`btn sm ${awaiting ? 'primary' : ''}`} onClick={() => setDlg('att')} data-testid="record-outcome">Attended / Not attended</button>
-            <button className="btn sm" onClick={() => setDlg('res')}><RefreshCcw /> Reschedule</button>
-            <button className="btn sm ghost" onClick={() => setDlg('edit')}><Pencil /> Edit</button>
-            <button className="btn sm ghost" onClick={() => { if (confirm('Cancel this meeting?')) patch({ status: 'cancelled' }, 'Meeting cancelled'); }}><XCircle /> Cancel</button>
+              ? <button className="btn sm" onClick={() => patch({ confirmation_status: 'confirmed' }, 'Meeting confirmed')}><CheckCircle2 /> {t('Confirm')}</button>
+              : <button className="btn sm" onClick={() => patch({ confirmation_status: 'unconfirmed' }, 'Marked unconfirmed')}>{t('Unconfirm')}</button>}
+            <button className={`btn sm ${awaiting ? 'primary' : ''}`} onClick={() => setDlg('att')} data-testid="record-outcome">{t('Attended / Not attended')}</button>
+            <button className="btn sm" onClick={() => setDlg('res')}><RefreshCcw /> {t('Reschedule')}</button>
+            <button className="btn sm ghost" onClick={() => setDlg('edit')}><Pencil /> {t('Edit')}</button>
+            <button className="btn sm ghost" onClick={() => { if (confirm('Cancel this meeting?')) patch({ status: 'cancelled' }, 'Meeting cancelled'); }}><XCircle /> {t('Cancel')}</button>
           </>
         )}
         {can && m.attendance_status === 'attended' && <button className="btn sm" onClick={() => setDlg('out')}><FileText /> {m.minutes_of_meeting ? 'Edit minutes' : 'Add minutes'}</button>}

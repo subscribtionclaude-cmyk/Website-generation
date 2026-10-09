@@ -71,7 +71,7 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
 | `npm run build` | typecheck + static build + per-route entry points → `dist/` |
 | `npm test` | unit tests (parsers, Cairo calendar, metrics, milestones, CSV) |
 | `npm run test:sql` | 127 SQL behaviour + security tests on a throw-away local Postgres |
-| `npm run test:e2e` | full browser suites against a local stack (Postgres + PostgREST + real Edge Function code under Deno) |
+| `npm run test:e2e` | full browser suites against a local stack (Postgres + PostgREST + real Edge Function code under Deno). Because `public/config.js` now carries the hosted project values, run it as `E2E_RUNTIME_CONFIG=1 npm run test:e2e` so the test build points at the local stack |
 | `npm run scan:secrets` | secret scan of source **and** compiled output |
 | `npm run package` | builds both ZIPs into `deliverables/` |
 

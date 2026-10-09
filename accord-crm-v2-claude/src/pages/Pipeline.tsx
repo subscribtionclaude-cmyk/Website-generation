@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Search } from 'lucide-react';
 import { supabase, unwrap } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useToast } from '../lib/toast';
@@ -9,6 +9,7 @@ import { PageHead, TempBadge, Loading, ErrorNote, Modal, Select, useDebounced } 
 import { STAGES, STAGE_LABEL, FORM_STATUS, PROPOSAL_STATUS, label } from '../lib/labels';
 import { fmtDate, cairoToday } from '../lib/cairo';
 import type { LeadRow } from '../lib/types';
+import { t } from '../lib/i18n';
 
 const LANE_LIMIT = 40;
 
@@ -35,7 +36,7 @@ export default function Pipeline() {
     })),
   });
   const stages = useQuery({ queryKey: ['stages'], staleTime: 300_000, queryFn: async () => unwrap(await supabase.from('pipeline_stages').select('key,label').order('position')) as { key: string; label: string }[] });
-  const stageLabel = (k: string) => stages.data?.find((s) => s.key === k)?.label ?? STAGE_LABEL[k];
+  const stageLabel = (k: string) => { const db = stages.data?.find((s) => s.key === k)?.label; return db ? t(db) : STAGE_LABEL[k]; };
 
   const canMove = (l: LeadRow) => isAdmin || (isStaff && (l.owner_id === null || l.owner_id === profile?.id));
   async function confirmMove() {
@@ -50,13 +51,13 @@ export default function Pipeline() {
 
   return (
     <>
-      <PageHead title="Pipeline" sub="High-level stage. Temperature is independent of the stage." />
+      <PageHead title={t('Pipeline')} sub={t('High-level stage. Temperature is independent of the stage.')} />
       <div className="row" style={{ marginBottom: 12 }}>
-        <input placeholder="Filter company…" value={text} onChange={(e) => setText(e.target.value)} style={{ maxWidth: 260 }} aria-label="Filter pipeline" />
-        <label className="row small"><input type="checkbox" checked={mine} onChange={(e) => setMine(e.target.checked)} /> My leads only</label>
+        <div className="search" style={{ maxWidth: 300, flex: '1 1 220px' }}><Search /><input type="search" placeholder={t('Filter company…')} value={text} onChange={(e) => setText(e.target.value)} aria-label={t('Filter pipeline')} /></div>
+        <label className="row small"><input type="checkbox" checked={mine} onChange={(e) => setMine(e.target.checked)} /> {t('My leads only')}</label>
       </div>
       <ErrorNote error={lanes.find((l) => l.error)?.error} />
-      <div className="board" aria-label="Pipeline board">
+      <div className="board" aria-label={t('Pipeline board')}>
         {STAGES.map((s, i) => {
           const r = lanes[i];
           return (
@@ -74,25 +75,25 @@ export default function Pipeline() {
                   <div key={l.id} className="pcard" draggable={canMove(l)} onDragStart={(e) => e.dataTransfer.setData('text/plain', l.id)} data-testid="pipeline-card">
                     <div className="row spread nowrap"><Link to={`/leads/view/?id=${l.id}`}><b>{l.name}</b></Link><TempBadge v={l.temperature} /></div>
                     <div className="row small muted">
-                      {l.form_status && l.form_status !== 'not_required' && <span className="badge">Form: {label(FORM_STATUS, l.form_status)}</span>}
-                      {l.proposal_status && <span className="badge">Proposal: {label(PROPOSAL_STATUS, l.proposal_status)}</span>}
+                      {l.form_status && l.form_status !== 'not_required' && <span className="badge">{t('Form')}: {label(FORM_STATUS, l.form_status)}</span>}
+                      {l.proposal_status && <span className="badge">{t('Proposal')}: {label(PROPOSAL_STATUS, l.proposal_status)}</span>}
                     </div>
-                    {l.next_follow_up_date && <span className="small" style={{ color: l.next_follow_up_date < today ? 'var(--bad)' : undefined }}>Follow-up {fmtDate(l.next_follow_up_date)}</span>}
-                    {l.suggested_stage && canMove(l) && <button className="btn sm" onClick={() => setPending({ lead: l, to: l.suggested_stage! })}><Sparkles /> Suggest: {STAGE_LABEL[l.suggested_stage]}</button>}
+                    {l.next_follow_up_date && <span className="small" style={{ color: l.next_follow_up_date < today ? 'var(--bad)' : undefined }}>{t('Follow-up {date}', { date: fmtDate(l.next_follow_up_date) })}</span>}
+                    {l.suggested_stage && canMove(l) && <button className="btn sm" onClick={() => setPending({ lead: l, to: l.suggested_stage! })}><Sparkles /> {t('Suggest: {stage}', { stage: stageLabel(l.suggested_stage) })}</button>}
                     {canMove(l) && <Select value={l.pipeline_stage} onChange={(v) => v !== l.pipeline_stage && setPending({ lead: l, to: v })} options={STAGES.map((x) => [x, stageLabel(x)])} />}
                   </div>
                 ))}
-                {r.data && r.data.total > LANE_LIMIT && <span className="muted small" style={{ padding: 6 }}>Showing {LANE_LIMIT} of {r.data.total}. Use the Leads page to filter by stage.</span>}
-                {r.data && r.data.total === 0 && <span className="muted small" style={{ padding: 8 }}>No leads</span>}
+                {r.data && r.data.total > LANE_LIMIT && <span className="muted small" style={{ padding: 6 }}>{t('Showing {n} of {total}. Use the Leads page to filter by stage.', { n: LANE_LIMIT, total: r.data.total })}</span>}
+                {r.data && r.data.total === 0 && <span className="muted small" style={{ padding: 8 }}>{t('No leads')}</span>}
               </div>
             </div>
           );
         })}
       </div>
       {pending && (
-        <Modal narrow title="Change pipeline stage?" onClose={() => setPending(null)} footer={<><button className="btn" onClick={() => setPending(null)}>Cancel</button><button className="btn primary" onClick={confirmMove} data-testid="confirm-move">Confirm</button></>}>
+        <Modal narrow title={t('Change pipeline stage?')} onClose={() => setPending(null)} footer={<><button className="btn" onClick={() => setPending(null)}>{t('Cancel')}</button><button className="btn primary" onClick={confirmMove} data-testid="confirm-move">{t('Confirm')}</button></>}>
           <p><b>{pending.lead.name}</b>: {stageLabel(pending.lead.pipeline_stage)} → <b>{stageLabel(pending.to)}</b></p>
-          <span className="muted small">Stage changes are always explicit and are recorded on the lead's timeline and audit log.</span>
+          <span className="muted small">{t('Stage changes are always explicit and are recorded on the lead\'s timeline and audit log.')}</span>
         </Modal>
       )}
     </>
