@@ -1,0 +1,37 @@
+# Supabase CLI configuration for ACCORD CRM V2 (Claude independent version).
+# project_id is a LOCAL label only. Link the real project with:  supabase link --project-ref <YOUR-CLAUDE-PROJECT-REF>
+# NEVER link kqoodjnxcksejjeflelc — that is the separate Codex implementation.
+project_id = "accord-crm-v2-claude"
+
+[api]
+enabled = true
+schemas = ["public"]
+max_rows = 1000
+
+[db]
+major_version = 17
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:4173"
+additional_redirect_urls = ["http://127.0.0.1:4173/set-password/"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+# PUBLIC SIGN-UP IS OFF. Users exist only if an admin creates/invites them (and CRM access additionally needs an active profiles row).
+enable_signup = false
+enable_anonymous_sign_ins = false
+minimum_password_length = 12
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+double_confirm_changes = true
+
+[storage]
+file_size_limit = "25MiB"
+
+[functions.admin-users]
+verify_jwt = true
+
+[functions.google-sheet-sync]
+verify_jwt = true
