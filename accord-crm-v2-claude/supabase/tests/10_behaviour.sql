@@ -444,6 +444,76 @@ select t.check('12 audit row records who, what, period and format — never data
      from public.audit_logs where entity = 'export' and entity_id = 'leads' order by id desc limit 1));
 select t.check('12 export audit rows are immutable', (select count(*) from pg_trigger where tgrelid = 'public.audit_logs'::regclass and not tgisinternal) > 0);
 
+-- 13. PERMANENT USER DELETE KEEPS HISTORY + NO USER LIMIT (migration 11) ------------------------------
+select t.root();
+create temp table del_before as select
+  (select count(*) from call_attempts where user_id = t.u('b2')) calls,
+  (select count(*) from activities where actor_id = t.u('b2')) acts,
+  (select count(*) from follow_ups where owner_id = t.u('b2') or created_by = t.u('b2')) fus,
+  (select count(*) from audit_logs) audits;
+grant select on del_before to public;
+select t.check('13 profiles no longer cascade from auth.users',
+  not exists (select 1 from pg_constraint where conrelid = 'public.profiles'::regclass and contype = 'f'));
+-- no artificial cap: 60 users can be created (auth + profile) with no limit trigger/constraint firing
+insert into auth.users (id, email) select gen_random_uuid(), format('cap%s@t', i) from generate_series(1, 60) i;
+create temp table cap_users as select id, email, row_number() over (order by email) i from auth.users where email like 'cap%@t';
+grant select on cap_users to public;
+select t.svc();
+select public.svc_upsert_profile(t.u('a1'), id, email, 'Cap ' || i, (array['admin','bd_executive','viewer'])[1 + (i % 3)::int], true, null, false) from cap_users;
+select t.root();
+select t.eq('13 no user limit: 60 extra users created', (select count(*)::int from profiles where email like 'cap%@t'), 60);
+select t.eq('13 roles stored exactly as requested', (select count(*)::int from profiles where email like 'cap%@t' and role = 'viewer'), 20);
+-- service-only helpers are not callable by users
+select t.login(t.u('a1'));
+select t.denied('13 admin cannot call svc_mark_user_deleted directly', $$select public.svc_mark_user_deleted(t.u('a1'), t.u('b2'))$$);
+select t.denied('13 admin cannot call svc_auth_user_by_email directly', $$select * from public.svc_auth_user_by_email('bd2@t')$$);
+select t.check('13 admin can read last sign-in times', (select count(*) from public.admin_user_signins()) >= 5);
+select t.login(t.u('b1'));
+select t.denied('13 BD cannot read sign-in times', $$select * from public.admin_user_signins()$$);
+select t.login(t.u('c1'));
+select t.denied('13 viewer cannot read sign-in times', $$select * from public.admin_user_signins()$$);
+select t.anon();
+select t.denied('13 anonymous cannot read sign-in times', $$select * from public.admin_user_signins()$$);
+-- the Edge Function's delete: tombstone the profile, then remove the Auth account
+select t.svc();
+select public.svc_mark_user_deleted(t.u('a1'), t.u('b2'));
+select t.root();
+delete from auth.users where id = t.u('b2');
+select t.check('13 deleted user keeps a tombstone profile', exists (select 1 from profiles where id = t.u('b2') and deleted_at is not null and not active and deleted_by = t.u('a1')));
+select t.eq('13 deleted user name marked for history', (select full_name from profiles where id = t.u('b2')), 'BD Two (Deleted user)');
+select t.check('13 calls, activities, follow-ups and audit rows all preserved',
+  (select (select count(*) from call_attempts where user_id = t.u('b2')) = calls
+      and (select count(*) from activities where actor_id = t.u('b2')) = acts
+      and (select count(*) from follow_ups where owner_id = t.u('b2') or created_by = t.u('b2')) = fus
+      and (select count(*) from audit_logs) >= audits from del_before));
+select t.check('13 history still attributed (calls join to the profile)', (select count(*) from call_attempts a join profiles p on p.id = a.user_id where p.id = t.u('b2')) > 0);
+select t.login(t.u('b2'));
+select t.eq('13 deleted user (stale JWT) sees no leads', (select count(*)::int from leads), 0);
+select t.check('13 deleted user is not a member', not public.is_member());
+select t.login(t.u('a1'));
+select t.no_rows('13 tombstone cannot be reactivated by an admin', $$update profiles set active = true where id = t.u('b2') and false$$);
+select t.denied('13 tombstone cannot be reactivated (guard trigger)', $$update profiles set active = true where id = t.u('b2')$$);
+select t.denied('13 tombstone cannot be un-deleted', $$update profiles set deleted_at = null where id = t.u('b2')$$);
+select t.check('13 board report keeps the deleted user for periods with their calls',
+  (select public.admin_report(public.cairo_today() - 1, public.cairo_today()) -> 'calls' -> 'by_user') @> jsonb_build_array(jsonb_build_object('user_id', t.u('b2'))));
+select t.check('13 deleted user no longer listed as current team when they have no calls in the period',
+  not ((select public.admin_report(public.cairo_today() - 30, public.cairo_today() - 10) -> 'calls' -> 'by_user') @> jsonb_build_array(jsonb_build_object('user_id', t.u('b2')))));
+-- email can be reused for a brand-new account
+select t.root();
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-0000000000f2', 'bd2@t');
+select t.svc();
+select public.svc_upsert_profile(t.u('a1'), '00000000-0000-0000-0000-0000000000f2', 'bd2@t', 'BD Two (new)', 'bd_executive', true, null, false);
+select t.root();
+select t.eq('13 email of a deleted user can be reused', (select count(*)::int from profiles where email = 'bd2@t'), 2);
+select t.denied('13 two LIVE profiles can never share an email', $$insert into profiles (id, email, full_name, role) values (gen_random_uuid(), 'bd2@t', 'dup', 'viewer')$$);
+-- undo path (Auth delete failed): restores the profile exactly
+select t.svc();
+select public.svc_mark_user_deleted(t.u('a1'), t.u('c1'));
+select public.svc_unmark_user_deleted(t.u('a1'), t.u('c1'), 'Viewer', true);
+select t.root();
+select t.check('13 undo restores name, active and clears the tombstone', (select full_name = 'Viewer' and active and deleted_at is null from profiles where id = t.u('c1')));
+select t.check('13 user deletion is audited on the profile', exists (select 1 from audit_logs where entity = 'profiles' and entity_id = t.u('b2')::text));
+
 -- result -------------------------------------------------------------------------------------
 \o
 \echo

@@ -1,5 +1,5 @@
 import { supabase, unwrap } from './supabase';
-import { currentLang, t } from './i18n';
+import { currentLang, t, personName } from './i18n';
 import { cairoToday, fmtDate, fmtDateTime, monthRange, weekRange, daysBetween } from './cairo';
 import { STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, PROPOSAL_STATUS, label, proposalCode, CONFIRMATION } from './labels';
 import { instantBounds } from './exportData';
@@ -63,9 +63,9 @@ export async function gatherBoard(kind: BoardKind, range: { from: string; to: st
     ['Proposals created', co.proposals_prepared], ['Proposals sent', co.proposals_sent], ['Proposals under review (now)', underReview],
     ['Accepted proposals', co.accepted], ['Rejected proposals', co.rejected],
   ];
-  const ownerName = new Map<string, string>(c.by_user.map((u) => [u.user_id, u.name]));
+  const ownerName = new Map<string, string>(c.by_user.map((u) => [u.user_id, personName(u.name)]));
   const bd = c.by_user.map((u) => ({
-    name: u.name, calls: u.total, target: u.target, pct: u.achievement_pct, responded: u.responded, unique: u.unique_leads,
+    name: personName(u.name), calls: u.total, target: u.target, pct: u.achievement_pct, responded: u.responded, unique: u.unique_leads,
     meetings: u.meetings_generated, proposals: u.proposals_generated,
     fuDone: fus.filter((x) => x.owner_id === u.user_id && x.completed_at && x.completed_at >= b.gte && x.completed_at < b.lt).length,
     fuOverdue: fus.filter((x) => x.owner_id === u.user_id && x.status === 'open' && x.due_date < today).length,
@@ -96,10 +96,10 @@ function sections(D: BoardData) {
       ['Proposals sent', co.proposals_sent], ['Client responses received', co.proposal_responses], ['Awaiting client response (now)', co.awaiting_responses], ['Negotiation actions', co.negotiations],
       ['Accepted proposals', co.accepted], ['Rejected proposals', co.rejected], ['Won (in period)', co.won], ['Lost (in period)', co.lost], ['Proposal value sent', Number(co.proposal_value_sent)]] as [string, number][]).map(([k, v]) => [t(k), v] as Cell[]),
     followups: ([['Follow-ups due', D.rep.follow_ups.due], ['Completed', D.rep.follow_ups.completed], ['Overdue (in range)', D.rep.follow_ups.overdue], ['Overdue follow-ups (now)', D.rep.follow_ups.open_overdue_total]] as [string, number][]).map(([k, v]) => [t(k), v] as Cell[]),
-    critical: D.rep.critical_follow_ups.map((f) => [f.lead, f.due_date, f.days_overdue, f.owner ?? '', f.notes ?? ''] as Cell[]),
+    critical: D.rep.critical_follow_ups.map((f) => [f.lead, f.due_date, f.days_overdue, personName(f.owner), f.notes ?? ''] as Cell[]),
     awaiting: D.proposalsAwaiting.map((p) => [proposalCode(p.proposal_no), p.leads?.name ?? '', label(PROPOSAL_STATUS, p.status), p.sent_on ?? '', p.sent_on ? daysBetween(p.sent_on, cairoToday()) : '', p.next_follow_up_date ?? '', p.owner] as Cell[]),
     confirm: D.meetingsToConfirm.map((x) => [fmtDateTime(x.scheduled_at), x.leads?.name ?? '', x.meeting_with ?? '', label(CONFIRMATION, x.confirmation_status)] as Cell[]),
-    stale: D.stale.map((l) => [l.name, STAGE_LABEL[l.pipeline_stage], TEMP_LABEL[l.temperature], l.last_activity_at ? fmtDate(l.last_activity_at) : t('Never'), l.owner_name ?? ''] as Cell[]),
+    stale: D.stale.map((l) => [l.name, STAGE_LABEL[l.pipeline_stage], TEMP_LABEL[l.temperature], l.last_activity_at ? fmtDate(l.last_activity_at) : t('Never'), personName(l.owner_name)] as Cell[]),
   };
 }
 

@@ -36,7 +36,7 @@ const psql = (db, file) => sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U
 export function resetDatabase() {
   sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U', 'postgres', '-q', '-c', `drop database if exists ${DB} with (force)`, '-c', `create database ${DB}`]);
   psql(DB, join(root, 'supabase/tests/00_local_stub.sql'));
-  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed', '20261010000009_activity_order_seq', '20261011000010_export_audit']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
+  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed', '20261010000009_activity_order_seq', '20261011000010_export_audit', '20261012000011_user_delete_history']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
   psql(DB, join(here, 'fixtures/seed.sql'));
 }
 
@@ -134,6 +134,7 @@ export async function start() {
         if (route === '/token' && u.searchParams.get('grant_type') === 'password') {
           const [usr] = await q('select * from auth.users where lower(email)=lower($1)', [data.email]);
           if (!usr || usr.password !== data.password || usr.banned) return json(res, req, 400, { error: 'invalid_grant', error_description: 'Invalid login credentials', msg: 'Invalid login credentials', code: 400 });
+          await q('update auth.users set last_sign_in_at = now() where id = $1', [usr.id]);
           return json(res, req, 200, session(usr));
         }
         if (route === '/token' && u.searchParams.get('grant_type') === 'refresh_token') {
@@ -162,6 +163,9 @@ export async function start() {
             const [usr] = await q('insert into auth.users (email, password, raw_user_meta_data) values ($1,$2,$3) returning *', [data.email, data.password ?? null, data.user_metadata ?? {}]); return json(res, req, 200, userJson(usr));
           }
           if (route === '/invite') {
+            // simulate the hosted built-in email provider WITHOUT sending anything: GoTrue rolls the user back on failure
+            if (/ratelimit/i.test(data.email ?? '')) return json(res, req, 429, { code: 429, error_code: 'over_email_send_rate_limit', msg: 'email rate limit exceeded' });
+            if (/smtpfail/i.test(data.email ?? '')) return json(res, req, 500, { code: 500, error_code: 'unexpected_failure', msg: 'Error sending invite email' });
             const dup = await q('select 1 from auth.users where lower(email)=lower($1)', [data.email]); if (dup.length) return json(res, req, 422, { msg: 'User already registered', code: 422 });
             const [usr] = await q('insert into auth.users (email, raw_user_meta_data) values ($1,$2) returning *', [data.email, data.data ?? {}]); sent.push({ kind: 'invite', email: data.email }); return json(res, req, 200, userJson(usr));
           }

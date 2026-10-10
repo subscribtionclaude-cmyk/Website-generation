@@ -62,6 +62,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
+/** Marker the database appends to a deleted user's name (migration 11); shown localized in the UI. */
+export const DELETED_SUFFIX = ' (Deleted user)';
+/** A person's name as stored, with the "(Deleted user)" marker translated. */
+export function personName(name?: string | null): string {
+  if (!name) return '';
+  return name.endsWith(DELETED_SUFFIX) ? `${name.slice(0, -DELETED_SUFFIX.length)} (${t('Deleted user')})` : name;
+}
+
 /** Read-only record whose values are translated on access (keys stay canonical). */
 export function locRecord<K extends string>(src: Record<K, string>): Record<K, string> {
   return new Proxy(src, { get: (o, k) => (typeof k === 'string' && k in o ? t(o[k as K]) : undefined) }) as Record<K, string>;

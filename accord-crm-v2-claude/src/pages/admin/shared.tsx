@@ -4,7 +4,7 @@ import { supabase, unwrap } from '../../lib/supabase';
 import { Kpi, Loading } from '../../components/ui';
 import { fmtDate } from '../../lib/cairo';
 import { downloadCsv } from '../../lib/csv';
-import { t } from '../../lib/i18n';
+import { t, personName } from '../../lib/i18n';
 
 export interface ByUser { user_id: string; name: string; active: boolean; total: number; responded: number; did_not_respond: number; unique_leads: number; response_rate: number | null; target: number; achievement_pct: number | null; remaining: number; meetings_generated: number; proposals_generated: number }
 export interface Report {
@@ -41,7 +41,7 @@ export function CallsSection({ r, showDays = true }: { r: Report; showDays?: boo
       <div className="card table-wrap"><table className="t" aria-label={t('Calls by user')}><thead><tr><th>{t('BD executive')}</th><th className="r">{t('Calls')}</th><th className="r">{t('Responded')}</th><th className="r">{t('Didn\'t')}</th><th className="r">{t('Rate')}</th><th className="r">{t('Unique leads')}</th><th className="r">{t('Target')}</th><th className="r">{t('Achieved')}</th><th className="r">{t('Remaining')}</th><th className="r">{t('Meetings gen.')}</th><th className="r">{t('Proposals gen.')}</th></tr></thead><tbody>
         {c.by_user.length === 0 && <tr><td colSpan={11} className="muted">{t('No users.')}</td></tr>}
         {c.by_user.map((u) => (
-          <tr key={u.user_id}><td>{u.name}{!u.active && <span className="badge"> {t('inactive')}</span>}</td><td className="r num">{u.total}</td><td className="r num">{u.responded}</td><td className="r num">{u.did_not_respond}</td><td className="r num">{pct(u.response_rate)}</td><td className="r num">{u.unique_leads}</td><td className="r num">{u.target || '—'}</td><td className="r num"><b>{pct(u.achievement_pct)}</b></td><td className="r num">{u.target ? u.remaining : '—'}</td><td className="r num">{u.meetings_generated}</td><td className="r num">{u.proposals_generated}</td></tr>))}
+          <tr key={u.user_id}><td>{personName(u.name)}{!u.active && <span className="badge"> {t('inactive')}</span>}</td><td className="r num">{u.total}</td><td className="r num">{u.responded}</td><td className="r num">{u.did_not_respond}</td><td className="r num">{pct(u.response_rate)}</td><td className="r num">{u.unique_leads}</td><td className="r num">{u.target || '—'}</td><td className="r num"><b>{pct(u.achievement_pct)}</b></td><td className="r num">{u.target ? u.remaining : '—'}</td><td className="r num">{u.meetings_generated}</td><td className="r num">{u.proposals_generated}</td></tr>))}
       </tbody></table></div>
       {showDays && c.by_day.length > 1 && (
         <div className="card card-pad col"><h3>{t('Calls per day')}</h3>
@@ -124,7 +124,7 @@ export function CriticalSection({ r }: { r: Report }) {
     <section className="col" aria-label={t('Critical follow-ups')}><h2>{t('Critical follow-ups (overdue)')}</h2>
       <div className="card table-wrap"><table className="t"><thead><tr><th>{t('Lead')}</th><th>{t('Due')}</th><th className="r">{t('Days overdue')}</th><th>{t('Owner')}</th><th>{t('Note')}</th></tr></thead><tbody>
         {r.critical_follow_ups.length === 0 && <tr><td colSpan={5} className="muted">{t('No overdue follow-ups.')}</td></tr>}
-        {r.critical_follow_ups.map((f) => <tr key={f.id}><td><Link to={`/leads/view/?id=${f.lead_id}`}>{f.lead}</Link></td><td>{fmtDate(f.due_date)}</td><td className="r num" style={{ color: 'var(--bad)' }}>{f.days_overdue}</td><td>{f.owner ?? '—'}</td><td>{f.notes}</td></tr>)}
+        {r.critical_follow_ups.map((f) => <tr key={f.id}><td><Link to={`/leads/view/?id=${f.lead_id}`}>{f.lead}</Link></td><td>{fmtDate(f.due_date)}</td><td className="r num" style={{ color: 'var(--bad)' }}>{f.days_overdue}</td><td>{personName(f.owner) || '—'}</td><td>{f.notes}</td></tr>)}
       </tbody></table></div>
     </section>
   );
@@ -134,7 +134,7 @@ export function reportCsv(r: Report): (string | number | null)[][] {
   const rows: (string | number | null)[][] = [];
   rows.push(['ACCORD CRM report', `${r.range.from} to ${r.range.to}`, r.range.timezone, `generated ${r.range.generated_at}`], []);
   rows.push(['CALLS BY USER'], ['User', 'Calls', 'Responded', "Didn't respond", 'Response rate %', 'Unique leads', 'Target', 'Achievement %', 'Remaining', 'Meetings generated', 'Proposals generated']);
-  for (const u of r.calls.by_user) rows.push([u.name, u.total, u.responded, u.did_not_respond, u.response_rate, u.unique_leads, u.target, u.achievement_pct, u.remaining, u.meetings_generated, u.proposals_generated]);
+  for (const u of r.calls.by_user) rows.push([personName(u.name), u.total, u.responded, u.did_not_respond, u.response_rate, u.unique_leads, u.target, u.achievement_pct, u.remaining, u.meetings_generated, u.proposals_generated]);
   rows.push(['TOTAL', r.calls.total, r.calls.responded, r.calls.did_not_respond, r.calls.response_rate, r.calls.unique_leads, r.calls.target, r.calls.achievement_pct, r.calls.remaining], []);
   rows.push(['CALLS BY DAY'], ['Date', 'Calls', 'Responded', "Didn't respond", 'Unique leads', 'Team target']);
   for (const d of r.calls.by_day) rows.push([d.date, d.total, d.responded, d.did_not_respond, d.unique_leads, d.target]);
@@ -143,7 +143,7 @@ export function reportCsv(r: Report): (string | number | null)[][] {
   rows.push([], ['FOLLOW-UPS']); for (const [k, v] of Object.entries(r.follow_ups)) rows.push([k, v]);
   rows.push([], ['PIPELINE'], ['Stage', 'Current', 'Entered in period']); for (const p of r.pipeline) rows.push([p.label, p.current, p.entered]);
   rows.push([], ['WINS / LOSSES'], ['Lead', 'Result', 'At', 'By']); for (const w of r.wins_losses) rows.push([w.lead, w.result, w.at, w.by]);
-  rows.push([], ['CRITICAL FOLLOW-UPS'], ['Lead', 'Due', 'Days overdue', 'Owner', 'Note']); for (const f of r.critical_follow_ups) rows.push([f.lead, f.due_date, f.days_overdue, f.owner, f.notes]);
+  rows.push([], ['CRITICAL FOLLOW-UPS'], ['Lead', 'Due', 'Days overdue', 'Owner', 'Note']); for (const f of r.critical_follow_ups) rows.push([f.lead, f.due_date, f.days_overdue, personName(f.owner), f.notes]);
   return rows;
 }
 export const exportReport = (r: Report, name: string) => downloadCsv(`accord-${name}-${r.range.from}_${r.range.to}.csv`, reportCsv(r));

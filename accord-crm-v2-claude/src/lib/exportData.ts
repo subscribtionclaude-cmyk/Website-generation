@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { t } from './i18n';
+import { t, personName } from './i18n';
 import { addDays, cairoDayStart, cairoToday, fmtDateTime, monthRange, weekRange } from './cairo';
 import {
   label, CONFIRMATION, FORM_STATUS, MEETING_OUTCOMES, MEETING_TYPES, NEXT_STEPS, NOT_ATTENDED_REASONS, NO_RESPONSE_SUBS,
@@ -77,7 +77,7 @@ export async function fetchExportData(sets: DatasetKey[], period: Period, f: Fil
     fetchAll<Row>(() => supabase.from('call_outcomes').select('key,kind').order('key') as unknown as Q),
     fetchAll<Row>(() => supabase.from('activity_types').select('key,label').order('key') as unknown as Q),
   ]);
-  const P = new Map(people.map((p) => [p.id as string, (p.full_name as string) || (p.email as string)]));
+  const P = new Map(people.map((p) => [p.id as string, personName(p.full_name as string) || (p.email as string)]));
 
   step('Reading leads…');
   const leads = await fetchAll<LeadRow & Row>(() => {
@@ -155,7 +155,7 @@ export function buildSheets(sets: DatasetKey[], D: ExportData): Sheet[] {
         TEMP_LABEL[l.temperature] ?? l.temperature, STAGE_LABEL[l.pipeline_stage] ?? l.pipeline_stage, l.archived ? t('Archived') : t('Active'),
         s ? `${lbl(NEXT_STEPS, s.next_step)}${s.next_step_detail ? ` — ${s.next_step_detail}` : ''}` : '', d(l.next_follow_up_date), dt(l.last_activity_at),
         l.total_calls ?? 0, l.responded_calls ?? 0, dt(l.last_call_at), lbl(OUTCOME_LABEL, l.last_call_outcome), dt(l.next_meeting_at),
-        lbl(FORM_STATUS, l.form_status), lbl(PROPOSAL_STATUS, l.proposal_status), milestoneNow(l), l.owner_name ?? '', l.city, l.industry, x.website, x.notes,
+        lbl(FORM_STATUS, l.form_status), lbl(PROPOSAL_STATUS, l.proposal_status), milestoneNow(l), personName(l.owner_name), l.city, l.industry, x.website, x.notes,
         flat(l.legacy), dt(l.created_at), dt(l.updated_at)] as Cell[]; }) }),
     contacts: () => ({ name: t('Contacts'), header: H('Company', 'Lead ID', 'Name', 'Job title', 'Emails', 'Phones', 'LinkedIn', 'Primary', 'Notes', 'Created'),
       rows: D.contacts.map((c) => [company(c), leadNo(c), c.full_name, c.job_title, (c.emails ?? []).join('; '), (c.phones ?? []).join('; '), (c.linkedin ?? []).join('; '), yes(c.is_primary), c.notes, dt(c.created_at)]) }),

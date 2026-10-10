@@ -84,6 +84,16 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
 - **Apply migration 10** (`supabase/migrations/20261011000010_export_audit.sql`, additive: one function `log_export`) before
   deploying the export feature (applied to the hosted project `olanalmpysrwjgfnbejq` on 2026-10-10 and verified). It enforces export permissions server-side and writes the export audit trail; without it exports
   still work for the roles the UI allows, but nothing is audited (the dialog says so).
+- **Apply migration 11, then redeploy the `admin-users` Edge Function** (`supabase/migrations/20261012000011_user_delete_history.sql`).
+  Migration 11 lets a user's login be deleted while their CRM profile stays as a "(Deleted user)" tombstone, so all
+  history keeps its author. It drops the `profiles → auth.users` cascade, adds `deleted_at`/`deleted_by`, a guard trigger,
+  the service-only helpers, `admin_user_signins()`, and changes one line of `admin_report` (deleted BD users drop out of
+  the current team list). It changes no CRM rows. Until it is applied, Delete User reports "apply database migration 11 first"
+  and nothing is changed.
+- **User limits / invitation emails.** The CRM has no user cap. Supabase's built-in email sender allows only a few emails
+  per hour; past that, invitations fail with "Invitation email limit reached…" (the hosted logs showed exactly this:
+  `429 over_email_send_rate_limit`). Use **Temporary password** (no email involved) or configure Custom SMTP in
+  Supabase → Authentication → Emails → SMTP settings to lift the limit.
 - `public/config.js` carries only the public URL + anon key.
 
 Manual steps still required (not possible through the available tooling):

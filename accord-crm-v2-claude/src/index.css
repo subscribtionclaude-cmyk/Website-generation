@@ -561,3 +561,17 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
   :root, :root[data-theme='dark'] { --bg: #fff; --surface: #fff; --surface-2: #f4f4f4; --surface-3: #eee; --text: #000; --text-2: #222; --muted: #444; --line: #bbb; --line-strong: #999; --primary-text: #062d8f; }
   .overlay { display: none; }
 }
+
+/* actions menu (Admin → Users): fixed so table scrolling cannot clip it */
+.menu { position: fixed; z-index: 70; min-width: 220px; max-width: calc(100vw - 16px); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg, 0 12px 32px rgba(0, 0, 0, 0.18)); padding: 4px; display: flex; flex-direction: column; }
+.menu > button { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 12px; border: 0; background: none; color: var(--text); font: inherit; text-align: start; border-radius: 6px; cursor: pointer; }
+.menu > button svg { width: 16px; height: 16px; flex: none; color: var(--subtle); }
+.menu > button:hover, .menu > button:focus-visible { background: var(--surface-3); outline: none; }
+.menu > button.danger { color: var(--bad); }
+.menu > button.danger svg { color: var(--bad); }
+/* key facts list in confirmation dialogs */
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0 0 12px; padding: 10px 14px; background: var(--surface-2, var(--surface-3)); border-radius: var(--radius-sm); }
+.facts dt { color: var(--subtle); font-weight: 600; }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.show-sm { display: none; }
+@media (max-width: 760px) { .hide-sm { display: none; } .show-sm { display: block; } }

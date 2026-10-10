@@ -20,7 +20,7 @@ import { activityText } from '../lib/activityText';
 import { addDays, cairoDayStart, cairoToday, fmtDate, fmtDateTime, fmtRelative } from '../lib/cairo';
 import { label, CONFIRMATION, OUTCOME_LABEL, MEETING_OUTCOMES, NEXT_STEPS, FORM_STATUS, PROPOSAL_STATUS, STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, proposalCode, RESPONSE_OUTCOME } from '../lib/labels';
 import type { LeadRow, Contact, Meeting, FollowUp, Activity, CallAttempt, Proposal, Form } from '../lib/types';
-import { t } from '../lib/i18n';
+import { t, personName } from '../lib/i18n';
 
 const ICONS: Record<string, JSX.Element> = {
   call: <PhoneCall />, lead_created: <Plus />, follow_up_created: <CalendarClock />, follow_up_completed: <CheckCircle2 />, follow_up_rescheduled: <CalendarClock />,
@@ -98,7 +98,7 @@ export default function LeadView() {
     <>
       <PageHead
         title={<span className="row">{l.name}{l.external_lead_id && <span className="muted small">#{l.external_lead_id}</span>}</span>}
-        sub={<span className="row"><TempBadge v={l.temperature} /><StageBadge v={l.pipeline_stage} />{l.owner_name && <span className="muted">{t('Owner: {name}', { name: l.owner_name })}</span>}{l.source === 'google_sheet' && <span className="badge">{t('Imported')}</span>}</span>}
+        sub={<span className="row"><TempBadge v={l.temperature} /><StageBadge v={l.pipeline_stage} />{l.owner_name && <span className="muted">{t('Owner: {name}', { name: personName(l.owner_name) })}</span>}{l.source === 'google_sheet' && <span className="badge">{t('Imported')}</span>}</span>}
         actions={<>
           {isStaff && <button className="btn primary" onClick={() => startCall({ id, name: l.name })} data-testid="profile-call"><Phone /> {t('Call')}</button>}
           {isStaff && <button className="btn" onClick={() => setDlg('followup')}><CalendarClock /> {t('Follow-up')}</button>}
@@ -233,7 +233,7 @@ function Timeline({ leadId }: { leadId: string }) {
         {rows.map((a) => (
           <li key={a.id} className="tl" data-type={a.type}>
             <div className="dot">{ICONS[a.type] ?? <Circle />}</div>
-            <div><div><b>{activityText(a.summary, a.type)}</b></div><div className="muted small">{fmtDateTime(a.occurred_at)} · {fmtRelative(a.occurred_at)}{a.profiles?.full_name ? ` · ${a.profiles.full_name}` : ''}</div></div>
+            <div><div><b>{activityText(a.summary, a.type)}</b></div><div className="muted small">{fmtDateTime(a.occurred_at)} · {fmtRelative(a.occurred_at)}{a.profiles?.full_name ? ` · ${personName(a.profiles.full_name)}` : ''}</div></div>
           </li>
         ))}
       </ul>
@@ -268,7 +268,7 @@ function CallsTab({ leadId }: { leadId: string }) {
           {rows.map((c) => (
             <tr key={c.id}><td className="nowrap">{fmtDateTime(c.called_at)}</td>
               <td><span className={`badge ${c.outcome === 'responded' ? 'ok' : 'bad'}`}>{OUTCOME_LABEL[c.outcome] ?? c.outcome}</span>{c.sub_outcome && <span className="muted small"> · {c.sub_outcome.replace(/_/g, ' ')}</span>}</td>
-              <td>{c.profiles?.full_name}</td><td>{c.notes}</td>
+              <td>{personName(c.profiles?.full_name)}</td><td>{c.notes}</td>
               <td className="r">{(isAdmin || (c.user_id === profile?.id && c.called_at.slice(0, 10) >= today)) && <><button className="btn sm ghost" onClick={() => setEdit(c)} aria-label={t('Edit call')}><Pencil /></button><button className="btn sm ghost" onClick={() => del(c)} aria-label={t('Delete call')}><Trash2 /></button></>}</td></tr>
           ))}
         </tbody></table></div>

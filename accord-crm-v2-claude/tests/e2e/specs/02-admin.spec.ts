@@ -50,14 +50,19 @@ test.describe.serial('Admin / management control centre', () => {
     await ctx.close();
 
     // deactivate => blocked immediately and cannot sign in again
-    page.once('dialog', (d) => d.accept());
-    await row.getByRole('button', { name: 'Deactivate' }).click();
+    await row.getByTestId('user-actions').click();
+    await page.getByRole('menuitem', { name: 'Deactivate' }).click();
+    await page.getByTestId('confirm-status').click();
     await expect(page.getByText('User deactivated')).toBeVisible();
     await expect(row).toContainText('Deactivated');
     const r = await fetch(`${G}/auth/v1/token?grant_type=password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: 'temp@accord.test', password: 'Brand-New-Passw0rd-1' }) });
     expect(r.status).toBe(400);
     // cannot demote or deactivate yourself
-    await expect(page.getByRole('row').filter({ hasText: 'admin@accord.test' }).getByRole('button', { name: 'Deactivate' })).toHaveCount(0);
+    await page.getByRole('row').filter({ hasText: 'admin@accord.test' }).getByTestId('user-actions').click();
+    await expect(page.getByRole('menuitem', { name: 'Edit user' })).toBeVisible();
+    await expect(page.getByRole('menuitem', { name: 'Deactivate' })).toHaveCount(0);
+    await expect(page.getByRole('menuitem', { name: 'Delete user' })).toHaveCount(0);
+    await page.keyboard.press('Escape');
   });
 
   test('targets: effective-dated history', async ({ page }) => {

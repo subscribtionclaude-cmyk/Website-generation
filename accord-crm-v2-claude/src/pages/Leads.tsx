@@ -11,7 +11,7 @@ import { LeadFormDialog } from '../components/LeadForm';
 import { TEMPERATURES, TEMP_LABEL, STAGES, STAGE_LABEL, OUTCOME_LABEL } from '../lib/labels';
 import { fmtDate, fmtRelative, cairoToday, daysBetween } from '../lib/cairo';
 import type { LeadRow } from '../lib/types';
-import { t } from '../lib/i18n';
+import { t, personName } from '../lib/i18n';
 
 const PAGE = 50;
 const SORTS: Record<string, { col: string; asc: boolean; label: string }> = {
@@ -91,7 +91,7 @@ export default function Leads() {
                       <td className="r num nowrap">{l.total_calls ?? 0}<span className="muted small"> ({l.responded_calls ?? 0}✓)</span></td>
                       <td className="nowrap">{l.last_call_at ? <>{fmtRelative(l.last_call_at)} <span className="muted small">{OUTCOME_LABEL[l.last_call_outcome ?? ''] ?? ''}</span></> : <span className="muted">{t('Never')}</span>}</td>
                       <td className="nowrap">{fuCell(l)}</td>
-                      <td className="nowrap">{l.owner_name ?? <span className="muted">—</span>}</td>
+                      <td className="nowrap">{personName(l.owner_name) || <span className="muted">—</span>}</td>
                       <td className="r">{callBtn(l)}</td>
                     </tr>
                   ))}

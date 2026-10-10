@@ -51,6 +51,16 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
   Cairo calendar; weekly = the CRM week Sunday–Saturday. Before any export the browser calls `log_export()` (migration 10): refused
   for viewers/inactive/anonymous, full + board are admin-only, and an audit row (who, type, period, format, filters — never data)
   is written.
+* **Users** — Admin → Users: search, status filter (all / active / deactivated / deleted), last sign-in, 20 per page,
+  one actions menu per row (edit, reset email, temporary password, deactivate/reactivate, delete). All changes go
+  through the `admin-users` Edge Function (service role is server-side only; every call re-checks the caller is an
+  active admin). Errors come back as `{ error, code }` with fixed safe English sentences (translated in the UI). Codes:
+  `email_rate_limit`, `user_exists`, `invalid_email`, `email_send_failed`, `weak_password`, `self`, `last_admin`,
+  `user_deleted`, `permission_denied`, `backend_unavailable`. **Deactivate** keeps the account and can be undone.
+  **Delete** marks the profile as a tombstone, then deletes the Auth account, so sign-in and token refresh stop for
+  good. If the Auth delete fails, the tombstone is rolled back. History rows keep pointing at the tombstone, which
+  shows as "<name> (Deleted user)". A failed invite never leaves a duplicate: an Auth account with no profile that
+  never signed in is removed before retrying.
 * **Settings** — `/settings/?section=profile|appearance|language|security|about`; Admin → Configuration exposes working days, optional call
   outcomes, stage display labels and the company display name — all writes go through admin-only RLS and the existing audit trigger.
 

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { X, Loader2, Inbox } from 'lucide-react';
-import { t } from '../lib/i18n';
+import { X, Loader2, Inbox, MoreHorizontal } from 'lucide-react';
+import { t, personName } from '../lib/i18n';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { TEMP_LABEL, STAGE_LABEL } from '../lib/labels';
@@ -131,7 +131,7 @@ export function useProfiles() {
     },
   });
 }
-export const displayName = (p?: { full_name?: string; email?: string } | null) => (p ? p.full_name || p.email || '—' : '—');
+export const displayName = (p?: { full_name?: string; email?: string } | null) => (p ? personName(p.full_name) || p.email || '—' : '—');
 
 export function UserSelect({ value, onChange, includeAll, allLabel = 'Everyone', onlyBd }: {
   value: string; onChange: (v: string) => void; includeAll?: boolean; allLabel?: string; onlyBd?: boolean;
@@ -197,5 +197,48 @@ export function PageHead({ title, sub, actions }: { title: ReactNode; sub?: Reac
       <div className="grow"><h1>{typeof title === 'string' ? t(title) : title}</h1>{sub && <div className="sub">{typeof sub === 'string' ? t(sub) : sub}</div>}</div>
       {actions && <div className="row">{actions}</div>}
     </div>
+  );
+}
+
+export interface MenuItem { key: string; label: string; icon?: ReactNode; danger?: boolean; onSelect: () => void }
+/** Compact "⋯" actions menu. Rendered position:fixed so a scrolling table cannot clip it; closes on outside click,
+ *  Escape, scroll or resize. Keyboard: Enter/Space opens, arrows move, Escape closes and returns focus. */
+export function ActionsMenu({ label, items, testId }: { label: string; items: (MenuItem | false | null | undefined)[]; testId?: string }) {
+  const [pos, setPos] = useState<null | { top: number; left?: number; right?: number }>(null);
+  const btn = useRef<HTMLButtonElement>(null); const menu = useRef<HTMLDivElement>(null);
+  const list = items.filter(Boolean) as MenuItem[];
+  useEffect(() => {
+    if (!pos) return;
+    const close = (e: Event) => { if (e.type === 'mousedown' && (menu.current?.contains(e.target as Node) || btn.current?.contains(e.target as Node))) return; setPos(null); };
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setPos(null); btn.current?.focus(); }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const els = [...(menu.current?.querySelectorAll<HTMLButtonElement>('[role=menuitem]') ?? [])];
+        const i = els.indexOf(document.activeElement as HTMLButtonElement);
+        els[(i + (e.key === 'ArrowDown' ? 1 : -1) + els.length) % els.length]?.focus();
+      }
+    };
+    document.addEventListener('mousedown', close); window.addEventListener('scroll', close, true); window.addEventListener('resize', close); document.addEventListener('keydown', key);
+    menu.current?.querySelector<HTMLButtonElement>('[role=menuitem]')?.focus();
+    return () => { document.removeEventListener('mousedown', close); window.removeEventListener('scroll', close, true); window.removeEventListener('resize', close); document.removeEventListener('keydown', key); };
+  }, [pos]);
+  function toggle() {
+    if (pos) { setPos(null); return; }
+    const r = btn.current!.getBoundingClientRect(); const rtl = document.documentElement.dir === 'rtl';
+    const top = r.bottom + 4 + 44 * list.length > window.innerHeight ? Math.max(8, r.top - 4 - 44 * list.length) : r.bottom + 4;
+    setPos(rtl ? { top, left: Math.max(8, r.left) } : { top, right: Math.max(8, window.innerWidth - r.right) });
+  }
+  return (
+    <>
+      <button ref={btn} className="btn sm ghost icon" aria-haspopup="menu" aria-expanded={Boolean(pos)} aria-label={label} title={label} onClick={toggle} data-testid={testId}><MoreHorizontal /></button>
+      {pos && (
+        <div ref={menu} className="menu" role="menu" aria-label={label} style={{ top: pos.top, left: pos.left, right: pos.right }}>
+          {list.map((m) => (
+            <button key={m.key} role="menuitem" className={m.danger ? 'danger' : ''} onClick={() => { setPos(null); m.onSelect(); }}>{m.icon}{m.label}</button>
+          ))}
+        </div>
+      )}
+    </>
   );
 }

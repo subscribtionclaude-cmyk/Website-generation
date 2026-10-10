@@ -4,7 +4,8 @@
 import { createClient, type SupabaseClient, type User } from 'npm:@supabase/supabase-js@2';
 
 export class HttpError extends Error {
-  constructor(public status: number, message: string) { super(message); }
+  /** `code` is a stable machine-readable reason the UI can branch on; `message` is a safe, fixed English sentence. */
+  constructor(public status: number, message: string, public code?: string) { super(message); }
 }
 
 export function corsHeaders(req: Request): Record<string, string> {
@@ -34,14 +35,14 @@ export interface AdminContext { user: User; admin: SupabaseClient; email: string
 export async function requireAdmin(req: Request): Promise<AdminContext> {
   const header = req.headers.get('authorization') ?? '';
   const token = header.toLowerCase().startsWith('bearer ') ? header.slice(7).trim() : '';
-  if (!token) throw new HttpError(401, 'Missing bearer token');
+  if (!token) throw new HttpError(401, 'Missing bearer token', 'not_signed_in');
   const admin = serviceClient();
   const { data, error } = await admin.auth.getUser(token);
-  if (error || !data?.user) throw new HttpError(401, 'Invalid or expired session');
+  if (error || !data?.user) throw new HttpError(401, 'Invalid or expired session', 'not_signed_in');
   const { data: profile, error: pErr } = await admin.from('profiles').select('role, active, email').eq('id', data.user.id).maybeSingle();
-  if (pErr) throw new HttpError(500, 'Profile lookup failed');
-  if (!profile || !profile.active) throw new HttpError(403, 'Account is not active in this CRM');
-  if (profile.role !== 'admin') throw new HttpError(403, 'Admin role required');
+  if (pErr) throw new HttpError(503, 'Backend unavailable — please try again shortly', 'backend_unavailable');
+  if (!profile || !profile.active) throw new HttpError(403, 'Account is not active in this CRM', 'permission_denied');
+  if (profile.role !== 'admin') throw new HttpError(403, 'Admin role required', 'permission_denied');
   return { user: data.user, admin, email: profile.email };
 }
 
@@ -51,9 +52,9 @@ export async function handle(req: Request, fn: (req: Request) => Promise<Respons
   try {
     return await fn(req);
   } catch (e) {
-    if (e instanceof HttpError) return json(req, { error: e.message }, e.status);
+    if (e instanceof HttpError) return json(req, { error: e.message, ...(e.code ? { code: e.code } : {}) }, e.status);
     // never echo internals (could contain secrets); log a short message only
     console.error('function error:', e instanceof Error ? e.message : 'unknown');
-    return json(req, { error: 'Internal error' }, 500);
+    return json(req, { error: 'Internal error', code: 'internal' }, 500);
   }
 }

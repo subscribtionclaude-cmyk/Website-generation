@@ -8,7 +8,7 @@ create schema if not exists extensions;
 create schema if not exists auth;
 create schema if not exists storage;
 grant usage on schema public, auth, storage, extensions to anon, authenticated, service_role;
-create table auth.users (id uuid primary key default gen_random_uuid(), email text, password text, banned boolean not null default false, raw_user_meta_data jsonb not null default '{}');
+create table auth.users (id uuid primary key default gen_random_uuid(), email text, password text, banned boolean not null default false, raw_user_meta_data jsonb not null default '{}', last_sign_in_at timestamptz);
 create or replace function auth.uid() returns uuid language sql stable as $$
   select coalesce(nullif(current_setting('request.jwt.claim.sub', true), ''),
                   (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub'))::uuid $$;
