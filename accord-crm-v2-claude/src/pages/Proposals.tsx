@@ -54,7 +54,7 @@ export default function Proposals() {
       <ErrorNote error={props.error ?? forms.error} />
       <div className="card">
         {tab !== 'forms' ? (props.isLoading ? <Loading /> : !props.data?.length ? <Empty>{t('No proposals in this view.')}</Empty> : (
-          <div className="table-wrap"><table className="t" aria-label={t('Proposals')}><thead><tr><th>ID</th><th>{t('Lead')}</th><th>{t('Title')}</th><th>{t('Status')}</th><th className="r">{t('Value')}</th><th>{t('Sent')}</th><th>{t('Client response')}</th><th>{t('Next follow-up')}</th><th /></tr></thead><tbody>
+          <div className="table-wrap"><table className="t" aria-label={t('Proposals')}><thead><tr><th>{t('ID')}</th><th>{t('Lead')}</th><th>{t('Title')}</th><th>{t('Status')}</th><th className="r">{t('Value')}</th><th>{t('Sent')}</th><th>{t('Client response')}</th><th>{t('Next follow-up')}</th><th /></tr></thead><tbody>
             {props.data.map((p) => (
               <tr key={p.id}><td className="nowrap">{proposalCode(p.proposal_no)}</td><td><Link to={`/leads/view/?id=${p.lead_id}`}>{p.leads?.name}</Link></td><td>{p.title}</td>
                 <td><span className="badge stage">{label(PROPOSAL_STATUS, p.status)}</span></td>

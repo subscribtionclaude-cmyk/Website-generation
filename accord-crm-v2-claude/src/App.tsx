@@ -42,7 +42,7 @@ export default function App() {
     return (
       <div className="auth-wrap"><div className="card auth-card">
         <h2>{t('Backend not configured')}</h2>
-        <p className="muted">No Supabase URL / public key is configured. Edit <code>config.js</code> in the deployed files (or set <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> at build time) — see docs/SETUP.md.</p>
+        <p className="muted">{t('No Supabase URL / public key is configured. Edit config.js in the deployed files (or set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY at build time) — see docs/SETUP.md.')}</p>
       </div></div>
     );
   }

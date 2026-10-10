@@ -32,10 +32,10 @@ export default function AdminAudit() {
       <ErrorNote error={q.error} />
       <div className="card">
         {q.isLoading ? <Loading /> : !q.data?.rows.length ? <Empty>{t('No audit entries.')}</Empty> : (
-          <><div className="table-wrap"><table className="t" aria-label={t('Audit log')}><thead><tr><th>{t('When (Cairo)')}</th><th>{t('Actor')}</th><th>{t('Action')}</th><th>{t('Entity')}</th><th>ID</th><th /></tr></thead><tbody>
+          <><div className="table-wrap"><table className="t" aria-label={t('Audit log')}><thead><tr><th>{t('When (Cairo)')}</th><th>{t('Actor')}</th><th>{t('Action')}</th><th>{t('Entity')}</th><th>{t('ID')}</th><th /></tr></thead><tbody>
             {q.data.rows.map((a) => (
               <>
-                <tr key={a.id}><td className="nowrap">{fmtDateTime(a.at)}</td><td>{a.actor_email ?? <span className="muted">{t('system')}</span>}</td><td><b>{a.action}</b></td><td>{a.entity}</td><td className="mono">{a.entity_id?.slice(0, 8)}</td><td className="r"><button className="btn sm ghost" onClick={() => setOpen(open === a.id ? null : a.id)}>{open === a.id ? 'Hide' : 'Diff'}</button></td></tr>
+                <tr key={a.id}><td className="nowrap">{fmtDateTime(a.at)}</td><td>{a.actor_email ?? <span className="muted">{t('system')}</span>}</td><td><code>{a.action}</code></td><td><code>{a.entity}</code></td><td className="mono">{a.entity_id?.slice(0, 8)}</td><td className="r"><button className="btn sm ghost" onClick={() => setOpen(open === a.id ? null : a.id)}>{open === a.id ? t('Hide') : t('Diff')}</button></td></tr>
                 {open === a.id && <tr key={a.id + 'd'}><td colSpan={6}><div className="grid cols-2"><div><div className="label">{t('Old')}</div><pre className="json mono">{JSON.stringify(a.old_value, null, 2) ?? '—'}</pre></div><div><div className="label">{t('New')}</div><pre className="json mono">{JSON.stringify(a.new_value ?? a.meta, null, 2) ?? '—'}</pre></div></div></td></tr>}
               </>))}
           </tbody></table></div><Pager page={page} pageSize={PAGE} total={q.data.total} onPage={setPage} /></>)}

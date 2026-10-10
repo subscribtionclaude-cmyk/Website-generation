@@ -15,7 +15,7 @@ that allows another project. Note the **Project ref**, **Project URL** and the *
 ## 2. Apply the database (pick ONE)
 **A. CLI (recommended):** `supabase login`, then
 `PROJECT_REF=<ref> SITE_URL=https://<your-site>.shipstatic.com ./scripts/provision.sh` — links the project, runs
-`supabase db push` (6 migrations), sets function secrets and deploys both Edge Functions.
+`supabase db push` (all migrations), sets function secrets and deploys both Edge Functions.
 
 **B. SQL editor:** paste `supabase/apply-all.sql` into *SQL Editor* of the empty project and run it; then deploy the two functions
 (`supabase functions deploy admin-users` / `google-sheet-sync`) and set secrets (section 5).
@@ -79,6 +79,8 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
 
 - Project ref: `olanalmpysrwjgfnbejq` (eu-central-1) — URL `https://olanalmpysrwjgfnbejq.supabase.co`
 - Migrations 1–8 applied; Edge Functions `admin-users` and `google-sheet-sync` deployed (verify_jwt on).
+- **Before deploying this frontend, apply migration 9** (`supabase/migrations/20261010000009_activity_order_seq.sql`, additive: adds
+  `activities.seq` + an index for deterministic timeline order). The frontend falls back to the old ordering until it is applied.
 - `public/config.js` carries only the public URL + anon key.
 
 Manual steps still required (not possible through the available tooling):

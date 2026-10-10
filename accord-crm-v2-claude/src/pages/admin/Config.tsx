@@ -60,7 +60,7 @@ export default function AdminConfig() {
             <div className="chips" role="group" aria-label={t('Working days')}>
               {DOW.map((d, i) => (
                 <button key={d} className={`chip ${wd.includes(i) ? 'on' : ''}`} aria-pressed={wd.includes(i)} disabled={busy === 'wd'} onClick={() => toggleDay(i)}
-                  title={t(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][i])}>{d}</button>
+                  title={t(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][i])}>{t(d)}</button>
               ))}
             </div>
           </div>

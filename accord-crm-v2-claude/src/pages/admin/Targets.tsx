@@ -41,10 +41,10 @@ export default function AdminTargets() {
 function SetTarget({ u, current, onClose, toast }: { u: P; current?: number; onClose: () => void; toast: (t: string, k?: 'ok' | 'bad' | 'info') => void }) {
   const [v, setV] = useState(current?.toString() ?? '100'); const [from, setFrom] = useState(cairoToday()); const [err, setErr] = useState<unknown>(null);
   async function save() {
-    try { unwrap(await supabase.rpc('set_user_target', { p_user: u.id, p_target: Number(v), p_from: from })); toast('Target saved', 'ok'); onClose(); } catch (e) { setErr(e); }
+    try { unwrap(await supabase.rpc('set_user_target', { p_user: u.id, p_target: Number(v), p_from: from })); toast(t('Target saved'), 'ok'); onClose(); } catch (e) { setErr(e); }
   }
   return (
-    <Modal narrow title={`Daily call target · ${u.full_name || u.email}`} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
+    <Modal narrow title={t('Daily call target · {name}', { name: u.full_name || u.email })} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <Field label={t('Calls per day')}><input type="number" min="0" max="2000" value={v} onChange={(e) => setV(e.target.value)} /></Field>
       <Field label={t('Effective from (Cairo date)')}><input type="date" value={from} onChange={(e) => setFrom(e.target.value)} /></Field>

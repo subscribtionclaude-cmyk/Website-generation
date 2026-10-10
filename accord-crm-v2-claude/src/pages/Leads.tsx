@@ -51,7 +51,7 @@ export default function Leads() {
     },
   });
 
-  const callBtn = (l: LeadRow) => isStaff && <button className="btn sm primary" onClick={() => startCall({ id: l.id, name: l.name })} aria-label={`Call ${l.name}`} data-testid="lead-call"><Phone /> {t('Call')}</button>;
+  const callBtn = (l: LeadRow) => isStaff && <button className="btn sm primary" onClick={() => startCall({ id: l.id, name: l.name })} aria-label={t('Call {name}', { name: l.name })} data-testid="lead-call"><Phone /> {t('Call')}</button>;
   const fuCell = (l: LeadRow) => l.next_follow_up_date
     ? <span style={{ color: l.next_follow_up_date < today ? 'var(--bad)' : undefined }}>{fmtDate(l.next_follow_up_date)}{l.next_follow_up_date < today ? ` (${t('{n}d late', { n: daysBetween(l.next_follow_up_date, today) })})` : ''}</span> : <span className="muted">—</span>;
 

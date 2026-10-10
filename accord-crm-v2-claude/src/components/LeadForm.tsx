@@ -28,7 +28,7 @@ export function LeadFormDialog({ lead, onClose, onSaved }: { lead?: Partial<Lead
 
   async function save(force = false) {
     setErr(null);
-    if (!name.trim()) { setErr(new Error('Company name is required')); return; }
+    if (!name.trim()) { setErr(new Error(t('Company name is required'))); return; }
     setBusy(true);
     try {
       if (!lead && !force) {
@@ -48,14 +48,14 @@ export function LeadFormDialog({ lead, onClose, onSaved }: { lead?: Partial<Lead
         }
       }
       for (const k of [['leads'], ['lead', id], ['pipeline']]) qc.invalidateQueries({ queryKey: k as string[] });
-      toast(lead ? 'Lead updated' : 'Lead created', 'ok');
+      toast(lead ? t('Lead updated') : t('Lead created'), 'ok');
       onSaved?.(id!); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
 
   return (
-    <Modal wide side title={lead ? `Edit lead · ${lead.name}` : 'New lead'} onClose={onClose}
-      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={() => save()}>{lead ? 'Save changes' : 'Create lead'}</button></>}>
+    <Modal wide side title={lead ? t('Edit lead · {name}', { name: lead.name }) : t('New lead')} onClose={onClose}
+      footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={() => save()}>{lead ? t('Save changes') : t('Create lead')}</button></>}>
       <ErrorNote error={err} />
       {dupe && <div className="notice warn">{t('A lead named')} <b>{dupe.name}</b> {t('already exists.')} <Link to={`/leads/view/?id=${dupe.id}`}>{t('Open it')}</Link> {t('or')} <button className="btn sm" onClick={() => save(true)}>{t('create anyway')}</button></div>}
       <div className="form-grid">

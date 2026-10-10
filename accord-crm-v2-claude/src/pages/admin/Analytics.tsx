@@ -33,7 +33,7 @@ export default function AdminAnalytics() {
 
   return (
     <>
-      <PageHead title={TITLES[focus] ?? 'Analytics'} sub={`${fmtDate(range.from)} – ${fmtDate(range.to)} · Africa/Cairo`} />
+      <PageHead title={t(TITLES[focus] ?? 'Analytics')} sub={<>{fmtDate(range.from)} – {fmtDate(range.to)} · <bdi className="ltr">Africa/Cairo</bdi></>} />
       <div className="row" style={{ marginBottom: 14 }}>{(['today', 'yesterday', 'this_week', 'previous_week', 'this_month', 'previous_month'] as RangePreset[]).map((p) => <button key={p} className={`chip ${preset === p ? 'on' : ''}`} onClick={() => setPreset(p)}>{PRESET_LABELS[p]}</button>)}</div>
       <ErrorNote error={rep.error ?? meetings.error ?? proposals.error ?? leads.error} />
       {rep.isLoading ? <Loading /> : rep.data && (
@@ -43,7 +43,7 @@ export default function AdminAnalytics() {
             <MeetingsSection r={rep.data} />
             {meetings.data && <div className="grid cols-3">
               <Breakdown title={t('By type')} rows={tally(meetings.data, (m) => m.meeting_type)} fmt={(k) => label(MEETING_TYPES, k)} />
-              <Breakdown title={t('Outcome of attended meetings')} rows={tally(meetings.data.filter((m) => m.attendance_status === 'attended'), (m) => m.meeting_outcome)} fmt={(k) => (k === '—' ? 'No outcome recorded' : label(MEETING_OUTCOMES, k))} />
+              <Breakdown title={t('Outcome of attended meetings')} rows={tally(meetings.data.filter((m) => m.attendance_status === 'attended'), (m) => m.meeting_outcome)} fmt={(k) => (k === '—' ? t('No outcome recorded') : label(MEETING_OUTCOMES, k))} />
               <Breakdown title={t('Not-attended reasons')} rows={tally(meetings.data.filter((m) => m.attendance_status === 'not_attended'), (m) => m.not_attended_reason)} fmt={(k) => label(NOT_ATTENDED_REASONS, k)} />
             </div>}</>}
           {focus === 'commercial' && <>

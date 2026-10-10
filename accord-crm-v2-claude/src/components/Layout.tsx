@@ -17,9 +17,10 @@ export function Logo({ dark, className }: { dark?: boolean; className?: string }
   const useDark = dark ?? theme === 'dark';
   return <img className={className} src={useDark ? '/brand/accord-logo-dark.png' : '/brand/accord-logo-light.png'} alt="ACCORD" width={146} height={70} />;
 }
-function Mark() {
+/** Official ACCORD app icon (compact contexts only); the variant follows the active theme. */
+export function AppIcon({ className = 'mark', size = 40 }: { className?: string; size?: number }) {
   const { theme } = useTheme();
-  return <img className="mark" src={theme === 'dark' ? '/brand/accord-mark-dark.png' : '/brand/accord-mark-light.png'} alt="" width={36} height={36} />;
+  return <img className={className} src={theme === 'dark' ? '/brand/accord-icon-dark.png' : '/brand/accord-icon-light.png'} alt="ACCORD" width={size} height={size} />;
 }
 export const initials = (name?: string | null) => (name || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('') || '?';
 
@@ -64,7 +65,7 @@ function Sidebar({ admin }: { admin?: boolean }) {
   const { theme, toggle } = useTheme();
   return (
     <aside className="sidebar">
-      <Link to={admin ? '/admin/' : '/dashboard/'} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><Mark /></Link>
+      <Link to={admin ? '/admin/' : '/dashboard/'} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><AppIcon /></Link>
       {admin && <div className="admin-ribbon" style={{ margin: '0 4px 10px' }} title={t('Management control centre')}><ShieldCheck size={13} /> <span>{t('Management control centre')}</span></div>}
       <nav aria-label={admin ? t('Admin navigation') : t('Main navigation')}>
         {admin
@@ -80,7 +81,7 @@ function Sidebar({ admin }: { admin?: boolean }) {
           <span className="who"><b>{profile?.full_name || profile?.email}</b><span>{profile ? ROLE_LABEL[profile.role] : ''} · {t('Settings')}</span></span>
         </NavLink>
         <div className="foot-actions">
-          <button className="btn ghost sm icon" onClick={toggle} aria-label="Toggle theme" title={theme === 'dark' ? t('Switch to light mode') : t('Switch to dark mode')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
+          <button className="btn ghost sm icon" onClick={toggle} aria-label={t('Toggle theme')} title={theme === 'dark' ? t('Switch to light mode') : t('Switch to dark mode')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
           <button className="btn ghost sm icon" onClick={() => signOut()} aria-label={t('Sign out')} title={t('Sign out')}><LogOut className="flip-rtl" /></button>
         </div>
       </div>
@@ -96,7 +97,7 @@ export function QuickPrefs() {
     <div className="col" style={{ gap: 10 }}>
       <div className="row spread"><span className="label">{t('Appearance')}</span>
         <Segmented<ThemePref> label={t('Appearance')} value={pref} onChange={setPref} options={[
-          { key: 'light', label: t('Light'), icon: <Sun /> }, { key: 'dark', label: t('Dark'), icon: <Moon /> }, { key: 'system', label: t('System'), icon: <Monitor /> }]} /></div>
+          { key: 'system', label: t('System'), icon: <Monitor /> }, { key: 'light', label: t('Light'), icon: <Sun /> }, { key: 'dark', label: t('Dark'), icon: <Moon /> }]} /></div>
       <div className="row spread"><span className="label">{t('Language')}</span>
         <Segmented label={t('Language')} value={lang} onChange={setLang} options={[{ key: 'en', label: 'English' }, { key: 'ar', label: 'العربية' }]} /></div>
     </div>
@@ -128,7 +129,7 @@ function MobileBar({ admin }: { admin?: boolean }) {
     : [...CRM_NAV.filter((i) => !primary.includes(i)), { to: '/settings/', label: 'Settings', icon: <Settings /> }, ...(isAdmin ? [{ to: '/admin/', label: 'Admin dashboard', icon: <ShieldCheck /> }] : [])];
   return (
     <>
-      <nav className="mobilebar" aria-label="Quick navigation">
+      <nav className="mobilebar" aria-label={t('Quick navigation')}>
         {primary.map((i) => <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => (isActive ? 'active' : '')}>{i.icon}{t(i.label.replace(' & Access', ''))}</NavLink>)}
         <button onClick={() => setMore(true)} aria-label={t('More')}><MoreHorizontal />{t('More')}</button>
       </nav>

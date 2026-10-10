@@ -11,8 +11,9 @@ import { t } from '../lib/i18n';
 function useInv() {
   const qc = useQueryClient();
   return (leadId?: string) => {
-    for (const k of [['followups'], ['leads'], ['dashboard']]) qc.invalidateQueries({ queryKey: k });
-    if (leadId) for (const k of [['lead', leadId], ['activities', leadId], ['leadFollowUps', leadId]]) qc.invalidateQueries({ queryKey: k });
+    // resolves once the visible lists have refetched, so the confirmation never appears next to stale data
+    const keys: unknown[][] = [['followups'], ['leads'], ['dashboard'], ...(leadId ? [['lead', leadId], ['activities', leadId], ['leadFollowUps', leadId]] : [])];
+    return Promise.all(keys.map((k) => qc.invalidateQueries({ queryKey: k }))).then(() => undefined);
   };
 }
 
@@ -24,21 +25,21 @@ export function FollowUpFormDialog({ leadId, leadName, editing, onClose, origin 
   const [owner, setOwner] = useState(editing?.owner_id ?? profile!.id);
   const [err, setErr] = useState<unknown>(null); const [busy, setBusy] = useState(false);
   async function save() {
-    setErr(null); if (!date) { setErr(new Error('Choose a date')); return; }
+    setErr(null); if (!date) { setErr(new Error(t('Choose a date'))); return; }
     setBusy(true);
     try {
       const row = { due_date: date, due_time: time || null, notes: notes.trim() || null, owner_id: owner };
       if (editing) unwrap(await supabase.from('follow_ups').update(row).eq('id', editing.id).select('id'));
       else unwrap(await supabase.from('follow_ups').insert({ ...row, lead_id: leadId, title: 'Follow-up', origin, created_by: profile!.id }).select('id'));
-      inv(leadId); toast('Follow-up saved', 'ok'); onClose();
+      await inv(leadId); toast(t('Follow-up saved'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   const td = cairoToday();
   return (
-    <Modal narrow title={`${editing ? 'Reschedule' : 'New'} follow-up · ${leadName}`} onClose={onClose}
+    <Modal narrow title={t(editing ? 'Reschedule follow-up · {name}' : 'New follow-up · {name}', { name: leadName })} onClose={onClose}
       footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
-      <div className="chips">{[['Today', 0], ['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${date === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setDate(addDays(td, n as number))}>{l}</button>)}</div>
+      <div className="chips">{[['Today', 0], ['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${date === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setDate(addDays(td, n as number))}>{t(l as string)}</button>)}</div>
       <div className="form-grid"><Field label={t('Date (Cairo)')}><input type="date" value={date} onChange={(e) => setDate(e.target.value)} /></Field>
         <Field label={t('Time (optional)')}><input type="time" value={time} onChange={(e) => setTime(e.target.value)} /></Field></div>
       <Field label={t('Owner')}><UserSelect value={owner} onChange={setOwner} /></Field>
@@ -57,16 +58,16 @@ export function CompleteFollowUpDialog({ fu, leadName, onClose }: { fu: FollowUp
     setBusy(true); setErr(null);
     try {
       unwrap(await supabase.rpc('complete_follow_up', { p_id: fu.id, p_next_date: withNext && next ? next : null, p_next_note: note || null }));
-      inv(fu.lead_id); toast(withNext && next ? 'Completed — next follow-up scheduled' : 'Follow-up completed', 'ok'); onClose();
+      await inv(fu.lead_id); toast(withNext && next ? t('Completed — next follow-up scheduled') : t('Follow-up completed'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   return (
-    <Modal narrow title={`Complete follow-up · ${leadName}`} onClose={onClose}
+    <Modal narrow title={t('Complete follow-up · {name}', { name: leadName })} onClose={onClose}
       footer={<><button className="btn" disabled={busy} onClick={() => save(false)}>{t('Complete only')}</button><button className="btn primary" disabled={busy || !next} onClick={() => save(true)}>{t('Complete + schedule next')}</button></>}>
       <ErrorNote error={err} />
       {fu.notes && <div className="notice">{fu.notes}</div>}
       <div className="field"><label>{t('Next follow-up')}</label>
-        <div className="chips">{[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${next === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setNext(addDays(td, n as number))}>{l}</button>)}
+        <div className="chips">{[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7], ['In 2 weeks', 14]].map(([l, n]) => <button key={l as string} className={`chip ${next === addDays(td, n as number) ? 'on' : ''}`} onClick={() => setNext(addDays(td, n as number))}>{t(l as string)}</button>)}
           <input type="date" min={td} value={next} onChange={(e) => setNext(e.target.value)} style={{ width: 160 }} aria-label={t('Next follow-up date')} /></div></div>
       <Field label={t('Note for the next follow-up')}><input value={note} onChange={(e) => setNote(e.target.value)} /></Field>
     </Modal>

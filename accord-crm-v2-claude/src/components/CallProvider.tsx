@@ -11,7 +11,7 @@ import { RESPONDED_SUBS, NO_RESPONSE_SUBS } from '../lib/labels';
 import { addDays, cairoToday } from '../lib/cairo';
 import { useActiveSession } from '../lib/hooks';
 import type { Contact } from '../lib/types';
-import { t } from '../lib/i18n';
+import { t, tb } from '../lib/i18n';
 
 export interface CallTarget { id: string; name: string }
 interface Ctx { startCall: (lead: CallTarget) => void }
@@ -73,7 +73,7 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
       if (prev) qc.setQueryData(key, prev);
       callRef.current = null;
       setStep('choose'); setKind(null);
-      toast(`Call NOT saved: ${e.message}`, 'bad');
+      toast(t('Call NOT saved: {message}', { message: e.message }), 'bad');
     });
   }, [contactId, lead.id, profile?.id, qc, session?.id, toast, today]);
 
@@ -105,9 +105,9 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
       qc.invalidateQueries({ queryKey: ['followups'] }); qc.invalidateQueries({ queryKey: ['lead', lead.id] });
       qc.invalidateQueries({ queryKey: ['activities', lead.id] }); qc.invalidateQueries({ queryKey: ['myCallsToday'] }); qc.invalidateQueries({ queryKey: ['leads'] });
       qc.invalidateQueries({ queryKey: ['dashboard'] });
-      toast('Call details saved', 'ok');
+      toast(t('Call details saved'), 'ok');
       if (opts.close !== false) onClose();
-    } catch (e) { toast(`Could not save details: ${(e as Error).message}`, 'bad'); } finally { setBusy(false); }
+    } catch (e) { toast(t('Could not save details: {message}', { message: (e as Error).message }), 'bad'); } finally { setBusy(false); }
   }
 
   if (meetingMode) {
@@ -119,7 +119,7 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
 
   const subs = kind === 'did_not_respond' ? NO_RESPONSE_SUBS : RESPONDED_SUBS;
   return (
-    <Modal title={<span className="row nowrap"><PhoneCall size={18} /> Call · {lead.name}</span>} onClose={onClose} narrow={step === 'choose'}
+    <Modal title={<span className="row nowrap"><PhoneCall size={18} /> {t('Call · {name}', { name: lead.name })}</span>} onClose={onClose} narrow={step === 'choose'}
       footer={step === 'saved' ? <button className="btn primary" onClick={onClose} disabled={busy}>{t('Done')}</button> : undefined}>
       {step === 'choose' && (
         <>
@@ -130,7 +130,7 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
             <Field label={t('Spoke / calling (optional)')}>
               <select value={contactId} onChange={(e) => setContactId(e.target.value)}>
                 <option value="">{t('— not specified —')}</option>
-                {(contacts ?? []).map((c) => <option key={c.id} value={c.id}>{c.full_name || 'Company line'}{c.job_title ? ` · ${c.job_title}` : ''}</option>)}
+                {(contacts ?? []).map((c) => <option key={c.id} value={c.id}>{c.full_name || t('Company line')}{c.job_title ? ` · ${c.job_title}` : ''}</option>)}
               </select>
             </Field>
           )}
@@ -138,22 +138,22 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
             <button className="btn ok" onClick={() => log('responded')} autoFocus data-testid="call-responded"><Phone /> {t('Responded')}<small className="muted" style={{ color: '#fff', opacity: 0.8, fontWeight: 500 }}>R</small></button>
             <button className="btn bad" onClick={() => log('did_not_respond')} data-testid="call-no-response"><PhoneOff /> {t('Didn\'t Respond')}<small style={{ opacity: 0.8, fontWeight: 500 }}>N</small></button>
           </div>
-          <span className="muted small">Saved the moment you tap. {session ? 'Counted in your active calling session.' : ''}</span>
+          <span className="muted small">{t('Saved the moment you tap.')} {session ? t('Counted in your active calling session.') : ''}</span>
         </>
       )}
       {step === 'saved' && (
         <>
-          <div className="notice ok row nowrap"><CheckCircle2 size={18} /> <b>{kind === 'responded' ? 'Responded' : "Didn't respond"}</b> logged. Add details (optional):</div>
+          <div className="notice ok row nowrap"><CheckCircle2 size={18} /> <span>{tb('{outcome} logged. Add details (optional):', { outcome: kind === 'responded' ? t('Responded') : t("Didn't respond") })}</span></div>
           {kind === 'responded' ? (
             <>
               <div className="chips">
-                {subs.map(([k, l]) => <button key={k} className={`chip ${sub === k ? 'on' : ''}`} onClick={() => setSub(sub === k ? '' : k)}>{l}</button>)}
+                {subs.map(([k, l]) => <button key={k} className={`chip ${sub === k ? 'on' : ''}`} onClick={() => setSub(sub === k ? '' : k)}>{t(l as string)}</button>)}
               </div>
               <Field label={t('Note')}><textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('What was discussed?')} /></Field>
               <div className="field"><label>{t('Follow-up')}</label>
                 <div className="chips">
                   {[['Tomorrow', 1], ['In 3 days', 3], ['Next week', 7]].map(([l, n]) => (
-                    <button key={l as string} className={`chip ${fuDate === addDays(today, n as number) ? 'on' : ''}`} onClick={() => setFuDate(fuDate === addDays(today, n as number) ? '' : addDays(today, n as number))}>{l}</button>
+                    <button key={l as string} className={`chip ${fuDate === addDays(today, n as number) ? 'on' : ''}`} onClick={() => setFuDate(fuDate === addDays(today, n as number) ? '' : addDays(today, n as number))}>{t(l as string)}</button>
                   ))}
                   <input type="date" min={today} value={fuDate} onChange={(e) => setFuDate(e.target.value)} style={{ width: 160 }} aria-label={t('Follow-up date')} />
                 </div>
@@ -175,7 +175,7 @@ function CallDialog({ lead, onClose }: { lead: CallTarget; onClose: () => void }
                       if (k === 'retry_later_today') applyDetails({ sub: k, date: today });
                       else if (k === 'tomorrow') applyDetails({ sub: k, date: addDays(today, 1) });
                       else if (k === 'no_retry') applyDetails({ sub: k });
-                    }}>{l}</button>
+                    }}>{t(l as string)}</button>
                 ))}
               </div>
               {sub === 'select_date' && (

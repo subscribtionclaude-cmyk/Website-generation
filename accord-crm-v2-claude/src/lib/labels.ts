@@ -56,6 +56,7 @@ export const ROLE_LABEL: Record<string, string> = locRecord({ admin: 'Admin', bd
 export function label(map: [string, string][] | Record<string, string>, key?: string | null): string {
   if (!key) return '—';
   const m = Array.isArray(map) ? Object.fromEntries(map) : map;
-  return m[key] ?? t(key.replace(/_/g, ' '));
+  const v = m[key];
+  return v ? t(v) : t(key.replace(/_/g, ' ')); // t() also covers inline [key, English] pairs
 }
 export const proposalCode = (n?: number | null) => (n ? `PR-${String(n).padStart(5, '0')}` : '—');

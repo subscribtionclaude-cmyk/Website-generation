@@ -5,7 +5,7 @@ import { supabase, unwrap } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useToast } from '../lib/toast';
 import { Modal, Field, Select, ErrorNote, UserSelect, Loading, Empty } from './ui';
-import { FORM_STATUS, PROPOSAL_STATUS, RESPONSE_OUTCOME, MEETING_TYPES, CONFIRMATION } from '../lib/labels';
+import { label, FORM_STATUS, PROPOSAL_STATUS, RESPONSE_OUTCOME, MEETING_TYPES, CONFIRMATION } from '../lib/labels';
 import { cairoToday, fmtDate, fromLocalInput, addDays } from '../lib/cairo';
 import type { Form, Proposal } from '../lib/types';
 import { t } from '../lib/i18n';
@@ -13,8 +13,9 @@ import { t } from '../lib/i18n';
 export function useInvalidateCommercial() {
   const qc = useQueryClient();
   return (leadId?: string) => {
-    for (const k of [['proposals'], ['forms'], ['leads'], ['dashboard'], ['meetings'], ['followups']]) qc.invalidateQueries({ queryKey: k });
-    if (leadId) for (const k of [['lead', leadId], ['activities', leadId], ['leadCommercial', leadId], ['leadFiles', leadId]]) qc.invalidateQueries({ queryKey: k });
+    // resolves once the visible lists have refetched, so the confirmation never appears next to stale data
+    const keys: unknown[][] = [['proposals'], ['forms'], ['leads'], ['dashboard'], ['meetings'], ['followups'], ...(leadId ? [['lead', leadId], ['activities', leadId], ['leadCommercial', leadId], ['leadFiles', leadId]] : [])];
+    return Promise.all(keys.map((k) => qc.invalidateQueries({ queryKey: k }))).then(() => undefined);
   };
 }
 
@@ -30,7 +31,7 @@ export async function uploadFile(leadId: string, kind: string, file: File, entit
 }
 export async function openFile(path: string) {
   const { data, error } = await supabase.storage.from('crm-files').createSignedUrl(path, 120);
-  if (error || !data) throw new Error(error?.message ?? 'Could not open file');
+  if (error || !data) throw new Error(error?.message ?? t('Could not open file'));
   window.open(data.signedUrl, '_blank', 'noopener');
 }
 
@@ -48,19 +49,19 @@ export function FormDialog({ leadId, leadName, form, meetingId, onClose }: { lea
 
   async function save() {
     setErr(null);
-    if (needSent && !sentOn) { setErr(new Error('Enter the date the form was sent')); return; }
-    if (status === 'completed' && !doneOn) { setErr(new Error('Enter the date the client completed the form')); return; }
-    if (status === 'completed' && !evidence) { setErr(new Error('Confirm the client actually returned the completed form')); return; }
+    if (needSent && !sentOn) { setErr(new Error(t('Enter the date the form was sent'))); return; }
+    if (status === 'completed' && !doneOn) { setErr(new Error(t('Enter the date the client completed the form'))); return; }
+    if (status === 'completed' && !evidence) { setErr(new Error(t('Confirm the client actually returned the completed form'))); return; }
     setBusy(true);
     try {
       const row = { status, required: status !== 'not_required', sent_on: needSent ? sentOn : null, completed_on: status === 'completed' ? doneOn : null, link: link.trim() || null, notes: notes.trim() || null, owner_id: owner };
       if (form) unwrap(await supabase.from('commercial_forms').update(row).eq('id', form.id).select('id'));
       else unwrap(await supabase.from('commercial_forms').insert({ ...row, lead_id: leadId, meeting_id: meetingId ?? null, created_by: profile!.id }).select('id'));
-      inv(leadId); toast('Form saved', 'ok'); onClose();
+      await inv(leadId); toast(t('Form saved'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   return (
-    <Modal title={`${form ? 'Update' : 'Track'} information form · ${leadName}`} onClose={onClose}
+    <Modal title={t(form ? 'Update information form · {name}' : 'Track information form · {name}', { name: leadName })} onClose={onClose}
       footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
@@ -96,8 +97,8 @@ export function ProposalDialog({ leadId, leadName, proposal, onClose, meetingId 
 
   async function save() {
     setErr(null);
-    if (!title.trim()) { setErr(new Error('Title is required')); return; }
-    if (needSent && !sentOn) { setErr(new Error('Enter the date the proposal was sent')); return; }
+    if (!title.trim()) { setErr(new Error(t('Title is required'))); return; }
+    if (needSent && !sentOn) { setErr(new Error(t('Enter the date the proposal was sent'))); return; }
     setBusy(true);
     try {
       const row: Record<string, unknown> = {
@@ -113,11 +114,11 @@ export function ProposalDialog({ leadId, leadName, proposal, onClose, meetingId 
         const path = await uploadFile(leadId, 'proposal', f, 'proposal', id, profile!.id);
         unwrap(await supabase.from('proposals').update({ file_path: path }).eq('id', id).select('id'));
       }
-      inv(leadId); toast('Proposal saved', 'ok'); onClose();
+      await inv(leadId); toast(t('Proposal saved'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   return (
-    <Modal wide title={`${proposal ? 'Edit' : 'New'} proposal · ${leadName}`} onClose={onClose}
+    <Modal wide title={t(proposal ? 'Edit proposal · {name}' : 'New proposal · {name}', { name: leadName })} onClose={onClose}
       footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
@@ -129,8 +130,8 @@ export function ProposalDialog({ leadId, leadName, proposal, onClose, meetingId 
         <Field label={t('Prepared date')}><input type="date" value={preparedOn} onChange={(e) => setPreparedOn(e.target.value)} /></Field>
         {needSent && <Field label={t('Sent date')}><input type="date" max={cairoToday()} value={sentOn} onChange={(e) => setSentOn(e.target.value)} /></Field>}
         <Field label={t('Next follow-up')}><input type="date" value={nextFu} onChange={(e) => setNextFu(e.target.value)} /></Field>
-        <Field label={t('Linked information form')}><select value={formId} onChange={(e) => setFormId(e.target.value)}><option value="">{t('— none —')}</option>{(forms ?? []).map((f) => <option key={f.id} value={f.id}>{f.status.replace(/_/g, ' ')} · {fmtDate(f.created_at)}</option>)}</select></Field>
-        <Field label={proposal?.file_path ? 'Replace proposal file' : 'Proposal file'} full><input ref={fileRef} type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,image/*" /></Field>
+        <Field label={t('Linked information form')}><select value={formId} onChange={(e) => setFormId(e.target.value)}><option value="">{t('— none —')}</option>{(forms ?? []).map((f) => <option key={f.id} value={f.id}>{label(FORM_STATUS, f.status)} · {fmtDate(f.created_at)}</option>)}</select></Field>
+        <Field label={proposal?.file_path ? t('Replace proposal file') : t('Proposal file')} full><input ref={fileRef} type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,image/*" /></Field>
         <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
       </div>
     </Modal>
@@ -148,19 +149,19 @@ export function ProposalResponseDialog({ proposal, leadName, onClose }: { propos
   const [err, setErr] = useState<unknown>(null); const [busy, setBusy] = useState(false);
   async function save() {
     setErr(null);
-    if (!outcome) { setErr(new Error('Select the client response')); return; }
-    if (meet && !mAt) { setErr(new Error('Enter the review meeting date and time')); return; }
+    if (!outcome) { setErr(new Error(t('Select the client response'))); return; }
+    if (meet && !mAt) { setErr(new Error(t('Enter the review meeting date and time'))); return; }
     setBusy(true);
     try {
       unwrap(await supabase.rpc('record_proposal_response', {
         p_proposal: proposal.id, p_outcome: outcome, p_response_on: on, p_notes: notes || null, p_follow_up_date: fu || null,
         p_review_meeting: meet ? { scheduled_at: fromLocalInput(mAt), meeting_type: mType, confirmation_status: mConf, meeting_with: mWith || null, purpose: 'Proposal Review Meeting' } : null,
       }));
-      inv(proposal.lead_id); toast('Client response recorded', 'ok'); onClose();
+      await inv(proposal.lead_id); toast(t('Client response recorded'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   return (
-    <Modal wide title={`Client response · ${leadName}`} onClose={onClose}
+    <Modal wide title={t('Client response · {name}', { name: leadName })} onClose={onClose}
       footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{t('Record response')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid">
@@ -168,7 +169,7 @@ export function ProposalResponseDialog({ proposal, leadName, onClose }: { propos
         <Field label={t('Date of response')}><input type="date" max={cairoToday()} value={on} onChange={(e) => setOn(e.target.value)} /></Field>
         <Field label={t('Notes')} full><textarea value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
         <Field label={t('Next follow-up')}><input type="date" min={cairoToday()} value={fu} onChange={(e) => setFu(e.target.value)} /></Field>
-        <div className="row" style={{ alignItems: 'flex-end' }}>{[['3 days', 3], ['1 week', 7]].map(([l, n]) => <button key={l as string} className="chip" onClick={() => setFu(addDays(cairoToday(), n as number))}>{l}</button>)}</div>
+        <div className="row" style={{ alignItems: 'flex-end' }}>{[['3 days', 3], ['1 week', 7]].map(([l, n]) => <button key={l as string} className="chip" onClick={() => setFu(addDays(cairoToday(), n as number))}>{t(l as string)}</button>)}</div>
       </div>
       <label className="row"><input type="checkbox" checked={meet} onChange={(e) => setMeet(e.target.checked)} /> <b>{t('Another meeting required')}</b> {t('(creates a Proposal Review Meeting)')}</label>
       {meet && (
@@ -190,11 +191,11 @@ export function FilesPanel({ leadId }: { leadId: string }) {
   const { data, isLoading } = useQuery({ queryKey: ['leadFiles', leadId], queryFn: async () => unwrap(await supabase.from('attachments').select('*').eq('lead_id', leadId).order('created_at', { ascending: false })) as { id: string; path: string; file_name: string; size_bytes: number | null; entity_type: string; created_at: string; uploaded_by: string | null }[] });
   async function upload(files: FileList | null) {
     if (!files?.length) return; setBusy(true);
-    try { for (const f of Array.from(files)) await uploadFile(leadId, 'attachment', f, 'lead', null, profile!.id); qc.invalidateQueries({ queryKey: ['leadFiles', leadId] }); toast('File uploaded', 'ok'); }
+    try { for (const f of Array.from(files)) await uploadFile(leadId, 'attachment', f, 'lead', null, profile!.id); qc.invalidateQueries({ queryKey: ['leadFiles', leadId] }); toast(t('File uploaded'), 'ok'); }
     catch (e) { toast((e as Error).message, 'bad'); } finally { setBusy(false); if (ref.current) ref.current.value = ''; }
   }
   async function remove(a: { id: string; path: string }) {
-    if (!confirm('Delete this file?')) return;
+    if (!confirm(t('Delete this file?'))) return;
     const r = await supabase.storage.from('crm-files').remove([a.path]); if (r.error) { toast(r.error.message, 'bad'); return; }
     const d = await supabase.from('attachments').delete().eq('id', a.id); if (d.error) { toast(d.error.message, 'bad'); return; }
     qc.invalidateQueries({ queryKey: ['leadFiles', leadId] });
@@ -202,7 +203,7 @@ export function FilesPanel({ leadId }: { leadId: string }) {
   return (
     <div className="card">
       <div className="card-head"><h2 className="row"><Paperclip size={16} /> {t('Files')}</h2>
-        {isStaff && <><input ref={ref} type="file" multiple hidden onChange={(e) => upload(e.target.files)} /><button className="btn sm" disabled={busy} onClick={() => ref.current?.click()}><Upload /> {busy ? 'Uploading…' : 'Upload'}</button></>}</div>
+        {isStaff && <><input ref={ref} type="file" multiple hidden onChange={(e) => upload(e.target.files)} /><button className="btn sm" disabled={busy} onClick={() => ref.current?.click()}><Upload /> {busy ? t('Uploading…') : t('Upload')}</button></>}</div>
       {isLoading ? <Loading /> : !data?.length ? <Empty>{t('No files yet. Files are stored privately and opened with a short-lived link.')}</Empty> : (
         <table className="t"><tbody>
           {data.map((a) => (

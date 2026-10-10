@@ -395,6 +395,25 @@ select t.login(t.u('b2'));
 select t.no_rows('10 other BD cannot delete a file they do not own', $$delete from storage.objects where bucket_id = 'crm-files'$$);
 select t.root();
 
+-- 11. TIMELINE ORDER IS DETERMINISTIC FOR SAME-TIMESTAMP ACTIVITIES (migration 9) ------------------
+-- 40 events in ONE transaction share one now(); the newest must come first and the order must be insertion order.
+create temp table tie_lead as select id from public.leads order by id limit 1;
+begin;
+insert into public.activities (lead_id, type, summary) select (select id from tie_lead), 'lead_created', 'tie-' || g from generate_series(1, 40) g;
+commit;
+select t.eq('11 same-timestamp events share one timestamp',
+  (select count(distinct occurred_at)::int from public.activities where summary like 'tie-%'), 1);
+select t.eq('11 newest same-timestamp event is first (occurred_at desc, seq desc)',
+  (select summary from public.activities where lead_id = (select id from tie_lead) order by occurred_at desc, seq desc limit 1), 'tie-40');
+select t.eq('11 first timeline page (30) holds the 30 most recent inserts, in insertion order',
+  (select string_agg(summary, ',') from (select summary from public.activities where lead_id = (select id from tie_lead)
+     order by occurred_at desc, seq desc limit 30) x),
+  (select string_agg('tie-' || g, ',' order by g desc) from generate_series(11, 40) g));
+select t.eq('11 ordering is stable across repeated reads',
+  (select string_agg(id::text, ',') from (select id from public.activities where lead_id = (select id from tie_lead) order by occurred_at desc, seq desc limit 30) x),
+  (select string_agg(id::text, ',') from (select id from public.activities where lead_id = (select id from tie_lead) order by occurred_at desc, seq desc limit 30) x));
+select t.check('11 seq is unique and not null', (select count(*) = count(distinct seq) and count(*) filter (where seq is null) = 0 from public.activities));
+
 -- result -------------------------------------------------------------------------------------
 \o
 \echo

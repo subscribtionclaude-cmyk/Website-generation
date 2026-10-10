@@ -16,9 +16,13 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
 * **Theme** — one source of truth: `src/lib/theme.tsx` (`ThemeProvider`, preference `light | dark | system` in `localStorage['accord-theme']`).
   The *resolved* theme is always written to `<html data-theme>`; CSS reads only that attribute. `index.html` resolves the same key before
   first paint (no flash), sets `color-scheme`, and the provider keeps `<meta name="theme-color">` in sync. "System" follows OS changes live.
-* **Logo** — `Logo` in `components/Layout.tsx` always follows the active theme. `public/brand/accord-logo-dark.png` is a high-contrast
-  recolour of the supplied artwork (`scripts/make-brand-variants.py`; the original dark file is kept, not deployed, as `assets-src/accord-logo-dark-original.png`);
-  `accord-mark-*.png` (the wordmark's "A") is used in the collapsed tablet sidebar.
+* **Logo** — full wordmark for large brand areas (sidebar, auth, start-up, mobile header): `Logo` in `components/Layout.tsx`, always
+  following the active theme. `public/brand/accord-logo-dark.png` is a high-contrast recolour of the supplied wordmark
+  (`scripts/make-brand-variants.py`; original kept, not deployed, in `assets-src/`).
+* **Official app icon (locked)** — compact/app contexts use ONLY the approved files in `assets-src/official-icons/`
+  (`accord-icon-light.png`, `accord-icon-dark.png`). `scripts/make-icons.py` derives every size by crop/resize only (the dark icon
+  is masked to its own rounded square): `public/brand/accord-icon-{light,dark}.png` (collapsed iPad sidebar, `AppIcon`),
+  PWA 192/512/maskable + apple-touch-icon (light icon, opaque), favicons `favicon-*.png` / `favicon-dark-*.png` (swapped with the theme).
 * **Language** — `src/lib/i18n.tsx`: English is the source; `t('English phrase', vars)` looks the phrase up in `src/lib/i18n-ar.ts`
   (missing keys fall back to English). Preference in `localStorage['accord-lang']`; `<html lang dir>` set before first paint and on change.
   Arabic = RTL via CSS logical properties (no per-component overrides). Emails / phones / URLs / IDs / codes stay LTR (`bdi`, `.ltr`,
@@ -26,6 +30,13 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
   admin-edited stage labels are shown as entered. Dates use `ar-EG` with Latin digits.
 * **Design tokens** — `src/index.css` `:root` (light) and `:root[data-theme='dark']` (layered navy surfaces: bg → sidebar → surface →
   surface-2 → surface-3). Components use tokens only (`--primary-text` for links/active states, `--ring` for focus).
+* **Cross-device preferences** — `src/lib/prefsSync.tsx`: after sign-in the user's own Supabase Auth metadata
+  (`user_metadata.accord_theme / accord_lang`) is fetched and applied; changes made while signed in are written back. localStorage
+  still drives first paint, sign-in pages work signed-out, and no table/schema is involved.
+* **Timeline order** — `occurred_at desc, seq desc` (migration 9 adds the insertion number `seq`); same-transaction events keep their
+  real insertion order. Database-written summaries are localised for display only (`src/lib/activityText.ts`).
+* **Dialogs** — `Modal` focuses its first field once on open (an earlier version re-focused on every parent re-render, which moved typed
+  text into the wrong field when a refetch landed). Save dialogs wait for the affected lists to refresh before confirming.
 * **Settings** — `/settings/?section=profile|appearance|language|security|about`; Admin → Configuration exposes working days, optional call
   outcomes, stage display labels and the company display name — all writes go through admin-only RLS and the existing audit trigger.
 
@@ -76,4 +87,5 @@ Sheet2 → `projects` (never creates leads, never auto-links to companies). Repe
 * Edge Function tests ran under Deno 2.9 against a mocked GoTrue/Google; they have not been executed on hosted Supabase.
 * No realtime subscriptions: dashboard metrics update after each successful write and refresh every 60 s.
 * UI translation covers the shell, auth, settings, dashboard, all lists, dialogs, reports and admin pages. Free-text data, activity
-  summaries written by the database (timeline) and server error messages are shown as stored (English).
+  summaries are localised at display time; server/Supabase error messages, user-entered data, default record titles stored in the
+  database (e.g. "Facility Management Proposal") and CSV export headers remain as stored / English.

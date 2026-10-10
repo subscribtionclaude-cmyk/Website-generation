@@ -23,7 +23,7 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
   const Icon = m.meeting_type === 'online' ? Video : m.meeting_type === 'phone' ? PhoneCall : MapPin;
 
   async function patch(p: Record<string, unknown>, msg: string) {
-    try { unwrap(await supabase.from('meetings').update(p).eq('id', m.id).select('id')); inv(m.lead_id); toast(msg, 'ok'); } catch (e) { toast((e as Error).message, 'bad'); }
+    try { unwrap(await supabase.from('meetings').update(p).eq('id', m.id).select('id')); await inv(m.lead_id); toast(t(msg), 'ok'); } catch (e) { toast((e as Error).message, 'bad'); }
   }
   const statusBadge = m.attendance_status === 'attended' ? <span className="badge ok">{t('Attended')}</span>
     : m.attendance_status === 'not_attended' ? <span className="badge bad">{t('Not attended')}</span>
@@ -36,7 +36,7 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
       <div className="row spread nowrap" style={{ alignItems: 'flex-start' }}>
         <div className="col" style={{ gap: 2 }}>
           {showLead && <Link to={`/leads/view/?id=${m.lead_id}`}><b>{leadName}</b></Link>}
-          <div className="row"><Icon size={14} /><b className="num">{m.scheduled_at ? fmtDateTime(m.scheduled_at) : 'Date not set yet'}</b>
+          <div className="row"><Icon size={14} /><b className="num">{m.scheduled_at ? fmtDateTime(m.scheduled_at) : t('Date not set yet')}</b>
             <span className="muted">· {label(MEETING_TYPES, m.meeting_type)}{m.meeting_with ? ` · ${m.meeting_with}` : ''}</span></div>
           {(m.location || m.online_link) && <span className="muted small">{m.online_link ? <a href={m.online_link} target="_blank" rel="noopener noreferrer">{m.online_link}</a> : m.location}</span>}
           {m.purpose && <span className="small">{m.purpose}</span>}
@@ -63,11 +63,11 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
             <button className={`btn sm ${awaiting ? 'primary' : ''}`} onClick={() => setDlg('att')} data-testid="record-outcome">{t('Attended / Not attended')}</button>
             <button className="btn sm" onClick={() => setDlg('res')}><RefreshCcw /> {t('Reschedule')}</button>
             <button className="btn sm ghost" onClick={() => setDlg('edit')}><Pencil /> {t('Edit')}</button>
-            <button className="btn sm ghost" onClick={() => { if (confirm('Cancel this meeting?')) patch({ status: 'cancelled' }, 'Meeting cancelled'); }}><XCircle /> {t('Cancel')}</button>
+            <button className="btn sm ghost" onClick={() => { if (confirm(t('Cancel this meeting?'))) patch({ status: 'cancelled' }, 'Meeting cancelled'); }}><XCircle /> {t('Cancel')}</button>
           </>
         )}
-        {can && m.attendance_status === 'attended' && <button className="btn sm" onClick={() => setDlg('out')}><FileText /> {m.minutes_of_meeting ? 'Edit minutes' : 'Add minutes'}</button>}
-        {(m.minutes_of_meeting || m.summary) && <button className="btn sm ghost" onClick={() => setOpen(!open)}>{open ? 'Hide minutes' : 'View minutes'}</button>}
+        {can && m.attendance_status === 'attended' && <button className="btn sm" onClick={() => setDlg('out')}><FileText /> {m.minutes_of_meeting ? t('Edit minutes') : t('Add minutes')}</button>}
+        {(m.minutes_of_meeting || m.summary) && <button className="btn sm ghost" onClick={() => setOpen(!open)}>{open ? t('Hide minutes') : t('View minutes')}</button>}
       </div>
       {dlg === 'att' && <AttendanceDialog meeting={m} leadName={leadName} onClose={(r) => { setDlg(r === 'attended' ? 'out' : null); }} />}
       {dlg === 'out' && <OutcomeDialog meeting={m} leadName={leadName} onClose={() => setDlg(null)} />}

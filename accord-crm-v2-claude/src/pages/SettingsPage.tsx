@@ -93,7 +93,7 @@ function ProfileSection() {
 function AppearanceSection() {
   const { pref, theme, setPref } = useTheme();
   const opts: { key: ThemePref; label: string; icon: ReactNode }[] = [
-    { key: 'light', label: 'Light', icon: <Sun /> }, { key: 'dark', label: 'Dark', icon: <Moon /> }, { key: 'system', label: 'System', icon: <Monitor /> },
+    { key: 'system', label: 'System', icon: <Monitor /> }, { key: 'light', label: 'Light', icon: <Sun /> }, { key: 'dark', label: 'Dark', icon: <Moon /> },
   ];
   return (
     <Panel title={t('Appearance')} desc={t('Choose a theme. “System” follows your device setting automatically.')}>

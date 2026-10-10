@@ -28,6 +28,7 @@
         d.style.colorScheme = dark ? 'dark' : 'light';
         d.setAttribute('lang', l);
         d.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+        if (dark) document.querySelectorAll('link[rel="icon"]').forEach(function (k) { k.setAttribute('href', k.getAttribute('href').replace(/favicon-(\d+)\.png/, 'favicon-dark-$1.png')); });
       })();
     </script>
     <style>

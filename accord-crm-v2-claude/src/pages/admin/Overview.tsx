@@ -30,7 +30,7 @@ export default function AdminOverview() {
             <div className="card card-pad col"><div className="row spread"><h2>{t('Google Sheet sync')}</h2><Link to="/admin/sync/">{t('Open')}</Link></div>
               {sync.data ? <span>Last sync {fmtDateTime(sync.data.started_at)} — <b>{sync.data.status}</b> · {sync.data.inserted} new, {sync.data.updated} updated, {sync.data.conflicts} conflicts, {sync.data.errors} errors</span> : <span className="muted">{t('No sync has run yet.')}</span>}</div>
             <div className="card card-pad col"><div className="row spread"><h2>{t('Recent audit activity')}</h2><Link to="/admin/audit/">{t('Open')}</Link></div>
-              {audit.data?.map((a) => <div key={a.id} className="small"><span className="muted">{fmtDateTime(a.at)}</span> · {a.actor_email ?? 'system'} · <b>{a.action}</b> {a.entity}</div>)}
+              {audit.data?.map((a) => <div key={a.id} className="small"><span className="muted">{fmtDateTime(a.at)}</span> · {a.actor_email ?? t('system')} · <code>{a.action}</code> <code>{a.entity}</code></div>)}
               {audit.data?.length === 0 && <span className="muted">{t('No entries yet.')}</span>}</div>
           </div>
           <CriticalSection r={r} />

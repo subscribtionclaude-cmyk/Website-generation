@@ -36,7 +36,7 @@ const psql = (db, file) => sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U
 export function resetDatabase() {
   sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U', 'postgres', '-q', '-c', `drop database if exists ${DB} with (force)`, '-c', `create database ${DB}`]);
   psql(DB, join(root, 'supabase/tests/00_local_stub.sql'));
-  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
+  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed', '20261010000009_activity_order_seq']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
   psql(DB, join(here, 'fixtures/seed.sql'));
 }
 
@@ -147,6 +147,8 @@ export async function start() {
         if (route === '/user' && req.method === 'PUT') {
           const c = verifyJwt(bearer); if (!c) return json(res, req, 401, { msg: 'invalid JWT' });
           if (data.password) await q('update auth.users set password=$2 where id::text=$1', [c.sub, data.password]);
+          // like GoTrue: `data` is merged into the user's own metadata
+          if (data.data && typeof data.data === 'object') await q("update auth.users set raw_user_meta_data = coalesce(raw_user_meta_data, '{}'::jsonb) || $2::jsonb where id::text=$1", [c.sub, JSON.stringify(data.data)]);
           const [usr] = await q('select * from auth.users where id::text=$1', [c.sub]); return json(res, req, 200, userJson(usr));
         }
         if (route === '/logout') { res.writeHead(204, cors(req)); return res.end(); }

@@ -16,8 +16,9 @@ import { MeetingFormDialog } from '../components/meetings';
 import { FollowUpFormDialog, CompleteFollowUpDialog } from '../components/followups';
 import { FormDialog, ProposalDialog, ProposalResponseDialog, FilesPanel, useInvalidateCommercial, openFile } from '../components/commercial';
 import { computeMilestones } from '../lib/milestones';
+import { activityText } from '../lib/activityText';
 import { addDays, cairoDayStart, cairoToday, fmtDate, fmtDateTime, fmtRelative } from '../lib/cairo';
-import { label, OUTCOME_LABEL, MEETING_OUTCOMES, NEXT_STEPS, FORM_STATUS, PROPOSAL_STATUS, STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, proposalCode, RESPONSE_OUTCOME } from '../lib/labels';
+import { label, CONFIRMATION, OUTCOME_LABEL, MEETING_OUTCOMES, NEXT_STEPS, FORM_STATUS, PROPOSAL_STATUS, STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, proposalCode, RESPONSE_OUTCOME } from '../lib/labels';
 import type { LeadRow, Contact, Meeting, FollowUp, Activity, CallAttempt, Proposal, Form } from '../lib/types';
 import { t } from '../lib/i18n';
 
@@ -51,7 +52,7 @@ export default function LeadView() {
     queryFn: async () => {
       const { data, error } = await supabase.from('lead_list_v').select('*').eq('id', id).maybeSingle();
       if (error) throw new Error(error.message);
-      if (!data) throw new Error('Lead not found or you do not have access');
+      if (!data) throw new Error(t('Lead not found or you do not have access'));
       const extra = await supabase.from('leads').select('website,notes,address').eq('id', id).maybeSingle();
       return { ...(data as LeadRow), ...(extra.data ?? {}) } as LeadRow & { website: string | null; notes: string | null; address: string | null };
     },
@@ -88,7 +89,7 @@ export default function LeadView() {
   const canEdit = isAdmin || (isStaff && (l.owner_id === null || l.owner_id === profile?.id));
   const invalidate = () => { for (const k of [['lead', id], ['leads'], ['activities', id], ['pipeline']]) qc.invalidateQueries({ queryKey: k }); };
   async function setField(patch: Record<string, unknown>, msg: string) {
-    try { unwrap(await supabase.from('leads').update(patch).eq('id', id).select('id')); invalidate(); toast(msg, 'ok'); } catch (e) { toast((e as Error).message, 'bad'); }
+    try { unwrap(await supabase.from('leads').update(patch).eq('id', id).select('id')); invalidate(); toast(t(msg), 'ok'); } catch (e) { toast((e as Error).message, 'bad'); }
   }
   const ms = computeMilestones(l);
   const lastProposal = commercial.data?.proposals[0]; const lastForm = commercial.data?.forms[0];
@@ -108,7 +109,7 @@ export default function LeadView() {
       {l.suggested_stage && canEdit && (
         <div className="notice warn row spread" style={{ marginBottom: 12 }} data-testid="stage-suggestion">
           <span><Sparkles size={14} /> {t('Based on recorded activity, consider moving this lead to')} <b>{STAGE_LABEL[l.suggested_stage]}</b>{t('. Nothing changes until you confirm.')}</span>
-          <button className="btn sm primary" onClick={() => { if (confirm(`Move ${l.name} to ${STAGE_LABEL[l.suggested_stage!]}?`)) setField({ pipeline_stage: l.suggested_stage }, 'Pipeline stage updated'); }}>{t('Apply')}</button>
+          <button className="btn sm primary" onClick={() => { if (confirm(t('Move {name} to {suggestedstage}?', { name: l.name, suggestedstage: STAGE_LABEL[l.suggested_stage!] }))) setField({ pipeline_stage: l.suggested_stage }, 'Pipeline stage updated'); }}>{t('Apply')}</button>
         </div>
       )}
 
@@ -138,7 +139,7 @@ export default function LeadView() {
         <div className="card card-pad col">
           <h3>{t('Meetings & commercial')}</h3>
           <dl className="kv">
-            <dt>{t('Next meeting')}</dt><dd>{l.next_meeting_at ? <>{fmtDateTime(l.next_meeting_at)} <span className={`badge ${l.next_meeting_confirmation === 'confirmed' ? 'ok' : 'warn'}`}>{l.next_meeting_confirmation}</span></> : '—'}</dd>
+            <dt>{t('Next meeting')}</dt><dd>{l.next_meeting_at ? <>{fmtDateTime(l.next_meeting_at)} <span className={`badge ${l.next_meeting_confirmation === 'confirmed' ? 'ok' : 'warn'}`}>{label(CONFIRMATION, l.next_meeting_confirmation)}</span></> : '—'}</dd>
             <dt>{t('Last meeting outcome')}</dt><dd>{label(MEETING_OUTCOMES, l.last_meeting_outcome)}</dd>
             <dt>{t('Information form')}</dt><dd>{label(FORM_STATUS, l.form_status)}</dd>
             <dt>{t('Proposal')}</dt><dd>{label(PROPOSAL_STATUS, l.proposal_status)}{l.proposal_response ? <span className="muted"> · {label([...RESPONSE_OUTCOME, ['awaiting_response', 'Awaiting response'], ['no_response_yet', 'No response yet']], l.proposal_response)}</span> : ''}</dd>
@@ -212,10 +213,14 @@ function Timeline({ leadId }: { leadId: string }) {
   const q = useInfiniteQuery({
     queryKey: ['activities', leadId], initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
-      const { data, error } = await supabase.from('activities').select('*, profiles(full_name)').eq('lead_id', leadId)
-        .order('occurred_at', { ascending: false }).order('id', { ascending: false }).range(pageParam, pageParam + 29);
-      if (error) throw new Error(error.message);
-      return data as unknown as Activity[];
+      // Deterministic order: timestamp, then insertion number (migration 9). Falls back to the id tie-breaker only
+      // until that migration has been applied to the project.
+      const page = (tie: 'seq' | 'id') => supabase.from('activities').select('*, profiles(full_name)').eq('lead_id', leadId)
+        .order('occurred_at', { ascending: false }).order(tie, { ascending: false }).range(pageParam, pageParam + 29);
+      let res = await page('seq');
+      if (res.error && /seq/.test(res.error.message)) res = await page('id');
+      if (res.error) throw new Error(res.error.message);
+      return res.data as unknown as Activity[];
     },
     getNextPageParam: (last, all) => (last.length === 30 ? all.length * 30 : undefined),
   });
@@ -228,11 +233,11 @@ function Timeline({ leadId }: { leadId: string }) {
         {rows.map((a) => (
           <li key={a.id} className="tl" data-type={a.type}>
             <div className="dot">{ICONS[a.type] ?? <Circle />}</div>
-            <div><div><b>{a.summary ?? a.type}</b></div><div className="muted small">{fmtDateTime(a.occurred_at)} · {fmtRelative(a.occurred_at)}{a.profiles?.full_name ? ` · ${a.profiles.full_name}` : ''}</div></div>
+            <div><div><b>{activityText(a.summary, a.type)}</b></div><div className="muted small">{fmtDateTime(a.occurred_at)} · {fmtRelative(a.occurred_at)}{a.profiles?.full_name ? ` · ${a.profiles.full_name}` : ''}</div></div>
           </li>
         ))}
       </ul>
-      {q.hasNextPage && <button className="btn" onClick={() => q.fetchNextPage()} disabled={q.isFetchingNextPage}>{q.isFetchingNextPage ? 'Loading…' : 'Load older events'}</button>}
+      {q.hasNextPage && <button className="btn" onClick={() => q.fetchNextPage()} disabled={q.isFetchingNextPage}>{q.isFetchingNextPage ? t('Loading…') : t('Load older events')}</button>}
     </div>
   );
 }
@@ -251,8 +256,8 @@ function CallsTab({ leadId }: { leadId: string }) {
   const today = cairoToday();
   const refresh = () => { for (const k of [['leadCalls', leadId], ['lead', leadId], ['leads'], ['callMetrics'], ['myCallsToday']]) qc.invalidateQueries({ queryKey: k }); };
   async function del(c: CallAttempt) {
-    if (!confirm('Delete this call attempt? (audited)')) return;
-    const { error } = await supabase.from('call_attempts').delete().eq('id', c.id); if (error) toast(error.message, 'bad'); else { refresh(); toast('Call deleted', 'ok'); }
+    if (!confirm(t('Delete this call attempt? (audited)'))) return;
+    const { error } = await supabase.from('call_attempts').delete().eq('id', c.id); if (error) toast(error.message, 'bad'); else { refresh(); toast(t('Call deleted'), 'ok'); }
   }
   if (q.isLoading) return <Loading />;
   const rows = q.data?.pages.flat() ?? [];
@@ -300,7 +305,7 @@ function ContactsTab({ leadId, canEdit }: { leadId: string; canEdit: boolean }) 
       <div className="grid cols-2">
         {data?.map((c) => (
           <div key={c.id} className="card card-pad col">
-            <div className="row spread"><b>{c.full_name || 'Company line (general)'}</b>{c.is_primary && <span className="badge info">{t('Primary')}</span>}</div>
+            <div className="row spread"><b>{c.full_name || t('Company line (general)')}</b>{c.is_primary && <span className="badge info">{t('Primary')}</span>}</div>
             {c.job_title && <span className="muted">{c.job_title}</span>}
             {c.emails.map((e) => <a key={e} className="row small" href={`mailto:${e}`}><Mail size={14} /> {e}</a>)}
             {c.phones.map((p) => <a key={p} className="row small" href={`tel:${p}`}><Phone size={14} /> {p}</a>)}
@@ -327,9 +332,9 @@ function ContactDialog({ leadId, contact, onClose }: { leadId: string; contact?:
       onClose();
     } catch (e) { setErr(e); }
   }
-  async function del() { if (!confirm('Delete this contact?')) return; const { error } = await supabase.from('contacts').delete().eq('id', contact!.id); if (error) setErr(error); else onClose(); }
+  async function del() { if (!confirm(t('Delete this contact?'))) return; const { error } = await supabase.from('contacts').delete().eq('id', contact!.id); if (error) setErr(error); else onClose(); }
   return (
-    <Modal title={contact ? 'Edit contact' : 'Add contact'} onClose={onClose} footer={<>{contact && isAdmin && <button className="btn bad" onClick={del}>{t('Delete')}</button>}<button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
+    <Modal title={contact ? t('Edit contact') : t('Add contact')} onClose={onClose} footer={<>{contact && isAdmin && <button className="btn bad" onClick={del}>{t('Delete')}</button>}<button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid"><Field label={t('Name')}><input value={name} onChange={(e) => setName(e.target.value)} /></Field><Field label={t('Job title')}><input value={title} onChange={(e) => setTitle(e.target.value)} /></Field>
         <Field label={t('Emails (comma separated)')} full><input value={emails} onChange={(e) => setEmails(e.target.value)} /></Field>
@@ -363,7 +368,7 @@ function CommercialTab({ leadId, leadName, forms, proposals, canAct }: { leadId:
           <div key={x.id} className="card-pad col" style={{ borderBottom: '1px solid var(--line)' }}>
             <div className="row spread"><span className={`badge ${x.status === 'completed' ? 'ok' : x.status === 'not_sent' ? 'warn' : 'info'}`}>{label(FORM_STATUS, x.status)}</span>
               {canAct && <button className="btn sm" onClick={() => setF(x)}>{t('Update')}</button>}</div>
-            <span className="muted small">{x.sent_on ? `Sent ${fmtDate(x.sent_on)}` : 'Not sent'}{x.completed_on ? ` · Completed ${fmtDate(x.completed_on)}` : ''}</span>
+            <span className="muted small">{x.sent_on ? t('Sent {date}', { date: fmtDate(x.sent_on) }) : t('Not sent')}{x.completed_on ? ` · ${t('Completed {date}', { date: fmtDate(x.completed_on) })}` : ''}</span>
             {x.link && <a href={x.link} target="_blank" rel="noopener noreferrer" className="small">{x.link}</a>}{x.notes && <span className="small">{x.notes}</span>}
           </div>))}
       </div>
@@ -371,8 +376,8 @@ function CommercialTab({ leadId, leadName, forms, proposals, canAct }: { leadId:
         {!proposals.length ? <Empty>{t('No proposals.')}</Empty> : proposals.map((x) => (
           <div key={x.id} className="card-pad col" style={{ borderBottom: '1px solid var(--line)' }}>
             <div className="row spread"><span><b>{proposalCode(x.proposal_no)}</b> · {x.title}</span><span className="badge stage">{label(PROPOSAL_STATUS, x.status)}</span></div>
-            <span className="muted small">{x.value !== null ? `${Number(x.value).toLocaleString()} ${x.currency}` : 'Value n/a'} · {x.sent_on ? `Sent ${fmtDate(x.sent_on)}` : 'Not sent'}{x.response_state ? ` · ${label([['awaiting_response', 'Awaiting response'], ['responded', 'Responded'], ['no_response_yet', 'No response yet']], x.response_state)}` : ''}{x.response_outcome ? ` (${label(RESPONSE_OUTCOME, x.response_outcome)})` : ''}</span>
-            {x.next_follow_up_date && <span className="small">Next follow-up {fmtDate(x.next_follow_up_date)}</span>}
+            <span className="muted small">{x.value !== null ? <bdi>{`${Number(x.value).toLocaleString()} ${x.currency}`}</bdi> : t('Value n/a')} · {x.sent_on ? t('Sent {date}', { date: fmtDate(x.sent_on) }) : t('Not sent')}{x.response_state ? ` · ${label([['awaiting_response', 'Awaiting response'], ['responded', 'Responded'], ['no_response_yet', 'No response yet']], x.response_state)}` : ''}{x.response_outcome ? ` (${label(RESPONSE_OUTCOME, x.response_outcome)})` : ''}</span>
+            {x.next_follow_up_date && <span className="small">{t('Next follow-up {date}', { date: fmtDate(x.next_follow_up_date) })}</span>}
             <div className="row">
               {x.file_path && <button className="btn sm" onClick={() => openFile(x.file_path!).catch((e) => toast(e.message, 'bad'))}>{t('Open file')}</button>}
               {canAct && <button className="btn sm" onClick={() => setP(x)}>{t('Edit')}</button>}

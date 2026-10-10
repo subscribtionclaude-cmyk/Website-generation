@@ -1,6 +1,6 @@
 // Minimal offline shell. Never caches Supabase/API traffic. Navigations are network-first so a new deploy is
 // picked up immediately; hashed /assets/* are cache-first (their names change with every build).
-const CACHE = 'accord-crm-v2-shell-2'; // bump when files under /brand/ or /icons/ change in place
+const CACHE = 'accord-crm-v2-shell-3'; // bump when files under /brand/ or /icons/ change in place
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));

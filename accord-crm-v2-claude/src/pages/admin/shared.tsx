@@ -101,8 +101,8 @@ export function PipelineSection({ r }: { r: Report }) {
     <section className="col" aria-label={t('Pipeline')}><h2>{t('Pipeline')}</h2>
       <div className="card card-pad col">
         {r.pipeline.map((p) => (
-          <div key={p.stage} className="hbar"><span>{p.label}</span><div className="track"><i style={{ width: `${(100 * p.current) / max}%` }} /></div><b className="num">{p.current}</b></div>))}
-        <span className="muted small">Current leads per stage. Entered stage during the period: {r.pipeline.map((p) => `${p.label} ${p.entered}`).join(' · ')}</span>
+          <div key={p.stage} className="hbar"><span>{t(p.label)}</span><div className="track"><i style={{ width: `${(100 * p.current) / max}%` }} /></div><b className="num">{p.current}</b></div>))}
+        <span className="muted small">{t('Current leads per stage. Entered stage during the period: {list}', { list: r.pipeline.map((p) => `${t(p.label)} ${p.entered}`).join(' · ') })}</span>
       </div>
     </section>
   );

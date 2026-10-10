@@ -96,4 +96,33 @@ test.describe('static hosting & PWA', () => {
     expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBe(t);
     await page.screenshot({ path: `${SHOTS}/theme-${t}.png` });
   });
+  test('Arabic RTL + dark mode follow the user to another device (server-side preference)', async ({ page, browser }) => {
+    await login(page, 'bd2');
+    await page.goto('/settings/?section=language');
+    await page.getByRole('radio', { name: 'العربية' }).click();
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('الإعدادات');
+    await page.goto('/settings/?section=appearance');
+    await page.getByTestId('theme-dark').click();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('.sidebar .brand .full')).toHaveAttribute('src', /accord-logo-dark/);
+    await page.waitForTimeout(500); // let the preference write reach the server
+    // a second, fresh device (empty localStorage) gets the same language, direction and theme after sign-in
+    const other = await browser.newContext({ viewport: { width: 1024, height: 768 } });
+    const p2 = await other.newPage();
+    await login(p2, 'bd2');
+    await expect(p2.locator('html')).toHaveAttribute('dir', 'rtl');
+    await expect(p2.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(p2.locator('.sidebar .brand .mark')).toHaveAttribute('src', /accord-icon-dark/);
+    const ov = await p2.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    expect(ov).toBeLessThanOrEqual(1);
+    await other.close();
+    // switch back so later suites run in English / light
+    await page.goto('/settings/?section=language');
+    await page.getByRole('radio', { name: 'English' }).click();
+    await page.goto('/settings/?section=appearance');
+    await page.getByTestId('theme-light').click();
+    await page.waitForTimeout(500);
+  });
 });

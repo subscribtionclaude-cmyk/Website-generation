@@ -22,7 +22,7 @@ export default function AdminUsers() {
     if (error) throw new Error(error.message); return Object.fromEntries((data ?? []).map((x) => [x.user_id, x.daily_call_target as number]));
   } });
   const refresh = () => { for (const k of [['adminUsers'], ['profiles'], ['currentTargets'], ['adminTargets']]) qc.invalidateQueries({ queryKey: k }); };
-  async function act(fn: () => Promise<unknown>, ok: string) { try { await fn(); toast(ok, 'ok'); refresh(); } catch (e) { toast((e as Error).message, 'bad'); } }
+  async function act(fn: () => Promise<unknown>, ok: string) { try { await fn(); toast(t(ok), 'ok'); refresh(); } catch (e) { toast((e as Error).message, 'bad'); } }
 
   return (
     <>
@@ -34,12 +34,12 @@ export default function AdminUsers() {
             {users.data?.map((u) => (
               <tr key={u.id}><td><b>{u.full_name || '—'}</b>{u.id === profile!.id && <span className="badge info"> {t('you')}</span>}</td><td>{u.email}</td>
                 <td><span className="badge stage">{ROLE_LABEL[u.role]}</span></td><td className="r num">{u.role === 'bd_executive' ? targets.data?.[u.id] ?? <span className="muted">{t('not set')}</span> : '—'}</td>
-                <td><span className={`badge ${u.active ? 'ok' : 'bad'}`}>{u.active ? 'Active' : 'Deactivated'}</span>{u.must_change_password && <span className="badge warn"> {t('must change pw')}</span>}</td><td>{fmtDate(u.created_at)}</td>
+                <td><span className={`badge ${u.active ? 'ok' : 'bad'}`}>{u.active ? t('Active') : t('Deactivated')}</span>{u.must_change_password && <span className="badge warn"> {t('must change pw')}</span>}</td><td>{fmtDate(u.created_at)}</td>
                 <td className="r nowrap">
                   <button className="btn sm" onClick={() => setDlg({ edit: u })}>{t('Edit')}</button>
                   <button className="btn sm ghost" title={t('Send password reset email')} onClick={() => act(() => callFunction('admin-users', { action: 'send_reset', user_id: u.id }), 'Reset email sent')}><Mail /></button>
                   <button className="btn sm ghost" title={t('Set temporary password')} onClick={() => setDlg({ temp: u })}><KeyRound /></button>
-                  {u.id !== profile!.id && <button className={`btn sm ${u.active ? 'bad' : 'ok'}`} onClick={() => { if (!u.active || confirm(`Deactivate ${u.email}? They are blocked immediately.`)) act(() => callFunction('admin-users', { action: 'update', user_id: u.id, active: !u.active }), u.active ? 'User deactivated' : 'User reactivated'); }}>{u.active ? 'Deactivate' : 'Reactivate'}</button>}
+                  {u.id !== profile!.id && <button className={`btn sm ${u.active ? 'bad' : 'ok'}`} onClick={() => { if (!u.active || confirm(t('Deactivate {email}? They are blocked immediately.', { email: u.email }))) act(() => callFunction('admin-users', { action: 'update', user_id: u.id, active: !u.active }), u.active ? t('User deactivated') : t('User reactivated')); }}>{u.active ? t('Deactivate') : t('Reactivate')}</button>}
                 </td></tr>))}
           </tbody></table>)}
       </div>
@@ -58,16 +58,16 @@ function NewUser({ onClose }: { onClose: () => void }) {
     setErr(null); setBusy(true);
     try {
       await callFunction('admin-users', { action: 'create', email, full_name: name, role, daily_call_target: role === 'bd_executive' && target !== '' ? Number(target) : null, temporary_password: mode === 'temp' ? pw : undefined });
-      toast(mode === 'invite' ? 'Invitation email sent' : 'User created — they must change the password at first sign-in', 'ok'); onClose();
+      toast(mode === 'invite' ? t('Invitation email sent') : t('User created — they must change the password at first sign-in'), 'ok'); onClose();
     } catch (e) { setErr(e); } finally { setBusy(false); }
   }
   return (
-    <Modal title={t('Add user')} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{mode === 'invite' ? 'Send invitation' : 'Create user'}</button></>}>
+    <Modal title={t('Add user')} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" disabled={busy} onClick={save}>{mode === 'invite' ? t('Send invitation') : t('Create user')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid"><Field label={t('Email')}><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></Field><Field label={t('Full name')}><input value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label={t('Role')}><Select value={role} onChange={setRole} options={ROLE_OPTS} /></Field>
         {role === 'bd_executive' && <Field label={t('Daily call target')}><input type="number" min="0" max="2000" value={target} onChange={(e) => setTarget(e.target.value)} /></Field>}</div>
-      <div className="field"><label>How should they get access?</label><div className="chips"><button className={`chip ${mode === 'invite' ? 'on' : ''}`} onClick={() => setMode('invite')}>{t('Email invitation (recommended)')}</button><button className={`chip ${mode === 'temp' ? 'on' : ''}`} onClick={() => setMode('temp')}>{t('Temporary password')}</button></div></div>
+      <div className="field"><label>{t('How should they get access?')}</label><div className="chips"><button className={`chip ${mode === 'invite' ? 'on' : ''}`} onClick={() => setMode('invite')}>{t('Email invitation (recommended)')}</button><button className={`chip ${mode === 'temp' ? 'on' : ''}`} onClick={() => setMode('temp')}>{t('Temporary password')}</button></div></div>
       {mode === 'temp' && <Field label={t('Temporary password (min 12 chars, mixed case + digit)')}><input type="password" autoComplete="new-password" value={pw} onChange={(e) => setPw(e.target.value)} /></Field>}
       <span className="muted small">{t('Passwords are sent over TLS to a server function, handed to Supabase Auth and never stored, logged or shown again. With a temporary password the user must choose a new one at first sign-in.')}</span>
     </Modal>
@@ -81,11 +81,11 @@ function EditUser({ u, self, target, onClose }: { u: U; self: boolean; target?: 
   async function save() {
     try {
       await callFunction('admin-users', { action: 'update', user_id: u.id, full_name: name, role, ...(role === 'bd_executive' && tg !== '' && Number(tg) !== target ? { daily_call_target: Number(tg), target_from: from } : {}) });
-      toast('User updated', 'ok'); onClose();
+      toast(t('User updated'), 'ok'); onClose();
     } catch (e) { setErr(e); }
   }
   return (
-    <Modal title={`Edit ${u.email}`} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
+    <Modal title={t('Edit {email}', { email: u.email })} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Save')}</button></>}>
       <ErrorNote error={err} />
       <div className="form-grid"><Field label={t('Full name')}><input value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label={t('Role')}><Select value={role} onChange={setRole} options={ROLE_OPTS} disabled={self} /></Field>
@@ -97,9 +97,9 @@ function EditUser({ u, self, target, onClose }: { u: U; self: boolean; target?: 
 
 function TempPw({ u, onClose }: { u: U; onClose: () => void }) {
   const toast = useToast(); const [pw, setPw] = useState(''); const [err, setErr] = useState<unknown>(null);
-  async function save() { try { await callFunction('admin-users', { action: 'set_temp_password', user_id: u.id, password: pw }); toast('Temporary password set — user must change it at next sign-in', 'ok'); onClose(); } catch (e) { setErr(e); } }
+  async function save() { try { await callFunction('admin-users', { action: 'set_temp_password', user_id: u.id, password: pw }); toast(t('Temporary password set — user must change it at next sign-in'), 'ok'); onClose(); } catch (e) { setErr(e); } }
   return (
-    <Modal narrow title={`Temporary password · ${u.email}`} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Set password')}</button></>}>
+    <Modal narrow title={t('Temporary password · {email}', { email: u.email })} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('Cancel')}</button><button className="btn primary" onClick={save}>{t('Set password')}</button></>}>
       <ErrorNote error={err} />
       <Field label={t('New temporary password')}><input type="password" autoComplete="new-password" value={pw} onChange={(e) => setPw(e.target.value)} /></Field>
       <span className="muted small">{t('Prefer "send reset email" where possible. Existing passwords can never be displayed.')}</span>

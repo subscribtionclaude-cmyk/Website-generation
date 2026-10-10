@@ -47,13 +47,18 @@ export function Modal({ title, onClose, children, footer, wide, narrow, side }: 
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  // Callers pass inline onClose functions, so keep the latest one in a ref: the mount effect below must run ONCE.
+  // (Re-running it on every parent re-render — e.g. when a background refetch lands — moved focus back to the first
+  // field while the user was typing, so text ended up in the wrong input.)
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeRef.current(); };
     document.addEventListener('keydown', onKey);
     ref.current?.querySelector<HTMLElement>('input,select,textarea,button.primary')?.focus();
     return () => { document.removeEventListener('keydown', onKey); prev?.focus?.(); };
-  }, [onClose]);
+  }, []);
   return (
     <div className={`overlay ${side ? 'right' : ''}`} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className={`dialog ${wide ? 'wide' : ''} ${narrow ? 'narrow' : ''}`} role="dialog" aria-modal="true" aria-labelledby={titleId} ref={ref}>
