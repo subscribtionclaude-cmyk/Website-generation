@@ -36,7 +36,7 @@ const psql = (db, file) => sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U
 export function resetDatabase() {
   sh('psql', ['-h', '/tmp', '-p', String(PORTS.pg), '-U', 'postgres', '-q', '-c', `drop database if exists ${DB} with (force)`, '-c', `create database ${DB}`]);
   psql(DB, join(root, 'supabase/tests/00_local_stub.sql'));
-  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed', '20261010000009_activity_order_seq']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
+  for (const f of ['20261009000001_core_schema', '20261009000002_triggers', '20261009000003_rls', '20261009000004_functions', '20261009000005_storage', '20261009000006_seed', '20261010000009_activity_order_seq', '20261011000010_export_audit']) psql(DB, join(root, `supabase/migrations/${f}.sql`));
   psql(DB, join(here, 'fixtures/seed.sql'));
 }
 

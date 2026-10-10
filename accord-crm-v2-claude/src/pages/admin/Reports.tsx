@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Download, Printer, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Download, Printer, ChevronLeft, ChevronRight, Presentation } from 'lucide-react';
+import { ExportDialog } from '../../components/ExportDialog';
 import { PageHead, Loading, ErrorNote, Kpi } from '../../components/ui';
 import { addDays, cairoToday, fmtDate, monthRange, presetRange, PRESET_LABELS, weekRange, prevMonthRange, type RangePreset } from '../../lib/cairo';
 import { useAdminReport, CallsSection, MeetingsSection, CommercialSection, FollowUpsSection, PipelineSection, WinsLossesSection, CriticalSection, exportReport, type Report } from './shared';
@@ -15,6 +16,7 @@ export default function AdminReports() {
   const [anchor, setAnchor] = useState(today);
   const [preset, setPreset] = useState<RangePreset>('this_week');
   const [from, setFrom] = useState(addDays(today, -6)); const [to, setTo] = useState(today);
+  const [boardExport, setBoardExport] = useState(false);
 
   let range: { from: string; to: string };
   if (mode === 'daily') range = { from: day, to: day };
@@ -34,6 +36,7 @@ export default function AdminReports() {
     <>
       <PageHead title={t(TITLES[mode] ?? 'Report')} sub={<>{fmtDate(range.from)}{range.from !== range.to ? ` – ${fmtDate(range.to)}` : ''} · <bdi className="ltr">Africa/Cairo</bdi></>}
         actions={<span className="no-print row">
+          <button className="btn primary" onClick={() => setBoardExport(true)} data-testid="board-export"><Presentation /> {t('Export board report')}</button>
           {rep.data && <button className="btn" onClick={() => exportReport(rep.data!, mode)}><Download /> {t('CSV / Excel')}</button>}
           <button className="btn" onClick={() => window.print()}><Printer /> {t('Print / PDF')}</button></span>} />
       <div className="row no-print" style={{ marginBottom: 14 }}>
@@ -47,6 +50,7 @@ export default function AdminReports() {
         {(mode === 'custom' || (mode === 'board' && preset === 'custom')) && (
           <><input type="date" value={from} onChange={(e) => setFrom(e.target.value)} style={{ width: 160 }} aria-label={t('From')} /><span className="flip-rtl" style={{ display: 'inline-block' }}>→</span><input type="date" value={to} onChange={(e) => setTo(e.target.value)} style={{ width: 160 }} aria-label={t('To')} /></>)}
       </div>
+      {boardExport && <ExportDialog mode="board" initialBoard={mode === 'weekly' || mode === 'monthly' ? mode : 'daily'} onClose={() => setBoardExport(false)} />}
       <ErrorNote error={rep.error} />
       {rep.isLoading ? <Loading /> : rep.data && (mode === 'board' ? <Board r={rep.data} /> : (
         <div className="col" style={{ gap: 22 }}>

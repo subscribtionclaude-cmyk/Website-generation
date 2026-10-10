@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { Phone, Plus, Search } from 'lucide-react';
+import { Phone, Plus, Search, Download } from 'lucide-react';
+import { ExportDialog } from '../components/ExportDialog';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { PageHead, Pager, TempBadge, StageBadge, Loading, Empty, ErrorNote, useDebounced, Select } from '../components/ui';
@@ -22,7 +23,7 @@ const SORTS: Record<string, { col: string; asc: boolean; label: string }> = {
 };
 
 export default function Leads() {
-  const { profile, isStaff } = useAuth();
+  const { profile, isStaff, isAdmin } = useAuth();
   const { startCall } = useCall();
   const [sp, setSp] = useSearchParams();
   const [qText, setQText] = useState(sp.get('q') ?? '');
@@ -30,6 +31,7 @@ export default function Leads() {
   const temp = sp.get('temp') ?? ''; const stage = sp.get('stage') ?? ''; const owner = sp.get('owner') ?? '';
   const sort = sp.get('sort') ?? 'name'; const never = sp.get('never') === '1'; const page = Number(sp.get('page') ?? 0);
   const [creating, setCreating] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const set = (k: string, v: string) => { const n = new URLSearchParams(sp); if (v) n.set(k, v); else n.delete(k); if (k !== 'page') n.delete('page'); setSp(n, { replace: true }); };
   const today = cairoToday();
 
@@ -57,7 +59,7 @@ export default function Leads() {
 
   return (
     <>
-      <PageHead title={t('Leads')} sub={data ? t('{n} leads', { n: data.total.toLocaleString() }) : ''} actions={isStaff && <button className="btn primary" onClick={() => setCreating(true)}><Plus /> {t('New lead')}</button>} />
+      <PageHead title={t('Leads')} sub={data ? t('{n} leads', { n: data.total.toLocaleString() }) : ''} actions={isStaff && <><button className="btn" onClick={() => setExporting(true)} data-testid="leads-export"><Download /> {t('Export')}</button><button className="btn primary" onClick={() => setCreating(true)}><Plus /> {t('New lead')}</button></>} />
       <div className="card filters col" style={{ marginBottom: 14 }}>
         <div className="row">
           <div className="grow search">
@@ -110,6 +112,7 @@ export default function Leads() {
         )}
       </div>
       {creating && <LeadFormDialog onClose={() => setCreating(false)} />}
+      {exporting && <ExportDialog mode={isAdmin ? 'admin' : 'staff'} initial="leads" onClose={() => setExporting(false)} />}
     </>
   );
 }

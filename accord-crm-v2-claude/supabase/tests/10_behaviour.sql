@@ -414,6 +414,36 @@ select t.eq('11 ordering is stable across repeated reads',
   (select string_agg(id::text, ',') from (select id from public.activities where lead_id = (select id from tie_lead) order by occurred_at desc, seq desc limit 30) x));
 select t.check('11 seq is unique and not null', (select count(*) = count(distinct seq) and count(*) filter (where seq is null) = 0 from public.activities));
 
+-- 12. EXPORT PERMISSIONS + AUDIT (migration 10) ---------------------------------------------------
+select t.root();
+create temp table export_before as select count(*) n from public.audit_logs where entity = 'export';
+grant select on export_before to public;
+select t.login(t.u('a1'));
+select t.check('12 admin can start a full export (audited)', public.log_export('full', 'xlsx', null, null, '{"period":"all"}') > 0);
+select t.check('12 admin can export the board report as pdf', public.log_export('board', 'pdf', '2026-10-01', '2026-10-31', '{}') > 0);
+select t.login(t.u('b1'));
+select t.check('12 BD can export an individual dataset', public.log_export('leads', 'xlsx', '2026-10-01', '2026-10-10', '{"temperature":"hot"}') > 0);
+select t.denied('12 BD cannot run the full CRM export', $$select public.log_export('full', 'xlsx')$$);
+select t.denied('12 BD cannot export the board report', $$select public.log_export('board', 'pdf')$$);
+select t.login(t.u('c1'));
+select t.denied('12 viewer cannot export anything', $$select public.log_export('leads', 'xlsx')$$);
+select t.login(t.u('d1'));
+select t.denied('12 inactive user cannot export', $$select public.log_export('leads', 'xlsx')$$);
+select t.anon();
+select t.denied('12 anonymous cannot export', $$select public.log_export('leads', 'xlsx')$$);
+select t.login(t.u('a1'));
+select t.denied('12 unknown export type rejected', $$select public.log_export('passwords', 'xlsx')$$);
+select t.denied('12 unknown format rejected', $$select public.log_export('leads', 'csv')$$);
+select t.root();
+select t.eq('12 exactly the 3 allowed exports were audited',
+  (select count(*)::int from public.audit_logs where entity = 'export') - (select n::int from export_before), 3);
+select t.check('12 audit row records who, what, period and format — never data',
+  (select actor_id = t.u('b1') and action = 'data_export' and entity_id = 'leads' and meta ->> 'format' = 'xlsx'
+          and meta ->> 'from' = '2026-10-01' and meta ->> 'to' = '2026-10-10' and meta ->> 'timezone' = 'Africa/Cairo'
+          and meta -> 'filters' ->> 'temperature' = 'hot' and old_value is null and new_value is null
+     from public.audit_logs where entity = 'export' and entity_id = 'leads' order by id desc limit 1));
+select t.check('12 export audit rows are immutable', (select count(*) from pg_trigger where tgrelid = 'public.audit_logs'::regclass and not tgisinternal) > 0);
+
 -- result -------------------------------------------------------------------------------------
 \o
 \echo

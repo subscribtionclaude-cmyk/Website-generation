@@ -25,6 +25,7 @@ const AdminSync = lazy(() => import('./pages/admin/Sync'));
 const AdminAudit = lazy(() => import('./pages/admin/Audit'));
 const AdminConfig = lazy(() => import('./pages/admin/Config'));
 const AdminStatus = lazy(() => import('./pages/admin/Status'));
+const AdminExport = lazy(() => import('./pages/admin/Export'));
 
 function Protected({ admin, children }: { admin?: boolean; children: JSX.Element }) {
   const { loading, session, profile, noAccess, isAdmin } = useAuth();
@@ -72,6 +73,7 @@ export default function App() {
           <Route path="/admin/audit/*" element={<AdminAudit />} />
           <Route path="/admin/config/*" element={<AdminConfig />} />
           <Route path="/admin/status/*" element={<AdminStatus />} />
+          <Route path="/admin/export/*" element={<AdminExport />} />
         </Route>
         <Route path="/" element={<Navigate to="/dashboard/" replace />} />
         <Route path="*" element={<Navigate to="/dashboard/" replace />} />

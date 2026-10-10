@@ -3,7 +3,7 @@ import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Building2, Phone, Columns3, CalendarClock, CalendarDays, FileText, Settings, ShieldCheck, LogOut, Moon, Sun,
   Users, Target, Presentation, PhoneCall, Handshake, Briefcase, GitBranch, RefreshCw, ScrollText, SlidersHorizontal, Activity, MoreHorizontal, ArrowLeft, CalendarRange, CalendarCheck2,
-  Monitor, Languages,
+  Monitor, Languages, Download,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { useTheme, type ThemePref } from '../lib/theme';
@@ -53,6 +53,7 @@ const ADMIN_NAV: (Item | string)[] = [
   { to: '/admin/audit/', label: 'Audit Log', icon: <ScrollText /> },
   { to: '/admin/config/', label: 'CRM Configuration', icon: <SlidersHorizontal /> },
   { to: '/admin/status/', label: 'System Status', icon: <Activity /> },
+  { to: '/admin/export/', label: 'Data Export', icon: <Download /> },
 ];
 
 const navCls = ({ isActive }: { isActive: boolean }) => `navlink ${isActive ? 'active' : ''}`;
@@ -82,6 +83,7 @@ function Sidebar({ admin }: { admin?: boolean }) {
         </NavLink>
         <div className="foot-actions">
           <button className="btn ghost sm icon" onClick={toggle} aria-label={t('Toggle theme')} title={theme === 'dark' ? t('Switch to light mode') : t('Switch to dark mode')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
+          <LangToggle />
           <button className="btn ghost sm icon" onClick={() => signOut()} aria-label={t('Sign out')} title={t('Sign out')}><LogOut className="flip-rtl" /></button>
         </div>
       </div>
@@ -147,11 +149,24 @@ function MobileBar({ admin }: { admin?: boolean }) {
   );
 }
 
+/** One-tap English ⇄ العربية switch (same central i18n state as Settings → Language); the current route is kept. */
+export function LangToggle({ large }: { large?: boolean }) {
+  const { lang, setLang } = useI18n();
+  const next = lang === 'ar' ? 'en' : 'ar';
+  const name = next === 'ar' ? t('Switch language to Arabic') : t('Switch language to English');
+  return (
+    <button className={`btn ghost ${large ? '' : 'sm'} lang-btn`} onClick={() => setLang(next)} aria-label={name} title={name} data-testid="lang-toggle">
+      <Languages /><span lang={next}>{next === 'ar' ? 'ع' : 'EN'}</span>
+    </button>
+  );
+}
+
 function MobileTopActions() {
   const { profile } = useAuth();
   const { theme, toggle } = useTheme();
   return (
     <div className="row nowrap" style={{ gap: 4 }}>
+      <LangToggle large />
       <button className="btn ghost icon" onClick={toggle} aria-label={t('Switch theme')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
       <Link to="/settings/" aria-label={t('Profile & settings')}><span className="avatar">{initials(profile?.full_name || profile?.email)}</span></Link>
     </div>

@@ -81,6 +81,9 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
 - Migrations 1–8 applied; Edge Functions `admin-users` and `google-sheet-sync` deployed (verify_jwt on).
 - **Before deploying this frontend, apply migration 9** (`supabase/migrations/20261010000009_activity_order_seq.sql`, additive: adds
   `activities.seq` + an index for deterministic timeline order). The frontend falls back to the old ordering until it is applied.
+- **Apply migration 10** (`supabase/migrations/20261011000010_export_audit.sql`, additive: one function `log_export`) before
+  deploying the export feature. It enforces export permissions server-side and writes the export audit trail; without it exports
+  still work for the roles the UI allows, but nothing is audited (the dialog says so).
 - `public/config.js` carries only the public URL + anon key.
 
 Manual steps still required (not possible through the available tooling):

@@ -6,5 +6,5 @@ export const STATIC_ROUTES = [
   '/admin/', '/admin/users/', '/admin/targets/',
   '/admin/reports/daily/', '/admin/reports/weekly/', '/admin/reports/monthly/', '/admin/reports/board/', '/admin/reports/custom/',
   '/admin/analytics/calls/', '/admin/analytics/meetings/', '/admin/analytics/commercial/', '/admin/analytics/pipeline/',
-  '/admin/sync/', '/admin/audit/', '/admin/config/', '/admin/status/',
+  '/admin/sync/', '/admin/audit/', '/admin/config/', '/admin/status/', '/admin/export/',
 ];

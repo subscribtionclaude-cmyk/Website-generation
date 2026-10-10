@@ -37,6 +37,16 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
   real insertion order. Database-written summaries are localised for display only (`src/lib/activityText.ts`).
 * **Dialogs** — `Modal` focuses its first field once on open (an earlier version re-focused on every parent re-render, which moved typed
   text into the wrong field when a refetch landed). Save dialogs wait for the affected lists to refresh before confirming.
+* **Language switch** — one tap in the sidebar footer (icon-only when the sidebar is collapsed) and in the mobile top bar, plus
+  Settings → Language and the mobile More sheet; all use the same `useI18n()` state, keep the current route, and sync per user.
+* **Exports** — `/admin/export/` (admin), Leads → Export (admin / BD, single datasets), Reports → Export board report (admin).
+  `src/lib/exportData.ts` reads every table with the user's own session (RLS decides what is exported; 1000-row pages, one request
+  per page) and `src/lib/xlsx.ts` writes the workbook (styled header, frozen header row, filters, RTL sheets in Arabic). Full CRM
+  export = 11 sheets. Board report (`src/lib/boardReport.ts`) = `admin_report` RPC + a few batched reads; Excel (7 sheets) or a
+  branded A4 print document saved via the browser's "Save as PDF" (exact Arabic shaping/RTL; file name pre-set). Periods use the
+  Cairo calendar; weekly = the CRM week Sunday–Saturday. Before any export the browser calls `log_export()` (migration 10): refused
+  for viewers/inactive/anonymous, full + board are admin-only, and an audit row (who, type, period, format, filters — never data)
+  is written.
 * **Settings** — `/settings/?section=profile|appearance|language|security|about`; Admin → Configuration exposes working days, optional call
   outcomes, stage display labels and the company display name — all writes go through admin-only RLS and the existing audit trigger.
 
