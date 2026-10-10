@@ -234,10 +234,8 @@ input[type='email'], input[type='tel'], input[type='url'], input[inputmode='tel'
 .mobile-top { display: none; align-items: center; justify-content: space-between; gap: 8px; margin: -4px 0 12px; }
 .mobile-top img { height: 30px; width: auto; }
 .mobile-top .mark { width: 38px; height: 38px; }
-/* final ACCORD compact icon: the artwork is never altered; it sits on a white rounded tile so the purple/gold mark
-   reads the same on light and dark surfaces */
-.mark { background: #fff; border-radius: 11px; padding: 3px; object-fit: contain; box-shadow: 0 0 0 1px var(--line); }
-[data-theme='dark'] .mark { box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+/* final ACCORD compact icon: the transparent PNG sits directly on the surface (no tile, border or backing) */
+.mark { background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; object-fit: contain; }
 
 /* ---------- primitives ---------- */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }

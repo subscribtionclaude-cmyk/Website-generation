@@ -21,7 +21,7 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
   (`scripts/make-brand-variants.py`; original kept, not deployed, in `assets-src/`).
 * **Final app icon (locked)** — compact/app contexts use ONLY `assets-src/official-icons/accord-app-icon.png` (purple A with
   gold orbit, transparent background). `scripts/make-icons.py` derives every size by crop/frame/resize only (never recoloured or
-  redrawn): `public/brand/accord-app-icon.png` (`AppIcon`: collapsed/tablet sidebar and the mobile top bar, shown on a white tile),
+  redrawn): `public/brand/accord-app-icon.png` (`AppIcon`: collapsed/tablet sidebar and the mobile top bar, transparent PNG directly on the surface — no tile or backing),
   favicons `accord-favicon-32/64.png` (same in both themes), and opaque `accord-apple-touch-icon.png`, PWA `accord-icon-192/512.png`
   and `accord-icon-maskable-512.png` (artwork inside the safe zone). New file names + service-worker cache `shell-4` so no
   browser or iPadOS Home Screen keeps the previous icon.

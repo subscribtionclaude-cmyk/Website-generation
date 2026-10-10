@@ -117,6 +117,7 @@ test.describe('static hosting & PWA', () => {
     await expect(p2.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(p2.locator('.sidebar .brand .mark')).toHaveAttribute('src', '/brand/accord-app-icon.png'); // final compact icon
     await expect(p2.locator('.sidebar .brand .mark')).toBeVisible();
+    expect(await p2.locator('.sidebar .brand .mark').evaluate((e) => { const s = getComputedStyle(e); return [s.backgroundColor, s.boxShadow, s.paddingTop, s.borderTopWidth]; })).toEqual(['rgba(0, 0, 0, 0)', 'none', '0px', '0px']); // no tile in dark mode
     await expect(p2.locator('.sidebar .brand .full')).toBeHidden();
     const ov = await p2.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     expect(ov).toBeLessThanOrEqual(1);
