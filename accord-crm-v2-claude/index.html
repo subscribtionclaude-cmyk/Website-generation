@@ -6,9 +6,9 @@
     <title>ACCORD CRM</title>
     <meta name="description" content="ACCORD Property & Facility Management — Business Development CRM" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="64x64" href="/icons/favicon-64.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/accord-favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/icons/accord-favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/accord-apple-touch-icon.png" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b1428" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
@@ -28,7 +28,6 @@
         d.style.colorScheme = dark ? 'dark' : 'light';
         d.setAttribute('lang', l);
         d.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
-        if (dark) document.querySelectorAll('link[rel="icon"]').forEach(function (k) { k.setAttribute('href', k.getAttribute('href').replace(/favicon-(\d+)\.png/, 'favicon-dark-$1.png')); });
       })();
     </script>
     <style>

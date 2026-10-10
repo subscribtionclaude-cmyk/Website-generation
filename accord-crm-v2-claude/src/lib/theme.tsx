@@ -21,12 +21,7 @@ function apply(t: Theme) {
   root.setAttribute('data-theme', t);
   root.style.colorScheme = t;
   document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', CHROME[t]));
-  // favicon: official light / dark ACCORD icon
-  document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]').forEach((l) => {
-    const cur = l.getAttribute('href') ?? '';
-    const next = cur.replace(/favicon-(dark-)?(\d+)\.png/, t === 'dark' ? 'favicon-dark-$2.png' : 'favicon-$2.png');
-    if (next !== cur) l.setAttribute('href', next);
-  });
+  // favicon: one final ACCORD icon (transparent background) for both themes — nothing to swap
 }
 
 interface ThemeState { pref: ThemePref; theme: Theme; setPref: (p: ThemePref) => void; toggle: () => void }

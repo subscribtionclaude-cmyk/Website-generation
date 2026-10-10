@@ -1,65 +1,64 @@
 #!/usr/bin/env python3
-"""Build every ACCORD app/brand ICON from the two OFFICIAL, approved icon files — nothing else.
+"""Build every compact ACCORD icon from the ONE final, authoritative app icon — nothing else.
 
-  assets-src/official-icons/accord-icon-light.png   (official, light surfaces)
-  assets-src/official-icons/accord-icon-dark.png    (official, dark / night surfaces)
+  assets-src/official-icons/accord-app-icon.png   (final ACCORD compact/app icon, 1024 px, transparent background)
 
-Only technical operations are applied: crop away the white export margin, square-crop, resize (LANCZOS, aspect kept),
-and — for the dark icon only — an alpha mask that follows its own rounded-square outline so no white export
-background shows on dark UI. No recolouring, redrawing or simplification.
+Only technical operations are applied: crop to the artwork's own bounds, frame it in a centred square, resize
+(LANCZOS on premultiplied alpha), and — where a platform needs an opaque icon (iOS Home Screen, PWA launchers) — place
+it on white. The artwork itself is never recoloured, redrawn, simplified or altered.
 
-Outputs
-  public/brand/accord-icon-light.png, accord-icon-dark.png   in-app compact icon (collapsed sidebar), 192 px
-  public/icons/icon-192.png, icon-512.png, apple-touch-icon.png, icon-maskable-512.png   PWA / Home Screen (light)
-  public/icons/favicon-32.png, favicon-64.png                  favicon, light theme
-  public/icons/favicon-dark-32.png, favicon-dark-64.png        favicon, dark theme
-Wordmark logos are produced separately by scripts/make-brand-variants.py.
+Outputs (new file names, so browsers / iPadOS cannot serve a stale cached icon)
+  public/brand/accord-app-icon.png                                   in-app compact icon (collapsed sidebar, mobile bar)
+  public/icons/accord-favicon-32.png, accord-favicon-64.png          browser tab
+  public/icons/accord-apple-touch-icon.png                           iPhone / iPad Home Screen (180, opaque)
+  public/icons/accord-icon-192.png, accord-icon-512.png              PWA "any" (opaque)
+  public/icons/accord-icon-maskable-512.png                          PWA maskable (artwork inside the 80 % safe zone)
+The full ACCORD wordmark logos are produced separately by scripts/make-brand-variants.py and are unchanged.
 Run: python3 -I scripts/make-icons.py   (needs Pillow)
 """
 import os
-from PIL import Image, ImageDraw
+from PIL import Image
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-SRC = os.path.join(ROOT, 'assets-src', 'official-icons')
+SRC = os.path.join(ROOT, 'assets-src', 'official-icons', 'accord-app-icon.png')
 OUT_B = os.path.join(ROOT, 'public', 'brand')
 OUT_I = os.path.join(ROOT, 'public', 'icons')
 os.makedirs(OUT_B, exist_ok=True); os.makedirs(OUT_I, exist_ok=True)
 
-light_src = Image.open(os.path.join(SRC, 'accord-icon-light.png')).convert('RGB')
-dark_src = Image.open(os.path.join(SRC, 'accord-icon-dark.png')).convert('RGB')
+src = Image.open(SRC).convert('RGBA')
+box = src.getchannel('A').point(lambda v: 255 if v > 16 else 0).getbbox()
+art = src.crop(box)  # the artwork exactly, without the empty export margin
 
-# Light icon: the round badge spans x 41..979 of the 1024 export; square crop around it (white export background kept,
-# it is the icon's own background and matches light surfaces / iOS opaque-icon rules).
-LIGHT_BOX = (41, 68, 979, 1006)
-# Dark icon: the navy rounded square spans x 85..982, y 92..971; square crop inside it, then mask the rounded corners.
-DARK_BOX = (94, 92, 973, 971)
-DARK_RADIUS = 0.17  # corner radius of the official artwork (~150 px of 879)
 
-light = light_src.crop(LIGHT_BOX)
-dark = dark_src.crop(DARK_BOX).convert('RGBA')
-mask = Image.new('L', dark.size, 0)
-ImageDraw.Draw(mask).rounded_rectangle((0, 0, dark.width - 1, dark.height - 1), radius=int(dark.width * DARK_RADIUS), fill=255)
-dark.putalpha(mask)
+def framed(fill: float) -> Image.Image:
+    """Artwork centred in a transparent square; `fill` = share of the side taken by the artwork's longer edge."""
+    w, h = art.size
+    side = round(max(w, h) / fill)
+    canvas = Image.new('RGBA', (side, side), (0, 0, 0, 0))
+    canvas.paste(art, ((side - w) // 2, (side - h) // 2))
+    return canvas
 
-def sized(im, n):
-    return im.resize((n, n), Image.LANCZOS)
 
-# in-app compact icon
-sized(light, 192).save(os.path.join(OUT_B, 'accord-icon-light.png'), optimize=True)
-sized(dark, 192).save(os.path.join(OUT_B, 'accord-icon-dark.png'), optimize=True)
+def sized(img: Image.Image, px: int, opaque: bool = False) -> Image.Image:
+    out = img.convert('RGBa').resize((px, px), Image.LANCZOS).convert('RGBA')
+    if opaque:
+        bg = Image.new('RGBA', (px, px), (255, 255, 255, 255))
+        bg.alpha_composite(out)
+        return bg.convert('RGB')
+    return out
 
-# PWA / Home Screen (opaque)
-sized(light, 192).save(os.path.join(OUT_I, 'icon-192.png'), optimize=True)
-sized(light, 512).save(os.path.join(OUT_I, 'icon-512.png'), optimize=True)
-sized(light, 180).save(os.path.join(OUT_I, 'apple-touch-icon.png'), optimize=True)
-# maskable: whole badge inside the 80 % safe zone, padded with the icon's own white background
-pad = Image.new('RGB', (640, 640), (255, 255, 255))
-pad.paste(sized(light, 512), (64, 64))
-sized(pad, 512).save(os.path.join(OUT_I, 'icon-maskable-512.png'), optimize=True)
 
-# favicons
-sized(light, 32).save(os.path.join(OUT_I, 'favicon-32.png'), optimize=True)
-sized(light, 64).save(os.path.join(OUT_I, 'favicon-64.png'), optimize=True)
-sized(dark, 32).save(os.path.join(OUT_I, 'favicon-dark-32.png'), optimize=True)
-sized(dark, 64).save(os.path.join(OUT_I, 'favicon-dark-64.png'), optimize=True)
-print('official ACCORD icons written')
+tight = framed(0.94)      # favicon / in-app: as large as possible so it reads at 32 px
+padded = framed(0.80)     # Home Screen / PWA "any": comfortable margin on the white tile
+# maskable: the artwork's bounding box must sit inside the safe-zone circle (diameter 80 % of the icon)
+w, h = art.size
+maskable = framed(0.80 * max(w, h) / (w * w + h * h) ** 0.5)
+
+sized(tight, 256).save(os.path.join(OUT_B, 'accord-app-icon.png'), optimize=True)
+sized(tight, 32).save(os.path.join(OUT_I, 'accord-favicon-32.png'), optimize=True)
+sized(tight, 64).save(os.path.join(OUT_I, 'accord-favicon-64.png'), optimize=True)
+sized(padded, 180, opaque=True).save(os.path.join(OUT_I, 'accord-apple-touch-icon.png'), optimize=True)
+sized(padded, 192, opaque=True).save(os.path.join(OUT_I, 'accord-icon-192.png'), optimize=True)
+sized(padded, 512, opaque=True).save(os.path.join(OUT_I, 'accord-icon-512.png'), optimize=True)
+sized(maskable, 512, opaque=True).save(os.path.join(OUT_I, 'accord-icon-maskable-512.png'), optimize=True)
+print('icons written from', os.path.relpath(SRC, ROOT), 'artwork box', box)

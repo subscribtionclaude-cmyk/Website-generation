@@ -196,7 +196,7 @@ input[type='email'], input[type='tel'], input[type='url'], input[inputmode='tel'
   :root { --sidebar-w: 72px; }
   .sidebar .brand { padding: 0 0 14px; display: flex; justify-content: center; }
   .sidebar .brand .full { display: none; }
-  .sidebar .brand .mark { display: block; width: 40px; height: 40px; border-radius: 10px; }
+  .sidebar .brand .mark { display: block; width: 44px; height: 44px; }
   .sidebar .navlink span, .sidebar .foot .label, .sidebar .admin-ribbon span, .sidebar .usercard .who { display: none; }
   .sidebar .navsep { display: block; height: 1px; padding: 0; margin: 10px 8px; background: var(--line); font-size: 0; }
   .sidebar .navlink, .sidebar .usercard { justify-content: center; padding: 10px; }
@@ -233,6 +233,11 @@ input[type='email'], input[type='tel'], input[type='url'], input[inputmode='tel'
 }
 .mobile-top { display: none; align-items: center; justify-content: space-between; gap: 8px; margin: -4px 0 12px; }
 .mobile-top img { height: 30px; width: auto; }
+.mobile-top .mark { width: 38px; height: 38px; }
+/* final ACCORD compact icon: the artwork is never altered; it sits on a white rounded tile so the purple/gold mark
+   reads the same on light and dark surfaces */
+.mark { background: #fff; border-radius: 11px; padding: 3px; object-fit: contain; box-shadow: 0 0 0 1px var(--line); }
+[data-theme='dark'] .mark { box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
 
 /* ---------- primitives ---------- */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }

@@ -83,7 +83,8 @@ test.describe('static hosting & PWA', () => {
       expect((await r.body()).subarray(1, 4).toString()).toBe('PNG');
     }
     const links = await page.evaluate(() => [...document.querySelectorAll('link[rel~="icon"],link[rel="apple-touch-icon"],link[rel="manifest"]')].map((l) => (l as HTMLLinkElement).getAttribute('href')));
-    expect(links).toEqual(expect.arrayContaining(['/icons/apple-touch-icon.png', '/manifest.webmanifest', '/icons/favicon-32.png']));
+    expect(links).toEqual(expect.arrayContaining(['/icons/accord-apple-touch-icon.png', '/manifest.webmanifest', '/icons/accord-favicon-32.png', '/icons/accord-favicon-64.png']));
+    expect(links.join(' ')).not.toMatch(/favicon-dark|accord-icon-(light|dark)|\/icons\/(favicon|icon|apple-touch-icon)-?/); // no old icon files
     for (const l of links) expect((await request.get(l!)).status(), l!).toBe(200);
     expect(await page.evaluate(() => document.querySelector('meta[name="viewport"]')!.getAttribute('content'))).toContain('viewport-fit=cover');
     expect((await request.get('/sw.js')).status()).toBe(200);
@@ -114,7 +115,9 @@ test.describe('static hosting & PWA', () => {
     await login(p2, 'bd2');
     await expect(p2.locator('html')).toHaveAttribute('dir', 'rtl');
     await expect(p2.locator('html')).toHaveAttribute('data-theme', 'dark');
-    await expect(p2.locator('.sidebar .brand .mark')).toHaveAttribute('src', /accord-icon-dark/);
+    await expect(p2.locator('.sidebar .brand .mark')).toHaveAttribute('src', '/brand/accord-app-icon.png'); // final compact icon
+    await expect(p2.locator('.sidebar .brand .mark')).toBeVisible();
+    await expect(p2.locator('.sidebar .brand .full')).toBeHidden();
     const ov = await p2.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     expect(ov).toBeLessThanOrEqual(1);
     await other.close();

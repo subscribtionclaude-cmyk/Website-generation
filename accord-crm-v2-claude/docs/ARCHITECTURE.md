@@ -16,13 +16,15 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
 * **Theme** — one source of truth: `src/lib/theme.tsx` (`ThemeProvider`, preference `light | dark | system` in `localStorage['accord-theme']`).
   The *resolved* theme is always written to `<html data-theme>`; CSS reads only that attribute. `index.html` resolves the same key before
   first paint (no flash), sets `color-scheme`, and the provider keeps `<meta name="theme-color">` in sync. "System" follows OS changes live.
-* **Logo** — full wordmark for large brand areas (sidebar, auth, start-up, mobile header): `Logo` in `components/Layout.tsx`, always
+* **Logo** — full wordmark for large brand areas (expanded sidebar, login / auth pages, start-up): `Logo` in `components/Layout.tsx`, always
   following the active theme. `public/brand/accord-logo-dark.png` is a high-contrast recolour of the supplied wordmark
   (`scripts/make-brand-variants.py`; original kept, not deployed, in `assets-src/`).
-* **Official app icon (locked)** — compact/app contexts use ONLY the approved files in `assets-src/official-icons/`
-  (`accord-icon-light.png`, `accord-icon-dark.png`). `scripts/make-icons.py` derives every size by crop/resize only (the dark icon
-  is masked to its own rounded square): `public/brand/accord-icon-{light,dark}.png` (collapsed iPad sidebar, `AppIcon`),
-  PWA 192/512/maskable + apple-touch-icon (light icon, opaque), favicons `favicon-*.png` / `favicon-dark-*.png` (swapped with the theme).
+* **Final app icon (locked)** — compact/app contexts use ONLY `assets-src/official-icons/accord-app-icon.png` (purple A with
+  gold orbit, transparent background). `scripts/make-icons.py` derives every size by crop/frame/resize only (never recoloured or
+  redrawn): `public/brand/accord-app-icon.png` (`AppIcon`: collapsed/tablet sidebar and the mobile top bar, shown on a white tile),
+  favicons `accord-favicon-32/64.png` (same in both themes), and opaque `accord-apple-touch-icon.png`, PWA `accord-icon-192/512.png`
+  and `accord-icon-maskable-512.png` (artwork inside the safe zone). New file names + service-worker cache `shell-4` so no
+  browser or iPadOS Home Screen keeps the previous icon.
 * **Language** — `src/lib/i18n.tsx`: English is the source; `t('English phrase', vars)` looks the phrase up in `src/lib/i18n-ar.ts`
   (missing keys fall back to English). Preference in `localStorage['accord-lang']`; `<html lang dir>` set before first paint and on change.
   Arabic = RTL via CSS logical properties (no per-component overrides). Emails / phones / URLs / IDs / codes stay LTR (`bdi`, `.ltr`,

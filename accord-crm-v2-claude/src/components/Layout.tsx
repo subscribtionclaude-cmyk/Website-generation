@@ -17,10 +17,9 @@ export function Logo({ dark, className }: { dark?: boolean; className?: string }
   const useDark = dark ?? theme === 'dark';
   return <img className={className} src={useDark ? '/brand/accord-logo-dark.png' : '/brand/accord-logo-light.png'} alt="ACCORD" width={146} height={70} />;
 }
-/** Official ACCORD app icon (compact contexts only); the variant follows the active theme. */
+/** Final ACCORD compact/app icon (compact contexts only — the full wordmark stays wherever there is room). */
 export function AppIcon({ className = 'mark', size = 40 }: { className?: string; size?: number }) {
-  const { theme } = useTheme();
-  return <img className={className} src={theme === 'dark' ? '/brand/accord-icon-dark.png' : '/brand/accord-icon-light.png'} alt="ACCORD" width={size} height={size} />;
+  return <img className={className} src="/brand/accord-app-icon.png" alt="ACCORD" width={size} height={size} />;
 }
 export const initials = (name?: string | null) => (name || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('') || '?';
 
@@ -178,7 +177,7 @@ export function AppShell({ admin }: { admin?: boolean }) {
     <div className="shell">
       <Sidebar admin={admin} />
       <main className="main" id="main">
-        <div className="mobile-top"><Link to={admin ? '/admin/' : '/dashboard/'} aria-label={t('ACCORD CRM home')}><Logo /></Link><MobileTopActions /></div>
+        <div className="mobile-top"><Link to={admin ? '/admin/' : '/dashboard/'} aria-label={t('ACCORD CRM home')}><AppIcon size={38} /></Link><MobileTopActions /></div>
         <Outlet />
       </main>
       <MobileBar admin={admin} />

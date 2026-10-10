@@ -38,7 +38,7 @@ try {
       if (!seen.has(q)) { await get(q); queue.push(q); }
     }
   }
-  for (const p of ['/manifest.webmanifest', '/config.js', '/sw.js', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/apple-touch-icon.png', '/brand/accord-logo-light.png', '/brand/accord-logo-dark.png', '/404.html']) await get(p);
+  for (const p of ['/manifest.webmanifest', '/config.js', '/sw.js', '/icons/accord-icon-192.png', '/icons/accord-icon-512.png', '/icons/accord-icon-maskable-512.png', '/icons/accord-apple-touch-icon.png', '/icons/accord-favicon-32.png', '/icons/accord-favicon-64.png', '/brand/accord-app-icon.png', '/brand/accord-logo-light.png', '/brand/accord-logo-dark.png', '/404.html']) await get(p);
 } finally { srv.kill(); }
 if (failures.length) { console.error('STATIC VERIFY FAILED:\n' + failures.join('\n')); process.exit(1); }
 console.log(`static verify OK — ${routes.length} routes + ${checked - routes.length} assets/chunks fetched over plain HTTP, all 200`);
