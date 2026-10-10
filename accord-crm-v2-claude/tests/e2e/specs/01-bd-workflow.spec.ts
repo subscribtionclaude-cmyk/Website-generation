@@ -7,7 +7,7 @@ test.describe.serial('BD executive — daily workflow', () => {
     await page.getByLabel('Email').fill('bd1@accord.test');
     await page.getByLabel('Password').fill('wrong-password-123');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page.getByText('Wrong email or password')).toBeVisible();
+    await expect(page.getByText('Incorrect email or password')).toBeVisible();
     await login(page, 'bd1');
     await expect(page.getByRole('heading', { name: /Hello, Bob/ })).toBeVisible();
     expect(await kpi(page, 'kpi-calls')).toBe(0);

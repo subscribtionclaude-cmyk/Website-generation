@@ -13,6 +13,18 @@ interface AuthState {
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
+/** Safe, translatable sign-in error (never the raw Supabase text). A deleted account and a wrong password look the
+ *  same on purpose, so the form does not reveal which emails exist. */
+export function signInMessage(error: { code?: string; status?: number; message?: string }): string {
+  const code = error.code ?? ''; const msg = (error.message ?? '').toLowerCase();
+  if (code === 'invalid_credentials' || msg.includes('invalid login credentials')) return 'Incorrect email or password';
+  if (code === 'user_banned' || msg.includes('banned')) return 'This account is inactive. Please contact an ACCORD administrator.';
+  if (code === 'email_not_confirmed' || msg.includes('not confirmed')) return 'This account is not activated yet. Please ask an ACCORD administrator to confirm it.';
+  if (code === 'signup_disabled' || code === 'user_not_found') return 'This account is not permitted to access ACCORD CRM.';
+  if (error.status === 429 || code.startsWith('over_') || msg.includes('rate limit')) return 'Too many sign-in attempts. Please wait a minute and try again.';
+  if (!error.status || error.status >= 500 || msg.includes('fetch')) return 'Backend unavailable — please try again shortly';
+  return 'Sign-in failed. Please try again.';
+}
 const Ctx = createContext<AuthState | null>(null);
 export const useAuth = (): AuthState => {
   const c = useContext(Ctx);
@@ -54,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isStaff: profile?.active === true && (profile.role === 'admin' || profile.role === 'bd_executive'),
     signIn: async (email, password) => {
       const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-      if (error) throw new Error(error.message === 'Invalid login credentials' ? 'Wrong email or password' : error.message);
+      if (error) throw new Error(signInMessage(error));
     },
     signOut: async () => { await supabase.auth.signOut(); setProfile(null); },
     refreshProfile: async () => { const { data } = await supabase.auth.getSession(); await loadProfile(data.session); },

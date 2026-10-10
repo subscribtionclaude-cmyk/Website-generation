@@ -15,6 +15,7 @@ test.describe.serial('Admin / management control centre', () => {
     await page.getByRole('button', { name: 'Add user' }).click();
     await page.getByLabel('Email').fill('invitee@accord.test');
     await page.getByLabel('Full name').fill('Ines Invitee');
+    await page.getByRole('dialog').getByRole('button', { name: 'Email invitation (optional)' }).click();
     await page.getByRole('button', { name: 'Send invitation' }).click();
     await expect(page.getByText('Invitation email sent')).toBeVisible();
     await expect(page.getByRole('row').filter({ hasText: 'invitee@accord.test' })).toBeVisible();
@@ -22,7 +23,7 @@ test.describe.serial('Admin / management control centre', () => {
     await page.getByRole('button', { name: 'Add user' }).click();
     await page.getByLabel('Email').fill('temp@accord.test');
     await page.getByLabel('Full name').fill('Tom Temp');
-    await page.getByRole('dialog').getByRole('button', { name: 'Temporary password', exact: true }).click();
+    await expect(page.getByRole('dialog').getByRole('button', { name: 'Temporary password (recommended)' })).toHaveClass(/on/); // the default
     await page.getByLabel(/Temporary password \(/).fill('weak');
     await page.getByRole('button', { name: 'Create user' }).click();
     await expect(page.getByText('Temporary password must be 12–72 characters')).toBeVisible();

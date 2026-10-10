@@ -78,8 +78,8 @@ Deno.serve((req) => handle(req, async (req) => {
       const pw = body.temporary_password ? checkPassword(body.temporary_password) : null;
 
       // Existing CRM user with this email (active or deactivated)? Never create a duplicate.
-      const { data: existing } = await admin.from('profiles').select('id').eq('email', email).is('deleted_at', null).maybeSingle();
-      if (existing) throw new HttpError(409, MSG.exists, 'user_exists');
+      const { data: same } = await admin.from('profiles').select('*').eq('email', email);
+      if (((same ?? []) as { deleted_at?: string | null }[]).some((p) => !p.deleted_at)) throw new HttpError(409, MSG.exists, 'user_exists');
       // An Auth account WITHOUT a CRM profile that never signed in is debris from an earlier failed attempt
       // (e.g. an invite interrupted after the account was created): remove it so a retry cannot duplicate anything.
       const { data: orphans } = await admin.rpc('svc_auth_user_by_email', { p_email: email });
@@ -170,7 +170,7 @@ Deno.serve((req) => handle(req, async (req) => {
 
     case 'send_reset': {
       const id = userId();
-      const { data: cur } = await admin.from('profiles').select('email, active, deleted_at').eq('id', id).maybeSingle();
+      const { data: cur } = await admin.from('profiles').select('*').eq('id', id).maybeSingle();
       if (!cur || cur.deleted_at) throw new HttpError(404, 'User not found', 'not_found');
       const anon = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_ANON_KEY')!, { auth: { persistSession: false } });
       const { error } = await anon.auth.resetPasswordForEmail(cur.email, { redirectTo: SITE_URL() ? `${SITE_URL()}/set-password/` : undefined });
@@ -188,7 +188,9 @@ Deno.serve((req) => handle(req, async (req) => {
       const pw = checkPassword(body.password);
       const { data: cur } = await admin.from('profiles').select('*').eq('id', id).maybeSingle();
       if (!cur || cur.deleted_at) throw new HttpError(404, 'User not found', 'not_found');
-      const { error } = await admin.auth.admin.updateUserById(id, { password: pw });
+      // an admin-issued password vouches for the account: confirm the email too, so the user can sign in immediately
+      // (an invited user who never opened the invitation would otherwise get "Email not confirmed")
+      const { error } = await admin.auth.admin.updateUserById(id, { password: pw, email_confirm: true });
       if (error) throw authError(error, new HttpError(400, 'Could not set the password', 'update_failed'));
       await admin.rpc('svc_upsert_profile', {
         p_actor: user.id, p_user: id, p_email: cur.email, p_full_name: null, p_role: cur.role,
@@ -196,6 +198,31 @@ Deno.serve((req) => handle(req, async (req) => {
       });
       await audit('temporary_password_set', id, { email: cur.email }); // the password itself is never logged
       return json(req, { ok: true });
+    }
+
+    case 'confirm_email': {
+      // admin-safe: confirms the email of an existing CRM user (never changes the password, never creates anything)
+      const id = userId();
+      const { data: cur } = await admin.from('profiles').select('*').eq('id', id).maybeSingle();
+      if (!cur || cur.deleted_at) throw new HttpError(404, 'User not found', 'not_found');
+      const { error } = await admin.auth.admin.updateUserById(id, { email_confirm: true });
+      if (error) throw authError(error, new HttpError(400, 'Could not confirm the email', 'update_failed'));
+      await audit('email_confirmed_by_admin', id, { email: cur.email });
+      return json(req, { ok: true });
+    }
+
+    case 'auth_status': {
+      // per CRM user: is the email confirmed, when did they last sign in (read from Supabase Auth, service role)
+      const { data: profs } = await admin.from('profiles').select('id');
+      const ids = new Set(((profs ?? []) as { id: string }[]).map((p) => p.id));
+      const out: { id: string; confirmed: boolean; last_sign_in_at: string | null }[] = [];
+      for (let page = 1; page <= 50; page++) {
+        const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 1000 });
+        if (error) throw new HttpError(503, MSG.unavailable, 'backend_unavailable');
+        for (const u of data.users) if (ids.has(u.id)) out.push({ id: u.id, confirmed: Boolean(u.email_confirmed_at), last_sign_in_at: u.last_sign_in_at ?? null });
+        if (data.users.length < 1000) break;
+      }
+      return json(req, { ok: true, users: out });
     }
 
     default:

@@ -49,6 +49,7 @@ test.describe.serial('user management', () => {
     const dlg = page.getByRole('dialog');
     await dlg.getByLabel('Email').fill('ratelimit-newhire@accord.test');
     await dlg.getByLabel('Full name').fill('Rita Ratelimit');
+    await dlg.getByRole('button', { name: 'Email invitation (optional)' }).click();
     await dlg.getByRole('button', { name: 'Send invitation' }).click();
     const note = dlg.getByTestId('invite-rate-limit');
     await expect(note).toContainText('Invitation email limit reached. Try again later, use Temporary Password, or configure Custom SMTP.');
@@ -216,6 +217,7 @@ test.describe.serial('user management', () => {
     await page.getByRole('button', { name: 'إضافة مستخدم' }).click();
     const add = page.getByRole('dialog');
     await add.locator('input[type=email]').fill('ratelimit-ar@accord.test');
+    await add.getByRole('button', { name: 'دعوة بالبريد الإلكتروني (اختياري)' }).click();
     await add.getByRole('button', { name: 'إرسال الدعوة' }).click();
     await expect(add.getByTestId('invite-rate-limit')).toContainText('تم الوصول إلى الحد المؤقت لإرسال رسائل الدعوة. حاول لاحقًا أو استخدم كلمة مرور مؤقتة أو قم بإعداد SMTP مخصص.');
     await expect(add.getByTestId('invite-rate-limit')).toContainText('وليس حدًا لعدد مستخدمي النظام');

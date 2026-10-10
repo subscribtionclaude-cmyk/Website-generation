@@ -73,7 +73,7 @@ export async function start() {
   resetDatabase();
   const pool = new pg.Pool({ host: '/tmp', port: PORTS.pg, user: 'postgres', database: DB });
   const sent = []; const files = new Map();
-  const userJson = (u) => ({ id: u.id, aud: 'authenticated', role: 'authenticated', email: u.email, email_confirmed_at: new Date().toISOString(), app_metadata: { provider: 'email' }, user_metadata: u.raw_user_meta_data ?? {}, created_at: new Date().toISOString() });
+  const userJson = (u) => ({ id: u.id, aud: 'authenticated', role: 'authenticated', email: u.email, email_confirmed_at: u.email_confirmed_at ?? null, last_sign_in_at: u.last_sign_in_at ?? null, app_metadata: { provider: 'email' }, user_metadata: u.raw_user_meta_data ?? {}, created_at: new Date().toISOString() });
   const session = (u) => ({ access_token: signJwt({ sub: u.id, role: 'authenticated', email: u.email }), token_type: 'bearer', expires_in: 3600, expires_at: Math.floor(Date.now() / 1000) + 3600, refresh_token: Buffer.from(u.id).toString('base64url'), user: userJson(u) });
   const readBody = (req) => new Promise((r) => { const c = []; req.on('data', (d) => c.push(d)); req.on('end', () => { const b = Buffer.concat(c); r(b); }); });
   const json = (res, req, status, obj) => { res.writeHead(status, { 'Content-Type': 'application/json', ...cors(req) }); res.end(JSON.stringify(obj)); };
@@ -133,7 +133,9 @@ export async function start() {
         const q = (s, a) => pool.query(s, a).then((r) => r.rows);
         if (route === '/token' && u.searchParams.get('grant_type') === 'password') {
           const [usr] = await q('select * from auth.users where lower(email)=lower($1)', [data.email]);
-          if (!usr || usr.password !== data.password || usr.banned) return json(res, req, 400, { error: 'invalid_grant', error_description: 'Invalid login credentials', msg: 'Invalid login credentials', code: 400 });
+          if (!usr || usr.password !== data.password) return json(res, req, 400, { code: 400, error_code: 'invalid_credentials', msg: 'Invalid login credentials' });
+          if (usr.banned) return json(res, req, 400, { code: 400, error_code: 'user_banned', msg: 'User is banned' });
+          if (!usr.email_confirmed_at) return json(res, req, 400, { code: 400, error_code: 'email_not_confirmed', msg: 'Email not confirmed' });
           await q('update auth.users set last_sign_in_at = now() where id = $1', [usr.id]);
           return json(res, req, 200, session(usr));
         }
@@ -160,19 +162,25 @@ export async function start() {
           if (!c || c.role !== 'service_role') return json(res, req, 403, { msg: 'not admin' });
           if (route === '/admin/users' && req.method === 'POST') {
             const dup = await q('select 1 from auth.users where lower(email)=lower($1)', [data.email]); if (dup.length) return json(res, req, 422, { msg: 'User already registered', code: 422 });
-            const [usr] = await q('insert into auth.users (email, password, raw_user_meta_data) values ($1,$2,$3) returning *', [data.email, data.password ?? null, data.user_metadata ?? {}]); return json(res, req, 200, userJson(usr));
+            const [usr] = await q('insert into auth.users (email, password, raw_user_meta_data, email_confirmed_at) values ($1,$2,$3,$4) returning *', [data.email, data.password ?? null, data.user_metadata ?? {}, data.email_confirm ? new Date() : null]); return json(res, req, 200, userJson(usr));
+          }
+          if (route === '/admin/users' && req.method === 'GET') {
+            const per = Number(u.searchParams.get('per_page') ?? 50); const pg = Number(u.searchParams.get('page') ?? 1);
+            const rows = await q('select * from auth.users order by id limit $1 offset $2', [per, (pg - 1) * per]);
+            return json(res, req, 200, { users: rows.map(userJson), aud: 'authenticated' });
           }
           if (route === '/invite') {
             // simulate the hosted built-in email provider WITHOUT sending anything: GoTrue rolls the user back on failure
             if (/ratelimit/i.test(data.email ?? '')) return json(res, req, 429, { code: 429, error_code: 'over_email_send_rate_limit', msg: 'email rate limit exceeded' });
             if (/smtpfail/i.test(data.email ?? '')) return json(res, req, 500, { code: 500, error_code: 'unexpected_failure', msg: 'Error sending invite email' });
             const dup = await q('select 1 from auth.users where lower(email)=lower($1)', [data.email]); if (dup.length) return json(res, req, 422, { msg: 'User already registered', code: 422 });
-            const [usr] = await q('insert into auth.users (email, raw_user_meta_data) values ($1,$2) returning *', [data.email, data.data ?? {}]); sent.push({ kind: 'invite', email: data.email }); return json(res, req, 200, userJson(usr));
+            const [usr] = await q('insert into auth.users (email, raw_user_meta_data, email_confirmed_at) values ($1,$2,null) returning *', [data.email, data.data ?? {}]); sent.push({ kind: 'invite', email: data.email }); return json(res, req, 200, userJson(usr));
           }
           const m = /^\/admin\/users\/([0-9a-f-]+)$/.exec(route);
           if (m && req.method === 'PUT') {
             if (data.password) await q('update auth.users set password=$2 where id::text=$1', [m[1], data.password]);
             if (data.ban_duration) await q('update auth.users set banned=$2 where id::text=$1', [m[1], data.ban_duration !== 'none']);
+            if (data.email_confirm === true) await q('update auth.users set email_confirmed_at = coalesce(email_confirmed_at, now()) where id::text=$1', [m[1]]);
             const [usr] = await q('select * from auth.users where id::text=$1', [m[1]]); return json(res, req, 200, userJson(usr));
           }
           if (m && req.method === 'DELETE') { await q('delete from auth.users where id::text=$1', [m[1]]); return json(res, req, 200, {}); }

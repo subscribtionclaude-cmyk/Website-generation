@@ -90,6 +90,12 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
   the service-only helpers, `admin_user_signins()`, and changes one line of `admin_report` (deleted BD users drop out of
   the current team list). It changes no CRM rows. Until it is applied, Delete User reports "apply database migration 11 first"
   and nothing is changed.
+- **Admin-created users are confirmed automatically.** Admin → Users → Add user defaults to a (pre-generated) temporary
+  password: the `admin-users` function creates the Auth account with `email_confirm: true`, so the user signs in
+  immediately and must change the password at first sign-in. Setting a temporary password on an existing user also
+  confirms the account, and unconfirmed CRM users show an "Email not confirmed" badge with a "Confirm email" action
+  (admin only; the password is never changed). Email invitation stays available as an optional method. Public sign-up
+  stays disabled — only an active admin, through the server function, can create accounts.
 - **User limits / invitation emails.** The CRM has no user cap. Supabase's built-in email sender allows only a few emails
   per hour; past that, invitations fail with "Invitation email limit reached…" (the hosted logs showed exactly this:
   `429 over_email_send_rate_limit`). Use **Temporary password** (no email involved) or configure Custom SMTP in
