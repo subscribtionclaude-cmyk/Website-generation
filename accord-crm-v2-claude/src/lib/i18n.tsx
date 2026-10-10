@@ -56,10 +56,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     setLangState(l);
   }, []);
   const value = useMemo<I18nState>(() => ({ lang, dir: lang === 'ar' ? 'rtl' : 'ltr', setLang, t }), [lang, setLang]);
-  // keyed subtree: switching language re-renders every screen (module-level label maps included) in one pass
-  return <Ctx.Provider value={value}><LangScope key={lang}>{children}</LangScope></Ctx.Provider>;
+  // No remount on a language switch: open dialogs, form drafts and notes keep their state. The components that own
+  // the long-lived subtrees (App, CallProvider) subscribe via useI18n(), so their whole subtree re-renders in place
+  // and every t() / locRecord label is re-evaluated in the new language.
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
-function LangScope({ children }: { children: ReactNode }) { return <>{children}</>; }
 
 /** Read-only record whose values are translated on access (keys stay canonical). */
 export function locRecord<K extends string>(src: Record<K, string>): Record<K, string> {

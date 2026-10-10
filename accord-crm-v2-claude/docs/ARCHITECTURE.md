@@ -38,12 +38,16 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
 * **Dialogs** — `Modal` focuses its first field once on open (an earlier version re-focused on every parent re-render, which moved typed
   text into the wrong field when a refetch landed). Save dialogs wait for the affected lists to refresh before confirming.
 * **Language switch** — one tap in the sidebar footer (icon-only when the sidebar is collapsed) and in the mobile top bar, plus
-  Settings → Language and the mobile More sheet; all use the same `useI18n()` state, keep the current route, and sync per user.
+  Settings → Language and the mobile More sheet; all use the same `useI18n()` state, keep the current route, and sync per user. A switch never remounts the app: `App` and `CallProvider` subscribe to
+  `useI18n()`, so the tree re-renders in place — open dialogs, unsaved form values and notes are kept (e2e regression test in
+  `06-export.spec.ts`).
 * **Exports** — `/admin/export/` (admin), Leads → Export (admin / BD, single datasets), Reports → Export board report (admin).
   `src/lib/exportData.ts` reads every table with the user's own session (RLS decides what is exported; 1000-row pages, one request
   per page) and `src/lib/xlsx.ts` writes the workbook (styled header, frozen header row, filters, RTL sheets in Arabic). Full CRM
   export = 11 sheets. Board report (`src/lib/boardReport.ts`) = `admin_report` RPC + a few batched reads; Excel (7 sheets) or a
-  branded A4 print document saved via the browser's "Save as PDF" (exact Arabic shaping/RTL; file name pre-set). Periods use the
+  branded A4 print document saved via the browser's "Save as PDF" (exact Arabic shaping/RTL; file name pre-set). A direct
+  in-browser .pdf download was reviewed and rejected: rasterising the page (html2canvas-style) gives blurry, unselectable text and large
+  files, and the JS PDF writers (jsPDF / pdfmake / pdf-lib) do not shape Arabic or lay out RTL reliably. Periods use the
   Cairo calendar; weekly = the CRM week Sunday–Saturday. Before any export the browser calls `log_export()` (migration 10): refused
   for viewers/inactive/anonymous, full + board are admin-only, and an audit row (who, type, period, format, filters — never data)
   is written.

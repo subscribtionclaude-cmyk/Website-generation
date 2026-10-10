@@ -5,7 +5,7 @@ import { configured } from './lib/supabase';
 import { AppShell } from './components/Layout';
 import { Loading } from './components/ui';
 import { LoginPage, SetPasswordPage, NoAccessPage, BootScreen } from './pages/AuthPages';
-import { t } from './lib/i18n';
+import { t, useI18n } from './lib/i18n';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Leads = lazy(() => import('./pages/Leads'));
@@ -39,6 +39,7 @@ function Protected({ admin, children }: { admin?: boolean; children: JSX.Element
 }
 
 export default function App() {
+  useI18n(); // subscribe: a language switch re-renders the routed tree in place (no remount, drafts survive)
   if (!configured) {
     return (
       <div className="auth-wrap"><div className="card auth-card">

@@ -46,6 +46,42 @@ test.describe.serial('exports and language switch', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Leads');
   });
 
+  test('language switch keeps an open dialog and its unsaved values (EN → AR → EN)', async ({ page }) => {
+    await login(page, 'bd1');
+    await page.goto('/leads/');
+    await page.getByRole('button', { name: 'New lead' }).click();
+    const dlg = page.getByRole('dialog');
+    await expect(dlg.getByRole('heading', { name: 'New lead' })).toBeVisible();
+    const company = dlg.getByLabel('Company *');
+    const notes = dlg.getByRole('textbox', { name: 'Notes', exact: true });
+    const website = dlg.getByLabel('Website');
+    await company.fill('Unsaved Draft Co');
+    await website.fill('draft.example');
+    await notes.fill('Meeting notes typed but not saved\nsecond line');
+    await dlg.locator('select').first().selectOption({ index: 1 });
+    const temp = await dlg.locator('select').first().inputValue();
+    // the toggle sits under the dialog overlay; switch the language exactly as the app does, without closing the dialog
+    await page.getByTestId('lang-toggle').first().dispatchEvent('click');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    await expect(dlg.getByRole('heading', { name: 'عميل جديد' })).toBeVisible();
+    await expect(dlg.getByRole('textbox', { name: 'ملاحظات', exact: true })).toHaveValue('Meeting notes typed but not saved\nsecond line');
+    await expect(dlg.getByRole('textbox', { name: 'الموقع الإلكتروني' })).toHaveValue('draft.example');
+    await expect(dlg.locator('input').first()).toHaveValue('Unsaved Draft Co');
+    await expect(dlg.locator('select').first()).toHaveValue(temp);
+    // keep typing in Arabic mode, then switch back
+    await dlg.getByRole('textbox', { name: 'ملاحظات', exact: true }).press('End');
+    await dlg.getByRole('textbox', { name: 'ملاحظات', exact: true }).pressSequentially(' +AR');
+    await page.getByTestId('lang-toggle').first().dispatchEvent('click');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
+    await expect(dlg.getByRole('heading', { name: 'New lead' })).toBeVisible();
+    await expect(company).toHaveValue('Unsaved Draft Co');
+    await expect(website).toHaveValue('draft.example');
+    await expect(notes).toHaveValue('Meeting notes typed but not saved\nsecond line +AR');
+    await expect(dlg.locator('select').first()).toHaveValue(temp);
+    await dlg.getByRole('button', { name: 'Close' }).click();
+    await expect(dlg).toHaveCount(0);
+  });
+
   test('admin full CRM export: one workbook, all sheets, real data, no secrets, audited', async ({ page }) => {
     await login(page, 'admin');
     await page.goto('/admin/export/');

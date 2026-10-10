@@ -11,7 +11,7 @@ import { RESPONDED_SUBS, NO_RESPONSE_SUBS } from '../lib/labels';
 import { addDays, cairoToday } from '../lib/cairo';
 import { useActiveSession } from '../lib/hooks';
 import type { Contact } from '../lib/types';
-import { t, tb } from '../lib/i18n';
+import { t, tb, useI18n } from '../lib/i18n';
 
 export interface CallTarget { id: string; name: string }
 interface Ctx { startCall: (lead: CallTarget) => void }
@@ -20,6 +20,7 @@ export const useCall = () => useContext(C);
 
 export function CallProvider({ children }: { children: ReactNode }) {
   const { isStaff, profile } = useAuth();
+  useI18n(); // re-render the open call dialog in the new language without losing its state
   const [lead, setLead] = useState<CallTarget | null>(null);
   const startCall = useCallback((l: CallTarget) => { if (isStaff) setLead(l); }, [isStaff]);
   const value = useMemo(() => ({ startCall }), [startCall]);
