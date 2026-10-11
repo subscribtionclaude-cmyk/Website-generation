@@ -1,3 +1,4 @@
+import { term, type TermKey } from './terminology';
 import { locPairs, locRecord, t } from './i18n';
 
 // Canonical keys are stored in the database; only the display labels are localised (on access, via i18n).
@@ -51,7 +52,14 @@ export const RESPONSE_OUTCOME: [string, string][] = locPairs([
   ['positive', 'Positive'], ['needs_revision', 'Needs Revision'], ['needs_meeting', 'Needs Meeting'], ['negotiation', 'Negotiation'],
   ['rejected', 'Rejected'], ['accepted', 'Accepted'], ['other', 'Other'],
 ]);
-export const ROLE_LABEL: Record<string, string> = locRecord({ admin: 'Admin', bd_executive: 'BD Executive', viewer: 'Viewer' });
+// role DISPLAY labels follow Admin → Terminology (canonical keys never change: admin / bd_executive / viewer)
+const ROLE_TERM: Record<string, TermKey> = { admin: 'role_admin', bd_executive: 'role_sales', viewer: 'role_viewer' };
+export const ROLE_LABEL: Record<string, string> = new Proxy({} as Record<string, string>, {
+  get: (_o, k) => (typeof k === 'string' && ROLE_TERM[k] ? term(ROLE_TERM[k]) : undefined),
+  has: (_o, k) => typeof k === 'string' && k in ROLE_TERM,
+  ownKeys: () => Object.keys(ROLE_TERM),
+  getOwnPropertyDescriptor: (_o, k) => (typeof k === 'string' && k in ROLE_TERM ? { enumerable: true, configurable: true, value: term(ROLE_TERM[k]) } : undefined),
+});
 
 export function label(map: [string, string][] | Record<string, string>, key?: string | null): string {
   if (!key) return '—';

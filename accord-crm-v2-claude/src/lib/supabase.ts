@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { blockedInPreview, PREVIEW_BLOCKED } from './preview';
 
 // Only the PUBLIC URL + anon/publishable key ever ship in the static bundle. Data is protected by RLS.
 // Runtime config (/config.js) wins; build-time env is the fallback (used by local dev and the e2e build).
@@ -9,6 +10,11 @@ const key = (runtime?.supabaseAnonKey || (import.meta.env.VITE_SUPABASE_ANON_KEY
 export const configured = Boolean(url && key);
 export const supabase = createClient(url ?? 'http://localhost:54321', key ?? 'missing-anon-key', {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, flowType: 'implicit' },
+  // "Preview as role" is read-only: any write is refused before it leaves the browser
+  // (answered locally with a 403 so every caller shows its normal error message — nothing reaches the server)
+  global: { fetch: (input, init) => (blockedInPreview(input, init)
+    ? Promise.resolve(new Response(JSON.stringify({ code: 'preview_read_only', message: PREVIEW_BLOCKED, details: null, hint: null }), { status: 403, headers: { 'Content-Type': 'application/json' } }))
+    : fetch(input, init)) },
 });
 export const functionsUrl = `${(url ?? '').replace(/\/$/, '')}/functions/v1`;
 
@@ -21,6 +27,7 @@ export function unwrap<T>(res: { data: T | null; error: { message: string } | nu
 export async function callFunction<T = unknown>(name: string, body: Record<string, unknown>): Promise<T> {
   const { data: s } = await supabase.auth.getSession();
   let res: Response;
+  if (blockedInPreview(`${functionsUrl}/${name}`, { method: 'POST' })) throw Object.assign(new Error(PREVIEW_BLOCKED), { status: 0, code: 'preview_read_only' });
   try {
     res = await fetch(`${functionsUrl}/${name}`, {
       method: 'POST',

@@ -5,6 +5,7 @@ import { Kpi, Loading } from '../../components/ui';
 import { fmtDate } from '../../lib/cairo';
 import { downloadCsv } from '../../lib/csv';
 import { t, personName } from '../../lib/i18n';
+import { term } from '../../lib/terminology';
 
 export interface ByUser { user_id: string; name: string; active: boolean; total: number; responded: number; did_not_respond: number; unique_leads: number; response_rate: number | null; target: number; achievement_pct: number | null; remaining: number; meetings_generated: number; proposals_generated: number }
 export interface Report {
@@ -38,7 +39,8 @@ export function CallsSection({ r, showDays = true }: { r: Report; showDays?: boo
         <Kpi label={t('Didn\'t respond')} value={c.did_not_respond} />
         <Kpi label={t('Target vs actual')} value={pct(c.achievement_pct)} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} tone={c.achievement_pct !== null && c.achievement_pct >= 100 ? 'ok' : undefined} />
       </div>
-      <div className="card table-wrap"><table className="t" aria-label={t('Calls by user')}><thead><tr><th>{t('BD executive')}</th><th className="r">{t('Calls')}</th><th className="r">{t('Responded')}</th><th className="r">{t('Didn\'t')}</th><th className="r">{t('Rate')}</th><th className="r">{t('Unique leads')}</th><th className="r">{t('Target')}</th><th className="r">{t('Achieved')}</th><th className="r">{t('Remaining')}</th><th className="r">{t('Meetings gen.')}</th><th className="r">{t('Proposals gen.')}</th></tr></thead><tbody>
+      <h3 data-testid="team-performance">{t('{team} performance', { team: term('sales_team') })}</h3>
+      <div className="card table-wrap"><table className="t" aria-label={t('Calls by user')}><thead><tr><th>{term('role_sales')}</th><th className="r">{t('Calls')}</th><th className="r">{t('Responded')}</th><th className="r">{t('Didn\'t')}</th><th className="r">{t('Rate')}</th><th className="r">{t('Unique leads')}</th><th className="r">{t('Target')}</th><th className="r">{t('Achieved')}</th><th className="r">{t('Remaining')}</th><th className="r">{t('Meetings gen.')}</th><th className="r">{t('Proposals gen.')}</th></tr></thead><tbody>
         {c.by_user.length === 0 && <tr><td colSpan={11} className="muted">{t('No users.')}</td></tr>}
         {c.by_user.map((u) => (
           <tr key={u.user_id}><td>{personName(u.name)}{!u.active && <span className="badge"> {t('inactive')}</span>}</td><td className="r num">{u.total}</td><td className="r num">{u.responded}</td><td className="r num">{u.did_not_respond}</td><td className="r num">{pct(u.response_rate)}</td><td className="r num">{u.unique_leads}</td><td className="r num">{u.target || '—'}</td><td className="r num"><b>{pct(u.achievement_pct)}</b></td><td className="r num">{u.target ? u.remaining : '—'}</td><td className="r num">{u.meetings_generated}</td><td className="r num">{u.proposals_generated}</td></tr>))}

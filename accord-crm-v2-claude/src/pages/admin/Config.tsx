@@ -53,7 +53,15 @@ export default function AdminConfig() {
       <PageHead title="CRM configuration" sub="Business settings for the whole team. Every change here is audited."
         actions={<Link className="btn" to="/admin/audit/"><ScrollText /> {t('View audit log')}</Link>} />
       <ErrorNote error={q.error} />
-      <div className="col" style={{ gap: 16, maxWidth: 980 }}>
+      <nav className="card card-pad config-areas" aria-label={t('Configuration areas')} data-testid="config-areas">
+        <div><b>{t('General')}</b><span className="muted small">{t('Organisation, working days · time zone Africa/Cairo (fixed)')}</span><a href="#general">{t('On this page')}</a></div>
+        <div><b>{t('Branding')}</b><span className="muted small">{t('Role and team display labels')}</span><Link to="/admin/terminology/">{t('Terminology')}</Link></div>
+        <div><b>{t('Roles & access')}</b><span className="muted small">{t('Role templates, user overrides, preview as role')}</span><Link to="/admin/roles/">{t('Roles & Permissions')}</Link></div>
+        <div><b>{t('CRM configuration')}</b><span className="muted small">{t('Call outcomes, pipeline stage labels')}</span><a href="#crm">{t('On this page')}</a></div>
+        <div><b>{t('Integrations')}</b><span className="muted small">{t('Google Sheet sync status')}</span><Link to="/admin/sync/">{t('Google Sheet Sync')}</Link></div>
+        <div><b>{t('System')}</b><span className="muted small">{t('Status and audit trail')}</span><Link to="/admin/status/">{t('System Status')}</Link></div>
+      </nav>
+      <div className="col" style={{ gap: 16, maxWidth: 980 }} id="general">
         <Section icon={<CalendarDays size={16} />} title={t('Working days')} desc={t('Period call targets count only these days (Cairo calendar). Default Sunday–Thursday.')}
           aside={<span className="badge num">{t('{n} days / week', { n: wd.length })}</span>}>
           <div className="card-pad">
@@ -66,6 +74,7 @@ export default function AdminConfig() {
           </div>
         </Section>
 
+        <span id="crm" />
         <Section icon={<PhoneCall size={16} />} title={t('Call outcomes')}
           desc={t('Responded and Didn\'t Respond are always on. Others can be switched on for future use; "kind" decides whether they count as responded.')}>
           {q.data?.outcomes.map((o) => (

@@ -244,14 +244,18 @@ test.describe.serial('BD executive — daily workflow', () => {
 });
 
 test.describe('other roles', () => {
-  test('viewer is read-only: no call buttons, no create, no admin', async ({ page }) => {
-    await login(page, 'viewer');
-    await page.goto('/leads/');
-    await expect(page.getByRole('row').nth(1)).toBeVisible();
+  test('management viewer: lands on the management dashboard, no raw pages, no writes, no admin', async ({ page }) => {
+    await login(page, 'viewer', /\/management\//);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Management Dashboard');
+    const nav = page.getByRole('navigation', { name: 'Main navigation' });
+    await expect(nav.getByRole('link', { name: 'Management Dashboard' })).toBeVisible();
+    for (const n of ['Leads', 'Calls', 'Pipeline', 'Follow-ups', 'Meetings', 'Proposals', 'Dashboard']) await expect(nav.getByRole('link', { name: n, exact: true })).toHaveCount(0);
+    for (const path of ['/leads/', '/calls/', '/dashboard/', '/admin/', '/admin/users/', '/admin/roles/']) {
+      await page.goto(path);
+      await expect(page).toHaveURL(/\/management\//);
+    }
     await expect(page.getByTestId('lead-call')).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'New lead' })).toHaveCount(0);
-    await page.goto('/admin/');
-    await expect(page).toHaveURL(/\/dashboard\//);
   });
   test('inactive user and user without a profile get no CRM access', async ({ page }) => {
     await login(page, 'inactive', null);

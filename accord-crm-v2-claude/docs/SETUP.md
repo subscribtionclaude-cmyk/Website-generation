@@ -90,6 +90,13 @@ Dashboard shows 1 call, correct % and remaining → Admin → Reports → Daily 
   the service-only helpers, `admin_user_signins()`, and changes one line of `admin_report` (deleted BD users drop out of
   the current team list). It changes no CRM rows. Until it is applied, Delete User reports "apply database migration 11 first"
   and nothing is changed.
+- **V6: apply migration 12 BEFORE deploying the V6 frontend** (`supabase/migrations/20261013000012_roles_permissions.sql`).
+  Additive: permission catalog + role templates (safe defaults: Admin full, Sales = current operational access, Management
+  Viewer = department aggregates only, no individual performance, no raw rows, no full export), user overrides,
+  `has_perm` / `my_permissions` / `management_report`, audited admin RPCs, `log_export` update, and RLS read policies on raw
+  tables that keep Admin/Sales access unchanged while gating Viewer access. No business row is changed. No Edge Function
+  change is needed. Migration 11 was applied manually in the SQL Editor (it has no migration-history row) — do not re-run it.
+  If the V6 frontend ever runs against a database without migration 12 it falls back to the pre-V6 behaviour by role.
 - **Admin-created users are confirmed automatically.** Admin → Users → Add user defaults to a (pre-generated) temporary
   password: the `admin-users` function creates the Auth account with `email_confirm: true`, so the user signs in
   immediately and must change the password at first sign-in. Setting a temporary password on an existing user also

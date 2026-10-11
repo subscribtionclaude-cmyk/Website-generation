@@ -38,7 +38,7 @@ test.describe.serial('user management', () => {
     await expect(page.getByTestId('user-row')).toHaveCount(16);
     await expect(page.getByRole('row').filter({ hasText: 'cap-02@accord.test' })).toContainText('Admin');
     await expect(page.getByRole('row').filter({ hasText: 'cap-01@accord.test' })).toContainText('Viewer');
-    await expect(page.getByRole('row').filter({ hasText: 'cap-03@accord.test' })).toContainText('BD Executive');
+    await expect(page.getByRole('row').filter({ hasText: 'cap-03@accord.test' })).toContainText('Sales');
   });
 
   test('email rate limit is reported as an email limit (not a user limit), creates nothing, and temporary password works', async ({ page }) => {
@@ -121,7 +121,7 @@ test.describe.serial('user management', () => {
     await openActions(page, 'leaver@accord.test');
     await page.getByRole('menuitem', { name: 'Delete user' }).click();
     const dlg = page.getByRole('dialog');
-    await expect(dlg).toContainText('Lea Leaver'); await expect(dlg).toContainText('leaver@accord.test'); await expect(dlg).toContainText('BD Executive');
+    await expect(dlg).toContainText('Lea Leaver'); await expect(dlg).toContainText('leaver@accord.test'); await expect(dlg).toContainText('Sales');
     await expect(dlg).toContainText('Deleting this user permanently removes their login access. Historical CRM activity will be preserved.');
     const go = dlg.getByTestId('confirm-delete');
     await expect(go).toBeDisabled(); // never one click

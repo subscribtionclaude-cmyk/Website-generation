@@ -10,7 +10,7 @@ test.describe.serial('Admin / management control centre', () => {
     await expect(page.getByText('Team calls today')).toBeVisible();
 
     await page.goto('/admin/users/');
-    await expect(page.getByRole('row').filter({ hasText: 'bd1@accord.test' })).toContainText('BD Executive');
+    await expect(page.getByRole('row').filter({ hasText: 'bd1@accord.test' })).toContainText('Sales'); // display label (canonical role key stays bd_executive)
     // 1) invitation
     await page.getByRole('button', { name: 'Add user' }).click();
     await page.getByLabel('Email').fill('invitee@accord.test');

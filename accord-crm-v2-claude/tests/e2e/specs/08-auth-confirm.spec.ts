@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { login, USERS } from './helpers';
-import { G, tokenFor, fn, rest, count } from './api';
+import { G, tokenFor, fn, rest, count, rpc } from './api';
 
 // Admin-created users are email-confirmed at creation and can sign in immediately; nobody needs a verification email.
 const admin = () => tokenFor(...USERS.admin as unknown as [string, string]);
@@ -64,6 +64,7 @@ test.describe.serial('auto-confirmed admin-created users', () => {
 
     await login(page, 'admin');
     await page.goto('/admin/users/');
+    await page.getByRole('searchbox', { name: 'Search users' }).fill('invited-');
     const row1 = page.getByRole('row').filter({ hasText: 'invited-one@accord.test' });
     await expect(row1.getByTestId('badge-unconfirmed')).toBeVisible();
     // (1) setting a temporary password confirms the account → immediate sign-in
@@ -113,7 +114,8 @@ test.describe.serial('auto-confirmed admin-created users', () => {
     const tok = await admin();
     const v = await fn(tok, 'admin-users', { action: 'create', email: 'vera@accord.test', full_name: 'Vera Viewer', role: 'viewer', temporary_password: 'Vera-Passw0rd-123' });
     const vt = await tokenFor('vera@accord.test', 'Vera-Passw0rd-123');
-    expect((await rest(vt, 'leads?select=id&limit=1')).body.length).toBe(1); // viewer can read
+    expect((await rest(vt, 'leads?select=id&limit=1')).body.length).toBe(0); // management viewer: no raw rows by default
+    expect((await rpc(vt, 'my_permissions')).body.perms['mgmt.dashboard']).toBe(true); // …department aggregates instead
     const ins = await rest(vt, 'leads', { method: 'POST', body: JSON.stringify({ name: 'Viewer cannot add' }) });
     expect(ins.status).toBeGreaterThanOrEqual(400); // …but not write
     const bd = await tokenFor(...USERS.bd1 as unknown as [string, string]);

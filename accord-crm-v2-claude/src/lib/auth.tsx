@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabase';
+import { usePreviewRole } from './preview';
 
 export interface Profile {
   id: string; email: string; full_name: string; phone: string | null;
@@ -8,7 +9,11 @@ export interface Profile {
 }
 interface AuthState {
   loading: boolean; session: Session | null; profile: Profile | null; noAccess: boolean;
-  isAdmin: boolean; isStaff: boolean; // isStaff = may write (admin or BD executive)
+  isAdmin: boolean; isStaff: boolean; // isStaff = may write (admin or BD executive); both follow "Preview as role"
+  /** the role the UI renders for: the real role, or the previewed one (admin preview) */
+  role: Profile['role'] | null;
+  /** the REAL admin flag (unaffected by preview) — only for the preview banner / exit */
+  realAdmin: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -59,18 +64,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => { alive = false; sub.subscription.unsubscribe(); };
   }, [loadProfile]);
 
-  const value = useMemo<AuthState>(() => ({
-    loading, session, profile,
+  const preview = usePreviewRole();
+  const value = useMemo<AuthState>(() => {
+    const realAdmin = profile?.active === true && profile.role === 'admin';
+    const role = !profile?.active ? null : realAdmin && preview ? preview : profile.role;
+    return {
+    loading, session, profile, role, realAdmin,
     noAccess: Boolean(session) && !loading && (!profile || !profile.active),
-    isAdmin: profile?.active === true && profile.role === 'admin',
-    isStaff: profile?.active === true && (profile.role === 'admin' || profile.role === 'bd_executive'),
+    isAdmin: role === 'admin',
+    isStaff: role === 'admin' || role === 'bd_executive',
     signIn: async (email, password) => {
       const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (error) throw new Error(signInMessage(error));
     },
     signOut: async () => { await supabase.auth.signOut(); setProfile(null); },
     refreshProfile: async () => { const { data } = await supabase.auth.getSession(); await loadProfile(data.session); },
-  }), [loading, session, profile, loadProfile]);
+  }; }, [loading, session, profile, loadProfile, preview]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

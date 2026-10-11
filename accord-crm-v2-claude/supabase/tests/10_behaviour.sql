@@ -328,7 +328,7 @@ select t.eq('9 inactive user sees 0 leads', (select count(*)::int from leads), 0
 select t.denied('9 inactive cannot log calls', $$select log_call('11111111-1111-1111-1111-111111111111', 'responded')$$);
 select t.denied('9 inactive cannot read metrics', 'select my_call_metrics()');
 select t.login(t.u('c1'));   -- viewer
-select t.check('9 viewer can read leads', (select count(*) from leads) > 0);
+select t.eq('9 viewer (default: department aggregates only) reads no raw leads', (select count(*)::int from leads), 0);
 select t.denied('9 viewer cannot log calls', $$select log_call('11111111-1111-1111-1111-111111111111', 'responded')$$);
 select t.denied('9 viewer cannot create leads', $$insert into leads (name, created_by) values ('v', current_setting('request.jwt.claim.sub')::uuid)$$);
 select t.no_rows('9 viewer cannot update leads', $$update leads set notes = 'x'$$);
@@ -383,7 +383,7 @@ select t.check('10 staff can upload (insert succeeded)', true);
 select t.check('10 members can read', (select count(*) from storage.objects where bucket_id = 'crm-files') = 1);
 select t.no_rows('10 other staff cannot delete my file', format($f$update storage.objects set name = name where bucket_id = 'crm-files' and owner_id = %L and false$f$, t.u('b1')));
 select t.login(t.u('c1'));
-select t.check('10 viewer can read files', (select count(*) from storage.objects where bucket_id = 'crm-files') = 1);
+select t.eq('10 viewer (default) cannot read raw files', (select count(*)::int from storage.objects where bucket_id = 'crm-files'), 0);
 select t.denied('10 viewer cannot upload', $$insert into storage.objects (bucket_id, name, owner_id) values ('crm-files', 'x/y.pdf', 'v')$$);
 select t.no_rows('10 viewer cannot delete', $$delete from storage.objects where bucket_id = 'crm-files'$$);
 select t.anon();
@@ -513,6 +513,145 @@ select public.svc_unmark_user_deleted(t.u('a1'), t.u('c1'), 'Viewer', true);
 select t.root();
 select t.check('13 undo restores name, active and clears the tombstone', (select full_name = 'Viewer' and active and deleted_at is null from profiles where id = t.u('c1')));
 select t.check('13 user deletion is audited on the profile', exists (select 1 from audit_logs where entity = 'profiles' and entity_id = t.u('b2')::text));
+
+-- 14. ROLES & PERMISSIONS, PRIVACY-SAFE MANAGEMENT REPORT (migration 12) ---------------------------------------
+select t.root();
+create temp table perm_audit_before as select count(*) n from public.audit_logs where entity = 'permissions';
+grant select on perm_audit_before to public;
+-- defaults (role templates)
+select t.login(t.u('a1'));
+select t.check('14 viewer template: dashboard + department + reports on, individual/raw/full export off',
+  (select (v ->> 'mgmt.dashboard')::boolean and (v ->> 'mgmt.department')::boolean and (v ->> 'reports.board')::boolean
+          and (v ->> 'export.management_summary')::boolean and not (v ->> 'perf.individual')::boolean and not (v ->> 'perf.names')::boolean
+          and not (v ->> 'raw.calls')::boolean and not (v ->> 'raw.leads')::boolean and not (v ->> 'export.full')::boolean
+          and not (v ->> 'admin.users')::boolean from (select public.role_template('viewer') v) x));
+select t.check('14 sales template: operational data on, management + admin off',
+  (select (v ->> 'raw.calls')::boolean and (v ->> 'raw.leads')::boolean and (v ->> 'export.datasets')::boolean
+          and not (v ->> 'mgmt.dashboard')::boolean and not (v ->> 'perf.individual')::boolean and not (v ->> 'export.full')::boolean
+          and not (v ->> 'admin.permissions')::boolean from (select public.role_template('bd_executive') v) x));
+select t.check('14 admin template: everything', (select bool_and(value::boolean) from jsonb_each_text(public.role_template('admin'))));
+-- hard rules (not configurable, enforced server-side)
+select t.denied('14 admin template cannot be changed', $$select public.admin_set_role_permission('admin', 'mgmt.dashboard', false)$$);
+select t.denied('14 viewer can never get full export', $$select public.admin_set_role_permission('viewer', 'export.full', true)$$);
+select t.denied('14 viewer can never get user management', $$select public.admin_set_role_permission('viewer', 'admin.users', true)$$);
+select t.denied('14 viewer can never get dataset exports', $$select public.admin_set_role_permission('viewer', 'export.datasets', true)$$);
+select t.denied('14 viewer can never get permission admin', $$select public.admin_set_role_permission('viewer', 'admin.permissions', true)$$);
+select t.denied('14 sales operational data is locked on', $$select public.admin_set_role_permission('bd_executive', 'raw.calls', false)$$);
+select t.denied('14 dependency enforced (names need individual first)', $$select public.admin_set_role_permission('viewer', 'perf.names', true)$$);
+select t.denied('14 unknown permission rejected', $$select public.admin_set_role_permission('viewer', 'god.mode', true)$$);
+select t.denied('14 admins cannot get user overrides', $$select public.admin_set_user_override(t.u('a1'), 'perf.individual', false)$$);
+select t.denied('14 deleted users cannot get overrides', $$select public.admin_set_user_override(t.u('b2'), 'perf.individual', true)$$);
+select t.denied('14 override cannot unlock a hard rule', $$select public.admin_set_user_override(t.u('c1'), 'export.full', true)$$);
+
+-- management viewer, default = department only
+select t.login(t.u('c1'));
+select t.check('14 viewer: effective permissions payload', (select (p ->> 'role') = 'viewer' and (p -> 'perms' ->> 'mgmt.dashboard')::boolean and not (p -> 'perms' ->> 'perf.individual')::boolean from (select public.my_permissions() p) x));
+select t.check('14 viewer: has_perm denies unknown permission', not public.has_perm('anything.else'));
+create temp table vrep as select public.management_report(public.cairo_today() - 1, public.cairo_today()) r;
+grant select on vrep to public;
+select t.check('14 viewer default: department totals present', (select (r -> 'calls' ->> 'total')::int > 0 and r -> 'snapshot' -> 'leads' ? 'hot' from vrep));
+select t.check('14 viewer default: NO employee-level rows in the API response', (select not (r -> 'calls' ? 'by_user') and (r -> 'scope' ->> 'individual') = 'false' from vrep));
+select t.check('14 viewer default: no employee names / emails anywhere in the response',
+  (select r::text not like '%BD One%' and r::text not like '%BD Two%' and r::text not like '%Admin%' and r::text not like '%@t%' from vrep));
+select t.check('14 viewer default: no lead names / notes / critical rows', (select not (r ? 'critical_follow_ups') and not (r ? 'wins_losses') and r::text not like '%Amer Group%' from vrep));
+select t.denied('14 viewer cannot call admin_report', $$select public.admin_report(public.cairo_today(), public.cairo_today())$$);
+select t.denied('14 viewer cannot preview roles', $$select public.management_report(public.cairo_today(), public.cairo_today(), 'admin')$$);
+select t.denied('14 viewer cannot change role permissions', $$select public.admin_set_role_permission('viewer', 'perf.individual', true)$$);
+select t.denied('14 viewer cannot set overrides', $$select public.admin_set_user_override(t.u('c1'), 'perf.individual', true)$$);
+select t.denied('14 viewer cannot set terminology', $$select public.admin_set_terminology('{"role_sales": {"en": "x"}}')$$);
+select t.eq('14 viewer default: no raw calls', (select count(*)::int from call_attempts), 0);
+select t.eq('14 viewer default: no raw contacts', (select count(*)::int from contacts), 0);
+select t.eq('14 viewer default: no raw meetings', (select count(*)::int from meetings), 0);
+select t.eq('14 viewer default: no raw proposals', (select count(*)::int from proposals), 0);
+select t.eq('14 viewer default: no raw follow-ups', (select count(*)::int from follow_ups), 0);
+select t.eq('14 viewer default: colleagues'' profiles hidden (only own row)', (select count(*)::int from profiles), 1);
+select t.check('14 viewer may export the management summary', public.log_export('management', 'xlsx', public.cairo_today(), public.cairo_today()) > 0);
+select t.denied('14 viewer cannot full-export', $$select public.log_export('full', 'xlsx')$$);
+select t.denied('14 viewer cannot export datasets', $$select public.log_export('calls', 'xlsx')$$);
+
+-- sales: operational only
+select t.login(t.u('b1'));
+select t.check('14 sales keeps operational reads', (select count(*) from leads) > 0 and (select count(*) from call_attempts) > 0);
+select t.denied('14 sales: no management report by default', $$select public.management_report(public.cairo_today(), public.cairo_today())$$);
+select t.denied('14 sales cannot read role templates', $$select public.role_template('viewer')$$);
+select t.denied('14 sales cannot read user permissions', $$select * from public.user_effective_permissions(t.u('c1'))$$);
+select t.denied('14 sales cannot change permissions', $$select public.admin_set_role_permission('bd_executive', 'mgmt.dashboard', true)$$);
+select t.denied('14 sales cannot reset overrides', $$select public.admin_reset_user_overrides(t.u('c1'))$$);
+select t.denied('14 sales cannot export management summary by default', $$select public.log_export('management', 'xlsx')$$);
+select t.check('14 sales can still export its datasets', public.log_export('leads', 'xlsx') > 0);
+select t.eq('14 sales cannot read the role tables directly', (select count(*)::int from role_permissions), 0);
+
+-- inactive / deleted / anonymous
+select t.login(t.u('d1'));
+select t.check('14 inactive: every permission denied', not public.has_perm('mgmt.dashboard') and (public.my_permissions() ->> 'role') is null);
+select t.denied('14 inactive: no management report', $$select public.management_report(public.cairo_today(), public.cairo_today())$$);
+select t.login(t.u('b2'));
+select t.check('14 deleted user (stale token): every permission denied', not public.has_perm('raw.leads'));
+select t.anon();
+select t.denied('14 anonymous: has_perm not callable', $$select public.has_perm('mgmt.dashboard')$$);
+select t.denied('14 anonymous: no management report', $$select public.management_report(public.cairo_today(), public.cairo_today())$$);
+
+-- admin grants individual breakdown to ONE viewer (override), names still hidden until separately granted
+select t.login(t.u('a1'));
+select public.admin_set_user_override(t.u('c1'), 'perf.individual', true);
+select t.login(t.u('c1'));
+create temp table vrep2 as select public.management_report(public.cairo_today() - 1, public.cairo_today()) r;
+grant select on vrep2 to public;
+select t.check('14 override: individual aggregate rows now returned', (select jsonb_array_length(r -> 'calls' -> 'by_user') > 0 from vrep2));
+select t.check('14 override: rows are pseudonymous (no names) and carry no individual targets',
+  (select bool_and(e ? 'member' and not (e ? 'name') and not (e ? 'target') and not (e ? 'user_id')) from vrep2, jsonb_array_elements(r -> 'calls' -> 'by_user') e));
+select t.check('14 override: still no names in the payload', (select r::text not like '%BD One%' from vrep2));
+select t.eq('14 override: raw rows still denied', (select count(*)::int from call_attempts), 0);
+select t.denied('14 override: still read-only', $$insert into leads (name, created_by) values ('x', t.u('c1'))$$);
+select t.login(t.u('a1'));
+select public.admin_set_user_override(t.u('c1'), 'perf.names', true);
+select public.admin_set_user_override(t.u('c1'), 'perf.targets', true);
+select t.check('14 effective permissions show inherited vs override', (select count(*) = 3 from public.user_effective_permissions(t.u('c1')) where override is not null and effective and not inherited));
+select t.login(t.u('c1'));
+select t.check('14 override names + targets: names and individual targets returned',
+  (select r::text like '%BD One%' and (r -> 'calls' -> 'by_user' -> 0) ? 'target' from (select public.management_report(public.cairo_today() - 1, public.cairo_today()) r) x));
+select t.login(t.u('a1'));
+select t.eq('14 reset to role defaults removes all overrides', public.admin_reset_user_overrides(t.u('c1')), 3);
+select t.login(t.u('c1'));
+select t.check('14 after reset: back to department only', (select not (r -> 'calls' ? 'by_user') from (select public.management_report(public.cairo_today(), public.cairo_today()) r) x));
+
+-- role template change + dependency cascade
+select t.login(t.u('a1'));
+select t.eq('14 turning reports off also turns the 4 report types off',
+  (select jsonb_array_length(public.admin_set_role_permission('viewer', 'reports.view', false) -> 'also_disabled')), 4);
+select t.login(t.u('c1'));
+select t.check('14 viewer lost daily report with its parent', not public.has_perm('reports.daily') and not public.has_perm('reports.view'));
+select t.login(t.u('a1'));
+select public.admin_set_role_permission('viewer', 'reports.view', true);
+select public.admin_set_role_permission('viewer', p, true) from unnest(array['reports.daily', 'reports.weekly', 'reports.monthly', 'reports.board']) p;
+select public.admin_set_role_permission('viewer', 'raw.calls', true);
+select t.login(t.u('c1'));
+select t.check('14 raw grant: viewer now reads call rows (read-only)', (select count(*) from call_attempts) > 0 and public.has_perm('reports.daily'));
+select t.denied('14 raw grant does not allow writes', $$select log_call('11111111-1111-1111-1111-111111111111', 'responded')$$);
+select t.login(t.u('a1'));
+select public.admin_set_role_permission('viewer', 'raw.calls', false);
+-- preview as role (admin identity, viewer's view, can only reduce)
+select t.check('14 preview as viewer: department only', (select not (r -> 'calls' ? 'by_user') from (select public.management_report(public.cairo_today(), public.cairo_today(), 'viewer') r) x));
+select t.check('14 admin (no preview): individual table with names',
+  (select jsonb_array_length(r -> 'calls' -> 'by_user') > 0 and r::text like '%BD One%' from (select public.management_report(public.cairo_today() - 1, public.cairo_today()) r) x));
+select t.check('14 admin_report unchanged through the shared core',
+  (select (public.admin_report(public.cairo_today() - 1, public.cairo_today()) -> 'calls' -> 'total') = (public.management_report(public.cairo_today() - 1, public.cairo_today()) -> 'calls' -> 'total')));
+-- terminology
+select public.admin_set_terminology('{"role_sales": {"en": "Business Development", "ar": "تطوير الأعمال"}, "sales_team": {"en": "BD Team", "ar": ""}}');
+select t.check('14 terminology stored as display labels only', (select value -> 'role_sales' ->> 'en' = 'Business Development' from settings where key = 'terminology'));
+select t.denied('14 terminology rejects unknown keys', $$select public.admin_set_terminology('{"bd_executive": {"en": "x"}}')$$);
+select t.eq('14 role keys unchanged by terminology', (select count(*)::int from profiles where role not in ('admin', 'bd_executive', 'viewer')), 0);
+-- audit
+select t.root();
+select t.check('14 permission changes are audited with old/new values',
+  (select count(*) from audit_logs where entity = 'permissions') - (select n from perm_audit_before) >= 12
+  and exists (select 1 from audit_logs where entity = 'permissions' and action = 'user_overrides_reset' and old_value ? 'perf.individual')
+  and exists (select 1 from audit_logs where entity = 'permissions' and action = 'role_permission_changed' and old_value ->> 'allowed' = 'true' and new_value ->> 'allowed' = 'false'));
+select t.check('14 terminology change audited', exists (select 1 from audit_logs where entity = 'settings' and entity_id = 'terminology'));
+select t.denied('14 permission audit rows are immutable', $$update audit_logs set action = 'x' where entity = 'permissions'$$);
+select t.login(t.u('a1'));
+select t.denied('14 role tables cannot be written directly (RPC only)', $$insert into role_permissions (role, perm, allowed) values ('viewer', 'perf.individual', true)$$);
+select t.root();
 
 -- result -------------------------------------------------------------------------------------
 \o

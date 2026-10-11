@@ -1,5 +1,6 @@
 import { supabase, unwrap } from './supabase';
 import { currentLang, t, personName } from './i18n';
+import { term } from './terminology';
 import { cairoToday, fmtDate, fmtDateTime, monthRange, weekRange, daysBetween } from './cairo';
 import { STAGES, STAGE_LABEL, TEMPERATURES, TEMP_LABEL, PROPOSAL_STATUS, label, proposalCode, CONFIRMATION } from './labels';
 import { instantBounds } from './exportData';
@@ -110,7 +111,7 @@ const HEAD = {
   awaiting: ['Proposal', 'Company', 'Status', 'Sent date', 'Days since sent', 'Next follow-up', 'Owner'],
   confirm: ['Scheduled (Cairo)', 'Company', 'Meeting with', 'Confirmation'], stale: ['Company', 'Stage', 'Temperature', 'Last activity', 'Owner'],
 };
-const H = (k: keyof typeof HEAD) => HEAD[k].map((x) => t(x));
+const H = (k: keyof typeof HEAD) => HEAD[k].map((x) => (x === 'BD executive' ? term('role_sales') : t(x)));
 
 export function boardHeaderLines(D: BoardData): string[] {
   return ['ACCORD', t('Board Members Report'), `${t('Report type')}: ${t(TYPE_LABEL[D.kind])}`, `${t('Period')}: ${periodText(D.range)}`,

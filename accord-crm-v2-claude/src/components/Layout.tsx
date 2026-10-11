@@ -1,15 +1,18 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { NavLink, Outlet, Link, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Building2, Phone, Columns3, CalendarClock, CalendarDays, FileText, Settings, ShieldCheck, LogOut, Moon, Sun,
   Users, Target, Presentation, PhoneCall, Handshake, Briefcase, GitBranch, RefreshCw, ScrollText, SlidersHorizontal, Activity, MoreHorizontal, ArrowLeft, CalendarRange, CalendarCheck2,
-  Monitor, Languages, Download,
+  Monitor, Languages, Download, KeyRound, Type, Eye, X as XIcon, LineChart,
 } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { useTheme, type ThemePref } from '../lib/theme';
 import { useI18n, t } from '../lib/i18n';
 import { ROLE_LABEL } from '../lib/labels';
 import { Modal, Segmented } from './ui';
+import { usePerms } from '../lib/perms';
+import { term } from '../lib/terminology';
+import { usePreviewRole, setPreviewRole } from '../lib/preview';
 
 /** ACCORD logo; the variant always follows the ACTIVE theme (single source: ThemeProvider). */
 export function Logo({ dark, className }: { dark?: boolean; className?: string }) {
@@ -23,19 +26,34 @@ export function AppIcon({ className = 'mark', size = 40 }: { className?: string;
 }
 export const initials = (name?: string | null) => (name || '?').trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() ?? '').join('') || '?';
 
-interface Item { to: string; label: string; icon: ReactNode; end?: boolean }
-const CRM_NAV: Item[] = [
-  { to: '/dashboard/', label: 'Dashboard', icon: <LayoutDashboard /> },
-  { to: '/leads/', label: 'Leads', icon: <Building2 /> },
-  { to: '/calls/', label: 'Calls', icon: <Phone /> },
-  { to: '/pipeline/', label: 'Pipeline', icon: <Columns3 /> },
-  { to: '/follow-ups/', label: 'Follow-ups', icon: <CalendarClock /> },
-  { to: '/meetings/', label: 'Meetings', icon: <CalendarDays /> },
-  { to: '/proposals/', label: 'Proposals', icon: <FileText /> },
+interface Item { to: string; label: string; icon: ReactNode; end?: boolean; raw?: boolean }
+type Can = (p: string) => boolean;
+// every CRM page is shown only when the EFFECTIVE permissions allow it (the database enforces the same rule)
+const CRM_NAV: (Item & { show: (can: Can, staff: boolean) => boolean })[] = [
+  { to: '/dashboard/', label: 'Dashboard', icon: <LayoutDashboard />, show: (_c, staff) => staff },
+  { to: '/management/', label: 'management_dashboard', raw: true, icon: <LineChart />, show: (c) => c('mgmt.dashboard') || c('reports.view') },
+  { to: '/leads/', label: 'Leads', icon: <Building2 />, show: (c) => c('raw.leads') },
+  { to: '/calls/', label: 'Calls', icon: <Phone />, show: (c) => c('raw.calls') },
+  { to: '/pipeline/', label: 'Pipeline', icon: <Columns3 />, show: (c) => c('raw.leads') },
+  { to: '/follow-ups/', label: 'Follow-ups', icon: <CalendarClock />, show: (c) => c('raw.followups') },
+  { to: '/meetings/', label: 'Meetings', icon: <CalendarDays />, show: (c) => c('raw.meetings') },
+  { to: '/proposals/', label: 'Proposals', icon: <FileText />, show: (c) => c('raw.proposals') },
 ];
+/** CRM navigation for the signed-in (or previewed) role. */
+export function useCrmNav(): Item[] {
+  const { can } = usePerms(); const { isStaff } = useAuth();
+  return CRM_NAV.filter((i) => i.show(can, isStaff));
+}
+/** Where "home" is for this role: Sales/Admin → personal dashboard; Management Viewer → management dashboard. */
+export function useHomePath(): string {
+  const { can } = usePerms(); const { isStaff } = useAuth();
+  return isStaff ? '/dashboard/' : can('mgmt.dashboard') || can('reports.view') ? '/management/' : '/settings/';
+}
 const ADMIN_NAV: (Item | string)[] = [
   { to: '/admin/', label: 'Overview', icon: <ShieldCheck />, end: true },
+  'People & access',
   { to: '/admin/users/', label: 'Users & Access', icon: <Users /> },
+  { to: '/admin/roles/', label: 'Roles & Permissions', icon: <KeyRound /> },
   { to: '/admin/targets/', label: 'User Targets', icon: <Target /> },
   'Reports',
   { to: '/admin/reports/daily/', label: 'Daily Reports', icon: <CalendarCheck2 /> },
@@ -47,30 +65,35 @@ const ADMIN_NAV: (Item | string)[] = [
   { to: '/admin/analytics/meetings/', label: 'Meetings Analytics', icon: <Handshake /> },
   { to: '/admin/analytics/commercial/', label: 'Commercial', icon: <Briefcase /> },
   { to: '/admin/analytics/pipeline/', label: 'Pipeline Analytics', icon: <GitBranch /> },
-  'System',
-  { to: '/admin/sync/', label: 'Google Sheet Sync', icon: <RefreshCw /> },
-  { to: '/admin/audit/', label: 'Audit Log', icon: <ScrollText /> },
+  'Configuration',
   { to: '/admin/config/', label: 'CRM Configuration', icon: <SlidersHorizontal /> },
+  { to: '/admin/terminology/', label: 'Terminology', icon: <Type /> },
+  'Integrations',
+  { to: '/admin/sync/', label: 'Google Sheet Sync', icon: <RefreshCw /> },
+  'System',
   { to: '/admin/status/', label: 'System Status', icon: <Activity /> },
+  { to: '/admin/audit/', label: 'Audit Log', icon: <ScrollText /> },
   { to: '/admin/export/', label: 'Data Export', icon: <Download /> },
 ];
 
 const navCls = ({ isActive }: { isActive: boolean }) => `navlink ${isActive ? 'active' : ''}`;
 function NavItem({ i, onClick }: { i: Item; onClick?: () => void }) {
-  return <NavLink to={i.to} end={i.end} className={navCls} title={t(i.label)} onClick={onClick}>{i.icon}<span>{t(i.label)}</span></NavLink>;
+  const label = i.raw ? term(i.label as Parameters<typeof term>[0]) : t(i.label);
+  return <NavLink to={i.to} end={i.end} className={navCls} title={label} onClick={onClick}>{i.icon}<span>{label}</span></NavLink>;
 }
 
 function Sidebar({ admin }: { admin?: boolean }) {
-  const { profile, isAdmin, signOut } = useAuth();
+  const { profile, isAdmin, signOut, role } = useAuth();
   const { theme, toggle } = useTheme();
+  const nav = useCrmNav(); const home = useHomePath();
   return (
     <aside className="sidebar">
-      <Link to={admin ? '/admin/' : '/dashboard/'} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><AppIcon /></Link>
+      <Link to={admin ? '/admin/' : home} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><AppIcon /></Link>
       {admin && <div className="admin-ribbon" style={{ margin: '0 4px 10px' }} title={t('Management control centre')}><ShieldCheck size={13} /> <span>{t('Management control centre')}</span></div>}
       <nav aria-label={admin ? t('Admin navigation') : t('Main navigation')}>
         {admin
           ? ADMIN_NAV.map((i) => typeof i === 'string' ? <div key={i} className="navsep">{t(i)}</div> : <NavItem key={i.to} i={i} />)
-          : CRM_NAV.map((i) => <NavItem key={i.to} i={i} />)}
+          : nav.map((i) => <NavItem key={i.to} i={i} />)}
       </nav>
       <div className="foot">
         {isAdmin && (admin
@@ -78,7 +101,7 @@ function Sidebar({ admin }: { admin?: boolean }) {
           : <NavLink to="/admin/" className="navlink" title={t('Admin dashboard')}><ShieldCheck /><span>{t('Admin dashboard')}</span></NavLink>)}
         <NavLink to="/settings/" className={({ isActive }) => `usercard ${isActive ? 'active' : ''}`} title={t('Profile & settings')}>
           <span className="avatar" aria-hidden="true">{initials(profile?.full_name || profile?.email)}</span>
-          <span className="who"><b>{profile?.full_name || profile?.email}</b><span>{profile ? ROLE_LABEL[profile.role] : ''} · {t('Settings')}</span></span>
+          <span className="who"><b>{profile?.full_name || profile?.email}</b><span>{role ? ROLE_LABEL[role] : ''} · {t('Settings')}</span></span>
         </NavLink>
         <div className="foot-actions">
           <button className="btn ghost sm icon" onClick={toggle} aria-label={t('Toggle theme')} title={theme === 'dark' ? t('Switch to light mode') : t('Switch to dark mode')}>{theme === 'dark' ? <Sun /> : <Moon />}</button>
@@ -122,16 +145,20 @@ function MobileBar({ admin }: { admin?: boolean }) {
   const [more, setMore] = useState(false);
   const loc = useLocation();
   useEffect(() => setMore(false), [loc.pathname]);
+  const nav = useCrmNav();
+  const adminItems = ADMIN_NAV.filter((i) => typeof i !== 'string') as Item[];
+  const PRIMARY_ADMIN = ['/admin/', '/admin/users/', '/admin/targets/', '/admin/reports/daily/'];
+  const PRIMARY_CRM = ['/dashboard/', '/management/', '/leads/', '/calls/', '/follow-ups/'];
   const primary = admin
-    ? [ADMIN_NAV[0], ADMIN_NAV[1], ADMIN_NAV[2], ADMIN_NAV[4]] as Item[]
-    : [CRM_NAV[0], CRM_NAV[1], CRM_NAV[2], CRM_NAV[4]];
+    ? PRIMARY_ADMIN.map((to) => adminItems.find((i) => i.to === to)!).filter(Boolean)
+    : nav.filter((i) => PRIMARY_CRM.includes(i.to)).slice(0, 4);
   const rest: Item[] = admin
-    ? (ADMIN_NAV.filter((i) => typeof i !== 'string') as Item[]).filter((i) => !primary.includes(i))
-    : [...CRM_NAV.filter((i) => !primary.includes(i)), { to: '/settings/', label: 'Settings', icon: <Settings /> }, ...(isAdmin ? [{ to: '/admin/', label: 'Admin dashboard', icon: <ShieldCheck /> }] : [])];
+    ? adminItems.filter((i) => !primary.includes(i))
+    : [...nav.filter((i) => !primary.includes(i)), { to: '/settings/', label: 'Settings', icon: <Settings /> }, ...(isAdmin ? [{ to: '/admin/', label: 'Admin dashboard', icon: <ShieldCheck /> }] : [])];
   return (
     <>
       <nav className="mobilebar" aria-label={t('Quick navigation')}>
-        {primary.map((i) => <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => (isActive ? 'active' : '')}>{i.icon}{t(i.label.replace(' & Access', ''))}</NavLink>)}
+        {primary.map((i) => <NavLink key={i.to} to={i.to} end={i.end} className={({ isActive }) => (isActive ? 'active' : '')}>{i.icon}{i.raw ? term(i.label as Parameters<typeof term>[0]) : t(i.label.replace(' & Access', ''))}</NavLink>)}
         <button onClick={() => setMore(true)} aria-label={t('More')}><MoreHorizontal />{t('More')}</button>
       </nav>
       {more && (
@@ -172,12 +199,26 @@ function MobileTopActions() {
   );
 }
 
+/** "Preview as role" banner — the preview is UI-only and read-only; the admin identity never changes. */
+function PreviewBanner() {
+  const { realAdmin } = useAuth(); const preview = usePreviewRole(); const navigate = useNavigate();
+  if (!realAdmin || !preview) return null;
+  return (
+    <div className="preview-banner" role="status" data-testid="preview-banner">
+      <Eye /><span><b>{t('Previewing {role}', { role: ROLE_LABEL[preview] })}</b> · {t('Read-only preview of navigation and dashboards. Your own access is unchanged and nothing can be saved.')}</span>
+      <button className="btn sm" onClick={() => { setPreviewRole(null); navigate('/admin/roles/'); }} data-testid="exit-preview"><XIcon /> {t('Exit preview')}</button>
+    </div>
+  );
+}
+
 export function AppShell({ admin }: { admin?: boolean }) {
+  const home = useHomePath();
   return (
     <div className="shell">
       <Sidebar admin={admin} />
       <main className="main" id="main">
-        <div className="mobile-top"><Link to={admin ? '/admin/' : '/dashboard/'} aria-label={t('ACCORD CRM home')}><AppIcon size={38} /></Link><MobileTopActions /></div>
+        <PreviewBanner />
+        <div className="mobile-top"><Link to={admin ? '/admin/' : home} aria-label={t('ACCORD CRM home')}><AppIcon size={38} /></Link><MobileTopActions /></div>
         <Outlet />
       </main>
       <MobileBar admin={admin} />

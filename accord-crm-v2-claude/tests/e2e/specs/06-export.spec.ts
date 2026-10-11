@@ -183,7 +183,7 @@ test.describe.serial('exports and language switch', () => {
     await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   });
 
-  test('permissions: BD exports only datasets; viewer has no export at all (UI and API)', async ({ page, browser }) => {
+  test('permissions: BD exports only datasets; viewer gets the management summary only (UI and API)', async ({ page, browser }) => {
     await login(page, 'bd1');
     await page.goto('/leads/');
     await page.getByTestId('leads-export').click();
@@ -200,14 +200,17 @@ test.describe.serial('exports and language switch', () => {
     expect((await rpc(bd, 'log_export', { p_kind: 'board', p_format: 'pdf' })).status).toBeGreaterThanOrEqual(400);
 
     const vp = await (await browser.newContext()).newPage();
-    await login(vp, 'viewer');
+    await login(vp, 'viewer', /\/management\//);
     await vp.goto('/leads/');
-    await expect(vp.getByRole('heading', { level: 1 })).toHaveText('Leads');
+    await expect(vp).toHaveURL(/\/management\//);
     await expect(vp.getByTestId('leads-export')).toHaveCount(0);
+    await expect(vp.getByTestId('mgmt-export')).toBeVisible();
     await vp.goto('/admin/export/');
-    await expect(vp).toHaveURL(/\/dashboard\//);
+    await expect(vp).toHaveURL(/\/management\//);
     const v = await tokenFor(...USERS.viewer as [string, string]);
     expect((await rpc(v, 'log_export', { p_kind: 'leads', p_format: 'xlsx' })).status).toBeGreaterThanOrEqual(400);
+    expect((await rpc(v, 'log_export', { p_kind: 'full', p_format: 'xlsx' })).status).toBeGreaterThanOrEqual(400);
+    expect((await rpc(v, 'log_export', { p_kind: 'management', p_format: 'xlsx' })).status).toBeLessThan(300);
     expect((await rpc(null, 'log_export', { p_kind: 'leads', p_format: 'xlsx' })).status).toBeGreaterThanOrEqual(400);
   });
 });

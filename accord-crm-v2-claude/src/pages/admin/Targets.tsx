@@ -5,6 +5,7 @@ import { useToast } from '../../lib/toast';
 import { PageHead, Loading, ErrorNote, Modal, Field } from '../../components/ui';
 import { cairoToday, fmtDate } from '../../lib/cairo';
 import { t } from '../../lib/i18n';
+import { term } from '../../lib/terminology';
 
 interface T { id: string; user_id: string; daily_call_target: number; effective_from: string; effective_to: string | null; active: boolean; created_at: string }
 interface P { id: string; full_name: string; email: string }
@@ -21,11 +22,11 @@ export default function AdminTargets() {
   const current = (uid: string) => q.data?.targets.find((t) => t.user_id === uid && t.active && t.effective_from <= today && (!t.effective_to || t.effective_to >= today));
   return (
     <>
-      <PageHead title={t('User call targets')} sub={t('Daily Call Target per BD executive. History is effective-dated; reports use the target that applied on each day.')} />
+      <PageHead title={t('User call targets')} sub={t('Daily call target per {role} user. History is effective-dated; reports use the target that applied on each day.', { role: term('role_sales') })} />
       <ErrorNote error={q.error} />
       {q.isLoading ? <Loading /> : (
         <div className="col">
-          <div className="card table-wrap"><table className="t" aria-label={t('Current targets')}><thead><tr><th>{t('BD executive')}</th><th className="r">{t('Current daily target')}</th><th>{t('Since')}</th><th /></tr></thead><tbody>
+          <div className="card table-wrap"><table className="t" aria-label={t('Current targets')}><thead><tr><th>{term('role_sales')}</th><th className="r">{t('Current daily target')}</th><th>{t('Since')}</th><th /></tr></thead><tbody>
             {q.data!.users.map((u) => { const c = current(u.id); return (
               <tr key={u.id}><td><b>{u.full_name || u.email}</b></td><td className="r num">{c ? c.daily_call_target : <span className="muted">{t('not set')}</span>}</td><td>{c ? fmtDate(c.effective_from) : '—'}</td><td className="r"><button className="btn sm" onClick={() => setEdit(u)}>{t('Set target')}</button></td></tr>); })}
           </tbody></table></div>

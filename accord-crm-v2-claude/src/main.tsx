@@ -9,6 +9,7 @@ import { CallProvider } from './components/CallProvider';
 import { ThemeProvider } from './lib/theme';
 import { I18nProvider } from './lib/i18n';
 import { PrefsSync } from './lib/prefsSync';
+import { TerminologySync } from './lib/perms';
 import './index.css';
 
 const qc = new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, retry: 1, refetchOnWindowFocus: true } } });
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               {/* below Auth so a language switch re-renders the UI without re-running the session bootstrap */}
               <I18nProvider>
                 <PrefsSync />
+                <TerminologySync />
                 <CallProvider>
                   <App />
                 </CallProvider>

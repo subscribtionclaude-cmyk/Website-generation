@@ -53,6 +53,23 @@ static host with no rewrites. Dynamic lead pages use `/leads/view/?id=<uuid>`. P
   Cairo calendar; weekly = the CRM week Sunday–Saturday. Before any export the browser calls `log_export()` (migration 10): refused
   for viewers/inactive/anonymous, full + board are admin-only, and an audit row (who, type, period, format, filters — never data)
   is written.
+* **Roles & permissions (V6, migration 12)** — canonical roles stay `admin | bd_executive | viewer`; "Sales" and
+  "Management Viewer" are display labels (Admin → Terminology, `settings.terminology`, English + Arabic, presentation only).
+  `permission_catalog` lists every permission with its section, per-role mode (`config` / `on` = always / `off` = never
+  grantable — the hard security rules) and dependency; `role_permissions` is the template for Sales and Management Viewer;
+  `user_permission_overrides` holds optional per-user exceptions. Resolution in `perm_for()` / `has_perm()`: inactive,
+  deleted or anonymous → deny; admin → allow; mode off → deny; mode on → allow; user override → role template → deny;
+  then every dependency must also hold. Writes only through audited admin RPCs (`admin_set_role_permission`,
+  `admin_set_user_override`, `admin_reset_user_overrides`, `admin_set_terminology`); the tables have no write policies.
+  **Enforcement is in the database**: raw-table RLS is `is_staff() or (is_member() and has_perm('raw.*'))`, so a Management
+  Viewer reads no raw rows by default; `management_report()` builds department aggregates server-side and only adds
+  employee rows when `perf.individual` is effective (names only with `perf.names`, individual targets only with
+  `perf.targets`) — the fields are never sent otherwise. `log_export('management')` follows `export.management_summary`;
+  full/board exports stay admin-only. The UI loads ONE payload (`my_permissions()`) and mirrors it (navigation, route
+  guards). "Preview as role" (admin) renders navigation/dashboards from `role_template()` and `management_report(…,
+  p_preview_role)`; the identity never changes and the network layer answers every write with a local 403 while a
+  preview is active. Column-level splits (e.g. raw calls without call notes) are not possible with row-level security,
+  so each raw permission explicitly includes its notes/contact fields.
 * **Users** — Admin → Users: search, status filter (all / active / deactivated / deleted), last sign-in, 20 per page,
   one actions menu per row (edit, reset email, temporary password, deactivate/reactivate, delete). All changes go
   through the `admin-users` Edge Function (service role is server-side only; every call re-checks the caller is an

@@ -5,6 +5,7 @@ import { Phone, Plus, Search, Download } from 'lucide-react';
 import { ExportDialog } from '../components/ExportDialog';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
+import { usePerms } from '../lib/perms';
 import { PageHead, Pager, TempBadge, StageBadge, Loading, Empty, ErrorNote, useDebounced, Select } from '../components/ui';
 import { useCall } from '../components/CallProvider';
 import { LeadFormDialog } from '../components/LeadForm';
@@ -23,7 +24,7 @@ const SORTS: Record<string, { col: string; asc: boolean; label: string }> = {
 };
 
 export default function Leads() {
-  const { profile, isStaff, isAdmin } = useAuth();
+  const { profile, isStaff, isAdmin } = useAuth(); const { can } = usePerms();
   const { startCall } = useCall();
   const [sp, setSp] = useSearchParams();
   const [qText, setQText] = useState(sp.get('q') ?? '');
@@ -59,7 +60,7 @@ export default function Leads() {
 
   return (
     <>
-      <PageHead title={t('Leads')} sub={data ? t('{n} leads', { n: data.total.toLocaleString() }) : ''} actions={isStaff && <><button className="btn" onClick={() => setExporting(true)} data-testid="leads-export"><Download /> {t('Export')}</button><button className="btn primary" onClick={() => setCreating(true)}><Plus /> {t('New lead')}</button></>} />
+      <PageHead title={t('Leads')} sub={data ? t('{n} leads', { n: data.total.toLocaleString() }) : ''} actions={isStaff && <>{can('export.datasets') && <button className="btn" onClick={() => setExporting(true)} data-testid="leads-export"><Download /> {t('Export')}</button>}<button className="btn primary" onClick={() => setCreating(true)}><Plus /> {t('New lead')}</button></>} />
       <div className="card filters col" style={{ marginBottom: 14 }}>
         <div className="row">
           <div className="grow search">
