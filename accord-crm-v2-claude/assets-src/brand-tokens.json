@@ -1,0 +1,17 @@
+{
+  "source": "ACCORD uploaded brand identity reference",
+  "note": "Use as implementation guidance. Do not invent replacement brand colors unless needed for accessibility.",
+  "colors": {
+    "deep_blue": "#062D8F",
+    "rich_purple": "#783FE4",
+    "metallic_gold": "#D4AF37",
+    "white": "#FFFFFF",
+    "dark_navy": "#0A1B3D"
+  },
+  "usage": {
+    "light_mode_primary": "deep_blue",
+    "dark_mode_primary": "rich_purple",
+    "accent": "metallic_gold",
+    "dark_surface": "dark_navy"
+  }
+}

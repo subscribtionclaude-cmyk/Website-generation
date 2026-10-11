@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+*.zip
+test-results
+playwright-report
+.local-e2e
+.postgrest.conf
+dist-e2e

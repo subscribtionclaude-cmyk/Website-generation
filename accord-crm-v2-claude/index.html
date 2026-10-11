@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ACCORD CRM</title>
+    <meta name="description" content="ACCORD Property & Facility Management — Business Development CRM" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/accord-favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/icons/accord-favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/accord-apple-touch-icon.png" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1428" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ACCORD CRM" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      // Before first paint: resolve theme (light | dark | system) and language from the same keys the app uses
+      // (src/lib/theme.tsx, src/lib/i18n.tsx), so there is no light flash in dark mode and no LTR flash in Arabic.
+      (function () {
+        var d = document.documentElement, p = 'system', l = 'en';
+        try { p = localStorage.getItem('accord-theme') || 'system'; l = localStorage.getItem('accord-lang') === 'ar' ? 'ar' : 'en'; } catch (e) {}
+        var dark = p === 'dark' || (p !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        d.setAttribute('data-theme', dark ? 'dark' : 'light');
+        d.style.colorScheme = dark ? 'dark' : 'light';
+        d.setAttribute('lang', l);
+        d.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+      })();
+    </script>
+    <style>
+      html { background: #f3f5fa; } html[data-theme='dark'] { background: #070d1b; }
+      #boot { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+      #boot i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(127, 138, 166, 0.35); border-top-color: #783fe4; animation: bootspin 0.8s linear infinite; }
+      @keyframes bootspin { to { transform: rotate(360deg); } }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div id="boot" aria-label="Loading ACCORD CRM"><i></i></div></div>
+    <noscript>ACCORD CRM requires JavaScript.</noscript>
+    <script src="/config.js"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
