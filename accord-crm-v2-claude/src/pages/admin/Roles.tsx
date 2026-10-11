@@ -65,6 +65,7 @@ export default function AdminRoles() {
             return (
               <section key={sec} className="card card-pad col perm-section" aria-label={t(SECTION_LABEL[sec])} data-testid={`perm-section-${sec}`}>
                 <h2>{t(SECTION_LABEL[sec])}</h2>
+                {sec === 'data' && role === 'viewer' && <div className="muted small" data-testid="viewer-raw-locked">{t('A Management Viewer never receives raw CRM records, notes, meeting minutes or contact details — only department and employee aggregates. This is a fixed privacy rule.')}</div>}
                 {rows.map((c) => {
                   const mode = modeFor(c, role); const on = Boolean(v[c.perm]);
                   const parentOff = c.depends_on ? !v[c.depends_on] : false;
@@ -77,7 +78,7 @@ export default function AdminRoles() {
                         {!locked && parentOff && <div className="small warn-text">{t('Requires “{p}”', { p: t(PERM_INFO[c.depends_on!]?.label ?? c.depends_on!) })}</div>}
                       </div>
                       {locked
-                        ? <span className={`badge ${mode === 'on' ? 'ok' : ''}`} title={t('Fixed security rule')}><Lock size={12} /> {mode === 'on' ? t('Always') : c.section === 'admin' || c.perm === 'export.full' ? t('Admin only') : t('Not available')}</span>
+                        ? <span className={`badge ${mode === 'on' ? 'ok' : ''}`} title={t('Fixed security rule')}><Lock size={12} /> {mode === 'on' ? t('Always') : c.section === 'admin' || c.perm === 'export.full' ? t('Admin only') : c.section === 'data' ? t('Aggregates only') : t('Not available')}</span>
                         : <Switch checked={on} disabled={busy !== null || (!on && parentOff)} onChange={(x) => toggle(c.perm, x)} label={t(PERM_INFO[c.perm]?.label ?? c.perm)} />}
                     </div>);
                 })}

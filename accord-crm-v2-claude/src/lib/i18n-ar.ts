@@ -1322,4 +1322,7 @@ export const AR: Record<string, string> = {
   'Labels must be 40 characters or fewer': 'يجب ألا تتجاوز المسميات 40 حرفًا',
   'Only administrators can preview roles': 'يمكن للمسؤولين فقط معاينة الأدوار',
   'Closed / won': 'مغلق / مكسب',
+  'Follow-ups overdue': 'متابعات متأخرة',
+  'Aggregates only': 'إجماليات فقط',
+  'A Management Viewer never receives raw CRM records, notes, meeting minutes or contact details — only department and employee aggregates. This is a fixed privacy rule.': 'لا يحصل مراقب الإدارة أبدًا على سجلات CRM التفصيلية أو الملاحظات أو محاضر الاجتماعات أو بيانات الاتصال — بل على الإجماليات على مستوى القسم والموظفين فقط. هذه قاعدة خصوصية ثابتة.',
 };

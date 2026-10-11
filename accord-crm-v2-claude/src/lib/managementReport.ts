@@ -10,7 +10,8 @@ import type { Cell, Sheet } from './xlsx';
 // with their own permissions). Nothing here re-adds or derives employee data.
 export interface MgmtMember {
   name?: string; member?: number; active: boolean; total: number; responded: number; did_not_respond: number; unique_leads: number;
-  response_rate: number | null; meetings_generated: number; proposals_generated: number; target?: number; achievement_pct?: number | null; remaining?: number;
+  response_rate: number | null; meetings_generated: number; proposals_generated: number;
+  follow_ups_due?: number; follow_ups_completed?: number; follow_ups_overdue?: number; won?: number; lost?: number; target?: number; achievement_pct?: number | null; remaining?: number;
 }
 export interface Mgmt {
   range: { from: string; to: string; timezone: string; generated_at: string };
@@ -51,11 +52,12 @@ export function mgmtBlocks(D: Mgmt): { title: string; rows: [string, Cell][] }[]
 }
 
 export function memberHeader(D: Mgmt): string[] {
-  return [term('role_sales'), t('Calls'), t('Responded'), t("Didn't respond"), t('Response rate'), t('Unique leads'), ...(D.scope.targets ? [t('Target'), t('Achievement'), t('Remaining')] : []), t('Meetings'), t('Proposals')];
+  return [term('role_sales'), t('Calls'), t('Responded'), t("Didn't respond"), t('Response rate'), t('Unique leads'), ...(D.scope.targets ? [t('Target'), t('Achievement'), t('Remaining')] : []), t('Meetings'), t('Proposals'), t('Follow-ups due'), t('Follow-ups completed'), t('Follow-ups overdue'), t('Won'), t('Lost')];
 }
 export function memberRows(D: Mgmt): Cell[][] {
   return (D.calls.by_user ?? []).map((u) => [memberName(u), u.total, u.responded, u.did_not_respond, pct(u.response_rate), u.unique_leads,
-    ...(D.scope.targets ? [u.target ?? '—', pct(u.achievement_pct), u.remaining ?? '—'] : []), u.meetings_generated, u.proposals_generated]);
+    ...(D.scope.targets ? [u.target ?? '—', pct(u.achievement_pct), u.remaining ?? '—'] : []), u.meetings_generated, u.proposals_generated,
+    u.follow_ups_due ?? 0, u.follow_ups_completed ?? 0, u.follow_ups_overdue ?? 0, u.won ?? 0, u.lost ?? 0]);
 }
 
 const TITLES: Record<MgmtKind, string> = { daily: 'Daily management report', weekly: 'Weekly management report', monthly: 'Monthly management report', board: 'Board / executive summary', summary: 'Management summary' };

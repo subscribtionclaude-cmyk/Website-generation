@@ -4,7 +4,7 @@
 |---|---|
 | Release date | 2026-10-11 |
 | Git branch | `claude/accord-crm-v2-claude` |
-| Git commit (application code) | `47cc26f` — "ACCORD CRM V6: roles & permissions, privacy-safe management reporting, terminology, preview as role" |
+| Git commit (application code) | `47cc26f` (V6) + security freeze commit (see `git log`: "ACCORD CRM V6 security freeze: Management Viewer raw CRM rows hard-denied") |
 | Supabase project ref | `olanalmpysrwjgfnbejq` |
 | Packages | `accord-crm-v6-production-source.zip`, `accord-crm-v6-production-shipstatic-deploy.zip` |
 | Status | Release candidate — **not deployed** |
@@ -24,7 +24,7 @@ the expected name, none of migration 12's new objects exist yet, and migration 1
 
 1. Supabase → SQL Editor → paste and run **the whole** `supabase/migrations/20261013000012_roles_permissions.sql` (one run).
 2. Verify (read-only): `select count(*) from permission_catalog;` → 25, and `select role, count(*) from role_permissions group by role;`
-   → bd_executive 12, viewer 16.
+   → bd_executive 12, viewer 11.
 3. Edge Functions: **none to deploy** (the deployed `admin-users` v2 is current; V6 adds no Edge Function change).
 4. Deploy `accord-crm-v6-production-shipstatic-deploy.zip` to ShipStatic (contents at ZIP root).
 5. Smoke test in the browser (below).
@@ -50,12 +50,14 @@ Display labels (English + Arabic) are editable in Admin → Terminology and neve
 * **Role templates** (`role_permissions`) for Sales and Management Viewer; **user overrides** (`user_permission_overrides`).
 * **Resolution** (deterministic, deny by default): inactive / deleted / anonymous → DENY · admin → ALLOW · mode `off` → DENY ·
   mode `on` → ALLOW · explicit user override · role template · otherwise DENY · then every dependency must hold.
-* **Hard rules** (not configurable): Management Viewer can never get user management, permission administration,
-  configuration, sync, audit, system, dataset exports or the full CRM export; Admin cannot be reduced; anonymous,
+* **Hard rules** (not configurable): Management Viewer can never get raw CRM rows (leads, contacts, calls, meetings,
+  follow-ups, proposals/forms, timeline, files — and so never notes, meeting minutes, contact emails or phones), colleagues'
+  profiles, user management, permission administration, configuration, sync, audit, system, dataset exports or the full CRM export; Admin cannot be reduced; anonymous,
   inactive and deleted users are always denied; Sales operational data is always on.
-* **Enforcement is server-side**: raw-table RLS gates every Viewer read (`has_perm('raw.*')`); `management_report()`
-  builds the payload from the caller's effective permissions (department aggregates; employee rows only with
-  *Individual employee performance*; names only with *Employee names*; individual targets only with *Individual
+* **Enforcement is server-side**: raw-table RLS is staff-only (Admin + Sales), so no permission row — even one forged
+  past the RPCs — can expose a raw record to a Viewer; `management_report()` builds the payload from the caller's
+  effective permissions (department aggregates; employee KPI rows — calls, response rate, meetings, proposals,
+  follow-ups due/completed/overdue, won/lost — only with *Individual employee performance*; names only with *Employee names*; individual targets only with *Individual
   targets*; never notes, minutes, contact details, lead names or auth data). Admin RPCs re-check `is_admin()`.
 * **Defaults**: Management Viewer = management dashboard, department totals/trends/target, daily/weekly/monthly/board
   reports, management summary export; **department only** (no employee-level data), no raw rows, no full export.
@@ -71,16 +73,14 @@ Display labels (English + Arabic) are editable in Admin → Terminology and neve
 |---|---|
 | Typecheck | pass |
 | Unit (vitest) | 30 / 30 |
-| SQL behaviour + RLS + permissions | 244 / 244 (71 new for migration 12) |
-| End-to-end (Playwright) | 72 / 72 on 3 consecutive full runs (new governance spec: viewer privacy in API + page, reports/exports without names, role templates + dependencies, user overrides + reset, preview read-only, terminology EN/AR, role-change summary, direct API bypass attempts) |
-| Responsive | 1440 / 1024 / 768 / 390 for every route incl. Management, Roles & Permissions, Terminology; Arabic RTL dark checked on mobile/iPad, no horizontal overflow |
+| SQL behaviour + RLS + permissions | 268 / 268 (95 for migration 12, incl. forged-permission-row hard-deny tests) |
+| End-to-end (Playwright) | 72 / 72 on 3 consecutive full runs (new governance spec: viewer privacy in API + page, reports/exports without names, role templates + dependencies, user overrides + reset, preview read-only, terminology EN/AR, role-change summary, direct API bypass attempts, Viewer raw-row hard deny on every raw table/view, admin + sales raw access unchanged) |
+| Responsive | 1440 / 1024 / 768 / 390 for every route incl. Management, Roles & Permissions, Terminology; Arabic RTL light + dark checked at all four widths for the Management Dashboard (individual mode) and Roles page, no horizontal overflow |
 | Static build | 31 route entry points + 404, every route and asset HTTP 200 |
 | Secret scan | clean (only the public anon key in `config.js`) |
 
 ## Known limitations
 
-* Row-level security cannot hide single columns, so each *raw* permission for a Management Viewer includes its
-  notes / minutes / contact fields (e.g. *Raw call records* includes call notes). All are off by default.
 * PDF reports use the browser's "Save as PDF" (exact Arabic shaping); not a direct file download.
 * Migration 11 has no row in Supabase's migration history (applied through the SQL Editor).
 * Live (hosted) HTTP tests of the Edge Function and of V6 could not run from the build environment (outbound access to

@@ -624,12 +624,55 @@ select t.check('14 viewer lost daily report with its parent', not public.has_per
 select t.login(t.u('a1'));
 select public.admin_set_role_permission('viewer', 'reports.view', true);
 select public.admin_set_role_permission('viewer', p, true) from unnest(array['reports.daily', 'reports.weekly', 'reports.monthly', 'reports.board']) p;
-select public.admin_set_role_permission('viewer', 'raw.calls', true);
+-- HARD DENY: a Management Viewer can never be given raw CRM rows (no toggle, no override, no forged permission row)
+select t.denied('14 hard deny: viewer raw leads cannot be enabled', $$select public.admin_set_role_permission('viewer', 'raw.leads', true)$$);
+select t.denied('14 hard deny: viewer raw calls cannot be enabled', $$select public.admin_set_role_permission('viewer', 'raw.calls', true)$$);
+select t.denied('14 hard deny: viewer raw meetings cannot be enabled', $$select public.admin_set_role_permission('viewer', 'raw.meetings', true)$$);
+select t.denied('14 hard deny: viewer raw follow-ups cannot be enabled', $$select public.admin_set_role_permission('viewer', 'raw.followups', true)$$);
+select t.denied('14 hard deny: viewer raw proposals cannot be enabled', $$select public.admin_set_role_permission('viewer', 'raw.proposals', true)$$);
+select t.denied('14 hard deny: no per-user raw override for a viewer', $$select public.admin_set_user_override(t.u('c1'), 'raw.leads', true)$$);
+select t.check('14 hard deny: raw permissions are not configurable for viewers',
+  (select bool_and(not configurable and not effective) from public.user_effective_permissions(t.u('c1')) where perm like 'raw.%'));
+-- even a forged permission row (written past the RPCs) gives a viewer nothing: RLS is staff-only
+select t.root();
+insert into role_permissions (role, perm, allowed) values ('viewer', 'raw.leads', true), ('viewer', 'raw.calls', true), ('viewer', 'raw.meetings', true), ('viewer', 'raw.followups', true), ('viewer', 'raw.proposals', true)
+  on conflict (role, perm) do update set allowed = true;
+insert into user_permission_overrides (user_id, perm, allowed) select t.u('c1'), p, true from unnest(array['raw.leads', 'raw.calls', 'raw.meetings', 'raw.followups', 'raw.proposals', 'perf.individual', 'perf.names']) p;
 select t.login(t.u('c1'));
-select t.check('14 raw grant: viewer now reads call rows (read-only)', (select count(*) from call_attempts) > 0 and public.has_perm('reports.daily'));
-select t.denied('14 raw grant does not allow writes', $$select log_call('11111111-1111-1111-1111-111111111111', 'responded')$$);
+select t.check('14 forged rows: has_perm still denies raw for a viewer', not public.has_perm('raw.leads') and not public.has_perm('raw.calls') and not public.has_perm('raw.proposals'));
+select t.eq('14 forged rows: viewer leads', (select count(*)::int from leads), 0);
+select t.eq('14 forged rows: viewer lead list view', (select count(*)::int from lead_list_v), 0);
+select t.eq('14 forged rows: viewer lead rollups', (select count(*)::int from lead_rollups), 0);
+select t.eq('14 forged rows: viewer contacts (emails / phones)', (select count(*)::int from contacts), 0);
+select t.eq('14 forged rows: viewer projects', (select count(*)::int from projects), 0);
+select t.eq('14 forged rows: viewer timeline (lead notes)', (select count(*)::int from activities), 0);
+select t.eq('14 forged rows: viewer attachments', (select count(*)::int from attachments), 0);
+select t.eq('14 forged rows: viewer files', (select count(*)::int from storage.objects where bucket_id = 'crm-files'), 0);
+select t.eq('14 forged rows: viewer calls (call notes)', (select count(*)::int from call_attempts), 0);
+select t.eq('14 forged rows: viewer meetings (minutes)', (select count(*)::int from meetings), 0);
+select t.eq('14 forged rows: viewer follow-ups (notes)', (select count(*)::int from follow_ups), 0);
+select t.eq('14 forged rows: viewer proposals (notes)', (select count(*)::int from proposals), 0);
+select t.eq('14 forged rows: viewer commercial forms', (select count(*)::int from commercial_forms), 0);
+select t.eq('14 forged rows: viewer sees only its own profile', (select count(*)::int from profiles), 1);
+create temp table vrep3 as select public.management_report(public.cairo_today() - 1, public.cairo_today()) r;
+grant select on vrep3 to public;
+select t.check('14 individual KPI rows: aggregates only (calls, rate, meetings, proposals, follow-ups, won/lost)',
+  (select bool_and(e ?& array['name', 'total', 'response_rate', 'meetings_generated', 'proposals_generated', 'follow_ups_due', 'follow_ups_completed', 'follow_ups_overdue', 'won', 'lost'])
+     from vrep3, jsonb_array_elements(r -> 'calls' -> 'by_user') e));
+select t.check('14 individual KPI rows: no ids, emails, notes, lead or contact data',
+  (select bool_and(not (e ? 'user_id') and not (e ? 'email')) from vrep3, jsonb_array_elements(r -> 'calls' -> 'by_user') e)
+  and (select r::text not like '%@t%' and r::text not like '%Amer Group%' and not (r ? 'critical_follow_ups') and not (r ? 'wins_losses') from vrep3));
+select t.root();
+delete from user_permission_overrides where user_id = t.u('c1');
+update role_permissions set allowed = false where role = 'viewer' and perm like 'raw.%';
+-- admin and sales raw access unchanged
 select t.login(t.u('a1'));
-select public.admin_set_role_permission('viewer', 'raw.calls', false);
+select t.check('14 admin raw access unchanged', (select count(*) from leads) > 0 and (select count(*) from contacts) > 0 and (select count(*) from call_attempts) > 0
+  and (select count(*) from meetings) > 0 and (select count(*) from follow_ups) > 0 and (select count(*) from proposals) > 0 and (select count(*) from profiles) > 1);
+select t.login(t.u('b1'));
+select t.check('14 sales operational access unchanged', (select count(*) from leads) > 0 and (select count(*) from contacts) > 0 and (select count(*) from call_attempts) > 0
+  and (select count(*) from meetings) > 0 and (select count(*) from follow_ups) > 0 and (select count(*) from proposals) > 0 and (select count(*) from profiles) > 1);
+select t.login(t.u('a1'));
 -- preview as role (admin identity, viewer's view, can only reduce)
 select t.check('14 preview as viewer: department only', (select not (r -> 'calls' ? 'by_user') from (select public.management_report(public.cairo_today(), public.cairo_today(), 'viewer') r) x));
 select t.check('14 admin (no preview): individual table with names',

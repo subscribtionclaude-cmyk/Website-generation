@@ -77,6 +77,12 @@ test.describe.serial('governance, roles & permissions', () => {
     await expect(page.getByTestId('visibility-mode')).toBeVisible();
     await expect(page.getByTestId('perm-export.full')).toContainText('Admin only');
     await expect(page.getByTestId('perm-admin.users')).toContainText('Admin only');
+    // raw CRM rows are a fixed privacy rule for the Management Viewer: no toggle exists for them
+    await expect(page.getByTestId('viewer-raw-locked')).toBeVisible();
+    for (const p of ['raw.leads', 'raw.calls', 'raw.meetings', 'raw.followups', 'raw.proposals']) {
+      await expect(page.getByTestId(`perm-${p}`)).toContainText('Aggregates only');
+      await expect(page.getByTestId(`perm-${p}`).getByRole('switch')).toHaveCount(0);
+    }
     await page.getByTestId('visibility-mode').getByRole('radio', { name: 'Individual breakdown' }).click();
     await expect(page.getByText('Permission saved')).toBeVisible();
 
@@ -92,6 +98,12 @@ test.describe.serial('governance, roles & permissions', () => {
     await expect(page.getByTestId('perm-perf.names').getByRole('switch')).toBeChecked();
     body = await mgmtResponse(v, () => v.reload());
     expect(JSON.stringify(body)).toMatch(/Bob Dealer|Carol Closer/);
+    // employee KPI rows are aggregates only — never ids, emails or underlying records
+    for (const u of body.calls.by_user) {
+      expect(Object.keys(u).sort()).toEqual(['active', 'did_not_respond', 'follow_ups_completed', 'follow_ups_due', 'follow_ups_overdue', 'lost', 'meetings_generated', 'name', 'proposals_generated', 'responded', 'response_rate', 'total', 'unique_leads', 'won']);
+    }
+    expect(JSON.stringify(body)).not.toMatch(/@accord\.test|"notes"|"minutes"|"phone"|"email"/);
+    await expect(v.getByTestId('mgmt-individual')).toContainText('Follow-ups due');
     // back to Department only → names switch off with it (dependency)
     await page.getByTestId('visibility-mode').getByRole('radio', { name: 'Department only' }).click();
     await expect(page.getByText(/dependent permissions also turned off/)).toBeVisible();
@@ -115,6 +127,7 @@ test.describe.serial('governance, roles & permissions', () => {
     await expect(ind).toContainText('Effective: Allowed');
     await expect(ind).toContainText('Override');
     await expect(dlg.getByTestId('uperm-export.full')).toContainText('Not available');
+    for (const p of ['raw.leads', 'raw.calls', 'raw.meetings', 'raw.followups', 'raw.proposals']) await expect(dlg.getByTestId(`uperm-${p}`).getByRole('radio')).toHaveCount(0);
     await dlg.getByRole('button', { name: 'Done' }).click();
     await expect(row.getByTestId('badge-overrides')).toBeVisible();
 
@@ -232,7 +245,21 @@ test.describe.serial('governance, roles & permissions', () => {
     expect(mr.status).toBe(200); expect(mr.body.calls.by_user).toBeUndefined(); expect(JSON.stringify(mr.body)).not.toMatch(NAMES);
     expect((await rpc(v, 'management_report', { p_from: d, p_to: d, p_preview_role: 'admin' })).status).toBeGreaterThanOrEqual(400);
     expect((await rpc(v, 'admin_report', { p_from: d, p_to: d })).status).toBeGreaterThanOrEqual(400);
-    for (const table of ['leads', 'contacts', 'call_attempts', 'meetings', 'proposals', 'follow_ups', 'activities']) expect((await rest(v, `${table}?select=id`)).body, table).toEqual([]);
+    // HARD DENY: no raw CRM row, contact detail, note or minute ever reaches a viewer
+    for (const q of ['leads?select=*', 'lead_list_v?select=*', 'lead_rollups?select=*', 'projects?select=*', 'contacts?select=emails,phones', 'call_attempts?select=notes',
+      'meetings?select=*', 'proposals?select=*', 'commercial_forms?select=*', 'follow_ups?select=notes', 'activities?select=*', 'attachments?select=*']) {
+      const r = await rest(v, q); expect(r.status, q).toBe(200); expect(r.body, q).toEqual([]);
+    }
+    expect((await rest(v, 'profiles?select=id,email,phone')).body).toHaveLength(1); // only the viewer's own profile
+    const a = await tok('admin');
+    for (const p of ['raw.leads', 'raw.calls', 'raw.meetings', 'raw.followups', 'raw.proposals']) {
+      expect((await rpc(a, 'admin_set_role_permission', { p_role: 'viewer', p_perm: p, p_allowed: true })).status, p).toBeGreaterThanOrEqual(400);
+      expect((await rpc(a, 'admin_set_user_override', { p_user: vid, p_perm: p, p_allowed: true })).status, p).toBeGreaterThanOrEqual(400);
+    }
+    // admin and sales raw/operational access unchanged
+    for (const t of [a, s]) for (const q of ['leads?select=id', 'contacts?select=emails,phones', 'call_attempts?select=notes', 'meetings?select=id', 'follow_ups?select=id', 'proposals?select=id']) {
+      const r = await rest(t, q); expect(r.status, q).toBe(200); expect(r.body.length, q).toBeGreaterThan(0);
+    }
     expect((await rpc(v, 'admin_set_role_permission', { p_role: 'viewer', p_perm: 'perf.individual', p_allowed: true })).status).toBeGreaterThanOrEqual(400);
     expect((await rpc(v, 'admin_set_user_override', { p_user: vid, p_perm: 'perf.names', p_allowed: true })).status).toBeGreaterThanOrEqual(400);
     expect((await rpc(v, 'role_template', { p_role: 'admin' })).status).toBeGreaterThanOrEqual(400);

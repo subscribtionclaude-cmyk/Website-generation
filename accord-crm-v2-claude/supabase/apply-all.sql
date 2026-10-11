@@ -2497,12 +2497,14 @@ insert into public.permission_catalog (perm, section, sort, sales_mode, viewer_m
   ('reports.weekly',            'reporting', 30, 'config', 'config', false, true,  'reports.view'),
   ('reports.monthly',           'reporting', 40, 'config', 'config', false, true,  'reports.view'),
   ('reports.board',             'reporting', 50, 'config', 'config', false, true,  'reports.view'),
-  -- operational (raw) data — Sales always has its working data; a Viewer only if explicitly granted
-  ('raw.leads',                 'data',      10, 'on',     'config', true,  false, null),
-  ('raw.calls',                 'data',      20, 'on',     'config', true,  false, null),
-  ('raw.meetings',              'data',      30, 'on',     'config', true,  false, null),
-  ('raw.followups',             'data',      40, 'on',     'config', true,  false, null),
-  ('raw.proposals',             'data',      50, 'on',     'config', true,  false, null),
+  -- operational (raw) data — Sales always has its working data. HARD DENY for the Management Viewer: raw rows carry
+  -- notes, minutes, contact emails and phones that row-level security cannot hide column by column, so a Viewer only
+  -- ever receives aggregates (management_report). Not configurable, not overridable; RLS below is staff-only as well.
+  ('raw.leads',                 'data',      10, 'on',     'off',    true,  false, null),
+  ('raw.calls',                 'data',      20, 'on',     'off',    true,  false, null),
+  ('raw.meetings',              'data',      30, 'on',     'off',    true,  false, null),
+  ('raw.followups',             'data',      40, 'on',     'off',    true,  false, null),
+  ('raw.proposals',             'data',      50, 'on',     'off',    true,  false, null),
   -- export
   ('export.management_summary', 'export',    10, 'config', 'config', false, true,  'mgmt.department'),
   ('export.datasets',           'export',    20, 'config', 'off',    true,  false, null),
@@ -2980,17 +2982,32 @@ begin
         from proposals)));
 
   if ind then
-    -- employee-level AGGREGATES only; names / individual targets only when separately allowed
+    -- employee-level AGGREGATE KPI rows only (never an underlying record). The display name is the profile's full name
+    -- (never an email); names / individual targets only when separately allowed.
     select coalesce(jsonb_agg(
-             (case when nm then jsonb_build_object('name', e ->> 'name') else jsonb_build_object('member', x.ord) end)
+             (case when nm then jsonb_build_object('name', coalesce(nullif(btrim(p.full_name), ''), 'Employee ' || x.ord))
+                   else jsonb_build_object('member', x.ord) end)
              || jsonb_build_object('active', e -> 'active', 'total', e -> 'total', 'responded', e -> 'responded',
                                    'did_not_respond', e -> 'did_not_respond', 'unique_leads', e -> 'unique_leads',
                                    'response_rate', e -> 'response_rate', 'meetings_generated', e -> 'meetings_generated',
-                                   'proposals_generated', e -> 'proposals_generated')
+                                   'proposals_generated', e -> 'proposals_generated',
+                                   'follow_ups_due', fu.due, 'follow_ups_completed', fu.done, 'follow_ups_overdue', fu.overdue,
+                                   'won', wl.won, 'lost', wl.lost)
              || (case when tg then jsonb_build_object('target', e -> 'target', 'achievement_pct', e -> 'achievement_pct', 'remaining', e -> 'remaining') else '{}'::jsonb end)
              order by x.ord), '[]'::jsonb)
       into byu
-      from jsonb_array_elements(r -> 'calls' -> 'by_user') with ordinality as x(e, ord);
+      from jsonb_array_elements(r -> 'calls' -> 'by_user') with ordinality as x(e, ord)
+      left join profiles p on p.id = (x.e ->> 'user_id')::uuid
+      cross join lateral (
+        select count(*) filter (where f.due_date between p_from and p_to) as due,
+               count(*) filter (where f.due_date between p_from and p_to and f.status = 'completed') as done,
+               count(*) filter (where f.due_date between p_from and p_to and f.status = 'open' and f.due_date < v_today) as overdue
+          from follow_ups f where f.owner_id = (x.e ->> 'user_id')::uuid and f.status <> 'cancelled') fu
+      cross join lateral (
+        select count(distinct a.lead_id) filter (where a.data ->> 'to' = 'won') as won,
+               count(distinct a.lead_id) filter (where a.data ->> 'to' = 'lost') as lost
+          from activities a where a.actor_id = (x.e ->> 'user_id')::uuid and a.type = 'pipeline_change'
+           and a.data ->> 'to' in ('won', 'lost') and a.occurred_at >= v_start and a.occurred_at < v_end) wl;
     out := jsonb_set(out, '{calls,by_user}', byu);
   end if;
   return out;
@@ -3033,48 +3050,47 @@ revoke all on function public.log_export(text, text, date, date, jsonb) from pub
 grant execute on function public.log_export(text, text, date, date, jsonb) to authenticated;
 
 -- ---------------------------------------------------------------------------------------------------------------
--- RLS: raw operational rows. Sales + Admin (staff) keep exactly their current access. A Management Viewer reads raw
--- rows ONLY when the matching permission is granted (default: none). Writes are unchanged (viewers never write).
--- (select has_perm(...)) is evaluated once per statement, not per row.
+-- RLS: raw operational rows are STAFF ONLY (Sales + Admin keep exactly their current access). A Management Viewer can
+-- never read a raw CRM row, contact detail, note, minute or file — hard rule, independent of any permission setting.
+-- Viewers receive aggregates only, through management_report(). Writes are unchanged (viewers never write).
 -- ---------------------------------------------------------------------------------------------------------------
 drop policy leads_read on public.leads;
 create policy leads_read on public.leads for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy rollups_read on public.lead_rollups;
 create policy rollups_read on public.lead_rollups for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy contacts_read on public.contacts;
 create policy contacts_read on public.contacts for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy projects_read on public.projects;
 create policy projects_read on public.projects for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy activities_read on public.activities;
 create policy activities_read on public.activities for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy att_read on public.attachments;
 create policy att_read on public.attachments for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads'))));
+  using (public.is_staff());
 drop policy calls_read on public.call_attempts;
 create policy calls_read on public.call_attempts for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.calls'))));
+  using (public.is_staff());
 drop policy fu_read on public.follow_ups;
 create policy fu_read on public.follow_ups for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.followups'))));
+  using (public.is_staff());
 drop policy mt_read on public.meetings;
 create policy mt_read on public.meetings for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.meetings'))));
+  using (public.is_staff());
 drop policy form_read on public.commercial_forms;
 create policy form_read on public.commercial_forms for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.proposals'))));
+  using (public.is_staff());
 drop policy prop_read on public.proposals;
 create policy prop_read on public.proposals for select to authenticated
-  using (public.is_staff() or (public.is_member() and (select public.has_perm('raw.proposals'))));
--- colleagues' names: staff, yourself, or a viewer allowed employee names / raw lead data (owner names)
+  using (public.is_staff());
+-- colleagues' profiles (emails, phones): staff and yourself only; employee names reach a Viewer via management_report
 drop policy profiles_read on public.profiles;
 create policy profiles_read on public.profiles for select to authenticated
-  using (public.is_staff() or id = auth.uid()
-         or (public.is_member() and ((select public.has_perm('perf.names')) or (select public.has_perm('raw.leads')))));
+  using (public.is_staff() or id = auth.uid());   -- a Viewer reads only its own profile (no colleague emails/phones)
 drop policy "crm files: members read" on storage.objects;
 create policy "crm files: members read" on storage.objects for select to authenticated
-  using (bucket_id = 'crm-files' and (public.is_staff() or (public.is_member() and (select public.has_perm('raw.leads')))));
+  using (bucket_id = 'crm-files' and public.is_staff());
