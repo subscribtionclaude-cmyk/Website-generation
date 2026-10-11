@@ -4,7 +4,7 @@
 |---|---|
 | Release date | 2026-10-11 |
 | Git branch | `claude/accord-crm-v2-claude` |
-| Git commit (application code) | `47cc26f` (V6) + security freeze commit (see `git log`: "ACCORD CRM V6 security freeze: Management Viewer raw CRM rows hard-denied") |
+| Git commit (application code) | `47cc26f` (V6) + `ca02655` (security freeze: Management Viewer raw CRM rows hard-denied) |
 | Supabase project ref | `olanalmpysrwjgfnbejq` |
 | Packages | `accord-crm-v6-production-source.zip`, `accord-crm-v6-production-shipstatic-deploy.zip` |
 | Status | Release candidate — **not deployed** |
