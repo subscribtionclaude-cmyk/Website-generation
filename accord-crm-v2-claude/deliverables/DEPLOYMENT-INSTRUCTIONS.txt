@@ -1,0 +1,48 @@
+ACCORD CRM V6 — UI COMMAND CENTER EXPERIMENT V2 — PREVIEW DEPLOYMENT
+=====================================================================
+
+This is an EXPERIMENTAL PREVIEW build (branch ui-command-center-experiment, commit ccdb7c3).
+It is NOT the production release. The production V6 build is unchanged (commit 3a0ab97).
+
+WHAT IS IN THE FOLDER
+---------------------
+ACCORD-CRM-V6-UI-EXPERIMENT-V2/   <- upload the CONTENTS of this folder
+  index.html, 404.html, config.js, manifest.webmanifest, sw.js, robots.txt
+  assets/   (compiled JavaScript + CSS)
+  icons/ brand/   (official ACCORD icons and logos, identical to V6)
+  31 route folders (dashboard/, management/, pipeline/, admin/... each with its own index.html)
+
+There are no font files: the app uses the device's system fonts.
+No build step is needed. Do not add or rename anything.
+
+IMPORTANT — LIVE DATA
+---------------------
+config.js is identical to production V6. It points at the PRODUCTION Supabase project (olanalmpysrwjgfnbejq) and
+contains only the public anon key. The preview therefore:
+  * signs in with the real ACCORD accounts;
+  * shows real CRM data;
+  * SAVES REAL CHANGES. Logging a call, moving a pipeline card, editing a user and so on in the preview changes
+    production data, exactly as in V6.
+Use it with that in mind (ideally review with read-only actions, or with a Management Viewer account).
+Roles, permissions and privacy rules are enforced by the database exactly as in V6.
+
+HOW TO DEPLOY TO A *NEW* SHIPSTATIC SITE (production stays untouched)
+---------------------------------------------------------------------
+1. Sign in to ShipStatic.
+2. Create a NEW deployment / new site. Do NOT open the existing production site, and do NOT link the production
+   custom domain to this deployment.
+3. Upload the CONTENTS of the folder ACCORD-CRM-V6-UI-EXPERIMENT-V2, so that index.html is at the top level of the
+   upload (not inside a sub-folder). If uploading a ZIP, use one whose root is the folder contents.
+4. ShipStatic gives the new deployment its own URL (e.g. something.shipstatic.com). Use that URL for review.
+   The production site and its domain keep serving the V6 production deployment.
+5. Do not assign the production domain to this deployment unless the experiment has been approved for release.
+
+QUICK CHECK AFTER UPLOAD
+------------------------
+* Open the preview URL: the ACCORD sign-in page appears.
+* Open <preview-url>/management/ and <preview-url>/pipeline/ directly: each loads (deep links work without rewrites).
+* An unknown path such as <preview-url>/xyz shows the 404 page.
+
+TO REMOVE THE PREVIEW
+---------------------
+Delete the preview deployment in ShipStatic. Nothing else depends on it.
