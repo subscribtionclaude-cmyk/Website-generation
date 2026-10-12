@@ -7,7 +7,7 @@ export type ThemePref = 'light' | 'dark' | 'system';
 export type Theme = 'light' | 'dark';
 export const THEME_KEY = 'accord-theme';
 // browser chrome colour per theme (matches --chrome in index.css)
-const CHROME: Record<Theme, string> = { light: '#ffffff', dark: '#0b1428' };
+const CHROME: Record<Theme, string> = { light: '#fbfaf7', dark: '#0b1120' };
 
 const mq = () => (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null);
 const readPref = (): ThemePref => {

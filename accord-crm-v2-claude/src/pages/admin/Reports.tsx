@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Download, Printer, ChevronLeft, ChevronRight, Presentation } from 'lucide-react';
 import { ExportDialog } from '../../components/ExportDialog';
 import { PageHead, Loading, ErrorNote, Kpi } from '../../components/ui';
+import { Num, stagger } from '../../components/viz';
 import { addDays, cairoToday, fmtDate, monthRange, presetRange, PRESET_LABELS, weekRange, prevMonthRange, type RangePreset } from '../../lib/cairo';
 import { useAdminReport, CallsSection, MeetingsSection, CommercialSection, FollowUpsSection, PipelineSection, WinsLossesSection, CriticalSection, exportReport, type Report } from './shared';
 import { t, tb } from '../../lib/i18n';
@@ -53,12 +54,23 @@ export default function AdminReports() {
       {boardExport && <ExportDialog mode="board" initialBoard={mode === 'weekly' || mode === 'monthly' ? mode : 'daily'} onClose={() => setBoardExport(false)} />}
       <ErrorNote error={rep.error} />
       {rep.isLoading ? <Loading /> : rep.data && (mode === 'board' ? <Board r={rep.data} /> : (
-        <div className="col" style={{ gap: 22 }}>
-          <CallsSection r={rep.data} /><MeetingsSection r={rep.data} /><CommercialSection r={rep.data} /><FollowUpsSection r={rep.data} />
-          <PipelineSection r={rep.data} /><WinsLossesSection r={rep.data} /><CriticalSection r={rep.data} />
+        <div className={`col data-live ${rep.isFetching && rep.isPlaceholderData ? 'is-updating' : ''}`} style={{ gap: 14 }}>
+          <CallsSection r={rep.data} />
+          <Sections r={rep.data} />
         </div>
       ))}
     </>
+  );
+}
+
+/** Executive layout: period sections side by side, then pipeline + outcomes, then risk. */
+function Sections({ r }: { r: Report }) {
+  return (
+    <div className="cc-grid">
+      <MeetingsSection r={r} className="s4" /><FollowUpsSection r={r} className="s4" /><CommercialSection r={r} className="s4" />
+      <PipelineSection r={r} className="s7" /><WinsLossesSection r={r} className="s5" />
+      <CriticalSection r={r} className="s12" />
+    </div>
   );
 }
 
@@ -66,8 +78,8 @@ function Board({ r }: { r: Report }) {
   const c = r.calls; const m = r.meetings; const co = r.commercial;
   const top = [...c.by_user].sort((a, b) => b.total - a.total)[0];
   return (
-    <div className="col" style={{ gap: 22 }}>
-      <section className="card card-pad col kpi hero" aria-label={t('Executive summary')}>
+    <div className="col data-live" style={{ gap: 14 }}>
+      <section className="panel reveal exec-summary" aria-label={t('Executive summary')} style={{ padding: '16px 18px', gap: 8 }}>
         <h2>{t('Executive summary')}</h2>
         <ul style={{ margin: 0, paddingInlineStart: 18 }} className="col">
           <li>{tb('The team logged {total} call attempts across {unique} unique leads; {responded} connected ({rate}%).', { total: c.total, unique: c.unique_leads, responded: c.responded, rate: c.response_rate ?? '—' })}</li>
@@ -80,8 +92,14 @@ function Board({ r }: { r: Report }) {
         </ul>
         <span className="muted small">{t('Figures are computed from recorded activity only — nothing is estimated.')}</span>
       </section>
-      <div className="grid cols-4 keep2"><Kpi hero label={t('Calls')} value={c.total} /><Kpi label={t('Target achievement')} value={c.achievement_pct === null ? '—' : `${c.achievement_pct}%`} /><Kpi label={t('Meetings attended')} value={m.attended} /><Kpi label={t('Proposals sent')} value={co.proposals_sent} /></div>
-      <CallsSection r={r} showDays={false} /><MeetingsSection r={r} /><CommercialSection r={r} /><PipelineSection r={r} /><WinsLossesSection r={r} /><CriticalSection r={r} />
+      <div className="kpi-band" style={{ ['--cols' as string]: 4 }}>
+        <Kpi lead hero label={t('Calls')} value={<Num v={c.total} />} sub={t('Response rate {r}', { r: c.response_rate === null ? '—' : `${c.response_rate}%` })} meter={c.achievement_pct ?? 0} style={stagger(0, 80)} />
+        <Kpi label={t('Target achievement')} value={<Num v={c.achievement_pct} suffix="%" />} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} style={stagger(1, 80)} />
+        <Kpi label={t('Meetings attended')} value={<Num v={m.attended} />} style={stagger(2, 80)} />
+        <Kpi label={t('Proposals sent')} value={<Num v={co.proposals_sent} />} style={stagger(3, 80)} />
+      </div>
+      <CallsSection r={r} band={false} />
+      <Sections r={r} />
     </div>
   );
 }

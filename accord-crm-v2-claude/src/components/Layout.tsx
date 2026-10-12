@@ -212,14 +212,15 @@ function PreviewBanner() {
 }
 
 export function AppShell({ admin }: { admin?: boolean }) {
-  const home = useHomePath();
+  const home = useHomePath(); const loc = useLocation();
   return (
     <div className="shell">
       <Sidebar admin={admin} />
       <main className="main" id="main">
         <PreviewBanner />
         <div className="mobile-top"><Link to={admin ? '/admin/' : home} aria-label={t('ACCORD CRM home')}><AppIcon size={38} /></Link><MobileTopActions /></div>
-        <Outlet />
+        {/* the shell stays mounted; only the page content crossfades in on navigation */}
+        <div key={loc.pathname} className="route-view"><Outlet /></div>
       </main>
       <MobileBar admin={admin} />
     </div>

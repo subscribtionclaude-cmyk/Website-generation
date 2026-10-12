@@ -8,7 +8,8 @@ import { useToast } from '../lib/toast';
 import { useMyCallMetrics, useRangeMetrics, useActiveSession, useCairoToday } from '../lib/hooks';
 import { useCall } from '../components/CallProvider';
 import { PageHead, Kpi, Loading, Empty, ErrorNote, LeadPicker, Tabs } from '../components/ui';
-import { addDays, cairoDayStart, fmtDate, fmtTime, presetRange, PRESET_LABELS, type RangePreset, cairoDate } from '../lib/cairo';
+import { Num, MixBar, Trend, Panel, stagger } from '../components/viz';
+import { addDays, cairoDayStart, fmtDate, fmtDay, fmtTime, presetRange, PRESET_LABELS, type RangePreset, cairoDate } from '../lib/cairo';
 import { OUTCOME_LABEL, RESPONDED_SUBS, NO_RESPONSE_SUBS, label } from '../lib/labels';
 import type { CallAttempt, LeadRow } from '../lib/types';
 import type { CallMetrics } from '../lib/metrics';
@@ -16,11 +17,15 @@ import { t } from '../lib/i18n';
 
 function MetricsStrip({ m }: { m: CallMetrics }) {
   return (
-    <div className="grid cols-4 keep2">
-      <Kpi hero label={t('Calls')} value={m.total} sub={m.has_target ? t('Target {target} · {pct}% · remaining {rem}', { target: m.target, pct: m.achievement_pct, rem: m.remaining }) : t('No target')} />
-      <Kpi label={t('Responded')} value={m.responded} sub={t('Response rate {r}', { r: m.response_rate === null ? '—' : `${m.response_rate}%` })} />
-      <Kpi label={t('Didn\'t respond')} value={m.did_not_respond} />
-      <Kpi label={t('Unique leads')} value={m.unique_leads} />
+    <div className="kpi-band" style={{ ['--cols' as string]: 5 }}>
+      <Kpi lead hero label={t('Calls')} value={<Num v={m.total} />} sub={m.has_target ? t('Target {target} · {pct}% · remaining {rem}', { target: m.target, pct: m.achievement_pct, rem: m.remaining }) : t('No target')} meter={m.has_target ? m.achievement_pct ?? 0 : undefined} style={stagger(0, 60)} />
+      <Kpi label={t('Responded')} value={<Num v={m.responded} />} sub={t('Response rate {r}', { r: m.response_rate === null ? '—' : `${m.response_rate}%` })} meter={m.response_rate ?? 0} style={stagger(1, 60)} />
+      <Kpi label={t('Didn\'t respond')} value={<Num v={m.did_not_respond} />} style={stagger(2, 60)} />
+      <Kpi label={t('Unique leads')} value={<Num v={m.unique_leads} />} style={stagger(3, 60)} />
+      <div className="kpi reveal" style={stagger(4, 60)}>
+        <div className="k-label">{t('Outcomes')}</div>
+        <div style={{ marginTop: 10 }}><MixBar delay={300} items={[{ key: 'r', label: t('Responded'), value: m.responded, color: 'var(--viz-1)' }, { key: 'n', label: t("Didn't respond"), value: m.did_not_respond, color: 'var(--viz-4)' }]} /></div>
+      </div>
     </div>
   );
 }
@@ -115,7 +120,7 @@ export default function Calls() {
               </div>
             </div>
           )}
-          <div className="card"><div className="card-head"><h2>{t('Today\'s attempts (newest first)')}</h2></div>{list(todayCalls.data, true)}</div>
+          <div className="card reveal" style={stagger(0, 300)}><div className="card-head"><h2>{t('Today\'s attempts (newest first)')}</h2><span className="muted small num">{todayCalls.data?.length ?? ''}</span></div>{list(todayCalls.data, true)}</div>
         </div>
       )}
       {tab === 'history' && (
@@ -129,6 +134,7 @@ export default function Calls() {
         <div className="col">
           <div className="row">{(['this_week', 'previous_week', 'this_month', 'previous_month'] as RangePreset[]).map((p) => <button key={p} className={`chip ${preset === p ? 'on' : ''}`} onClick={() => setPreset(p)}>{PRESET_LABELS[p]}</button>)}<span className="muted small">{fmtDate(range.from)} – {fmtDate(range.to)}</span></div>
           {rangeM.data ? <MetricsStrip m={rangeM.data} /> : <Loading />}
+          {daily.data && daily.data.length > 1 && <Panel className="reveal" style={stagger(0, 240)} title={t('Calls per day')}><Trend points={daily.data} fmtX={fmtDay} label={t('Calls per day')} /></Panel>}
           <div className="card table-wrap"><table className="t"><thead><tr><th>{t('Date')}</th><th className="r">{t('Calls')}</th><th className="r">{t('Responded')}</th><th className="r">{t('Didn\'t respond')}</th><th className="r">{t('Unique leads')}</th><th className="r">{t('Target')}</th><th className="r">%</th></tr></thead><tbody>
             {(daily.data ?? []).map((d) => (
               <tr key={d.date}><td>{fmtDate(d.date)}</td><td className="r num">{d.total}</td><td className="r num">{d.responded}</td><td className="r num">{d.did_not_respond}</td><td className="r num">{d.unique_leads}</td>

@@ -5,7 +5,7 @@ import { supabase, unwrap } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useToast } from '../lib/toast';
 import { AttendanceDialog, OutcomeDialog, RescheduleDialog, MeetingFormDialog, useInvalidateMeetings } from './meetings';
-import { fmtDateTime } from '../lib/cairo';
+import { fmtDateTime, fmtDay, fmtTime } from '../lib/cairo';
 import { label, MEETING_TYPES, MEETING_OUTCOMES, NEXT_STEPS, NOT_ATTENDED_REASONS, CONFIRMATION } from '../lib/labels';
 import type { Meeting } from '../lib/types';
 import { t } from '../lib/i18n';
@@ -20,6 +20,7 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
   const leadName = m.leads?.name ?? '';
   const past = m.scheduled_at ? new Date(m.scheduled_at).getTime() < Date.now() : false;
   const awaiting = m.status === 'scheduled' && m.attendance_status === 'pending' && past;
+  const state = m.attendance_status === 'attended' || m.status === 'completed' ? 'done' : m.attendance_status === 'not_attended' || m.status === 'missed' ? 'missed' : awaiting ? 'awaiting' : m.status === 'scheduled' ? 'sched' : '';
   const Icon = m.meeting_type === 'online' ? Video : m.meeting_type === 'phone' ? PhoneCall : MapPin;
 
   async function patch(p: Record<string, unknown>, msg: string) {
@@ -32,9 +33,11 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
     : awaiting ? <span className="badge warn">{t('Awaiting outcome')}</span> : <span className="badge info">{t('Scheduled')}</span>;
 
   return (
-    <div className="card card-pad col" data-testid="meeting-card">
+    <div className={`card card-pad agenda-item ${state}`} data-testid="meeting-card">
+      <div className="when" aria-hidden="true"><b>{m.scheduled_at ? fmtTime(m.scheduled_at) : '—'}</b><span>{m.scheduled_at ? fmtDay(m.scheduled_at) : t('Requested')}</span></div>
+      <div className="col" style={{ minWidth: 0 }}>
       <div className="row spread nowrap" style={{ alignItems: 'flex-start' }}>
-        <div className="col" style={{ gap: 2 }}>
+        <div className="col" style={{ gap: 2, minWidth: 0 }}>
           {showLead && <Link to={`/leads/view/?id=${m.lead_id}`}><b>{leadName}</b></Link>}
           <div className="row"><Icon size={14} /><b className="num">{m.scheduled_at ? fmtDateTime(m.scheduled_at) : t('Date not set yet')}</b>
             <span className="muted">· {label(MEETING_TYPES, m.meeting_type)}{m.meeting_with ? ` · ${m.meeting_with}` : ''}</span></div>
@@ -68,6 +71,7 @@ export function MeetingCard({ m, showLead = true }: { m: Meeting; showLead?: boo
         )}
         {can && m.attendance_status === 'attended' && <button className="btn sm" onClick={() => setDlg('out')}><FileText /> {m.minutes_of_meeting ? t('Edit minutes') : t('Add minutes')}</button>}
         {(m.minutes_of_meeting || m.summary) && <button className="btn sm ghost" onClick={() => setOpen(!open)}>{open ? t('Hide minutes') : t('View minutes')}</button>}
+      </div>
       </div>
       {dlg === 'att' && <AttendanceDialog meeting={m} leadName={leadName} onClose={(r) => { setDlg(r === 'attended' ? 'out' : null); }} />}
       {dlg === 'out' && <OutcomeDialog meeting={m} leadName={leadName} onClose={() => setDlg(null)} />}

@@ -81,6 +81,16 @@ export function fmtDate(iso?: string | null): string {
   const d = iso.length === 10 ? new Date(`${iso}T12:00:00Z`) : new Date(iso);
   return new Intl.DateTimeFormat(intlLocale(), { timeZone: iso.length === 10 ? 'UTC' : TZ, day: '2-digit', month: 'short', year: 'numeric' }).format(d);
 }
+/** Compact day label for chart axes, e.g. "12 Oct". */
+export function fmtDay(iso?: string | null): string {
+  if (!iso) return '';
+  return new Intl.DateTimeFormat(intlLocale(), { timeZone: 'UTC', day: 'numeric', month: 'short' }).format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
+}
+/** Short month name for date chips, e.g. "Oct". */
+export function fmtMonth(iso?: string | null): string {
+  if (!iso) return '';
+  return new Intl.DateTimeFormat(intlLocale(), { timeZone: 'UTC', month: 'short' }).format(new Date(`${iso.slice(0, 10)}T12:00:00Z`));
+}
 export function fmtTime(iso?: string | null): string {
   return iso ? timeFmt.format(new Date(iso)) : '—';
 }

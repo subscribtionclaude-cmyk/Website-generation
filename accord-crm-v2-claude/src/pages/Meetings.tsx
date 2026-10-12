@@ -58,7 +58,7 @@ export default function Meetings() {
         <Tabs value={tab} onChange={(k) => setSp({ tab: k }, { replace: true })} tabs={TABS.map(([k, l]) => ({ key: k, label: l, count: counts.data?.[k] }))} />
       </div>
       <ErrorNote error={list.error} />
-      {list.isLoading ? <Loading /> : !list.data?.length ? <div className="card"><Empty>{t('No meetings in this view.')}</Empty></div> : <div className="col">{list.data.map((m) => <MeetingCard key={m.id} m={m} />)}</div>}
+      {list.isLoading ? <Loading /> : !list.data?.length ? <div className="card"><Empty>{t('No meetings in this view.')}</Empty></div> : <div className="col" style={{ gap: 8 }}>{list.data.map((m, i) => <div key={m.id} className="reveal" style={{ ['--i' as string]: Math.min(i, 12), ['--d' as string]: '60ms' }}><MeetingCard m={m} /></div>)}</div>}
       {newFor === 'pick' && <Modal narrow title={t('Which lead is the meeting with?')} onClose={() => setNewFor(null)}><LeadPicker autoFocus onPick={(l) => setNewFor({ id: l.id, name: l.name })} /></Modal>}
       {newFor && newFor !== 'pick' && <MeetingFormDialog leadId={newFor.id} leadName={newFor.name} mode="scheduled" onClose={() => setNewFor(null)} />}
     </>

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { TEMP_LABEL, STAGE_LABEL } from '../lib/labels';
 import type { LeadRow, ProfileLite } from '../lib/types';
+import { Meter } from './viz';
 
 export function Spinner() { return <span className="spinner" role="progressbar" aria-label={t('Loading')} />; }
 export function Loading({ text }: { text?: string }) {
@@ -182,12 +183,15 @@ export function BusyButton({ busy, children, ...rest }: { busy?: boolean } & Rea
   return <button {...rest} disabled={busy || rest.disabled}>{busy && <Loader2 className="spin" />}{children}</button>;
 }
 
-export function Kpi({ label, value, sub, hero, tone }: { label: string; value: ReactNode; sub?: ReactNode; hero?: boolean; tone?: 'ok' | 'bad' | 'warn' }) {
+export function Kpi({ label, value, sub, hero, tone, meter, lead, style, testId }: {
+  label: string; value: ReactNode; sub?: ReactNode; hero?: boolean; tone?: 'ok' | 'bad' | 'warn'; meter?: number | null; lead?: boolean; style?: React.CSSProperties; testId?: string;
+}) {
   return (
-    <div className={`card kpi ${hero ? 'hero' : ''}`}>
+    <div className={`card kpi reveal ${hero ? 'hero' : ''} ${lead ? 'lead' : ''}`} style={style} data-testid={testId}>
       <div className="k-label">{t(label)}</div>
       <div className="k-value" style={tone ? { color: `var(--${tone})` } : undefined}>{value}</div>
       {sub !== undefined && <div className="k-sub">{sub}</div>}
+      {meter !== undefined && <div className="k-meter"><Meter pct={meter} thin /></div>}
     </div>
   );
 }

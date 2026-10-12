@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Download, Printer, FileSpreadsheet } from 'lucide-react';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { Download, Printer, FileSpreadsheet, Users, Building2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { PageHead, Loading, ErrorNote, Kpi } from '../components/ui';
-import { cairoToday, fmtDate, monthRange, presetRange, weekRange, PRESET_LABELS, type RangePreset } from '../lib/cairo';
+import { Num, Trend, StageFlow, MixBar, Donut, Panel, Meter, MeetingMix, stagger } from '../components/viz';
+import { TeamTable } from '../components/team';
+import { cairoToday, fmtDate, fmtDay, monthRange, presetRange, weekRange, PRESET_LABELS, type RangePreset } from '../lib/cairo';
 import { t } from '../lib/i18n';
 import { term } from '../lib/terminology';
 import { usePerms } from '../lib/perms';
@@ -13,10 +15,11 @@ import { useToast } from '../lib/toast';
 import { STAGE_LABEL } from '../lib/labels';
 import { buildXlsx, downloadBytes } from '../lib/xlsx';
 import { printHtml } from '../lib/boardReport';
-import { fetchManagement, mgmtBlocks, mgmtFileName, mgmtHtml, mgmtSheets, memberHeader, memberRows, type Mgmt, type MgmtKind } from '../lib/managementReport';
+import { fetchManagement, mgmtFileName, mgmtHtml, mgmtSheets, type Mgmt, type MgmtKind } from '../lib/managementReport';
 
 // "What is happening across the Sales / BD operation?" — department aggregates from management_report().
-// CURRENT SNAPSHOT (state now) and ACTIVITY DURING THE PERIOD are kept visibly separate.
+// CURRENT SNAPSHOT (state now) and ACTIVITY DURING THE PERIOD stay visibly separate. Changing the period keeps the
+// previous figures on screen while the new ones load, then numbers / bars morph to the new values (no page flash).
 const PERIODS: RangePreset[] = ['today', 'this_week', 'this_month', 'custom'];
 
 export default function Management() {
@@ -26,8 +29,9 @@ export default function Management() {
   const [from, setFrom] = useState(today); const [to, setTo] = useState(today);
   const range = preset === 'custom' ? { from, to } : presetRange(preset, today);
   const previewRole = realAdmin && preview ? preview : null;
-  const q = useQuery({ queryKey: ['management', range.from, range.to, previewRole], staleTime: 20_000, queryFn: () => fetchManagement(range.from, range.to, previewRole) });
+  const q = useQuery({ queryKey: ['management', range.from, range.to, previewRole], staleTime: 20_000, placeholderData: keepPreviousData, queryFn: () => fetchManagement(range.from, range.to, previewRole) });
   const D = q.data;
+  const updating = q.isFetching && q.isPlaceholderData;
 
   async function report(k: MgmtKind, fmt: 'xlsx' | 'pdf') {
     try {
@@ -45,75 +49,151 @@ export default function Management() {
     <>
       <PageHead title={term('management_dashboard')} sub={<>{fmtDate(range.from)}{range.from !== range.to ? ` – ${fmtDate(range.to)}` : ''} · <bdi className="ltr">Africa/Cairo</bdi></>}
         actions={can('export.management_summary') && D && <button className="btn" onClick={() => report('summary', 'xlsx')} data-testid="mgmt-export"><Download /> {t('Export management summary')}</button>} />
-      <div className="row no-print" style={{ marginBottom: 14 }} role="group" aria-label={t('Period')}>
-        {PERIODS.map((p) => <button key={p} className={`chip ${preset === p ? 'on' : ''}`} onClick={() => setPreset(p)} data-testid={`mgmt-period-${p}`}>{PRESET_LABELS[p]}</button>)}
-        {preset === 'custom' && <><input type="date" value={from} max={to} onChange={(e) => e.target.value && setFrom(e.target.value)} style={{ width: 160 }} aria-label={t('From')} /><span className="flip-rtl" style={{ display: 'inline-block' }}>→</span><input type="date" value={to} min={from} onChange={(e) => e.target.value && setTo(e.target.value)} style={{ width: 160 }} aria-label={t('To')} /></>}
+      <div className="cmd-strip no-print">
+        <div className="periods" role="group" aria-label={t('Period')}>
+          {PERIODS.map((p) => <button key={p} className={`chip ${preset === p ? 'on' : ''}`} aria-pressed={preset === p} onClick={() => setPreset(p)} data-testid={`mgmt-period-${p}`}>{PRESET_LABELS[p]}</button>)}
+        </div>
+        {preset === 'custom' && <span className="row nowrap" style={{ gap: 6 }}><input type="date" value={from} max={to} onChange={(e) => e.target.value && setFrom(e.target.value)} style={{ width: 150, minHeight: 32 }} aria-label={t('From')} /><span className="flip-rtl" style={{ display: 'inline-block' }}>→</span><input type="date" value={to} min={from} onChange={(e) => e.target.value && setTo(e.target.value)} style={{ width: 150, minHeight: 32 }} aria-label={t('To')} /></span>}
+        <span className={`live ${updating ? 'busy' : ''}`} role="status"><i />{updating ? t('Updating…') : t('Live · Cairo time')}</span>
+        {D && <span className="badge" title={t('What your access includes')}>{D.scope.individual ? <><Users size={12} /> {t('Individual breakdown')}</> : <><Building2 size={12} /> {t('Department only')}</>}</span>}
+        <span className="grow" />
+        {reports.length > 0 && (
+          <div className="report-pills" aria-label={t('Reports')} data-testid="mgmt-reports" title={t('Daily / weekly / monthly reports cover the period that contains the end date above; the board summary covers the selected period.')}>
+            <span className="muted small" style={{ fontWeight: 650 }}>{t('Reports')}</span>
+            {reports.map((k) => (
+              <span key={k} className="report-pill">
+                {t({ daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', board: 'Board / Executive' }[k])}
+                <button className="btn sm" onClick={() => report(k, 'pdf')} data-testid={`mgmt-report-${k}-pdf`} aria-label={`${t({ daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', board: 'Board / Executive' }[k])} PDF`}><Printer /> PDF</button>
+                <button className="btn sm" onClick={() => report(k, 'xlsx')} data-testid={`mgmt-report-${k}-xlsx`} aria-label={`${t({ daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', board: 'Board / Executive' }[k])} Excel`}><FileSpreadsheet /> Excel</button>
+              </span>))}
+          </div>)}
       </div>
       <ErrorNote error={q.error} />
-      {q.isLoading || !D ? (q.error ? null : <Loading />) : (
-        <div className="col" style={{ gap: 22 }}>
-          {reports.length > 0 && (
-            <section className="card card-pad col no-print" aria-label={t('Reports')} data-testid="mgmt-reports">
-              <h2>{t('Reports')}</h2>
-              <div className="row" style={{ gap: 8 }}>
-                {reports.map((k) => (
-                  <span key={k} className="row nowrap" style={{ gap: 4 }}>
-                    <b className="small" style={{ minWidth: 70 }}>{t({ daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', board: 'Board / Executive' }[k])}</b>
-                    <button className="btn sm" onClick={() => report(k, 'pdf')} data-testid={`mgmt-report-${k}-pdf`}><Printer /> PDF</button>
-                    <button className="btn sm" onClick={() => report(k, 'xlsx')} data-testid={`mgmt-report-${k}-xlsx`}><FileSpreadsheet /> Excel</button>
-                  </span>))}
-              </div>
-              <span className="muted small">{t('Daily / weekly / monthly reports cover the period that contains the end date above; the board summary covers the selected period.')}</span>
-            </section>)}
-          <Snapshot D={D} />
+      {!D ? (q.error ? null : <Loading />) : (
+        <div className={`col data-live ${updating ? 'is-updating' : ''}`} style={{ gap: 14 }} aria-busy={updating}>
           <Activity D={D} />
+          <Snapshot D={D} />
+          <Team D={D} />
         </div>
       )}
     </>
   );
 }
 
-function Snapshot({ D }: { D: Mgmt }) {
-  const [leads, other] = mgmtBlocks(D);
+function Activity({ D }: { D: Mgmt }) {
+  const c = D.calls; const m = D.meetings; const co = D.commercial; const f = D.follow_ups;
+  const single = c.by_day.length <= 1;
   return (
-    <section className="col" aria-label={t('Current snapshot')} data-testid="mgmt-snapshot">
-      <div><h2>{t('Current snapshot')}</h2><span className="muted small">{t('State right now — independent of the selected period.')}</span></div>
-      <div className="grid cols-4 keep2">{leads.rows.map(([l, v], i) => <Kpi key={l} hero={i === 0} label={l} value={v} />)}</div>
-      <div className="grid cols-4 keep2">{other.rows.map(([l, v]) => <Kpi key={l} label={l} value={v} tone={l === 'Overdue follow-ups (now)' && Number(v) > 0 ? 'bad' : undefined} />)}</div>
+    <section className="col" style={{ gap: 12 }} aria-label={t('Activity during the period')} data-testid="mgmt-activity">
+      <div className="section-label"><h2>{t('Activity during the selected period')}</h2><span>{t('Counts of what happened between the selected dates (Cairo time).')}</span></div>
+      <div className="kpi-band" style={{ ['--cols' as string]: 6 }} data-testid="mgmt-department">
+        <Kpi lead hero label="Total call attempts" value={<Num v={c.total} />} sub={t('Department call target') + ` ${c.target}`} meter={c.achievement_pct ?? 0} style={stagger(0, 60)} />
+        <Kpi label="Target achievement" value={<Num v={c.achievement_pct} suffix="%" />} sub={t('Remaining') + ` ${c.remaining}`} style={stagger(1, 60)} />
+        <Kpi label="Response rate" value={<Num v={c.response_rate} suffix="%" />} sub={`${t('Responded')} ${c.responded} · ${t("Didn't respond")} ${c.did_not_respond}`} style={stagger(2, 60)} />
+        <Kpi label="Meetings scheduled" value={<Num v={m.scheduled} />} sub={`${t('Attended')} ${m.attended} · ${t('Confirmed')} ${m.confirmed}`} style={stagger(3, 60)} />
+        <Kpi label="Proposals sent" value={<Num v={co.proposals_sent} />} sub={`${t('Client responses')} ${co.proposal_responses}`} style={stagger(4, 60)} />
+        <Kpi label="Won / Lost" value={<><Num v={D.period.won} /><span className="muted" style={{ fontWeight: 500 }}> / </span><Num v={D.period.lost} /></>} sub={`${t('New leads')} ${D.period.leads_new}`} style={stagger(5, 60)} />
+      </div>
+      <div className="cc-grid">
+        <Panel className="s8 reveal" style={stagger(0, 260)} title={single ? t('Department target — today') : t('Calls per day')} sub={single ? t('Attempts against the combined daily target') : t('Attempts, responded and the combined working-day target')}>
+          {single ? (
+            <div className="col" style={{ gap: 14, paddingBlock: 6 }}>
+              <div className="row spread nowrap" style={{ alignItems: 'baseline' }}><span style={{ fontSize: 34, fontWeight: 720, letterSpacing: '-0.03em' }}><Num v={c.total} /><span className="muted" style={{ fontSize: 16, fontWeight: 600 }}> / {c.target}</span></span><b className="num" style={{ fontSize: 18 }}><Num v={c.achievement_pct} suffix="%" /></b></div>
+              <Meter pct={c.achievement_pct ?? 0} delay={380} />
+              <div className="tiles" style={{ ['--n' as string]: 4 }}>
+                <div><span>{t('Responded')}</span><b><Num v={c.responded} /></b></div><div><span>{t("Didn't respond")}</span><b><Num v={c.did_not_respond} /></b></div>
+                <div><span>{t('Unique leads called')}</span><b><Num v={c.unique_leads} /></b></div><div className="gold"><span>{t('Remaining')}</span><b><Num v={c.remaining} /></b></div>
+              </div>
+            </div>
+          ) : <Trend points={c.by_day} fmtX={fmtDay} label={t('Calls per day')} />}
+        </Panel>
+        <Panel className="s4 reveal" style={stagger(1, 260)} title={t('Conversion from calls')} sub={t('Selected period')}>
+          <div className="mlist" style={{ ['--n' as string]: 1 }}>
+            <div><span>{t('Unique leads called')}</span><b><Num v={c.unique_leads} /></b></div>
+            <div><span>{t('Meetings generated from calls')}</span><b><Num v={m.generated_from_calls} /></b></div>
+            <div><span>{t('Forms sent')}</span><b><Num v={co.forms_sent} /></b></div>
+            <div><span>{t('Forms completed')}</span><b><Num v={co.forms_completed} /></b></div>
+            <div><span>{t('Negotiations')}</span><b><Num v={co.negotiations} /></b></div>
+            <div><span>{t('Proposal value sent')}</span><b><Num v={Number(co.proposal_value_sent ?? 0)} /></b></div>
+          </div>
+        </Panel>
+        <Panel className="s4 reveal" style={stagger(2, 340)} title={t('Meetings (period)')}>
+          <div className="tiles" style={{ ['--n' as string]: 3 }}>
+            <div><span>{t('Scheduled')}</span><b><Num v={m.scheduled} /></b></div><div><span>{t('Attended')}</span><b><Num v={m.attended} /></b></div><div className="gold"><span>{t('Awaiting outcome')}</span><b><Num v={m.awaiting_outcome} /></b></div>
+          </div>
+          <MeetingMix m={m} />
+        </Panel>
+        <Panel className="s4 reveal" style={stagger(3, 340)} title={t('Follow-ups (period)')} sub={t('Due in the selected period')}>
+          <div className="tiles" style={{ ['--n' as string]: 3 }}>
+            <div><span>{t('Due')}</span><b><Num v={f.due} /></b></div><div><span>{t('Completed')}</span><b><Num v={f.completed} /></b></div><div className={f.overdue ? 'risk' : ''}><span>{t('Overdue (in range)')}</span><b><Num v={f.overdue} /></b></div>
+          </div>
+          <Meter pct={f.due ? (100 * f.completed) / f.due : 0} delay={460} label={t('Completed')} />
+          <span className="muted small">{f.due ? t('{p}% of follow-ups due in the period are completed', { p: Math.round((100 * f.completed) / f.due) }) : t('No follow-ups due in this period.')}</span>
+        </Panel>
+        <Panel className="s4 reveal" style={stagger(4, 340)} title={t('Commercial (period)')}>
+          <div className="mlist" style={{ ['--n' as string]: 1 }}>
+            <div><span>{t('New leads')}</span><b><Num v={D.period.leads_new} /></b></div>
+            <div><span>{t('Proposals sent')}</span><b><Num v={co.proposals_sent} /></b></div>
+            <div><span>{t('Client responses')}</span><b><Num v={co.proposal_responses} /></b></div>
+            <div><span>{t('Won')}</span><b><Num v={D.period.won} /></b></div>
+            <div><span>{t('Lost')}</span><b><Num v={D.period.lost} /></b></div>
+          </div>
+        </Panel>
+      </div>
     </section>
   );
 }
 
-function Activity({ D }: { D: Mgmt }) {
-  const blocks = mgmtBlocks(D).slice(2);
-  const c = D.calls; const max = Math.max(1, ...c.by_day.map((d) => d.total));
-  const pipeMax = Math.max(1, ...D.pipeline.map((p) => p.current));
+function Snapshot({ D }: { D: Mgmt }) {
+  const s = D.snapshot; const l = s.leads; const sp = s.proposals;
   return (
-    <section className="col" style={{ gap: 18 }} aria-label={t('Activity during the period')} data-testid="mgmt-activity">
-      <div><h2>{t('Activity during the selected period')}</h2><span className="muted small">{t('Counts of what happened between the selected dates (Cairo time).')}</span></div>
-      {blocks.map((b, i) => (
-        <div key={b.title} className="col" data-testid={i === 0 ? 'mgmt-department' : undefined}>
-          <h3>{b.title}</h3>
-          <div className="grid cols-4 keep2">{b.rows.map(([l, v], j) => <Kpi key={l} hero={i === 0 && j < 3} label={l} value={v} tone={l === 'Target achievement' && (c.achievement_pct ?? 0) >= 100 ? 'ok' : undefined} />)}</div>
-        </div>))}
-      {c.by_day.length > 1 && (
-        <div className="card card-pad col"><h3>{t('Calls per day')}</h3>
-          <div className="bars" role="img" aria-label={t('Calls per day')}>{c.by_day.map((d) => <div key={d.date} className="b" title={`${fmtDate(d.date)}: ${d.total}`} style={{ height: `${Math.max(3, (100 * d.total) / max)}%` }} />)}</div>
-        </div>)}
-      <div className="card card-pad col"><h3>{t('Pipeline')}</h3>
-        {D.pipeline.map((p) => <div key={p.stage} className="hbar"><span>{STAGE_LABEL[p.stage] ?? t(p.label)}</span><div className="track"><i style={{ width: `${(100 * p.current) / pipeMax}%` }} /></div><b className="num">{p.current}</b></div>)}
-        <span className="muted small">{t('Bars: current leads per stage (snapshot). Entered during the period: {list}', { list: D.pipeline.map((p) => `${STAGE_LABEL[p.stage] ?? t(p.label)} ${p.entered}`).join(' · ') })}</span>
+    <section className="col" style={{ gap: 12 }} aria-label={t('Current snapshot')} data-testid="mgmt-snapshot">
+      <div className="section-label"><h2>{t('Current snapshot')}</h2><span>{t('State right now — independent of the selected period.')}</span></div>
+      <div className="cc-grid">
+        <Panel className="s7 reveal" style={stagger(0, 520)} title={t('Pipeline')} sub={t('Current leads per stage · share · entered during the period')}>
+          <StageFlow stages={D.pipeline.map((p) => ({ key: p.stage, label: STAGE_LABEL[p.stage] ?? t(p.label), current: p.current, entered: p.entered }))} delay={560} />
+        </Panel>
+        <Panel className="s5 reveal" style={stagger(1, 520)} title={t('Lead health')} sub={t('{n} active of {total} leads', { n: l.active, total: l.total })}>
+          <div className="tiles" style={{ ['--n' as string]: 3 }}>
+            <div><span>{t('Total leads')}</span><b><Num v={l.total} /></b></div><div><span>{t('Active leads')}</span><b><Num v={l.active} /></b></div><div className="gold"><span>{t('Closed / won')}</span><b><Num v={l.closed} /></b></div>
+          </div>
+          <MixBar delay={600} items={[
+            { key: 'hot', label: t('Hot'), value: l.hot, color: 'var(--viz-1)' }, { key: 'warm', label: t('Warm'), value: l.warm, color: 'var(--viz-3)' },
+            { key: 'cold', label: t('Cold'), value: l.cold, color: 'var(--viz-2)' }, { key: 'closed', label: t('Closed / won'), value: l.closed, color: 'var(--ok)' }, { key: 'lost', label: t('Lost'), value: l.lost, color: 'var(--viz-4)' }]} />
+          <div className="tiles" style={{ ['--n' as string]: 2 }}>
+            <div><span>{t('Open follow-ups')}</span><b><Num v={s.follow_ups.open} /></b></div>
+            <div className={s.follow_ups.overdue ? 'risk' : ''}><span>{t('Overdue follow-ups (now)')}</span><b><Num v={s.follow_ups.overdue} /></b></div>
+          </div>
+        </Panel>
+        <Panel className="s6 reveal" style={stagger(2, 600)} title={t('Proposals')} sub={t('Status of every proposal right now')}>
+          <Donut centerLabel={t('Proposals')} delay={640} items={[
+            { key: 'prep', label: t('Proposals preparing'), value: sp.preparing, color: 'var(--viz-4)' },
+            { key: 'sent', label: t('Proposals sent'), value: sp.sent, color: 'var(--viz-2)' },
+            { key: 'rev', label: t('Proposals under review'), value: sp.under_review, color: 'var(--viz-1)' },
+            { key: 'revq', label: t('Revision requested'), value: sp.revision_requested, color: 'var(--viz-3)' },
+            { key: 'acc', label: t('Accepted'), value: sp.accepted, color: 'var(--ok)' },
+            { key: 'rej', label: t('Rejected'), value: sp.rejected, color: 'var(--line-strong)' }]} />
+          <span className="muted small">{t('Proposals awaiting response')}: <b className="num">{sp.awaiting_response}</b></span>
+        </Panel>
+        <Panel className="s6 reveal" style={stagger(3, 600)} title={t('Meetings')} sub={t('Right now')}>
+          <div className="tiles" style={{ ['--n' as string]: 2 }}>
+            <div><span>{t('Upcoming meetings')}</span><b><Num v={s.meetings.upcoming} /></b></div>
+            <div className={s.meetings.awaiting_outcome ? 'gold' : ''}><span>{t('Meetings awaiting outcome')}</span><b><Num v={s.meetings.awaiting_outcome} /></b></div>
+          </div>
+          <span className="muted small">{t('Meetings that already took place but have no recorded attendance yet are shown as awaiting outcome.')}</span>
+        </Panel>
       </div>
-      {D.calls.by_user ? (
-        <div className="col" data-testid="mgmt-individual">
-          <h3>{t('{team} performance', { team: term('sales_team') })}</h3>
-          <div className="card table-wrap"><table className="t" aria-label={t('{team} performance', { team: term('sales_team') })}><thead><tr>{memberHeader(D).map((h, i) => <th key={h} className={i ? 'r' : ''}>{h}</th>)}</tr></thead><tbody>
-            {memberRows(D).length === 0 && <tr><td colSpan={memberHeader(D).length} className="muted">{t('No activity in this period.')}</td></tr>}
-            {memberRows(D).map((r, i) => <tr key={i}>{r.map((v, j) => <td key={j} className={j ? 'r num' : ''}>{v}</td>)}</tr>)}
-          </tbody></table></div>
-          {!D.scope.names && <span className="muted small">{t('Employee names are hidden by your access settings.')}</span>}
-        </div>
-      ) : <span className="muted small" data-testid="mgmt-department-only">{t('Department-level view: individual employee performance is not included for your role.')}</span>}
     </section>
+  );
+}
+
+function Team({ D }: { D: Mgmt }) {
+  if (!D.calls.by_user) return <span className="muted small" data-testid="mgmt-department-only">{t('Department-level view: individual employee performance is not included for your role.')}</span>;
+  return (
+    <Panel className="reveal" style={stagger(0, 700)} testId="mgmt-individual" title={t('{team} performance', { team: term('sales_team') })} sub={t('Aggregates per person for the selected period — exact values, bars for comparison.')} flush>
+      <TeamTable label={t('{team} performance', { team: term('sales_team') })} targets={D.scope.targets} followUps wl
+        rows={D.calls.by_user.map((u, i) => ({ key: String(u.member ?? u.name ?? i), ...u }))} />
+      {!D.scope.names && <span className="muted small" style={{ padding: '8px 14px 12px' }}>{t('Employee names are hidden by your access settings.')}</span>}
+    </Panel>
   );
 }
