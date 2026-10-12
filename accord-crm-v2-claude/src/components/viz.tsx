@@ -1,41 +1,42 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { t } from '../lib/i18n';
 
 // Restrained data-viz + motion primitives for the command-centre UI. Everything renders EXISTING data only — nothing
-// here derives new business figures. Motion: CSS for entrances (transform/opacity), rAF count-up for numbers; both are
+// here derives new business figures. Motion: CSS for entrances (transform/opacity), rAF count-up for numbers (direct DOM
+// text updates, no per-frame React renders); both are
 // skipped under prefers-reduced-motion.
 
 const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const ease = (x: number) => 1 - Math.pow(1 - x, 3);
 
-/** Smoothly counts from the previously shown value to the new one (first render counts up from 0). */
-export function useCountUp(value: number, ms = 650, delay = 0): number {
-  const [shown, setShown] = useState(() => (reduced() ? value : 0));
-  const from = useRef(reduced() ? value : 0);
+/** A number that morphs to its new value. The animation writes straight to the text node (no React re-render per
+ *  frame — dozens of these run at once on the dashboard); the exact final value is always the accessible name. */
+export function Num({ v, suffix = '', decimals, delay = 0, locale = true, count = false }: { v: number | null | undefined; suffix?: string; decimals?: number; delay?: number; locale?: boolean; count?: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const shown = useRef<number | null>(null);
+  const target = v ?? 0;
+  const d = decimals ?? (Number.isInteger(target) ? 0 : 1);
+  const fmt = (x: number) => (locale ? x.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }) : x.toFixed(d)) + suffix;
   useEffect(() => {
-    if (reduced() || !Number.isFinite(value)) { from.current = value; setShown(value); return; }
-    const start = from.current; let raf = 0; let t0 = 0;
+    const el = ref.current; if (!el || v === null || v === undefined) return;
+    const start = shown.current ?? 0;
+    // only headline figures count up (cheap: a handful per screen); everything else changes in place
+    if (!count || reduced() || start === target) { el.textContent = fmt(target); shown.current = target; return; }
+    let raf = 0; let t0 = 0;
     const tick = (now: number) => {
       if (!t0) t0 = now + delay;
-      const p = Math.min(1, Math.max(0, (now - t0) / ms));
-      const v = start + (value - start) * ease(p);
-      from.current = v; setShown(v);
+      const p = Math.min(1, Math.max(0, (now - t0) / 650));
+      const x = p >= 1 ? target : start + (target - start) * ease(p);
+      shown.current = x; el.textContent = fmt(x);
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [value, ms, delay]);
-  return shown;
-}
-
-/** A number that morphs to its new value. Keeps the exact final value in the accessible name. */
-export function Num({ v, suffix = '', decimals, delay = 0, locale = true }: { v: number | null | undefined; suffix?: string; decimals?: number; delay?: number; locale?: boolean }) {
-  const target = v ?? 0;
-  const d = decimals ?? (Number.isInteger(target) ? 0 : 1);
-  const shown = useCountUp(target, 650, delay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target, delay, suffix, d, count]);
   if (v === null || v === undefined) return <>—</>;
-  const fmt = (x: number) => (locale ? x.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d }) : x.toFixed(d));
-  return <span className="num" aria-label={`${fmt(target)}${suffix}`}>{fmt(Math.abs(shown - target) < 1e-9 ? target : shown)}{suffix}</span>;
+  // initial text: final value when motion is reduced, otherwise the starting point of the count-up
+  return <span ref={ref} className="num" aria-label={fmt(target)}>{fmt(shown.current ?? (count && !reduced() ? 0 : target))}</span>;
 }
 
 /** Stagger helper: style for the i-th item of a group that starts at `base` ms. */
@@ -72,7 +73,7 @@ export function Trend({ points, fmtX, height = 168, label }: { points: TrendPoin
         <div className="plot" style={{ ['--h' as string]: `${height}px`, ['--gap' as string]: n > 40 ? '1px' : n > 20 ? '2px' : '4px' }}>
           <div className="cols">
             {points.map((p, i) => (
-              <div key={p.date} className="col-b" style={{ ['--i' as string]: i }}>
+              <div key={p.date} className={`col-b ${i < n / 3 ? 'first' : i >= (2 * n) / 3 ? 'last' : ''}`} style={{ ['--i' as string]: i }}>
                 <i style={{ height: `${(100 * p.total) / nice}%` }}>{p.responded !== undefined && p.total > 0 && <u style={{ height: `${(100 * p.responded) / p.total}%` }} />}</i>
                 {(p.target ?? 0) > 0 && <span className="tgt" style={{ bottom: `${(100 * (p.target ?? 0)) / nice}%` }} aria-hidden="true" />}
                 <span className="tip">{fmtX(p.date)} · {p.total}{p.responded !== undefined ? ` / ${p.responded}` : ''}{p.target ? ` · ${t('Target')} ${p.target}` : ''}</span>
@@ -130,7 +131,7 @@ export function Donut({ items, centerLabel, delay = 380 }: { items: Segment[]; c
             acc += len; return el;
           })}
         </svg>
-        <div className="center"><b><Num v={total} delay={delay} /></b><span>{centerLabel}</span></div>
+        <div className="center"><b><Num v={total} delay={delay} count /></b><span>{centerLabel}</span></div>
       </div>
       <div className="mix-legend" style={{ gridTemplateColumns: '1fr' }}>{items.map((i) => <span key={i.key}><i style={{ background: i.color }} />{i.label}<b>{i.value}</b></span>)}</div>
     </div>

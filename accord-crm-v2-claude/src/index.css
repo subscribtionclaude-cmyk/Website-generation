@@ -504,7 +504,7 @@ table.t td.r .btn + .btn { margin-inline-start: 4px; }
 .lane[data-stage='lost'] .lane-share i { background: var(--viz-4); }
 .lane-body { overflow-y: auto; padding: 0 6px 6px; display: flex; flex-direction: column; gap: 6px; scrollbar-width: thin; }
 .pcard { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; display: flex; flex-direction: column; gap: 5px; cursor: grab; box-shadow: var(--shadow-sm); transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s; font-size: 12.5px; }
-.pcard .pc-name { font-weight: 650; font-size: 13px; color: var(--text); }
+.pcard .pc-name { font-weight: 650; font-size: 13px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; unicode-bidi: plaintext; }
 .pcard .pc-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; color: var(--muted); font-size: 11.5px; }
 .pcard .pc-meta svg { width: 12px; height: 12px; vertical-align: -2px; margin-inline-end: 3px; }
 .pcard .pc-due.over { color: var(--bad); }
@@ -634,7 +634,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 /* =====================================================================================================================
    COMMAND-CENTRE LAYER (UI experiment): layered surfaces, compact KPI bands, restrained data-viz and a motion system.
    Motion: transform/opacity only for entrances; short (≤ 600 ms), decelerating, never bouncy; fully disabled under
-   prefers-reduced-motion (global rule above + useCountUp checks the media query).
+   prefers-reduced-motion (global rule above + <Num> checks the media query).
    ===================================================================================================================== */
 :root { --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1); --ease-io: cubic-bezier(0.45, 0, 0.2, 1); --origin: left; }
 :root[dir='rtl'] { --origin: right; }
@@ -663,6 +663,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .kpi-band { display: grid; grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .kpi-band > .kpi { border: 0; border-radius: 0; box-shadow: none; background: transparent; border-inline-start: 1px solid var(--line); }
 .kpi-band > .kpi:first-child { border-inline-start: 0; }
+.kpi-band > .kpi { contain: layout style; }
 .kpi-band > .kpi.lead .k-value { font-size: 30px; }
 .kpi .k-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .kpi .k-tag { font-size: 11px; font-weight: 650; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -720,9 +721,11 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .trend .col-b > i { display: block; width: 100%; border-radius: 3px 3px 0 0; background: var(--viz-1-soft); transform-origin: bottom; animation: grow-y 0.6s var(--ease-out) backwards; animation-delay: calc(var(--d, 380ms) + var(--i, 0) * 18ms); transition: height 0.55s var(--ease-out); position: relative; }
 .trend .col-b > i > u { position: absolute; inset-inline: 0; bottom: 0; border-radius: 3px 3px 0 0; background: var(--viz-1); transition: height 0.55s var(--ease-out); }
 .trend .col-b:hover > i { filter: brightness(1.08); }
-.trend .col-b .tip { position: absolute; bottom: calc(100% + 6px); inset-inline-start: 50%; transform: translateX(-50%); background: var(--toast-bg); color: var(--toast-ink); font-size: 11px; padding: 4px 7px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 3; }
+.trend .col-b .tip { position: absolute; bottom: calc(100% + 6px); inset-inline-start: 50%; transform: translateX(-50%); background: var(--toast-bg); color: var(--toast-ink); font-size: 11px; padding: 4px 7px; border-radius: 6px; white-space: nowrap; pointer-events: none; z-index: 3; display: none; animation: fade 0.15s; }
 :root[dir='rtl'] .trend .col-b .tip { transform: translateX(50%); }
-.trend .col-b:hover .tip { opacity: 1; }
+.trend .col-b.first .tip { inset-inline-start: 0; transform: none; }
+.trend .col-b.last .tip { inset-inline-start: auto; inset-inline-end: 0; transform: none; }
+.trend .col-b:hover .tip { display: block; }
 .trend svg.line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .trend svg.line path { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 0.9s var(--ease-io) backwards; animation-delay: var(--d2, 560ms); }
 .trend .col-b .tgt { position: absolute; inset-inline: -1px; height: 0; border-top: 2px dashed var(--viz-3); animation: fade 0.4s backwards; animation-delay: calc(var(--d2, 560ms) + var(--i, 0) * 18ms); transition: bottom 0.55s var(--ease-out); }

@@ -62,9 +62,9 @@ export default function FollowUps() {
       <div className="card">
         {list.isLoading ? <Loading /> : !list.data?.length ? <Empty>{t('Nothing here.')}</Empty> : list.data.map((f) => (
           <div key={f.id} className={`row spread card-pad list-row urg ${f.status === 'completed' ? 'done' : f.due_date < td ? 'overdue' : f.due_date === td ? 'today' : ''}`} data-testid="followup-row" style={{ paddingBlock: 10 }}>
-            <div className="row nowrap grow" style={{ gap: 12, alignItems: 'flex-start' }}>
+            <div className="row" style={{ gap: 12, alignItems: 'flex-start', flex: '1 1 260px', minWidth: 0, flexWrap: 'nowrap' }}>
             <span className="datechip" aria-hidden="true"><b>{f.due_date.slice(8, 10)}</b><span>{fmtMonth(f.due_date)}</span></span>
-            <div className="col" style={{ gap: 2, minWidth: 0 }}>
+            <div className="col" style={{ gap: 2, minWidth: 0, flex: '1 1 0', overflowWrap: 'anywhere' }}>
               <Link to={`/leads/view/?id=${f.lead_id}`}><b>{f.leads?.name}</b></Link>
               <span className="small"><b style={{ color: f.status === 'open' && f.due_date < td ? 'var(--bad)' : undefined }}>{fmtDate(f.due_date)}{f.due_time ? ` ${f.due_time.slice(0, 5)}` : ''}</b>
                 {f.status === 'open' && f.due_date < td && <span style={{ color: 'var(--bad)' }}> · {t('{n}d overdue', { n: daysBetween(f.due_date, td) })}</span>}

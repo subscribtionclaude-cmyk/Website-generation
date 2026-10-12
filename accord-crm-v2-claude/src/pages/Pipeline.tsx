@@ -98,7 +98,7 @@ export default function Pipeline() {
                     style={moving === l.id ? { viewTransitionName: 'moving-lead' } as React.CSSProperties : undefined}
                     onDragStart={(e) => { e.dataTransfer.setData('text/plain', l.id); e.dataTransfer.effectAllowed = 'move'; setDragId(l.id); }} onDragEnd={() => { setDragId(''); setDropOn(''); }}>
                     <div className="row nowrap" style={{ gap: 7, alignItems: 'flex-start' }}>
-                      <Link to={`/leads/view/?id=${l.id}`} className="pc-name grow">{l.name}</Link>
+                      <Link to={`/leads/view/?id=${l.id}`} className="pc-name grow" title={l.name}>{l.name}</Link>
                       <TempBadge v={l.temperature} />
                     </div>
                     <div className="pc-meta">

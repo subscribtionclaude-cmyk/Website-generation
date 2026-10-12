@@ -93,10 +93,10 @@ function Board({ r }: { r: Report }) {
         <span className="muted small">{t('Figures are computed from recorded activity only — nothing is estimated.')}</span>
       </section>
       <div className="kpi-band" style={{ ['--cols' as string]: 4 }}>
-        <Kpi lead hero label={t('Calls')} value={<Num v={c.total} />} sub={t('Response rate {r}', { r: c.response_rate === null ? '—' : `${c.response_rate}%` })} meter={c.achievement_pct ?? 0} style={stagger(0, 80)} />
-        <Kpi label={t('Target achievement')} value={<Num v={c.achievement_pct} suffix="%" />} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} style={stagger(1, 80)} />
-        <Kpi label={t('Meetings attended')} value={<Num v={m.attended} />} style={stagger(2, 80)} />
-        <Kpi label={t('Proposals sent')} value={<Num v={co.proposals_sent} />} style={stagger(3, 80)} />
+        <Kpi lead hero label={t('Calls')} value={<Num v={c.total} count />} sub={t('Response rate {r}', { r: c.response_rate === null ? '—' : `${c.response_rate}%` })} meter={c.achievement_pct ?? 0} style={stagger(0, 80)} />
+        <Kpi label={t('Target achievement')} value={<Num v={c.achievement_pct} suffix="%" count />} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} style={stagger(1, 80)} />
+        <Kpi label={t('Meetings attended')} value={<Num v={m.attended} count />} style={stagger(2, 80)} />
+        <Kpi label={t('Proposals sent')} value={<Num v={co.proposals_sent} count />} style={stagger(3, 80)} />
       </div>
       <CallsSection r={r} band={false} />
       <Sections r={r} />

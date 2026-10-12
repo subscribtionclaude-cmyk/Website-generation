@@ -37,10 +37,10 @@ export function CallsSection({ r, showDays = true, band = true }: { r: Report; s
     <section className="col" style={{ gap: 12 }} aria-label={t('Calls')}>
       <div className="section-label"><h2>{t('Calls & target performance')}</h2></div>
       {band && <div className="kpi-band" style={{ ['--cols' as string]: 4 }}>
-        <Kpi lead hero label={t('Total call attempts')} value={<Num v={c.total} />} sub={t('Unique leads {n}', { n: c.unique_leads })} meter={c.achievement_pct ?? 0} style={stagger(0, 60)} />
-        <Kpi label={t('Responded')} value={<Num v={c.responded} />} sub={t('Response rate {r}', { r: pct(c.response_rate) })} style={stagger(1, 60)} />
-        <Kpi label={t('Didn\'t respond')} value={<Num v={c.did_not_respond} />} style={stagger(2, 60)} />
-        <Kpi label={t('Target vs actual')} value={<Num v={c.achievement_pct} suffix="%" />} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} style={stagger(3, 60)} />
+        <Kpi lead hero label={t('Total call attempts')} value={<Num v={c.total} count />} sub={t('Unique leads {n}', { n: c.unique_leads })} meter={c.achievement_pct ?? 0} style={stagger(0, 60)} />
+        <Kpi label={t('Responded')} value={<Num v={c.responded} count />} sub={t('Response rate {r}', { r: pct(c.response_rate) })} style={stagger(1, 60)} />
+        <Kpi label={t('Didn\'t respond')} value={<Num v={c.did_not_respond} count />} style={stagger(2, 60)} />
+        <Kpi label={t('Target vs actual')} value={<Num v={c.achievement_pct} suffix="%" count />} sub={t('Target {target} · remaining {rem}', { target: c.target, rem: c.remaining })} style={stagger(3, 60)} />
       </div>}
       {showDays && c.by_day.length > 1 && (
         <Panel className="reveal" style={stagger(0, 240)} title={t('Calls per day')} sub={t('Attempts, responded and the combined working-day target')}>

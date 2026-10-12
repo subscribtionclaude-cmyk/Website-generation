@@ -32,6 +32,16 @@ const Management = lazy(() => import('./pages/Management'));
 const AdminRoles = lazy(() => import('./pages/admin/Roles'));
 const AdminTerminology = lazy(() => import('./pages/admin/Terminology'));
 
+// Once the app is idle, fetch the main page bundles so moving between sections never waits on a download.
+const PREFETCH = [() => import('./pages/Dashboard'), () => import('./pages/Management'), () => import('./pages/Leads'), () => import('./pages/Calls'), () => import('./pages/Pipeline'),
+  () => import('./pages/FollowUps'), () => import('./pages/Meetings'), () => import('./pages/Proposals'), () => import('./pages/LeadView'), () => import('./pages/admin/Overview'), () => import('./pages/admin/Reports')];
+let prefetched = false;
+function prefetchPages() {
+  if (prefetched || typeof window === 'undefined') return; prefetched = true;
+  const idle = (cb: () => void) => ((window as unknown as { requestIdleCallback?: (f: () => void) => void }).requestIdleCallback ?? ((f: () => void) => setTimeout(f, 1200)))(cb);
+  idle(() => PREFETCH.reduce((p, f) => p.then(() => f().then(() => undefined, () => undefined)), Promise.resolve()));
+}
+
 /** Page-level guard mirroring the database rule (RLS / RPCs enforce it regardless): no permission → this role's home. */
 function Need({ perm, staff, children }: { perm?: string | string[]; staff?: boolean; children: JSX.Element }) {
   const { can, loading } = usePerms(); const { isStaff } = useAuth(); const home = useHomePath();
@@ -48,6 +58,7 @@ function Protected({ admin, children }: { admin?: boolean; children: JSX.Element
   if (noAccess) return <NoAccessPage />;
   if (profile?.must_change_password && loc.pathname !== '/set-password/') return <Navigate to="/set-password/" replace />;
   if (admin && !isAdmin) return <Navigate to="/dashboard/" replace />;
+  prefetchPages();
   return children;
 }
 

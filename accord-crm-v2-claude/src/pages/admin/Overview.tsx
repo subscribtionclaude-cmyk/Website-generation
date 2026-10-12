@@ -26,11 +26,11 @@ export default function AdminOverview() {
       {!r ? <Loading /> : (
         <div className="col" style={{ gap: 14 }}>
           <div className="kpi-band" style={{ ['--cols' as string]: 5 }}>
-            <Kpi lead hero label={t('Team calls today')} value={<Num v={r.calls.total} />} sub={t('Target {target} · {pct}%', { target: r.calls.target, pct: r.calls.achievement_pct ?? '—' })} meter={r.calls.achievement_pct ?? 0} style={stagger(0, 60)} />
-            <Kpi label={t('Response rate')} value={<Num v={r.calls.response_rate} suffix="%" />} sub={`${t('Responded')} ${r.calls.responded}`} style={stagger(1, 60)} />
-            <Kpi label={t('Meetings today')} value={<Num v={r.meetings.scheduled} />} sub={t('{n} confirmed', { n: r.meetings.confirmed })} style={stagger(2, 60)} />
-            <Kpi label={t('Overdue follow-ups')} value={<Num v={r.follow_ups.open_overdue_total} />} tone={r.follow_ups.open_overdue_total ? 'bad' : undefined} style={stagger(3, 60)} />
-            <Kpi label={t('Proposals awaiting response')} value={<Num v={r.commercial.awaiting_responses} />} sub={t('Forms awaiting client {n}', { n: r.commercial.forms_awaiting_client })} style={stagger(4, 60)} />
+            <Kpi lead hero label={t('Team calls today')} value={<Num v={r.calls.total} count />} sub={t('Target {target} · {pct}%', { target: r.calls.target, pct: r.calls.achievement_pct ?? '—' })} meter={r.calls.achievement_pct ?? 0} style={stagger(0, 60)} />
+            <Kpi label={t('Response rate')} value={<Num v={r.calls.response_rate} suffix="%" count />} sub={`${t('Responded')} ${r.calls.responded}`} style={stagger(1, 60)} />
+            <Kpi label={t('Meetings today')} value={<Num v={r.meetings.scheduled} count />} sub={t('{n} confirmed', { n: r.meetings.confirmed })} style={stagger(2, 60)} />
+            <Kpi label={t('Overdue follow-ups')} value={<Num v={r.follow_ups.open_overdue_total} count />} tone={r.follow_ups.open_overdue_total ? 'bad' : undefined} style={stagger(3, 60)} />
+            <Kpi label={t('Proposals awaiting response')} value={<Num v={r.commercial.awaiting_responses} count />} sub={t('Forms awaiting client {n}', { n: r.commercial.forms_awaiting_client })} style={stagger(4, 60)} />
           </div>
           <Panel className="reveal" style={stagger(0, 240)} title={t('{team} performance', { team: term('sales_team') })} sub={t('Today — calls, target achievement, response rate, meetings, proposals, follow-ups and won/lost per person.')} flush
             actions={<Link to="/management/" className="small">{t('Open management dashboard')}</Link>}>

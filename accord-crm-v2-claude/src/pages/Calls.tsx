@@ -18,10 +18,10 @@ import { t } from '../lib/i18n';
 function MetricsStrip({ m }: { m: CallMetrics }) {
   return (
     <div className="kpi-band" style={{ ['--cols' as string]: 5 }}>
-      <Kpi lead hero label={t('Calls')} value={<Num v={m.total} />} sub={m.has_target ? t('Target {target} · {pct}% · remaining {rem}', { target: m.target, pct: m.achievement_pct, rem: m.remaining }) : t('No target')} meter={m.has_target ? m.achievement_pct ?? 0 : undefined} style={stagger(0, 60)} />
-      <Kpi label={t('Responded')} value={<Num v={m.responded} />} sub={t('Response rate {r}', { r: m.response_rate === null ? '—' : `${m.response_rate}%` })} meter={m.response_rate ?? 0} style={stagger(1, 60)} />
-      <Kpi label={t('Didn\'t respond')} value={<Num v={m.did_not_respond} />} style={stagger(2, 60)} />
-      <Kpi label={t('Unique leads')} value={<Num v={m.unique_leads} />} style={stagger(3, 60)} />
+      <Kpi lead hero label={t('Calls')} value={<Num v={m.total} count />} sub={m.has_target ? t('Target {target} · {pct}% · remaining {rem}', { target: m.target, pct: m.achievement_pct, rem: m.remaining }) : t('No target')} meter={m.has_target ? m.achievement_pct ?? 0 : undefined} style={stagger(0, 60)} />
+      <Kpi label={t('Responded')} value={<Num v={m.responded} count />} sub={t('Response rate {r}', { r: m.response_rate === null ? '—' : `${m.response_rate}%` })} meter={m.response_rate ?? 0} style={stagger(1, 60)} />
+      <Kpi label={t('Didn\'t respond')} value={<Num v={m.did_not_respond} count />} style={stagger(2, 60)} />
+      <Kpi label={t('Unique leads')} value={<Num v={m.unique_leads} count />} style={stagger(3, 60)} />
       <div className="kpi reveal" style={stagger(4, 60)}>
         <div className="k-label">{t('Outcomes')}</div>
         <div style={{ marginTop: 10 }}><MixBar delay={300} items={[{ key: 'r', label: t('Responded'), value: m.responded, color: 'var(--viz-1)' }, { key: 'n', label: t("Didn't respond"), value: m.did_not_respond, color: 'var(--viz-4)' }]} /></div>

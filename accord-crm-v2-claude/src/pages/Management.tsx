@@ -87,12 +87,12 @@ function Activity({ D }: { D: Mgmt }) {
     <section className="col" style={{ gap: 12 }} aria-label={t('Activity during the period')} data-testid="mgmt-activity">
       <div className="section-label"><h2>{t('Activity during the selected period')}</h2><span>{t('Counts of what happened between the selected dates (Cairo time).')}</span></div>
       <div className="kpi-band" style={{ ['--cols' as string]: 6 }} data-testid="mgmt-department">
-        <Kpi lead hero label="Total call attempts" value={<Num v={c.total} />} sub={t('Department call target') + ` ${c.target}`} meter={c.achievement_pct ?? 0} style={stagger(0, 60)} />
-        <Kpi label="Target achievement" value={<Num v={c.achievement_pct} suffix="%" />} sub={t('Remaining') + ` ${c.remaining}`} style={stagger(1, 60)} />
-        <Kpi label="Response rate" value={<Num v={c.response_rate} suffix="%" />} sub={`${t('Responded')} ${c.responded} · ${t("Didn't respond")} ${c.did_not_respond}`} style={stagger(2, 60)} />
-        <Kpi label="Meetings scheduled" value={<Num v={m.scheduled} />} sub={`${t('Attended')} ${m.attended} · ${t('Confirmed')} ${m.confirmed}`} style={stagger(3, 60)} />
-        <Kpi label="Proposals sent" value={<Num v={co.proposals_sent} />} sub={`${t('Client responses')} ${co.proposal_responses}`} style={stagger(4, 60)} />
-        <Kpi label="Won / Lost" value={<><Num v={D.period.won} /><span className="muted" style={{ fontWeight: 500 }}> / </span><Num v={D.period.lost} /></>} sub={`${t('New leads')} ${D.period.leads_new}`} style={stagger(5, 60)} />
+        <Kpi lead hero label="Total call attempts" value={<Num v={c.total} count />} sub={t('Department call target') + ` ${c.target}`} meter={c.achievement_pct ?? 0} style={stagger(0, 60)} />
+        <Kpi label="Target achievement" value={<Num v={c.achievement_pct} suffix="%" count />} sub={t('Remaining') + ` ${c.remaining}`} style={stagger(1, 60)} />
+        <Kpi label="Response rate" value={<Num v={c.response_rate} suffix="%" count />} sub={`${t('Responded')} ${c.responded} · ${t("Didn't respond")} ${c.did_not_respond}`} style={stagger(2, 60)} />
+        <Kpi label="Meetings scheduled" value={<Num v={m.scheduled} count />} sub={`${t('Attended')} ${m.attended} · ${t('Confirmed')} ${m.confirmed}`} style={stagger(3, 60)} />
+        <Kpi label="Proposals sent" value={<Num v={co.proposals_sent} count />} sub={`${t('Client responses')} ${co.proposal_responses}`} style={stagger(4, 60)} />
+        <Kpi label="Won / Lost" value={<><Num v={D.period.won} count /><span className="muted" style={{ fontWeight: 500 }}> / </span><Num v={D.period.lost} count /></>} sub={`${t('New leads')} ${D.period.leads_new}`} style={stagger(5, 60)} />
       </div>
       <div className="cc-grid">
         <Panel className="s8 reveal" style={stagger(0, 260)} title={single ? t('Department target — today') : t('Calls per day')} sub={single ? t('Attempts against the combined daily target') : t('Attempts, responded and the combined working-day target')}>

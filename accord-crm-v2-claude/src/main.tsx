@@ -17,7 +17,8 @@ const qc = new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, ret
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={qc}>
-      <BrowserRouter>
+      {/* navigations run as transitions: the current page stays on screen until the next one is ready (no loading flash) */}
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <ThemeProvider>
           <ToastProvider>
             <AuthProvider>
