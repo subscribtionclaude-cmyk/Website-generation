@@ -38,8 +38,10 @@ const PREFETCH = [() => import('./pages/Dashboard'), () => import('./pages/Manag
 let prefetched = false;
 function prefetchPages() {
   if (prefetched || typeof window === 'undefined') return; prefetched = true;
-  const idle = (cb: () => void) => ((window as unknown as { requestIdleCallback?: (f: () => void) => void }).requestIdleCallback ?? ((f: () => void) => setTimeout(f, 1200)))(cb);
-  idle(() => PREFETCH.reduce((p, f) => p.then(() => f().then(() => undefined, () => undefined)), Promise.resolve()));
+  const idle = (cb: () => void) => ((window as unknown as { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => void }).requestIdleCallback ?? ((f: () => void) => setTimeout(f, 200)))(cb, { timeout: 4000 });
+  // start well after the entrance choreography, then one bundle per idle period (never a burst of parsing)
+  const next = (i: number) => { if (i < PREFETCH.length) idle(() => { PREFETCH[i]().then(() => next(i + 1), () => next(i + 1)); }); };
+  setTimeout(() => next(0), 6000);
 }
 
 /** Page-level guard mirroring the database rule (RLS / RPCs enforce it regardless): no permission → this role's home. */
