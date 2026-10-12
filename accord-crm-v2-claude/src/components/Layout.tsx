@@ -10,6 +10,7 @@ import { useTheme, type ThemePref } from '../lib/theme';
 import { useI18n, t } from '../lib/i18n';
 import { ROLE_LABEL } from '../lib/labels';
 import { Modal, Segmented } from './ui';
+import { useGlide } from './viz';
 import { usePerms } from '../lib/perms';
 import { term } from '../lib/terminology';
 import { usePreviewRole, setPreviewRole } from '../lib/preview';
@@ -85,12 +86,14 @@ function NavItem({ i, onClick }: { i: Item; onClick?: () => void }) {
 function Sidebar({ admin }: { admin?: boolean }) {
   const { profile, isAdmin, signOut, role } = useAuth();
   const { theme, toggle } = useTheme();
-  const nav = useCrmNav(); const home = useHomePath();
+  const nav = useCrmNav(); const home = useHomePath(); const loc = useLocation();
+  const [navRef, glide] = useGlide<HTMLElement>('.navlink.active', `${loc.pathname}|${nav.length}|${admin ? 1 : 0}`);
   return (
     <aside className="sidebar">
       <Link to={admin ? '/admin/' : home} className="brand" aria-label={t('ACCORD CRM home')}><Logo className="full" /><AppIcon /></Link>
       {admin && <div className="admin-ribbon" style={{ margin: '0 4px 10px' }} title={t('Management control centre')}><ShieldCheck size={13} /> <span>{t('Management control centre')}</span></div>}
-      <nav aria-label={admin ? t('Admin navigation') : t('Main navigation')}>
+      <nav ref={navRef} className="glide-host" aria-label={admin ? t('Admin navigation') : t('Main navigation')}>
+        {glide}
         {admin
           ? ADMIN_NAV.map((i) => typeof i === 'string' ? <div key={i} className="navsep">{t(i)}</div> : <NavItem key={i.to} i={i} />)
           : nav.map((i) => <NavItem key={i.to} i={i} />)}

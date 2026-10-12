@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 import { TEMP_LABEL, STAGE_LABEL } from '../lib/labels';
 import type { LeadRow, ProfileLite } from '../lib/types';
-import { Meter } from './viz';
+import { Meter, useGlide } from './viz';
 
 export function Spinner() { return <span className="spinner" role="progressbar" aria-label={t('Loading')} />; }
 export function Loading({ text }: { text?: string }) {
@@ -34,10 +34,15 @@ export function Segmented<T extends string>({ value, onChange, options, label }:
   value: T; onChange: (v: T) => void; options: { key: T; label: ReactNode; icon?: ReactNode }[]; label: string;
 }) {
   return (
-    <div className="segmented" role="radiogroup" aria-label={label}>
+    <SegmentedInner value={value} label={label}>
       {options.map((o) => <button key={o.key} type="button" role="radio" aria-checked={value === o.key} onClick={() => onChange(o.key)}>{o.icon}{o.label}</button>)}
-    </div>
+    </SegmentedInner>
   );
+}
+
+function SegmentedInner({ value, label, children }: { value: string; label: string; children: ReactNode }) {
+  const [ref, glide] = useGlide<HTMLDivElement>('button[aria-checked="true"]', value);
+  return <div ref={ref} className="segmented glide-host" role="radiogroup" aria-label={label}>{glide}{children}</div>;
 }
 
 export function TempBadge({ v }: { v: string }) { return <span className={`badge ${v}`}>{TEMP_LABEL[v] ?? v}</span>; }
@@ -53,17 +58,28 @@ export function Modal({ title, onClose, children, footer, wide, narrow, side }: 
   // field while the user was typing, so text ended up in the wrong input.)
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
+  // exit motion: the dialog leaves along its entry path (--dur-standard) before it unmounts. While leaving it is no
+  // longer exposed as a dialog, so the next dialog (or a test) never sees two at once.
+  const [closing, setClosing] = useState(false);
+  const leaving = useRef(false);
+  const requestClose = () => {
+    if (leaving.current) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { closeRef.current(); return; }
+    leaving.current = true; setClosing(true);
+    setTimeout(() => closeRef.current(), 170);
+  };
+  const requestRef = useRef(requestClose); requestRef.current = requestClose;
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeRef.current(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') requestRef.current(); };
     document.addEventListener('keydown', onKey);
     ref.current?.querySelector<HTMLElement>('input,select,textarea,button.primary')?.focus();
     return () => { document.removeEventListener('keydown', onKey); prev?.focus?.(); };
   }, []);
   return (
-    <div className={`overlay ${side ? 'right' : ''}`} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className={`dialog ${wide ? 'wide' : ''} ${narrow ? 'narrow' : ''}`} role="dialog" aria-modal="true" aria-labelledby={titleId} ref={ref}>
-        <div className="dialog-head"><h2 id={titleId}>{typeof title === 'string' ? t(title) : title}</h2><button className="btn ghost icon" onClick={onClose} aria-label={t('Close')}><X /></button></div>
+    <div className={`overlay ${side ? 'right' : ''} ${closing ? 'closing' : ''}`} onMouseDown={(e) => { if (e.target === e.currentTarget) requestClose(); }}>
+      <div className={`dialog ${wide ? 'wide' : ''} ${narrow ? 'narrow' : ''}`} role={closing ? undefined : 'dialog'} aria-modal={closing ? undefined : true} aria-hidden={closing || undefined} aria-labelledby={titleId} ref={ref}>
+        <div className="dialog-head"><h2 id={titleId}>{typeof title === 'string' ? t(title) : title}</h2><button className="btn ghost icon" onClick={requestClose} aria-label={t('Close')}><X /></button></div>
         <div className="dialog-body">{children}</div>
         {footer && <div className="dialog-foot">{footer}</div>}
       </div>
@@ -90,8 +106,9 @@ export function Select({ value, onChange, options, placeholder, disabled }: {
 export function Tabs<T extends string>({ tabs, value, onChange }: {
   tabs: { key: T; label: string; count?: number | null }[]; value: T; onChange: (k: T) => void;
 }) {
+  const [ref, glide] = useGlide<HTMLDivElement>('.tab.active', value, true);
   return (
-    <div className="tabs" role="tablist">
+    <div ref={ref} className="tabs glide-host" role="tablist">{glide}
       {tabs.map((tb) => (
         <button key={tb.key} role="tab" aria-selected={value === tb.key} className={`tab ${value === tb.key ? 'active' : ''}`} onClick={() => onChange(tb.key)}>
           {t(tb.label)}{tb.count !== undefined && tb.count !== null && <span className="count num">{tb.count}</span>}

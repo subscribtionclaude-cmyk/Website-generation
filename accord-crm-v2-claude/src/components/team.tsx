@@ -36,9 +36,9 @@ export function TeamTable({ rows, targets, label, followUps, wl }: { rows: TeamR
           {rows.map((r, i) => (
             <tr key={r.key} style={{ ['--i' as string]: i }}>
               <td><span className="who"><span className="rank" aria-hidden="true">{i + 1}</span><span>{teamName(r)}</span>{r.active === false && <span className="badge">{t('inactive')}</span>}</span></td>
-              <td><span className="cellbar"><Meter pct={(100 * r.total) / maxCalls} thin label={t('Calls')} delay={420 + i * 40} /><b>{r.total}</b></span></td>
-              {targets && <td><span className="cellbar"><Meter pct={r.achievement_pct ?? 0} thin delay={460 + i * 40} /><b>{pct(r.achievement_pct)}</b></span></td>}
-              <td><span className="cellbar"><Meter pct={r.response_rate ?? 0} thin label={t('Response rate')} delay={500 + i * 40} /><b>{pct(r.response_rate)}</b></span></td>
+              <td><span className="cellbar"><Meter pct={(100 * r.total) / maxCalls} thin label={t('Calls')} delay={300 + i * 32} /><b>{r.total}</b></span></td>
+              {targets && <td><span className="cellbar"><Meter pct={r.achievement_pct ?? 0} thin delay={320 + i * 32} /><b>{pct(r.achievement_pct)}</b></span></td>}
+              <td><span className="cellbar"><Meter pct={r.response_rate ?? 0} thin label={t('Response rate')} delay={340 + i * 32} /><b>{pct(r.response_rate)}</b></span></td>
               <td className="r num">{r.responded}</td><td className="r num">{r.did_not_respond}</td><td className="r num">{r.unique_leads}</td>
               {targets && <td className="r num">{r.target || '—'}</td>}{targets && <td className="r num">{r.target ? r.remaining : '—'}</td>}
               <td className="r num">{r.meetings_generated}</td><td className="r num">{r.proposals_generated}</td>

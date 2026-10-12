@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Download, Printer, FileSpreadsheet, Users, Building2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { PageHead, Loading, ErrorNote, Kpi } from '../components/ui';
-import { Num, Trend, StageFlow, MixBar, Donut, Panel, Meter, MeetingMix, stagger } from '../components/viz';
+import { Num, Trend, StageFlow, MixBar, Donut, Panel, Meter, MeetingMix, stagger, useGlide } from '../components/viz';
 import { TeamTable } from '../components/team';
 import { cairoToday, fmtDate, fmtDay, monthRange, presetRange, weekRange, PRESET_LABELS, type RangePreset } from '../lib/cairo';
 import { t } from '../lib/i18n';
@@ -32,6 +32,7 @@ export default function Management() {
   const q = useQuery({ queryKey: ['management', range.from, range.to, previewRole], staleTime: 20_000, placeholderData: keepPreviousData, queryFn: () => fetchManagement(range.from, range.to, previewRole) });
   const D = q.data;
   const updating = q.isFetching && q.isPlaceholderData;
+  const [periodsRef, periodGlide] = useGlide<HTMLDivElement>('.chip.on', preset);
 
   async function report(k: MgmtKind, fmt: 'xlsx' | 'pdf') {
     try {
@@ -50,7 +51,8 @@ export default function Management() {
       <PageHead title={term('management_dashboard')} sub={<>{fmtDate(range.from)}{range.from !== range.to ? ` – ${fmtDate(range.to)}` : ''} · <bdi className="ltr">Africa/Cairo</bdi></>}
         actions={can('export.management_summary') && D && <button className="btn" onClick={() => report('summary', 'xlsx')} data-testid="mgmt-export"><Download /> {t('Export management summary')}</button>} />
       <div className="cmd-strip no-print">
-        <div className="periods" role="group" aria-label={t('Period')}>
+        <div ref={periodsRef} className="periods glide-host" role="group" aria-label={t('Period')}>
+          {periodGlide}
           {PERIODS.map((p) => <button key={p} className={`chip ${preset === p ? 'on' : ''}`} aria-pressed={preset === p} onClick={() => setPreset(p)} data-testid={`mgmt-period-${p}`}>{PRESET_LABELS[p]}</button>)}
         </div>
         {preset === 'custom' && <span className="row nowrap" style={{ gap: 6 }}><input type="date" value={from} max={to} onChange={(e) => e.target.value && setFrom(e.target.value)} style={{ width: 150, minHeight: 32 }} aria-label={t('From')} /><span className="flip-rtl" style={{ display: 'inline-block' }}>→</span><input type="date" value={to} min={from} onChange={(e) => e.target.value && setTo(e.target.value)} style={{ width: 150, minHeight: 32 }} aria-label={t('To')} /></span>}
@@ -99,7 +101,7 @@ function Activity({ D }: { D: Mgmt }) {
           {single ? (
             <div className="col" style={{ gap: 14, paddingBlock: 6 }}>
               <div className="row spread nowrap" style={{ alignItems: 'baseline' }}><span style={{ fontSize: 34, fontWeight: 720, letterSpacing: '-0.03em' }}><Num v={c.total} /><span className="muted" style={{ fontSize: 16, fontWeight: 600 }}> / {c.target}</span></span><b className="num" style={{ fontSize: 18 }}><Num v={c.achievement_pct} suffix="%" /></b></div>
-              <Meter pct={c.achievement_pct ?? 0} delay={380} />
+              <Meter pct={c.achievement_pct ?? 0} />
               <div className="tiles" style={{ ['--n' as string]: 4 }}>
                 <div><span>{t('Responded')}</span><b><Num v={c.responded} /></b></div><div><span>{t("Didn't respond")}</span><b><Num v={c.did_not_respond} /></b></div>
                 <div><span>{t('Unique leads called')}</span><b><Num v={c.unique_leads} /></b></div><div className="gold"><span>{t('Remaining')}</span><b><Num v={c.remaining} /></b></div>
@@ -127,7 +129,7 @@ function Activity({ D }: { D: Mgmt }) {
           <div className="tiles" style={{ ['--n' as string]: 3 }}>
             <div><span>{t('Due')}</span><b><Num v={f.due} /></b></div><div><span>{t('Completed')}</span><b><Num v={f.completed} /></b></div><div className={f.overdue ? 'risk' : ''}><span>{t('Overdue (in range)')}</span><b><Num v={f.overdue} /></b></div>
           </div>
-          <Meter pct={f.due ? (100 * f.completed) / f.due : 0} delay={460} label={t('Completed')} />
+          <Meter pct={f.due ? (100 * f.completed) / f.due : 0} delay={160} label={t('Completed')} />
           <span className="muted small">{f.due ? t('{p}% of follow-ups due in the period are completed', { p: Math.round((100 * f.completed) / f.due) }) : t('No follow-ups due in this period.')}</span>
         </Panel>
         <Panel className="s4 reveal" style={stagger(4, 340)} title={t('Commercial (period)')}>

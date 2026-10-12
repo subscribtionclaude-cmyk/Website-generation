@@ -1,4 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { t } from '../lib/i18n';
 
 // Restrained data-viz + motion primitives for the command-centre UI. Everything renders EXISTING data only — nothing
@@ -7,11 +7,13 @@ import { t } from '../lib/i18n';
 // skipped under prefers-reduced-motion.
 
 const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-const ease = (x: number) => 1 - Math.pow(1 - x, 3);
+// motion tokens mirrored from index.css (--dur-data, --t-kpi) and the same expo-out curve as --ease-out
+export const DUR_DATA = 900; export const T_KPI = 60;
+const ease = (x: number) => (x >= 1 ? 1 : 1 - Math.pow(2, -10 * x));
 
 /** A number that morphs to its new value. The animation writes straight to the text node (no React re-render per
  *  frame — dozens of these run at once on the dashboard); the exact final value is always the accessible name. */
-export function Num({ v, suffix = '', decimals, delay = 0, locale = true, count = false }: { v: number | null | undefined; suffix?: string; decimals?: number; delay?: number; locale?: boolean; count?: boolean }) {
+export function Num({ v, suffix = '', decimals, delay = T_KPI, locale = true, count = false }: { v: number | null | undefined; suffix?: string; decimals?: number; delay?: number; locale?: boolean; count?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const shown = useRef<number | null>(null);
   const target = v ?? 0;
@@ -25,7 +27,7 @@ export function Num({ v, suffix = '', decimals, delay = 0, locale = true, count 
     let raf = 0; let t0 = 0;
     const tick = (now: number) => {
       if (!t0) t0 = now + delay;
-      const p = Math.min(1, Math.max(0, (now - t0) / 650));
+      const p = Math.min(1, Math.max(0, (now - t0) / DUR_DATA));
       const x = p >= 1 ? target : start + (target - start) * ease(p);
       shown.current = x; el.textContent = fmt(x);
       if (p < 1) raf = requestAnimationFrame(tick);
@@ -43,7 +45,7 @@ export function Num({ v, suffix = '', decimals, delay = 0, locale = true, count 
 export const stagger = (i: number, base = 0): CSSProperties => ({ ['--i' as string]: i, ['--d' as string]: `${base}ms` });
 
 /** Progress toward a target; pct may exceed 100 (bar caps, colour turns gold). */
-export function Meter({ pct, delay = 300, thin, label }: { pct: number | null | undefined; delay?: number; thin?: boolean; label?: string }) {
+export function Meter({ pct, delay = T_KPI, thin, label }: { pct: number | null | undefined; delay?: number; thin?: boolean; label?: string }) {
   const p = Math.max(0, pct ?? 0);
   return (
     <div className={`meter ${thin ? 'thin' : ''} ${p >= 100 ? 'full' : ''}`} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(p)} aria-label={label ?? t('Target achievement')}
@@ -70,7 +72,7 @@ export function Trend({ points, fmtX, height = 168, label }: { points: TrendPoin
     <div className="col" style={{ gap: 8 }}>
       <div className="trend" role="img" aria-label={label}>
         <div className="y" style={{ height }}>{ticks.map((v, i) => <span key={i}>{v}</span>)}</div>
-        <div className="plot" style={{ ['--h' as string]: `${height}px`, ['--gap' as string]: n > 40 ? '1px' : n > 20 ? '2px' : '4px' }}>
+        <div className="plot" style={{ ['--h' as string]: `${height}px`, ['--gap' as string]: n > 40 ? '1px' : n > 20 ? '2px' : '4px', ['--sb' as string]: `${Math.min(50, Math.round(520 / Math.max(1, n)))}ms` }}>
           <div className="cols">
             {points.map((p, i) => (
               <div key={p.date} className={`col-b ${i < n / 3 ? 'first' : i >= (2 * n) / 3 ? 'last' : ''}`} style={{ ['--i' as string]: i }}>
@@ -189,4 +191,29 @@ export function MeetingMix({ m }: { m: Record<string, number> }) {
           { key: 'x', label: t('Cancelled'), value: m.cancelled ?? 0, color: 'var(--subtle)' }]} /></div>
     </div>
   );
+}
+
+/** Gliding active indicator: one highlight element that MOVES to the active item (nav, tabs, period chips,
+ *  segmented controls) instead of the highlight jumping. Pure transform/size transitions; re-measured on resize,
+ *  language/theme change and whenever `dep` changes. */
+export function useGlide<T extends HTMLElement>(activeSelector: string, dep: unknown, underline = false): [React.RefObject<T>, JSX.Element] {
+  const host = useRef<T>(null); const el = useRef<HTMLSpanElement>(null); const ready = useRef(false);
+  useLayoutEffect(() => {
+    const h = host.current; const g = el.current; if (!h || !g) return;
+    const place = () => {
+      const a = h.querySelector<HTMLElement>(activeSelector);
+      if (!a || !a.offsetWidth) { g.style.opacity = '0'; h.classList.remove('glide-on'); return; }
+      g.style.width = `${a.offsetWidth}px`; g.style.height = underline ? '2px' : `${a.offsetHeight}px`;
+      g.style.transform = `translate(${a.offsetLeft}px, ${underline ? a.offsetTop + a.offsetHeight - 2 : a.offsetTop}px)`; g.style.opacity = '1';
+      h.classList.add('glide-on');
+      // the first placement must not slide in from the corner
+      if (!ready.current) requestAnimationFrame(() => { ready.current = true; g.classList.add('ready'); });
+    };
+    place();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(place) : null;
+    ro?.observe(h); h.querySelectorAll(activeSelector).forEach((n) => ro?.observe(n));
+    const mo = new MutationObserver(place); mo.observe(h, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-checked', 'aria-pressed', 'aria-selected'] });
+    return () => { ro?.disconnect(); mo.disconnect(); };
+  }, [activeSelector, dep, underline]);
+  return [host, <span ref={el} className="glide" aria-hidden="true" />];
 }

@@ -89,14 +89,22 @@ export default function Pipeline() {
                 if (lead && lead.pipeline_stage !== s && canMove(lead)) setPending({ lead, to: s });
               }}>
               <div className="lane-head">
-                <div className="lane-title"><span>{stageLabel(s)}</span><span className="badge num">{r.data ? <Num v={r.data.total} /> : '…'}</span></div>
+                <div className="lane-title"><span>{stageLabel(s)}</span><span className="badge num">{r.data ? <Num v={r.data.total} count /> : '…'}</span></div>
                 <div className="lane-share" aria-hidden="true"><i style={{ width: `${all ? (100 * (r.data?.total ?? 0)) / all : 0}%`, transition: 'width .5s var(--ease-out)' }} /></div>
               </div>
               <div className="lane-body">
                 {r.isLoading ? <Loading /> : (r.data?.rows ?? []).map((l) => (
                   <div key={l.id} className={`pcard ${dragId === l.id ? 'dragging' : ''}`} draggable={canMove(l)} data-testid="pipeline-card"
                     style={moving === l.id ? { viewTransitionName: 'moving-lead' } as React.CSSProperties : undefined}
-                    onDragStart={(e) => { e.dataTransfer.setData('text/plain', l.id); e.dataTransfer.effectAllowed = 'move'; setDragId(l.id); }} onDragEnd={() => { setDragId(''); setDropOn(''); }}>
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('text/plain', l.id); e.dataTransfer.effectAllowed = 'move';
+                      // pick-up: drag a tilted, raised copy of the card; the original stays as a placeholder
+                      const src = e.currentTarget; const ghost = src.cloneNode(true) as HTMLElement;
+                      ghost.classList.add('drag-ghost'); ghost.style.width = `${src.offsetWidth}px`; document.body.appendChild(ghost);
+                      const r = src.getBoundingClientRect(); e.dataTransfer.setDragImage(ghost, e.clientX - r.left, e.clientY - r.top);
+                      setTimeout(() => ghost.remove(), 0);
+                      setDragId(l.id);
+                    }} onDragEnd={() => { setDragId(''); setDropOn(''); }}>
                     <div className="row nowrap" style={{ gap: 7, alignItems: 'flex-start' }}>
                       <Link to={`/leads/view/?id=${l.id}`} className="pc-name grow" title={l.name}>{l.name}</Link>
                       <TempBadge v={l.temperature} />

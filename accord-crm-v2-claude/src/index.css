@@ -636,11 +636,34 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
    Motion: transform/opacity only for entrances; short (≤ 600 ms), decelerating, never bouncy; fully disabled under
    prefers-reduced-motion (global rule above + <Num> checks the media query).
    ===================================================================================================================== */
-:root { --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1); --ease-io: cubic-bezier(0.45, 0, 0.2, 1); --origin: left; }
+:root {
+  /* MOTION TOKENS — every animation in the app uses these (durations follow the reference rhythm: chrome is instant,
+     data settles in ≈ 1 s with a long, decelerating tail; nothing bounces). */
+  --dur-fast: 120ms;      /* hover, press, colour changes */
+  --dur-standard: 200ms;  /* tabs, chips, focus rings, small state changes */
+  --dur-page: 180ms;      /* page crossfade */
+  --dur-panel: 320ms;     /* panels settling, drawers, gliding indicators */
+  --dur-data: 900ms;      /* numbers counting, meters filling, charts drawing */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* expo-out: fast start, long settle (data + spatial) */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);       /* exits */
+  --ease-io: cubic-bezier(0.45, 0, 0.2, 1);
+  /* choreography phases: chrome → KPI values → charts → rows */
+  --t-kpi: 60ms; --t-chart: 160ms; --t-rows: 300ms;
+  --stagger-row: 32ms;
+  --origin: left;
+}
 :root[dir='rtl'] { --origin: right; }
 
 /* ---------- entrance choreography ---------- */
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+@keyframes settle { from { opacity: 0; transform: translateY(4px); } }
+@keyframes crossfade { from { opacity: 0; } }
+@keyframes slide-out-end { to { transform: translateX(32px); opacity: 0; } }
+@keyframes slide-out-end-rtl { to { transform: translateX(-32px); opacity: 0; } }
+@keyframes pop-out { to { opacity: 0; transform: translateY(4px) scale(0.985); } }
+@keyframes sheet-down { to { transform: translateY(40px); opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
 @keyframes fade { from { opacity: 0; } }
 @keyframes grow-x { from { transform: scaleX(0); } }
 @keyframes grow-y { from { transform: scaleY(0); } }
@@ -650,14 +673,27 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 @keyframes slide-in-end-rtl { from { transform: translateX(-24px); opacity: 0.4; } }
 @keyframes sheet-up { from { transform: translateY(32px); opacity: 0.5; } }
 /* stagger: --i is the item index, --d the group's base delay */
-.reveal { animation: rise 0.42s var(--ease-out) backwards; animation-delay: calc(var(--d, 0ms) + var(--i, 0) * 45ms); }
-.reveal-fade { animation: fade 0.5s var(--ease-out) backwards; animation-delay: calc(var(--d, 0ms) + var(--i, 0) * 45ms); }
-.route-view { animation: route-in 0.26s var(--ease-out) backwards; }
-.page-head { animation: fade 0.3s var(--ease-out) backwards; }
+.reveal { animation: settle var(--dur-panel) var(--ease-out) backwards; animation-delay: calc(min(var(--d, 0ms), 140ms) + var(--i, 0) * 24ms); }
+.reveal-fade { animation: fade var(--dur-panel) var(--ease-out) backwards; animation-delay: calc(min(var(--d, 0ms), 140ms) + var(--i, 0) * 24ms); }
+/* panels are part of one composition: their frames settle together almost at once; the DATA inside carries the motion */
+.route-view { animation: crossfade var(--dur-page) var(--ease-standard) backwards; }
+.page-head { animation: fade var(--dur-page) var(--ease-standard) backwards; }
+/* lists and tables: rows enter top → bottom */
+table.t tbody tr, .list-row, [data-testid='followup-row'] { animation: settle 260ms var(--ease-out) backwards; }
+table.t tbody tr:nth-child(2), .list-row:nth-child(2) { animation-delay: calc(var(--stagger-row) * 1); }
+table.t tbody tr:nth-child(3), .list-row:nth-child(3) { animation-delay: calc(var(--stagger-row) * 2); }
+table.t tbody tr:nth-child(4), .list-row:nth-child(4) { animation-delay: calc(var(--stagger-row) * 3); }
+table.t tbody tr:nth-child(5), .list-row:nth-child(5) { animation-delay: calc(var(--stagger-row) * 4); }
+table.t tbody tr:nth-child(6), .list-row:nth-child(6) { animation-delay: calc(var(--stagger-row) * 5); }
+table.t tbody tr:nth-child(7), .list-row:nth-child(7) { animation-delay: calc(var(--stagger-row) * 6); }
+table.t tbody tr:nth-child(8), .list-row:nth-child(8) { animation-delay: calc(var(--stagger-row) * 7); }
+table.t tbody tr:nth-child(9), .list-row:nth-child(9) { animation-delay: calc(var(--stagger-row) * 8); }
+table.t tbody tr:nth-child(10), .list-row:nth-child(10) { animation-delay: calc(var(--stagger-row) * 9); }
+table.t tbody tr:nth-child(n + 11), .list-row:nth-child(n + 11) { animation-delay: calc(var(--stagger-row) * 10); }
 
 /* data refresh (period / filter change): previous data stays on screen, dims briefly, then values morph in place */
-.data-live { transition: opacity 0.25s var(--ease-io), filter 0.25s var(--ease-io); }
-.data-live.is-updating { opacity: 0.6; filter: saturate(0.7); }
+.data-live { transition: opacity var(--dur-standard) var(--ease-standard); }
+.data-live.is-updating { opacity: 0.82; }
 
 /* ---------- KPI band: one plane, divided — not a grid of floating cards ---------- */
 .kpi-band { display: grid; grid-template-columns: repeat(var(--cols, 6), minmax(0, 1fr)); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
@@ -690,13 +726,14 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 :root[lang='ar'] .section-label h2 { letter-spacing: 0; text-transform: none; font-size: 13px; }
 
 /* command strip (period, timezone, state, actions) */
-.cmd-strip { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; padding: 8px 10px; margin-bottom: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); animation: fade 0.3s var(--ease-out) backwards; }
+.cmd-strip { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; padding: 8px 10px; margin-bottom: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); animation: fade var(--dur-page) var(--ease-standard) backwards; }
 .cmd-strip .live { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
 .cmd-strip .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px var(--ok-soft); }
 .cmd-strip .live.busy i { background: var(--viz-3); box-shadow: 0 0 0 3px var(--warn-soft); }
 .cmd-strip .sep { width: 1px; align-self: stretch; background: var(--line); }
 .periods { display: inline-flex; gap: 2px; padding: 2px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; }
-.periods .chip { border: 0; background: transparent; min-height: 28px; border-radius: 6px; transition: background-color 0.2s var(--ease-io), color 0.2s var(--ease-io), box-shadow 0.2s; }
+.periods { position: relative; }
+.periods .chip { border: 0; background: transparent; min-height: 28px; border-radius: 6px; position: relative; z-index: 1; transition: color var(--dur-standard) var(--ease-standard); }
 .periods .chip.on { background: var(--surface); color: var(--text); box-shadow: 0 0 0 1px var(--line-strong), var(--shadow-sm); }
 :root[data-theme='dark'] .periods .chip.on { background: var(--surface-3); }
 .report-pills { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
@@ -707,7 +744,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 
 /* ---------- data-viz ---------- */
 .meter { position: relative; height: 6px; border-radius: 999px; background: var(--viz-track); overflow: visible; }
-.meter > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 999px; background: var(--viz-1); transform-origin: var(--origin); animation: grow-x 0.7s var(--ease-out) backwards; animation-delay: var(--d, 300ms); transition: width 0.55s var(--ease-out); }
+.meter > i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 999px; background: var(--viz-1); transform-origin: var(--origin); animation: grow-x var(--dur-data) var(--ease-out) backwards; animation-delay: var(--d, var(--t-kpi)); transition: width var(--dur-data) var(--ease-out); }
 .meter.full > i { background: var(--viz-3); }
 .meter > b { position: absolute; top: -3px; bottom: -3px; width: 2px; border-radius: 2px; background: var(--text-2); opacity: 0.35; }
 .meter.thin { height: 4px; }
@@ -718,8 +755,8 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .trend .plot { position: relative; height: var(--h, 168px); border-bottom: 1px solid var(--line-strong); background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 25%; background-position: 0 0; }
 .trend .cols { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: var(--gap, 3px); padding-inline: 2px; }
 .trend .col-b { flex: 1 1 0; min-width: 2px; height: 100%; display: flex; align-items: flex-end; position: relative; }
-.trend .col-b > i { display: block; width: 100%; border-radius: 3px 3px 0 0; background: var(--viz-1-soft); transform-origin: bottom; animation: grow-y 0.6s var(--ease-out) backwards; animation-delay: calc(var(--d, 380ms) + var(--i, 0) * 18ms); transition: height 0.55s var(--ease-out); position: relative; }
-.trend .col-b > i > u { position: absolute; inset-inline: 0; bottom: 0; border-radius: 3px 3px 0 0; background: var(--viz-1); transition: height 0.55s var(--ease-out); }
+.trend .col-b > i { display: block; width: 100%; border-radius: 3px 3px 0 0; background: var(--viz-1-soft); transform-origin: bottom; animation: grow-y 520ms var(--ease-out) backwards; animation-delay: calc(var(--t-chart) + var(--i, 0) * var(--sb, 50ms)); transition: height var(--dur-data) var(--ease-out); position: relative; }
+.trend .col-b > i > u { position: absolute; inset-inline: 0; bottom: 0; border-radius: 3px 3px 0 0; background: var(--viz-1); transition: height var(--dur-data) var(--ease-out); }
 .trend .col-b:hover > i { filter: brightness(1.08); }
 .trend .col-b .tip { position: absolute; bottom: calc(100% + 6px); inset-inline-start: 50%; transform: translateX(-50%); background: var(--toast-bg); color: var(--toast-ink); font-size: 11px; padding: 4px 7px; border-radius: 6px; white-space: nowrap; pointer-events: none; z-index: 3; display: none; animation: fade 0.15s; }
 :root[dir='rtl'] .trend .col-b .tip { transform: translateX(50%); }
@@ -727,8 +764,8 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .trend .col-b.last .tip { inset-inline-start: auto; inset-inline-end: 0; transform: none; }
 .trend .col-b:hover .tip { display: block; }
 .trend svg.line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.trend svg.line path { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 0.9s var(--ease-io) backwards; animation-delay: var(--d2, 560ms); }
-.trend .col-b .tgt { position: absolute; inset-inline: -1px; height: 0; border-top: 2px dashed var(--viz-3); animation: fade 0.4s backwards; animation-delay: calc(var(--d2, 560ms) + var(--i, 0) * 18ms); transition: bottom 0.55s var(--ease-out); }
+.trend svg.line path { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 760ms var(--ease-io) backwards; animation-delay: calc(var(--t-chart) + 80ms); transition: d var(--dur-data) var(--ease-out); }
+.trend .col-b .tgt { position: absolute; inset-inline: -1px; height: 0; border-top: 2px dashed var(--viz-3); animation: fade var(--dur-panel) backwards; animation-delay: calc(var(--t-chart) + 200ms + var(--i, 0) * var(--sb, 50ms)); transition: bottom var(--dur-data) var(--ease-out); }
 .trend svg.line path.resp { stroke: var(--viz-2); }
 :root[dir='rtl'] .trend svg.line { transform: scaleX(-1); }
 .trend .x { grid-column: 2; display: flex; justify-content: space-between; font-size: 10.5px; color: var(--subtle); padding-top: 4px; font-variant-numeric: tabular-nums; }
@@ -741,12 +778,12 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 /* stage distribution */
 .stageflow { display: flex; flex-direction: column; gap: 6px; }
 .stageflow .sf-strip { display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 2px; margin-bottom: 6px; }
-.stageflow .sf-strip i { display: block; height: 100%; transform-origin: var(--origin); animation: grow-x 0.6s var(--ease-out) backwards; animation-delay: calc(var(--d, 300ms) + var(--i, 0) * 40ms); transition: flex-grow 0.55s var(--ease-out); min-width: 3px; }
+.stageflow .sf-strip i { display: block; height: 100%; transform-origin: var(--origin); animation: grow-x 560ms var(--ease-out) backwards; animation-delay: calc(var(--t-chart) + var(--i, 0) * 40ms); transition: flex-grow var(--dur-data) var(--ease-out); min-width: 3px; }
 .stageflow .sf-row { display: grid; grid-template-columns: minmax(84px, 120px) minmax(0, 1fr) 40px 44px 64px; align-items: center; gap: 10px; font-size: 12.5px; }
 .stageflow .sf-row .lbl { display: flex; align-items: center; gap: 7px; color: var(--text-2); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stageflow .sf-row .lbl i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
 .stageflow .sf-row .track { height: 8px; border-radius: 4px; background: var(--viz-track); overflow: hidden; }
-.stageflow .sf-row .track i { display: block; height: 100%; border-radius: 4px; transform-origin: var(--origin); animation: grow-x 0.6s var(--ease-out) backwards; animation-delay: calc(var(--d, 300ms) + var(--i, 0) * 40ms); transition: width 0.55s var(--ease-out); }
+.stageflow .sf-row .track i { display: block; height: 100%; border-radius: 4px; transform-origin: var(--origin); animation: grow-x 560ms var(--ease-out) backwards; animation-delay: calc(var(--t-chart) + var(--i, 0) * 40ms); transition: width var(--dur-data) var(--ease-out); }
 .stageflow .sf-row b { text-align: end; font-variant-numeric: tabular-nums; }
 .stageflow .sf-row .pct, .stageflow .sf-row .ent { text-align: end; color: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
 .stageflow .sf-row .ent.pos { color: var(--primary-text); font-weight: 650; }
@@ -756,7 +793,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 
 /* stacked mix bar + donut */
 .mix { display: flex; height: 8px; border-radius: 999px; overflow: hidden; gap: 2px; background: var(--viz-track); }
-.mix i { display: block; height: 100%; transform-origin: var(--origin); animation: grow-x 0.6s var(--ease-out) backwards; animation-delay: calc(var(--d, 320ms) + var(--i, 0) * 40ms); transition: flex-grow 0.55s var(--ease-out); }
+.mix i { display: block; height: 100%; transform-origin: var(--origin); animation: grow-x 560ms var(--ease-out) backwards; animation-delay: calc(var(--t-chart) + 40ms + var(--i, 0) * 40ms); transition: flex-grow var(--dur-data) var(--ease-out); }
 .mix-legend { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 4px 14px; font-size: 12px; }
 .mix-legend > span { display: flex; align-items: center; gap: 7px; color: var(--text-2); min-width: 0; }
 .mix-legend > span > i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
@@ -766,7 +803,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 :root[dir='rtl'] .donut svg { transform: rotate(-90deg) scaleY(-1); }
 .donut circle { fill: none; stroke-width: 12; }
-.donut circle.seg { stroke-linecap: butt; animation: draw-seg 0.8s var(--ease-io) backwards; animation-delay: calc(var(--d, 380ms) + var(--i, 0) * 70ms); transition: stroke-dasharray 0.55s var(--ease-out), stroke-dashoffset 0.55s var(--ease-out); }
+.donut circle.seg { stroke-linecap: butt; animation: draw-seg 640ms var(--ease-io) backwards; animation-delay: calc(var(--t-chart) + 60ms + var(--i, 0) * 80ms); transition: stroke-dasharray var(--dur-data) var(--ease-out), stroke-dashoffset var(--dur-data) var(--ease-out); }
 @keyframes draw-seg { from { stroke-dasharray: 0 400; } }
 .donut .center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
 .donut .center b { font-size: 22px; font-weight: 720; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
@@ -795,7 +832,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .perf td .who { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .perf td .rank { width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; font-size: 10.5px; font-weight: 700; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); flex: none; font-variant-numeric: tabular-nums; }
 .perf td .muted-n { color: var(--subtle); }
-.perf tbody tr { animation: fade 0.4s var(--ease-out) backwards; animation-delay: calc(var(--d, 500ms) + var(--i, 0) * 35ms); }
+.perf tbody tr { animation: settle 260ms var(--ease-out) backwards; animation-delay: calc(var(--t-rows) + var(--i, 0) * var(--stagger-row)); }
 .table-wrap.sticky-first table.t th:first-child, .table-wrap.sticky-first table.t td:first-child { position: sticky; inset-inline-start: 0; background: var(--surface); z-index: 2; }
 
 /* ---------- operational pages ---------- */
@@ -809,7 +846,7 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .urg.overdue .datechip { background: var(--bad-soft); border-color: transparent; } .urg.overdue .datechip b { color: var(--bad); }
 .urg.today .datechip { background: var(--warn-soft); border-color: transparent; }
 .summary-tabs { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
-.summary-tabs button { text-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 9px 12px; font: inherit; color: var(--text); cursor: pointer; display: flex; flex-direction: column; gap: 1px; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s var(--ease-out); position: relative; overflow: hidden; }
+.summary-tabs button { text-align: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 9px 12px; font: inherit; color: var(--text); cursor: pointer; display: flex; flex-direction: column; gap: 1px; transition: border-color var(--dur-standard) var(--ease-standard), box-shadow var(--dur-standard) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); position: relative; overflow: hidden; }
 .summary-tabs button > span { font-size: 11px; color: var(--muted); font-weight: 650; }
 .summary-tabs button b { font-size: 20px; font-weight: 720; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 .summary-tabs button:hover { border-color: var(--line-strong); }
@@ -831,34 +868,72 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 .badge.p-accepted { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
 .badge.p-rejected, .badge.p-closed { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
 .badge::before { transition: background-color 0.25s; }
-.badge { transition: background-color 0.25s var(--ease-io), color 0.25s var(--ease-io); }
+.badge { transition: background-color var(--dur-standard) var(--ease-standard), color var(--dur-standard) var(--ease-standard); }
 .money { font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
 .money small { color: var(--muted); font-weight: 600; font-size: 10.5px; margin-inline-start: 3px; }
 
 /* ---------- micro-interactions ---------- */
-.btn { transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.12s var(--ease-out), color 0.15s; }
+.btn { transition: background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard); }
 .btn:active:not(:disabled) { transform: scale(0.98); }
-.tab { transition: color 0.15s, background-color 0.15s, border-color 0.25s var(--ease-io); }
-.navlink { transition: background-color 0.15s, color 0.15s; }
-.navlink.active::before { animation: grow-y 0.3s var(--ease-out) backwards; }
-.pcard:hover { transform: translateY(-1px); }
-.pcard.dragging { opacity: 0.45; transform: scale(0.98); }
-.lane { transition: background-color 0.2s var(--ease-io), border-color 0.2s, box-shadow 0.2s; }
+.tab { transition: color var(--dur-standard) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard); position: relative; z-index: 1; }
+.navlink { transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-standard) var(--ease-standard); }
+.pcard { transition: border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-standard) var(--ease-standard), transform var(--dur-standard) var(--ease-out), opacity var(--dur-standard) var(--ease-standard); }
+.pcard:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(9, 14, 30, 0.08); }
+/* pick-up: the card the user lifts leaves a quiet placeholder behind; the drag image is a tilted, raised copy */
+.pcard.dragging { opacity: 0.35; transform: scale(0.98); border-style: dashed; box-shadow: none; }
+.pcard.drag-ghost { position: fixed; top: -1000px; inset-inline-start: -1000px; width: 230px; transform: rotate(2.5deg) scale(1.02); box-shadow: 0 18px 40px rgba(9, 14, 30, 0.28); border-color: var(--viz-1); pointer-events: none; }
+.lane { transition: background-color var(--dur-standard) var(--ease-standard), border-color var(--dur-standard) var(--ease-standard), box-shadow var(--dur-standard) var(--ease-standard), transform var(--dur-panel) var(--ease-out); }
 .lane.drop { outline: none; border-color: var(--viz-3); box-shadow: 0 0 0 1px var(--viz-3) inset; background: var(--warn-soft); }
-.lane .badge.num { transition: transform 0.25s var(--ease-out); }
-.list-row, table.t tbody tr { transition: background-color 0.15s; }
-.panel, .card { transition: border-color 0.2s; }
+.lane.drop { transform: translateY(-2px); }
+.list-row, table.t tbody tr { transition: background-color var(--dur-fast) var(--ease-standard); }
+.panel, .card { transition: border-color var(--dur-standard) var(--ease-standard); }
+input, select, textarea { transition: border-color var(--dur-standard) var(--ease-standard), box-shadow var(--dur-standard) var(--ease-standard), background-color var(--dur-standard) var(--ease-standard); }
+.switch i, .switch i::after { transition-duration: var(--dur-standard); transition-timing-function: var(--ease-out); }
 a.panel:hover, .card.hoverable:hover { border-color: var(--line-strong); }
-::view-transition-group(*) { animation-duration: 0.38s; animation-timing-function: var(--ease-out); }
+::view-transition-group(*) { animation-duration: var(--dur-panel); animation-timing-function: var(--ease-out); }
+::view-transition-old(moving-lead), ::view-transition-new(moving-lead) { animation-duration: var(--dur-panel); }
 /* drawers / sheets */
-.overlay.right .dialog { animation: slide-in-end 0.26s var(--ease-out); }
+.overlay { animation: fade var(--dur-standard) var(--ease-standard); }
+.dialog { animation: pop-in var(--dur-panel) var(--ease-out); }
+.overlay.right .dialog { animation: slide-in-end var(--dur-panel) var(--ease-out); }
 :root[dir='rtl'] .overlay.right .dialog { animation-name: slide-in-end-rtl; }
-@media (max-width: 760px) { .dialog, .dialog.wide, .dialog.narrow { animation: sheet-up 0.26s var(--ease-out); } }
-.dialog { animation-timing-function: var(--ease-out); }
+/* drawer / dialog content arrives just after its container */
+.dialog-body > * { animation: settle var(--dur-panel) var(--ease-out) backwards; animation-delay: 60ms; }
+.dialog-body > *:nth-child(2) { animation-delay: 90ms; } .dialog-body > *:nth-child(3) { animation-delay: 120ms; } .dialog-body > *:nth-child(n + 4) { animation-delay: 150ms; }
+/* exit: the same path in reverse, faster */
+.overlay.closing { animation: fade-out var(--dur-standard) var(--ease-in) forwards; pointer-events: none; }
+.overlay.closing .dialog { animation: pop-out var(--dur-standard) var(--ease-in) forwards; }
+.overlay.right.closing .dialog { animation: slide-out-end var(--dur-standard) var(--ease-in) forwards; }
+:root[dir='rtl'] .overlay.right.closing .dialog { animation-name: slide-out-end-rtl; }
+@media (max-width: 760px) {
+  .dialog, .dialog.wide, .dialog.narrow { animation: sheet-up var(--dur-panel) var(--ease-out); }
+  .overlay.closing .dialog { animation: sheet-down var(--dur-standard) var(--ease-in) forwards; }
+}
+
+/* gliding active indicator (nav, tabs, period chips, segmented controls): the highlight MOVES between states */
+.glide-host { position: relative; }
+.glide { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 0; opacity: 0; border-radius: 7px; }
+.glide.ready { transition: transform var(--dur-panel) var(--ease-out), width var(--dur-panel) var(--ease-out), height var(--dur-panel) var(--ease-out), opacity var(--dur-fast); }
+.sidebar nav.glide-host .glide { background: var(--primary-soft); }
+.sidebar nav.glide-host .glide::before { content: ''; position: absolute; inset-inline-start: -4px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--gold); }
+.sidebar nav.glide-host .navlink { position: relative; z-index: 1; }
+.sidebar nav.glide-on .navlink.active { background: transparent; }
+.sidebar nav.glide-on .navlink.active::before { display: none; }
+.periods.glide-host .glide { background: var(--surface); box-shadow: 0 0 0 1px var(--line-strong), var(--shadow-sm); border-radius: 6px; }
+:root[data-theme='dark'] .periods.glide-host .glide { background: var(--surface-3); }
+.periods.glide-on .chip.on { background: transparent; box-shadow: none; }
+.tabs.glide-host .glide { height: 2px !important; border-radius: 2px; background: var(--primary-text); }
+.tabs.glide-on .tab.active { border-bottom-color: transparent; }
+.segmented.glide-host .glide { background: var(--surface); box-shadow: var(--shadow-sm), 0 0 0 1px var(--line); border-radius: 8px; }
+:root[data-theme='dark'] .segmented.glide-host .glide { background: var(--surface-3); }
+.segmented.glide-host button { position: relative; z-index: 1; transition: color var(--dur-standard) var(--ease-standard); }
+.segmented.glide-on button[aria-checked='true'], .segmented.glide-on button[aria-pressed='true'] { background: transparent !important; box-shadow: none !important; }
 
 /* ---------- reduced motion: immediate, no movement ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal-fade, .route-view, .page-head, .cmd-strip, .perf tbody tr { animation: none !important; }
+  .reveal, .reveal-fade, .route-view, .page-head, .cmd-strip, .perf tbody tr, table.t tbody tr, .list-row, [data-testid='followup-row'], .dialog-body > *, .overlay, .dialog { animation: none !important; }
+  .glide.ready { transition: none !important; }
+  .lane.drop, .pcard:hover { transform: none; }
   .meter > i, .trend .col-b > i, .stageflow i, .mix i, .donut circle.seg, .trend svg.line path { animation: none !important; }
   .pcard:hover { transform: none; }
 }
