@@ -81,7 +81,7 @@ export default function Pipeline() {
           const all = lanes.reduce((n, x) => n + (x.data?.total ?? 0), 0);
           return (
             <div key={s} className={`lane reveal ${dropOn === s ? 'drop' : ''}`} data-stage={s} style={{ ['--i' as string]: i, ['--d' as string]: '60ms' }}
-              onDragOver={(e) => { e.preventDefault(); setDropOn(s); }} onDragLeave={() => setDropOn('')}
+              onDragOver={(e) => { e.preventDefault(); const from = lanes.flatMap((x) => x.data?.rows ?? []).find((x) => x.id === dragId)?.pipeline_stage; setDropOn(from === s ? '' : s); }} onDragLeave={() => setDropOn('')}
               onDrop={(e) => {
                 e.preventDefault(); setDropOn(''); setDragId('');
                 const id = e.dataTransfer.getData('text/plain');

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Download, Printer, FileSpreadsheet, Users, Building2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { PageHead, Loading, ErrorNote, Kpi } from '../components/ui';
+import { PageHead, ErrorNote, Kpi } from '../components/ui';
 import { Num, Trend, StageFlow, MixBar, Donut, Panel, Meter, MeetingMix, stagger, useGlide } from '../components/viz';
 import { TeamTable } from '../components/team';
 import { cairoToday, fmtDate, fmtDay, monthRange, presetRange, weekRange, PRESET_LABELS, type RangePreset } from '../lib/cairo';
@@ -71,7 +71,7 @@ export default function Management() {
           </div>)}
       </div>
       <ErrorNote error={q.error} />
-      {!D ? (q.error ? null : <Loading />) : (
+      {!D ? (q.error ? null : <Skeleton />) : (
         <div className={`col data-live ${updating ? 'is-updating' : ''}`} style={{ gap: 14 }} aria-busy={updating}>
           <Activity D={D} />
           <Snapshot D={D} />
@@ -197,5 +197,23 @@ function Team({ D }: { D: Mgmt }) {
         rows={D.calls.by_user.map((u, i) => ({ key: String(u.member ?? u.name ?? i), ...u }))} />
       {!D.scope.names && <span className="muted small" style={{ padding: '8px 14px 12px' }}>{t('Employee names are hidden by your access settings.')}</span>}
     </Panel>
+  );
+}
+
+/** The dashboard's frame while the first payload loads: the composition is already in place (KPI band reading 0,
+ *  panel frames) so the figures count up inside it when the data lands — no "Loading…" swap. */
+function Skeleton() {
+  return (
+    <div className="col" style={{ gap: 14 }} aria-busy="true" aria-label={t('Loading…')} data-testid="mgmt-skeleton">
+      <div className="section-label"><h2>{t('Activity during the selected period')}</h2></div>
+      <div className="kpi-band" style={{ ['--cols' as string]: 6 }}>
+        {['Total call attempts', 'Target achievement', 'Response rate', 'Meetings scheduled', 'Proposals sent', 'Won / Lost'].map((l, i) => (
+          <div key={l} className={`kpi ${i === 0 ? 'lead hero' : ''}`}><div className="k-label">{t(l)}</div><div className="k-value num muted">—</div><div className="k-sub"><span className="skeleton" style={{ width: '60%' }} /></div></div>))}
+      </div>
+      <div className="cc-grid">
+        {['s8', 's4', 's4', 's4', 's4'].map((c, i) => (
+          <section key={i} className={`panel ${c}`} style={{ minHeight: i === 0 ? 220 : 160 }}><div className="panel-body"><span className="skeleton" style={{ width: '40%' }} /><span className="skeleton" style={{ width: '90%' }} /><span className="skeleton" style={{ width: '75%' }} /></div></section>))}
+      </div>
+    </div>
   );
 }

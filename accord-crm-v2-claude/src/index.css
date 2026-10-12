@@ -658,7 +658,8 @@ code { background: var(--surface-2); border: 1px solid var(--line); padding: 1px
 /* ---------- entrance choreography ---------- */
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
 @keyframes settle { from { opacity: 0; transform: translateY(4px); } }
-@keyframes crossfade { from { opacity: 0; } }
+/* page change: the incoming page starts partly visible, so there is never an empty frame between pages */
+@keyframes crossfade { from { opacity: 0.35; } }
 @keyframes slide-out-end { to { transform: translateX(32px); opacity: 0; } }
 @keyframes slide-out-end-rtl { to { transform: translateX(-32px); opacity: 0; } }
 @keyframes pop-out { to { opacity: 0; transform: translateY(4px) scale(0.985); } }

@@ -11,6 +11,9 @@ import { useI18n, t } from '../lib/i18n';
 import { ROLE_LABEL } from '../lib/labels';
 import { Modal, Segmented } from './ui';
 import { useGlide } from './viz';
+import { useQueryClient } from '@tanstack/react-query';
+import { cairoToday } from '../lib/cairo';
+import { fetchManagement } from '../lib/managementReport';
 import { usePerms } from '../lib/perms';
 import { term } from '../lib/terminology';
 import { usePreviewRole, setPreviewRole } from '../lib/preview';
@@ -80,7 +83,14 @@ const ADMIN_NAV: (Item | string)[] = [
 const navCls = ({ isActive }: { isActive: boolean }) => `navlink ${isActive ? 'active' : ''}`;
 function NavItem({ i, onClick }: { i: Item; onClick?: () => void }) {
   const label = i.raw ? term(i.label as Parameters<typeof term>[0]) : t(i.label);
-  return <NavLink to={i.to} end={i.end} className={navCls} title={label} onClick={onClick}>{i.icon}<span>{label}</span></NavLink>;
+  const qc = useQueryClient(); const { realAdmin } = useAuth(); const preview = usePreviewRole();
+  // intent prefetch: hovering / focusing the Management Dashboard link fetches today's payload, so the page opens
+  // with its data already in hand (same query key the page uses; the server applies the caller's permissions)
+  const warm = i.to === '/management/' ? () => {
+    const d = cairoToday(); const pr = realAdmin && preview ? preview : null;
+    qc.prefetchQuery({ queryKey: ['management', d, d, pr], staleTime: 20_000, queryFn: () => fetchManagement(d, d, pr) });
+  } : undefined;
+  return <NavLink to={i.to} end={i.end} className={navCls} title={label} onClick={onClick} onMouseEnter={warm} onFocus={warm}>{i.icon}<span>{label}</span></NavLink>;
 }
 
 function Sidebar({ admin }: { admin?: boolean }) {
