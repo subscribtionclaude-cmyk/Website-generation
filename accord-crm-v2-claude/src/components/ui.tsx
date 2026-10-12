@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Loader2, Inbox, MoreHorizontal } from 'lucide-react';
 import { t, personName } from '../lib/i18n';
 import { useQuery } from '@tanstack/react-query';
@@ -253,13 +254,13 @@ export function ActionsMenu({ label, items, testId }: { label: string; items: (M
   return (
     <>
       <button ref={btn} className="btn sm ghost icon" aria-haspopup="menu" aria-expanded={Boolean(pos)} aria-label={label} title={label} onClick={toggle} data-testid={testId}><MoreHorizontal /></button>
-      {pos && (
+      {/* portalled to <body>: a fixed menu must never be positioned relative to an animated (transformed) ancestor row */}
+      {pos && createPortal(
         <div ref={menu} className="menu" role="menu" aria-label={label} style={{ top: pos.top, left: pos.left, right: pos.right }}>
           {list.map((m) => (
             <button key={m.key} role="menuitem" className={m.danger ? 'danger' : ''} onClick={() => { setPos(null); m.onSelect(); }}>{m.icon}{m.label}</button>
           ))}
-        </div>
-      )}
+        </div>, document.body)}
     </>
   );
 }
