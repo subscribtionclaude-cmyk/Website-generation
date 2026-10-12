@@ -200,19 +200,28 @@ export function useGlide<T extends HTMLElement>(activeSelector: string, dep: unk
   const host = useRef<T>(null); const el = useRef<HTMLSpanElement>(null); const ready = useRef(false);
   useLayoutEffect(() => {
     const h = host.current; const g = el.current; if (!h || !g) return;
+    let last = '';
     const place = () => {
       const a = h.querySelector<HTMLElement>(activeSelector);
-      if (!a || !a.offsetWidth) { g.style.opacity = '0'; h.classList.remove('glide-on'); return; }
-      g.style.width = `${a.offsetWidth}px`; g.style.height = underline ? '2px' : `${a.offsetHeight}px`;
-      g.style.transform = `translate(${a.offsetLeft}px, ${underline ? a.offsetTop + a.offsetHeight - 2 : a.offsetTop}px)`; g.style.opacity = '1';
-      h.classList.add('glide-on');
+      // write only when something changed: the observer below watches class attributes, so an unconditional write
+      // here would re-trigger it endlessly
+      const next = !a || !a.offsetWidth ? 'off'
+        : `${a.offsetWidth}|${underline ? 2 : a.offsetHeight}|${a.offsetLeft}|${underline ? a.offsetTop + a.offsetHeight - 2 : a.offsetTop}`;
+      if (next === last) return;
+      last = next;
+      if (next === 'off') { g.style.opacity = '0'; if (h.classList.contains('glide-on')) h.classList.remove('glide-on'); return; }
+      const [w, ht, x, y] = next.split('|');
+      g.style.width = `${w}px`; g.style.height = `${ht}px`; g.style.transform = `translate(${x}px, ${y}px)`; g.style.opacity = '1';
+      if (!h.classList.contains('glide-on')) h.classList.add('glide-on');
       // the first placement must not slide in from the corner
-      if (!ready.current) requestAnimationFrame(() => { ready.current = true; g.classList.add('ready'); });
+      if (!ready.current) requestAnimationFrame(() => { ready.current = true; if (!g.classList.contains('ready')) g.classList.add('ready'); });
     };
     place();
     const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(place) : null;
     ro?.observe(h); h.querySelectorAll(activeSelector).forEach((n) => ro?.observe(n));
-    const mo = new MutationObserver(place); mo.observe(h, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-checked', 'aria-pressed', 'aria-selected'] });
+    // watch the ITEMS (not the host or the indicator itself) for the active state moving
+    const mo = new MutationObserver((recs) => { if (recs.some((r) => r.target !== h && r.target !== g)) place(); });
+    mo.observe(h, { subtree: true, attributes: true, attributeFilter: ['class', 'aria-checked', 'aria-pressed', 'aria-selected'] });
     return () => { ro?.disconnect(); mo.disconnect(); };
   }, [activeSelector, dep, underline]);
   return [host, <span ref={el} className="glide" aria-hidden="true" />];
